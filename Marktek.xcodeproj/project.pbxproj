@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CC2FEFFA380073F428 /* AppColors.swift */; };
+		2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
 		2C90D39E2FEFF23B00FADB94 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3982FEFF23B00FADB94 /* HomeViewModel.swift */; };
 		2C90D39F2FEFF23B00FADB94 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D39A2FEFF23B00FADB94 /* HomeScreenView.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C74F8CC2FEFFA380073F428 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C90D3982FEFF23B00FADB94 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		2C90D39A2FEFF23B00FADB94 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
@@ -83,6 +87,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C74F8CB2FEFF9AC0073F428 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */,
+				2C74F8CC2FEFFA380073F428 /* AppColors.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		2C90D2152FEFD85300FADB94 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +115,7 @@
 		2C90D3152FEFEF8300FADB94 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				2C74F8CB2FEFF9AC0073F428 /* Theme */,
 				2C90D3A52FEFF24300FADB94 /* Services */,
 				2C90D3AC2FEFF24900FADB94 /* Networking */,
 			);
@@ -435,11 +449,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */,
 				2C90D39E2FEFF23B00FADB94 /* HomeViewModel.swift in Sources */,
 				2C90D39F2FEFF23B00FADB94 /* HomeScreenView.swift in Sources */,
 				2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */,
 				2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */,
 				2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */,
+				2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */,
 				2C90D3AD2FEFF24900FADB94 /* ApiClient.swift in Sources */,
 				2C90D3AE2FEFF24900FADB94 /* ApiConstants.swift in Sources */,
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
