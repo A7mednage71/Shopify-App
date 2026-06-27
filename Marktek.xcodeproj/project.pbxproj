@@ -3,10 +3,20 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CC2FEFFA380073F428 /* AppColors.swift */; };
+		2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */; };
+		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
+		2C90D39E2FEFF23B00FADB94 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3982FEFF23B00FADB94 /* HomeViewModel.swift */; };
+		2C90D39F2FEFF23B00FADB94 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D39A2FEFF23B00FADB94 /* HomeScreenView.swift */; };
+		2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */; };
+		2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */; };
+		2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A32FEFF24300FADB94 /* Persistence.swift */; };
+		2C90D3AD2FEFF24900FADB94 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3AA2FEFF24900FADB94 /* ApiClient.swift */; };
+		2C90D3AE2FEFF24900FADB94 /* ApiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3AB2FEFF24900FADB94 /* ApiConstants.swift */; };
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
@@ -32,6 +42,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C74F8CC2FEFFA380073F428 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
+		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2C90D3982FEFF23B00FADB94 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		2C90D39A2FEFF23B00FADB94 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
+		2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		2C90D3A32FEFF24300FADB94 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Marktek.xcdatamodel; sourceTree = "<group>"; };
+		2C90D3AA2FEFF24900FADB94 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		2C90D3AB2FEFF24900FADB94 /* ApiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiConstants.swift; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekApp.swift; sourceTree = "<group>"; };
 		616653962FEFCEA200C605D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -41,12 +61,6 @@
 		616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITests.swift; sourceTree = "<group>"; };
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		2C90D2162FEFD8BE00FADB94 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
-		2C90D21A2FEFD9AC00FADB94 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
-		2C90D2242FEFDA4900FADB94 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		616653892FEFCE9F00C605D3 /* Frameworks */ = {
@@ -73,12 +87,179 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C74F8CB2FEFF9AC0073F428 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */,
+				2C74F8CC2FEFFA380073F428 /* AppColors.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		2C90D2152FEFD85300FADB94 /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		2C90D2942FEFEEAA00FADB94 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2C90D3152FEFEF8300FADB94 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2C74F8CB2FEFF9AC0073F428 /* Theme */,
+				2C90D3A52FEFF24300FADB94 /* Services */,
+				2C90D3AC2FEFF24900FADB94 /* Networking */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		2C90D3272FEFEFE000FADB94 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D39D2FEFF23B00FADB94 /* Home */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		2C90D3902FEFF23B00FADB94 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		2C90D3912FEFF23B00FADB94 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2C90D3922FEFF23B00FADB94 /* Repos */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repos;
+			sourceTree = "<group>";
+		};
+		2C90D3932FEFF23B00FADB94 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3902FEFF23B00FADB94 /* DataSources */,
+				2C90D3912FEFF23B00FADB94 /* Models */,
+				2C90D3922FEFF23B00FADB94 /* Repos */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		2C90D3942FEFF23B00FADB94 /* Entites */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entites;
+			sourceTree = "<group>";
+		};
+		2C90D3952FEFF23B00FADB94 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		2C90D3962FEFF23B00FADB94 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		2C90D3972FEFF23B00FADB94 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3942FEFF23B00FADB94 /* Entites */,
+				2C90D3952FEFF23B00FADB94 /* Protocols */,
+				2C90D3962FEFF23B00FADB94 /* UseCases */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		2C90D3992FEFF23B00FADB94 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3982FEFF23B00FADB94 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2C90D39B2FEFF23B00FADB94 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D39A2FEFF23B00FADB94 /* HomeScreenView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		2C90D39C2FEFF23B00FADB94 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3992FEFF23B00FADB94 /* ViewModels */,
+				2C90D39B2FEFF23B00FADB94 /* views */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		2C90D39D2FEFF23B00FADB94 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3932FEFF23B00FADB94 /* Data */,
+				2C90D3972FEFF23B00FADB94 /* Domain */,
+				2C90D39C2FEFF23B00FADB94 /* Presentation */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		2C90D3A12FEFF24300FADB94 /* FirebaseService */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */,
+			);
+			path = FirebaseService;
+			sourceTree = "<group>";
+		};
+		2C90D3A42FEFF24300FADB94 /* LocalService */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */,
+				2C90D3A32FEFF24300FADB94 /* Persistence.swift */,
+			);
+			path = LocalService;
+			sourceTree = "<group>";
+		};
+		2C90D3A52FEFF24300FADB94 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3A12FEFF24300FADB94 /* FirebaseService */,
+				2C90D3A42FEFF24300FADB94 /* LocalService */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		2C90D3AC2FEFF24900FADB94 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3AA2FEFF24900FADB94 /* ApiClient.swift */,
+				2C90D3AB2FEFF24900FADB94 /* ApiConstants.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		616653832FEFCE9F00C605D3 = {
@@ -104,9 +285,9 @@
 		6166538E2FEFCE9F00C605D3 /* Marktek */ = {
 			isa = PBXGroup;
 			children = (
-				2C90D2242FEFDA4900FADB94 /* Features */,
-				2C90D21A2FEFD9AC00FADB94 /* Core */,
-				2C90D2162FEFD8BE00FADB94 /* Resources */,
+				2C90D3272FEFEFE000FADB94 /* Features */,
+				2C90D3152FEFEF8300FADB94 /* Core */,
+				2C90D2942FEFEEAA00FADB94 /* Resources */,
 				2C90D2152FEFD85300FADB94 /* Application */,
 				616653952FEFCEA200C605D3 /* Preview Content */,
 			);
@@ -152,11 +333,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				2C90D2162FEFD8BE00FADB94 /* Resources */,
-				2C90D21A2FEFD9AC00FADB94 /* Core */,
-				2C90D2242FEFDA4900FADB94 /* Features */,
 			);
 			name = Marktek;
 			productName = Marktek;
@@ -223,7 +399,7 @@
 				};
 			};
 			buildConfigurationList = 616653872FEFCE9F00C605D3 /* Build configuration list for PBXProject "Marktek" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -247,6 +423,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */,
 				616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +449,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */,
+				2C90D39E2FEFF23B00FADB94 /* HomeViewModel.swift in Sources */,
+				2C90D39F2FEFF23B00FADB94 /* HomeScreenView.swift in Sources */,
+				2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */,
+				2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */,
+				2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */,
+				2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */,
+				2C90D3AD2FEFF24900FADB94 /* ApiClient.swift in Sources */,
+				2C90D3AE2FEFF24900FADB94 /* ApiConstants.swift in Sources */,
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -591,6 +777,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */,
+			);
+			currentVersion = 2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */;
+			path = Marktek.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 616653842FEFCE9F00C605D3 /* Project object */;
 }
