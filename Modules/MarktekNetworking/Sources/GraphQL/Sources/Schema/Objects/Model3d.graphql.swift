@@ -8,7 +8,6 @@ public extension Objects {
   nonisolated static let Model3d = ApolloAPI.Object(
     typename: "Model3d",
     implementedInterfaces: [
-      Interfaces.File.self,
       Interfaces.Media.self,
       Interfaces.Node.self
     ],

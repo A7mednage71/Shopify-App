@@ -4,9 +4,9 @@
 import ApolloAPI
 
 public extension Objects {
-  /// A redirect on the online store.
-  nonisolated static let UrlRedirect = ApolloAPI.Object(
-    typename: "UrlRedirect",
+  /// Details about the gift card used on the checkout.
+  nonisolated static let AppliedGiftCard = ApolloAPI.Object(
+    typename: "AppliedGiftCard",
     implementedInterfaces: [Interfaces.Node.self],
     keyFields: nil
   )

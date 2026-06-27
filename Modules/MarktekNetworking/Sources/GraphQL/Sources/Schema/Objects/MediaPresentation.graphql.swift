@@ -4,9 +4,9 @@
 import ApolloAPI
 
 public extension Objects {
-  /// A redirect on the online store.
-  nonisolated static let UrlRedirect = ApolloAPI.Object(
-    typename: "UrlRedirect",
+  /// A media presentation.
+  nonisolated static let MediaPresentation = ApolloAPI.Object(
+    typename: "MediaPresentation",
     implementedInterfaces: [Interfaces.Node.self],
     keyFields: nil
   )

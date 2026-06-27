@@ -4,15 +4,14 @@
 import ApolloAPI
 
 public extension Objects {
-  /// A business entity that purchases from the shop as part of B2B commerce. Companies organize multiple locations and contacts who can place orders on behalf of the organization. [`CompanyLocation`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CompanyLocation) objects can have custom pricing through [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) and [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) configurations.
+  /// A B2B organization that purchases from the shop. In the Storefront API, company information is accessed through the [`PurchasingCompany`](https://shopify.dev/docs/api/storefront/current/objects/PurchasingCompany) object on [`CartBuyerIdentity`](https://shopify.dev/docs/api/storefront/current/objects/CartBuyerIdentity), which provides the associated location and contact for the current purchasing context.
+  ///
+  /// You can store custom data using [metafields](https://shopify.dev/docs/apps/build/metafields).
+  ///
   nonisolated static let Company = ApolloAPI.Object(
     typename: "Company",
     implementedInterfaces: [
-      Interfaces.CommentEventSubject.self,
-      Interfaces.HasEvents.self,
-      Interfaces.HasMetafieldDefinitions.self,
       Interfaces.HasMetafields.self,
-      Interfaces.Navigable.self,
       Interfaces.Node.self
     ],
     keyFields: nil

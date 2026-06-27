@@ -8,7 +8,6 @@ public extension Objects {
   nonisolated static let ExternalVideo = ApolloAPI.Object(
     typename: "ExternalVideo",
     implementedInterfaces: [
-      Interfaces.File.self,
       Interfaces.Media.self,
       Interfaces.Node.self
     ],

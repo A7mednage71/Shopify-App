@@ -4,18 +4,13 @@
 import ApolloAPI
 
 public extension Objects {
-  /// A merchant-defined group of buyers identified by conditions such as their
-  /// region, retail location, or company location. Each market allows configuration
-  /// of a distinct, localized buyer experience. Customizations include, but are
-  /// not limited to,
-  /// [currency](https://shopify.dev/api/admin-graphql/current/mutations/marketCurrencySettingsUpdate),
-  /// [pricing and product availability](https://shopify.dev/apps/internationalization/product-price-lists),
-  /// [web presence](https://shopify.dev/api/admin-graphql/current/objects/MarketWebPresence),
-  /// and content translations.
+  /// An audience of buyers that a merchant targets for sales. Audiences can include geographic regions, company locations, and retail locations. Markets enable localized shopping experiences with region-specific languages, currencies, and pricing.
+  ///
+  /// Each market has a unique [`handle`](https://shopify.dev/docs/api/storefront/current/objects/Market#field-Market.fields.handle) for identification and supports custom data through [`metafields`](https://shopify.dev/docs/api/storefront/current/objects/Metafield). Learn more about [building localized experiences with Shopify Markets](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/markets).
+  ///
   nonisolated static let Market = ApolloAPI.Object(
     typename: "Market",
     implementedInterfaces: [
-      Interfaces.HasMetafieldDefinitions.self,
       Interfaces.HasMetafields.self,
       Interfaces.Node.self
     ],

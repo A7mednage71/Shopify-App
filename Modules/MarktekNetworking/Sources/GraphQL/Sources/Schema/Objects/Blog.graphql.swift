@@ -4,17 +4,16 @@
 import ApolloAPI
 
 public extension Objects {
-  /// A blog for publishing articles in the online store. Stores can have multiple blogs to organize content by topic or purpose.
+  /// A blog container for [`Article`](https://shopify.dev/docs/api/storefront/current/objects/Article) objects. Stores can have multiple blogs, for example to organize content by topic or purpose.
   ///
-  /// Each blog contains articles with their associated comments, tags, and metadata. The comment policy controls whether readers can post comments and whether moderation is required. Blogs use customizable URL handles and can apply alternate templates for specialized layouts.
+  /// Each blog provides access to its articles, contributing [`ArticleAuthor`](https://shopify.dev/docs/api/storefront/current/objects/ArticleAuthor) objects, and [`SEO`](https://shopify.dev/docs/api/storefront/current/objects/SEO) information. You can retrieve articles individually [by handle](https://shopify.dev/docs/api/storefront/current/objects/Blog#field-Blog.fields.articleByHandle) or as a [paginated list](https://shopify.dev/docs/api/storefront/current/objects/Blog#field-Blog.fields.articles).
+  ///
   nonisolated static let Blog = ApolloAPI.Object(
     typename: "Blog",
     implementedInterfaces: [
-      Interfaces.HasEvents.self,
-      Interfaces.HasMetafieldDefinitions.self,
       Interfaces.HasMetafields.self,
-      Interfaces.HasPublishedTranslations.self,
-      Interfaces.Node.self
+      Interfaces.Node.self,
+      Interfaces.OnlineStorePublishable.self
     ],
     keyFields: nil
   )

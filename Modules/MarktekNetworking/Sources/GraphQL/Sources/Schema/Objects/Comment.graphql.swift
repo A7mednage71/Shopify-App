@@ -7,10 +7,7 @@ public extension Objects {
   /// A comment on an article.
   nonisolated static let Comment = ApolloAPI.Object(
     typename: "Comment",
-    implementedInterfaces: [
-      Interfaces.HasEvents.self,
-      Interfaces.Node.self
-    ],
+    implementedInterfaces: [Interfaces.Node.self],
     keyFields: nil
   )
 }

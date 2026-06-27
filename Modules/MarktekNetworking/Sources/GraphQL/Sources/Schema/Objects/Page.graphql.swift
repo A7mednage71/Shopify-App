@@ -4,18 +4,17 @@
 import ApolloAPI
 
 public extension Objects {
-  /// A standalone content page in the online store. Pages display HTML-formatted content for informational pages like "About Us", contact information, or shipping policies.
+  /// A [custom content page](https://help.shopify.com/manual/online-store/add-edit-pages) on a merchant's store. Pages display HTML-formatted content, such as "About Us", contact details, or store policies.
   ///
-  /// Each page has a unique handle for URL routing and supports custom template suffixes for specialized layouts. Pages can be published or hidden, and include creation and update timestamps.
+  /// Each page has a unique [`handle`](https://shopify.dev/docs/api/storefront/current/objects/Page#field-Page.fields.handle) for URL routing and includes [`SEO`](https://shopify.dev/docs/api/storefront/current/objects/SEO) information for search engine optimization. Pages support [`Metafield`](https://shopify.dev/docs/api/storefront/current/objects/Metafield) attachments for storing additional custom data.
+  ///
   nonisolated static let Page = ApolloAPI.Object(
     typename: "Page",
     implementedInterfaces: [
-      Interfaces.HasEvents.self,
-      Interfaces.HasMetafieldDefinitions.self,
       Interfaces.HasMetafields.self,
-      Interfaces.HasPublishedTranslations.self,
-      Interfaces.Navigable.self,
-      Interfaces.Node.self
+      Interfaces.Node.self,
+      Interfaces.OnlineStorePublishable.self,
+      Interfaces.Trackable.self
     ],
     keyFields: nil
   )

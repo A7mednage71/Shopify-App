@@ -4,23 +4,15 @@
 import ApolloAPI
 
 public extension Objects {
-  /// Information about a customer of the shop, such as the customer's contact details, purchase history, and marketing preferences.
+  /// A customer account with the shop. Includes data such as contact information, [addresses](https://shopify.dev/docs/api/storefront/current/objects/MailingAddress) and marketing preferences for logged-in customers, so they don't have to provide these details at every checkout.
   ///
-  /// Tracks the customer's total spending through the [`amountSpent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer#field-amountSpent) field and provides access to associated data such as payment methods and subscription contracts.
+  /// Access the customer through the [`customer`](https://shopify.dev/docs/api/storefront/current/queries/customer) query using a customer access token obtained from the [`customerAccessTokenCreate`](https://shopify.dev/docs/api/storefront/current/mutations/customerAccessTokenCreate) mutation.
   ///
-  /// > Caution:
-  /// > Only use this data if it's required for your app's functionality. Shopify will restrict [access to scopes](https://shopify.dev/api/usage/access-scopes) for apps that don't have a legitimate use for the associated data.
+  /// The object implements the [`HasMetafields`](https://shopify.dev/docs/api/storefront/current/interfaces/HasMetafields) interface, enabling retrieval of [custom data](https://shopify.dev/docs/apps/build/custom-data) associated with the customer.
+  ///
   nonisolated static let Customer = ApolloAPI.Object(
     typename: "Customer",
-    implementedInterfaces: [
-      Interfaces.CommentEventSubject.self,
-      Interfaces.HasEvents.self,
-      Interfaces.HasMetafieldDefinitions.self,
-      Interfaces.HasMetafields.self,
-      Interfaces.HasStoreCreditAccounts.self,
-      Interfaces.LegacyInteroperability.self,
-      Interfaces.Node.self
-    ],
+    implementedInterfaces: [Interfaces.HasMetafields.self],
     keyFields: nil
   )
 }

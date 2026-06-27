@@ -4,42 +4,16 @@
 import ApolloAPI
 
 public extension Objects {
-  /// The `ProductVariant` object represents a version of a
-  /// [product](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product)
-  /// that comes in more than one [option](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOption),
-  /// such as size or color. For example, if a merchant sells t-shirts with options for size and color, then a small,
-  /// blue t-shirt would be one product variant and a large, blue t-shirt would be another.
+  /// A specific version of a [product](https://shopify.dev/docs/api/storefront/current/objects/Product) available for sale, differentiated by options like size or color. For example, a small blue t-shirt and a large blue t-shirt are separate variants of the same product. For more information, see the docs on [Shopify's product model](https://shopify.dev/docs/apps/build/product-merchandising/products-and-collections).
   ///
-  /// Use the `ProductVariant` object to manage the full lifecycle and configuration of a product's variants. Common
-  /// use cases for using the `ProductVariant` object include:
+  /// For products with quantity rules, variants enforce minimum, maximum, and increment constraints on purchases.
   ///
-  /// - Tracking inventory for each variant
-  /// - Setting unique prices for each variant
-  /// - Assigning barcodes and SKUs to connect variants to fulfillment services
-  /// - Attaching variant-specific images and media
-  /// - Setting delivery and tax requirements
-  /// - Supporting product bundles, subscriptions, and selling plans
+  /// Variants also support subscriptions and pre-orders through [selling plan allocations](https://shopify.dev/docs/api/storefront/current/objects/SellingPlanAllocation) objects, bundle configurations through [product variant components](https://shopify.dev/docs/api/storefront/current/objects/ProductVariantComponent) objects, and [shop pay installments pricing](https://shopify.dev/docs/api/storefront/current/objects/ShopPayInstallmentsPricing) for flexible payment options.
   ///
-  /// A `ProductVariant` is associated with a parent
-  /// [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) object.
-  /// `ProductVariant` serves as the central link between a product's merchandising configuration, inventory,
-  /// pricing, fulfillment, and sales channels within the GraphQL Admin API schema. Each variant
-  /// can reference other GraphQL types such as:
-  ///
-  /// - [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem): Used for inventory tracking
-  /// - [`Image`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Image): Used for variant-specific images
-  /// - [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup): Used for subscriptions and selling plans
-  ///
-  /// Learn more about [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components).
   nonisolated static let ProductVariant = ApolloAPI.Object(
     typename: "ProductVariant",
     implementedInterfaces: [
-      Interfaces.HasEvents.self,
-      Interfaces.HasMetafieldDefinitions.self,
       Interfaces.HasMetafields.self,
-      Interfaces.HasPublishedTranslations.self,
-      Interfaces.LegacyInteroperability.self,
-      Interfaces.Navigable.self,
       Interfaces.Node.self
     ],
     keyFields: nil

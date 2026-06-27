@@ -4,40 +4,17 @@
 import ApolloAPI
 
 public extension Objects {
-  /// The `Collection` object represents a group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product)
-  /// that merchants can organize to make their stores easier to browse and help customers find related products.
-  /// Collections serve as the primary way to categorize and display products across
-  /// [online stores](https://shopify.dev/docs/apps/build/online-store),
-  /// [sales channels](https://shopify.dev/docs/apps/build/sales-channels), and marketing campaigns.
+  /// A group of products [organized by a merchant](https://help.shopify.com/manual/products/collections) to make their store easier to browse. Collections can help customers discover related products by category, season, promotion, or other criteria.
   ///
-  /// The `Collection` object provides information to:
+  /// Query a collection's products with [filtering options](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/products-collections/filter-products) like availability, price range, vendor, and tags. Each collection includes [`SEO`](https://shopify.dev/docs/api/storefront/current/objects/SEO) information, an optional [`Image`](https://shopify.dev/docs/api/storefront/current/objects/Image), and supports custom data through [`metafields`](https://shopify.dev/docs/api/storefront/current/objects/Metafield).
   ///
-  /// - Organize products by category, season, or promotion.
-  /// - Automate product grouping using rules (for example, by tag, type, or price).
-  /// - Configure product sorting and display order (for example, alphabetical, best-selling, price, or manual).
-  /// - Manage collection visibility and publication across sales channels.
-  /// - Add rich descriptions, images, and metadata to enhance discovery.
-  ///
-  /// > Note:
-  /// > Collections are unpublished by default. To make them available to customers,
-  /// use the [`publishablePublish`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/publishablePublish)
-  /// mutation after creation.
-  ///
-  /// Collections can be displayed in a store with Shopify's theme system through [Liquid templates](https://shopify.dev/docs/storefronts/themes/architecture/templates/collection)
-  /// and can be customized with [template suffixes](https://shopify.dev/docs/storefronts/themes/architecture/templates/alternate-templates)
-  /// for unique layouts. They also support advanced features like translated content, resource feedback,
-  /// and contextual publication for location-based catalogs.
-  ///
-  /// Learn about [using metafields with collection conditions](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
   nonisolated static let Collection = ApolloAPI.Object(
     typename: "Collection",
     implementedInterfaces: [
-      Interfaces.HasEvents.self,
-      Interfaces.HasMetafieldDefinitions.self,
       Interfaces.HasMetafields.self,
-      Interfaces.HasPublishedTranslations.self,
       Interfaces.Node.self,
-      Interfaces.Publishable.self
+      Interfaces.OnlineStorePublishable.self,
+      Interfaces.Trackable.self
     ],
     keyFields: nil
   )

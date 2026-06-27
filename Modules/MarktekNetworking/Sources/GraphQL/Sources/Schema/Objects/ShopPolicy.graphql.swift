@@ -7,10 +7,7 @@ public extension Objects {
   /// Policy that a merchant has configured for their store, such as their refund or privacy policy.
   nonisolated static let ShopPolicy = ApolloAPI.Object(
     typename: "ShopPolicy",
-    implementedInterfaces: [
-      Interfaces.HasPublishedTranslations.self,
-      Interfaces.Node.self
-    ],
+    implementedInterfaces: [Interfaces.Node.self],
     keyFields: nil
   )
 }

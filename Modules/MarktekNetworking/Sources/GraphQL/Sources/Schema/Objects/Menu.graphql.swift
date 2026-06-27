@@ -4,25 +4,13 @@
 import ApolloAPI
 
 public extension Objects {
-  /// Navigation menus that organize links into logical structures to guide customers through a store. Menus serve as the backbone of store navigation, making it easy for customers to find products, pages, and other content through organized hierarchical links.
+  /// A navigation structure for building store [menus](https://help.shopify.com/manual/online-store/menus-and-links). Each menu contains [`MenuItem`](https://shopify.dev/docs/api/storefront/current/objects/MenuItem) objects that can be nested to create multi-level navigation hierarchies.
   ///
-  /// For example, a merchant might create a main navigation menu with top-level categories like "Products," "About Us," and "Contact," where each category can contain nested menu items linking to specific collections, pages, or external resources.
+  /// Menu items can link to [collections](https://shopify.dev/docs/api/storefront/current/objects/Collection), [products](https://shopify.dev/docs/api/storefront/current/objects/Product), [pages](https://shopify.dev/docs/api/storefront/current/objects/Page), [blogs](https://shopify.dev/docs/api/storefront/current/objects/Blog), or external URLs. Use the [`menu`](https://shopify.dev/docs/api/storefront/current/queries/menu) query to retrieve a menu by its handle.
   ///
-  /// Use the `Menu` object to:
-  /// - Build and customize store navigation structures
-  /// - Organize hierarchical menu systems with nested items
-  /// - Work with default menus that can't be deleted
-  /// - Access menu items for building navigation
-  ///
-  /// Menus can be designated as default navigation elements (like main menu or footer), which can't be deleted and have restricted handle updates. The handle provides a unique identifier that themes can reference, while the items collection enables nested navigation structures.
-  ///
-  /// Each menu contains menu items that can link to various resource types. This flexibility lets merchants create navigation experiences that guide customers through their store.
   nonisolated static let Menu = ApolloAPI.Object(
     typename: "Menu",
-    implementedInterfaces: [
-      Interfaces.HasPublishedTranslations.self,
-      Interfaces.Node.self
-    ],
+    implementedInterfaces: [Interfaces.Node.self],
     keyFields: nil
   )
 }

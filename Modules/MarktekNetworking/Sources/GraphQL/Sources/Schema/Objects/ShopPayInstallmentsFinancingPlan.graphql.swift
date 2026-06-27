@@ -4,9 +4,9 @@
 import ApolloAPI
 
 public extension Objects {
-  /// A redirect on the online store.
-  nonisolated static let UrlRedirect = ApolloAPI.Object(
-    typename: "UrlRedirect",
+  /// The financing plan in Shop Pay Installments.
+  nonisolated static let ShopPayInstallmentsFinancingPlan = ApolloAPI.Object(
+    typename: "ShopPayInstallmentsFinancingPlan",
     implementedInterfaces: [Interfaces.Node.self],
     keyFields: nil
   )

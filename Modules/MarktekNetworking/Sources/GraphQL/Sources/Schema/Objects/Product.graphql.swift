@@ -4,27 +4,21 @@
 import ApolloAPI
 
 public extension Objects {
-  /// The `Product` object lets you manage products in a merchant’s store.
+  /// Represents an item listed in a shop's catalog.
   ///
-  /// Products are the goods and services that merchants offer to customers. They can include various details such as title, description, price, images, and options such as size or color.
-  /// You can use [product variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/productvariant) to create or update different versions of the same product.
-  /// You can also add or update product [media](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/media).
-  /// Products can be organized by grouping them into a [collection](https://shopify.dev/docs/api/admin-graphql/latest/objects/collection).
+  /// Products support multiple [product variants](https://shopify.dev/docs/api/storefront/current/objects/ProductVariant), representing different versions of the same product, and can include various [media](https://shopify.dev/docs/api/storefront/current/interfaces/Media) types. Use the [`selectedOrFirstAvailableVariant`](https://shopify.dev/docs/api/storefront/current/objects/Product#field-Product.fields.selectedOrFirstAvailableVariant) or [`variantBySelectedOptions`](https://shopify.dev/docs/api/storefront/current/objects/Product#field-Product.fields.variantBySelectedOptions) fields to help customers find the right variant based on their selections.
   ///
-  /// Learn more about working with [Shopify's product model](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components),
-  /// including limitations and considerations.
+  /// Products can be organized into [collections](https://shopify.dev/docs/api/storefront/current/objects/Collection), associated with [selling plans](https://shopify.dev/docs/api/storefront/current/objects/SellingPlanGroup) for subscriptions, and extended with custom data through [metafields](https://shopify.dev/docs/api/storefront/current/objects/Metafield).
+  ///
+  /// Learn more about working with [products and collections](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
+  ///
   nonisolated static let Product = ApolloAPI.Object(
     typename: "Product",
     implementedInterfaces: [
-      Interfaces.HasEvents.self,
-      Interfaces.HasMetafieldDefinitions.self,
       Interfaces.HasMetafields.self,
-      Interfaces.HasPublishedTranslations.self,
-      Interfaces.LegacyInteroperability.self,
-      Interfaces.Navigable.self,
       Interfaces.Node.self,
-      Interfaces.OnlineStorePreviewable.self,
-      Interfaces.Publishable.self
+      Interfaces.OnlineStorePublishable.self,
+      Interfaces.Trackable.self
     ],
     keyFields: nil
   )
