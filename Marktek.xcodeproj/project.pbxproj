@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekApp.swift; sourceTree = "<group>"; };
 		616653962FEFCEA200C605D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -42,10 +44,31 @@
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2C90D3252FEFEF9F00FADB94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LocalService/Marktek.xcdatamodeld,
+			);
+			target = 6166538B2FEFCE9F00C605D3 /* Marktek */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		2C90D3262FEFEF9F00FADB94 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 616653882FEFCE9F00C605D3 /* Sources */;
+			membershipExceptions = (
+				LocalService/Marktek.xcdatamodeld,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		2C90D2162FEFD8BE00FADB94 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
-		2C90D21A2FEFD9AC00FADB94 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
-		2C90D2242FEFDA4900FADB94 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
+		2C90D3182FEFEF9100FADB94 /* Networking */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Networking; sourceTree = "<group>"; };
+		2C90D3212FEFEF9E00FADB94 /* Services */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (2C90D3252FEFEF9F00FADB94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 2C90D3262FEFEF9F00FADB94 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Services; sourceTree = "<group>"; };
+		2C90D3352FEFEFE800FADB94 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
+		2C90D3382FEFEFED00FADB94 /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +104,32 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		2C90D2942FEFEEAA00FADB94 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2C90D3152FEFEF8300FADB94 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3212FEFEF9E00FADB94 /* Services */,
+				2C90D3182FEFEF9100FADB94 /* Networking */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		2C90D3272FEFEFE000FADB94 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				2C90D3382FEFEFED00FADB94 /* Splash */,
+				2C90D3352FEFEFE800FADB94 /* Home */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
@@ -104,9 +153,9 @@
 		6166538E2FEFCE9F00C605D3 /* Marktek */ = {
 			isa = PBXGroup;
 			children = (
-				2C90D2242FEFDA4900FADB94 /* Features */,
-				2C90D21A2FEFD9AC00FADB94 /* Core */,
-				2C90D2162FEFD8BE00FADB94 /* Resources */,
+				2C90D3272FEFEFE000FADB94 /* Features */,
+				2C90D3152FEFEF8300FADB94 /* Core */,
+				2C90D2942FEFEEAA00FADB94 /* Resources */,
 				2C90D2152FEFD85300FADB94 /* Application */,
 				616653952FEFCEA200C605D3 /* Preview Content */,
 			);
@@ -154,9 +203,10 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				2C90D2162FEFD8BE00FADB94 /* Resources */,
-				2C90D21A2FEFD9AC00FADB94 /* Core */,
-				2C90D2242FEFDA4900FADB94 /* Features */,
+				2C90D3182FEFEF9100FADB94 /* Networking */,
+				2C90D3212FEFEF9E00FADB94 /* Services */,
+				2C90D3352FEFEFE800FADB94 /* Home */,
+				2C90D3382FEFEFED00FADB94 /* Splash */,
 			);
 			name = Marktek;
 			productName = Marktek;
@@ -223,7 +273,6 @@
 				};
 			};
 			buildConfigurationList = 616653872FEFCE9F00C605D3 /* Build configuration list for PBXProject "Marktek" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -231,6 +280,7 @@
 				Base,
 			);
 			mainGroup = 616653832FEFCE9F00C605D3;
+			preferredProjectObjectVersion = 55;
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -247,6 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */,
 				616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
