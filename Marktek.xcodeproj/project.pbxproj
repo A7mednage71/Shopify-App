@@ -23,6 +23,7 @@
 		616653B22FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */; };
 		617276C52FF00A14001CC25D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 617276C42FF00A14001CC25D /* GoogleService-Info.plist */; };
 		617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C62FF01B7C001CC25D /* FirebaseAuth */; };
+		617276C92FF023F9001CC25D /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C82FF023F9001CC25D /* Authentication */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 			files = (
 				2C74F8D22FEFFF460073F428 /* Home in Frameworks */,
 				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
+				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +244,7 @@
 			name = Marktek;
 			packageProductDependencies = (
 				617276C62FF01B7C001CC25D /* FirebaseAuth */,
+				617276C82FF023F9001CC25D /* Authentication */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -708,6 +711,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		617276C82FF023F9001CC25D /* Authentication */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Authentication;
 		};
 /* End XCSwiftPackageProductDependency section */
 

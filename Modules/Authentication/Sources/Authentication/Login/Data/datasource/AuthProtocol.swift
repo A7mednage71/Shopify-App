@@ -7,8 +7,12 @@
 
 import Foundation
 protocol AuthenticationProtcol{
-    func createUserWithEmailAndPassword() throws;
-    func signInUsingGoogle() throws;
-    func signInUsingApple() throws;
-    func signInUsingEmailAndpassword() throws ;
+    @available(iOS 13.0.0, *)
+    func createUserWithEmailAndPassword() async throws;
+    @available(iOS 13.0.0, *)
+    func signInUsingGoogle() async throws;
+    @available(iOS 13.0.0, *)
+    func signInUsingApple() async throws;
+    @available(iOS 13.0.0, *)
+    func signInUsingEmailAndpassword(email : String , password : String) async throws ;
     }
