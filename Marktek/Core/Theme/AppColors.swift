@@ -10,7 +10,7 @@ import SwiftUI
 struct AppColors {
     
     // Brand Color (Primary)
-    static let primary = Color("#FFA102")
+    static let primary = Color("primary")
     static let primaryDark = Color("#CC8002")
     static let primaryLight = Color("#FFB840")
     
