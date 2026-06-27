@@ -6,9 +6,9 @@
   },
   "output": {
     "schemaTypes": {
-      "path": "Sources/GraphQL",
+      "path": "./Sources/ShopifyAPI",
       "moduleType": {
-        "swiftPackage": {}
+        "other": {}
       }
     },
     "operations": {

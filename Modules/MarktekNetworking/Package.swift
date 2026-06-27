@@ -1,5 +1,4 @@
 // swift-tools-version: 6.1
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
@@ -23,17 +22,18 @@ let package = Package(
             name: "MarktekNetworking",
             dependencies: [
                 "ShopifyAPI",
-                .product(name: "Apollo", package: "apollo-ios"),
-                .product(name: "ApolloAPI", package: "apollo-ios"),
+                .product(name: "Apollo", package: "apollo-ios")
             ]
         ),
+
         .target(
             name: "ShopifyAPI",
             dependencies: [
-                .product(name: "ApolloAPI", package: "apollo-ios"),
+                .product(name: "ApolloAPI", package: "apollo-ios")
             ],
-            path: "Sources/GraphQL/Sources"
+            path: "Sources/ShopifyAPI"
         ),
+
         .testTarget(
             name: "MarktekNetworkingTests",
             dependencies: ["MarktekNetworking"]
