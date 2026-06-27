@@ -3,16 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
-		616653922FEFCE9F00C605D3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653912FEFCE9F00C605D3 /* ContentView.swift */; };
-		616653942FEFCEA200C605D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653932FEFCEA200C605D3 /* Assets.xcassets */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
-		616653992FEFCEA200C605D3 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653982FEFCEA200C605D3 /* Persistence.swift */; };
-		6166539C2FEFCEA200C605D3 /* Marktek.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6166539A2FEFCEA200C605D3 /* Marktek.xcdatamodeld */; };
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
 		616653B02FEFCEA300C605D3 /* MarktekUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */; };
 		616653B22FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */; };
@@ -38,17 +34,19 @@
 /* Begin PBXFileReference section */
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekApp.swift; sourceTree = "<group>"; };
-		616653912FEFCE9F00C605D3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		616653932FEFCEA200C605D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		616653962FEFCEA200C605D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		616653982FEFCEA200C605D3 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		6166539B2FEFCEA200C605D3 /* Marktek.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Marktek.xcdatamodel; sourceTree = "<group>"; };
 		616653A12FEFCEA200C605D3 /* MarktekTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarktekTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616653A52FEFCEA200C605D3 /* MarktekTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekTests.swift; sourceTree = "<group>"; };
 		616653AB2FEFCEA200C605D3 /* MarktekUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarktekUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITests.swift; sourceTree = "<group>"; };
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2C90D2162FEFD8BE00FADB94 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
+		2C90D21A2FEFD9AC00FADB94 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
+		2C90D2242FEFDA4900FADB94 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		616653892FEFCE9F00C605D3 /* Frameworks */ = {
@@ -75,6 +73,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C90D2152FEFD85300FADB94 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
@@ -98,13 +104,10 @@
 		6166538E2FEFCE9F00C605D3 /* Marktek */ = {
 			isa = PBXGroup;
 			children = (
-				616653C22FEFCEED00C605D3 /* Core */,
-				616653BE2FEFCEAB00C605D3 /* Features */,
-				6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */,
-				616653912FEFCE9F00C605D3 /* ContentView.swift */,
-				616653932FEFCEA200C605D3 /* Assets.xcassets */,
-				616653982FEFCEA200C605D3 /* Persistence.swift */,
-				6166539A2FEFCEA200C605D3 /* Marktek.xcdatamodeld */,
+				2C90D2242FEFDA4900FADB94 /* Features */,
+				2C90D21A2FEFD9AC00FADB94 /* Core */,
+				2C90D2162FEFD8BE00FADB94 /* Resources */,
+				2C90D2152FEFD85300FADB94 /* Application */,
 				616653952FEFCEA200C605D3 /* Preview Content */,
 			);
 			path = Marktek;
@@ -135,36 +138,6 @@
 			path = MarktekUITests;
 			sourceTree = "<group>";
 		};
-		616653BE2FEFCEAB00C605D3 /* Features */ = {
-			isa = PBXGroup;
-			children = (
-				616653C42FEFCF0000C605D3 /* Home */,
-				616653C32FEFCEF700C605D3 /* Authentication */,
-			);
-			path = Features;
-			sourceTree = "<group>";
-		};
-		616653C22FEFCEED00C605D3 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		616653C32FEFCEF700C605D3 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
-		616653C42FEFCF0000C605D3 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -179,6 +152,11 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2C90D2162FEFD8BE00FADB94 /* Resources */,
+				2C90D21A2FEFD9AC00FADB94 /* Core */,
+				2C90D2242FEFDA4900FADB94 /* Features */,
 			);
 			name = Marktek;
 			productName = Marktek;
@@ -270,7 +248,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */,
-				616653942FEFCEA200C605D3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,10 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				616653992FEFCEA200C605D3 /* Persistence.swift in Sources */,
-				616653922FEFCE9F00C605D3 /* ContentView.swift in Sources */,
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
-				6166539C2FEFCEA200C605D3 /* Marktek.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,19 +591,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		6166539A2FEFCEA200C605D3 /* Marktek.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				6166539B2FEFCEA200C605D3 /* Marktek.xcdatamodel */,
-			);
-			currentVersion = 6166539B2FEFCEA200C605D3 /* Marktek.xcdatamodel */;
-			path = Marktek.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 616653842FEFCE9F00C605D3 /* Project object */;
 }
