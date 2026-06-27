@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Home
 
 @main
 struct MarktekApp: App {
@@ -17,3 +18,5 @@ struct MarktekApp: App {
         }
     }
 }
+
+
