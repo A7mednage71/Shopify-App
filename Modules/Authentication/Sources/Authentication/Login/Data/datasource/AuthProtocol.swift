@@ -1,12 +1,12 @@
 //
-//  File.swift
+//  AuthPrtocol.swift
 //  
 //
 //  Created by Eyad waleed on 27/06/2026.
 //
 
 import Foundation
-protocol AuthenticationProtcol{
+protocol AuthenticationService{
     @available(iOS 13.0.0, *)
     func createUserWithEmailAndPassword() async throws;
     @available(iOS 13.0.0, *)

@@ -9,6 +9,8 @@ import SwiftUI
 import Home
 import FirebaseAuth
 import FirebaseCore
+import Authentication
+@available(iOS 14.0, *)
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -23,7 +25,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeScreenView()
+            SwiftUIView()
         }
     }
 }

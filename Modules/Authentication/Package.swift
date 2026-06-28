@@ -22,7 +22,8 @@ let package = Package(
             name: "Authentication",
             dependencies: [
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk") 
-            ]),
+            ],
+            resources: [.process("Assets.xcassets")]),
         .testTarget(
             name: "AuthenticationTests",
             dependencies: ["Authentication"]),
