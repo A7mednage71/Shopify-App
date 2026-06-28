@@ -10,12 +10,14 @@ import Foundation
 @MainActor
 class LoginViewModel : ObservableObject{
    let  signIn : SignInUseCase
+    let signInWithGoogle : SignWithGoogleUseCase
     
     @Published var loginState  : AuthState = .idel
     @Published var emailError: String = ""
     @Published var passwordError: String = ""
-    init(signIn: SignInUseCase) {
+    init(signIn: SignInUseCase , signInWithGoogle : SignWithGoogleUseCase) {
         self.signIn = signIn
+        self.signInWithGoogle = signInWithGoogle
     }
     func login(email :String , password : String) async {
         emailError = ""
@@ -31,6 +33,17 @@ class LoginViewModel : ObservableObject{
         }
         catch  {
             loginState = .error(handleAuthError(error))
+        }
+    }
+    func signInWithGoogle() async {
+        do {
+            loginState = .loading
+            try await signInWithGoogle.execute()
+            loginState = .success
+        } catch  {
+            loginState = .error(handleAuthError(error))
+        } catch {
+            loginState = .error("Something went wrong")
         }
     }
     private func handleAuthError(_ error: Error) -> String {
@@ -53,6 +66,7 @@ class LoginViewModel : ObservableObject{
             return"Unkown Error"
         }
     }
+    
     
     
 }

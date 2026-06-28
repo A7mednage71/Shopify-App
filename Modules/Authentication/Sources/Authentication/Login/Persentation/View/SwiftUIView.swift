@@ -10,8 +10,10 @@ import SwiftUI
 public struct SwiftUIView: View {
     @State var emailStateValue = ""
     @State var passwordStatValue = ""
-    @StateObject var viewModel = LoginViewModel(signIn: SignInUseCase(Authrepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation())))
-  public  init() {
+    @StateObject var viewModel = LoginViewModel(signIn: SignInUseCase(Authrepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation())),
+  signInWithGoogle: SignWithGoogleUseCase(authRepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation()))
+    )
+    public  init() {
         
     }
     public var body: some View {
@@ -85,7 +87,11 @@ public struct SwiftUIView: View {
                 HStack {
                     CutomeCircularBtn(image: "apple", action: {})
                     CutomeCircularBtn(image: "facebook", action: {})
-                    CutomeCircularBtn(image: "google", action: {})
+                    CutomeCircularBtn(image: "google", action: {
+                        Task{
+                            await viewModel.signInWithGoogle()
+                        }
+                    })
                 }
                 Spacer().frame(height: 28)
                 HStack {
@@ -113,4 +119,4 @@ public struct SwiftUIView: View {
 }
 
 
-        
+

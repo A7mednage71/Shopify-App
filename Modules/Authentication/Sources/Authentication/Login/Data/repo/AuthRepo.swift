@@ -7,7 +7,7 @@
 
 import Foundation
 import FirebaseAuth
-class AuthenticationRepositarory :AuthInterface  {
+class AuthenticationRepositarory :AuthRepoInterface  {
     
     var firebaseAuth : AuthenticationService
     init(firebaseAuth: AuthenticationService) {
@@ -19,6 +19,9 @@ class AuthenticationRepositarory :AuthInterface  {
         try await firebaseAuth.signInUsingEmailAndpassword(email: email, password: password)
         
     }
-    
+    @available(iOS 13.0.0, *)
+    func signInByGoogle() async throws {
+        try await firebaseAuth.signInUsingGoogle()
+    }
 }
 

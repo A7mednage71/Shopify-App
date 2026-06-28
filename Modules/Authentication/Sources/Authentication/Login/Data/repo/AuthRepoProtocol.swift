@@ -6,7 +6,8 @@
 //
 
 import Foundation
-protocol AuthInterface {
-    @available(iOS 13.0.0, *)
+@available(iOS 13.0.0, *)
+protocol AuthRepoInterface {
     func signIn(email: String, password: String) async throws
+    func signInByGoogle() async throws
 }

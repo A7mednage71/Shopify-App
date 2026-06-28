@@ -10,6 +10,7 @@ import Home
 import FirebaseAuth
 import FirebaseCore
 import Authentication
+import GoogleSignIn
 @available(iOS 14.0, *)
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -17,6 +18,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
     }
+    
 }
 @main
 struct MarktekApp: App {
@@ -25,7 +27,9 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SwiftUIView()
+            SwiftUIView().onOpenURL{
+                url in GIDSignIn.sharedInstance.handle(url)
+            }
         }
     }
 }

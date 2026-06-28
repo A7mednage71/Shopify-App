@@ -21,7 +21,9 @@
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
 		616653B02FEFCEA300C605D3 /* MarktekUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */; };
 		616653B22FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */; };
-		617276C52FF00A14001CC25D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 617276C42FF00A14001CC25D /* GoogleService-Info.plist */; };
+		616851DF2FF19FCC00F29AA5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 616851DE2FF19FCB00F29AA5 /* GoogleService-Info.plist */; };
+		616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E12FF1A35200F29AA5 /* GoogleSignIn */; };
+		616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E32FF1A35200F29AA5 /* GoogleSignInSwift */; };
 		617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C62FF01B7C001CC25D /* FirebaseAuth */; };
 		617276C92FF023F9001CC25D /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C82FF023F9001CC25D /* Authentication */; };
 /* End PBXBuildFile section */
@@ -52,6 +54,7 @@
 		2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Marktek.xcdatamodel; sourceTree = "<group>"; };
 		2C90D3AA2FEFF24900FADB94 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		2C90D3AB2FEFF24900FADB94 /* ApiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiConstants.swift; sourceTree = "<group>"; };
+		610825582FF1882D002433CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekApp.swift; sourceTree = "<group>"; };
 		616653962FEFCEA200C605D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -60,7 +63,7 @@
 		616653AB2FEFCEA200C605D3 /* MarktekUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarktekUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITests.swift; sourceTree = "<group>"; };
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		617276C42FF00A14001CC25D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		616851DE2FF19FCB00F29AA5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */,
 				2C74F8D22FEFFF460073F428 /* Home in Frameworks */,
+				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
 				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
 				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
 			);
@@ -192,7 +197,8 @@
 		6166538E2FEFCE9F00C605D3 /* Marktek */ = {
 			isa = PBXGroup;
 			children = (
-				617276C42FF00A14001CC25D /* GoogleService-Info.plist */,
+				616851DE2FF19FCB00F29AA5 /* GoogleService-Info.plist */,
+				610825582FF1882D002433CB /* Info.plist */,
 				2C90D3152FEFEF8300FADB94 /* Core */,
 				2C90D2942FEFEEAA00FADB94 /* Resources */,
 				2C90D2152FEFD85300FADB94 /* Application */,
@@ -245,6 +251,8 @@
 			packageProductDependencies = (
 				617276C62FF01B7C001CC25D /* FirebaseAuth */,
 				617276C82FF023F9001CC25D /* Authentication */,
+				616851E12FF1A35200F29AA5 /* GoogleSignIn */,
+				616851E32FF1A35200F29AA5 /* GoogleSignInSwift */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -320,6 +328,7 @@
 			mainGroup = 616653832FEFCE9F00C605D3;
 			packageReferences = (
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -338,8 +347,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */,
+				616851DF2FF19FCC00F29AA5 /* GoogleService-Info.plist in Resources */,
 				616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */,
-				617276C52FF00A14001CC25D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +541,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Marktek/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Marktek/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -560,6 +570,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Marktek/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Marktek/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -692,6 +703,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = exactVersion;
+				version = 7.0.0;
+			};
+		};
 		617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -706,6 +725,16 @@
 		2C74F8D12FEFFF460073F428 /* Home */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Home;
+		};
+		616851E12FF1A35200F29AA5 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		616851E32FF1A35200F29AA5 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 		617276C62FF01B7C001CC25D /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

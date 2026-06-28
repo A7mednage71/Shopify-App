@@ -8,8 +8,8 @@
 import Foundation
 @available(iOS 13.0.0, *)
 class SignInUseCase{
-    private let Authrepo : AuthInterface
-    init(Authrepo: AuthInterface) {
+    private let Authrepo : AuthRepoInterface
+    init(Authrepo: AuthRepoInterface) {
         self.Authrepo = Authrepo
     }
     private func validate(email: String, password: String) throws {
