@@ -150,3 +150,7 @@ Carthage/Build/
 # Firebase
 GoogleService-Info.plist
 google-services.json
+
+# Local secrets
+Config/Secrets.xcconfig
+Secrets.xcconfig
