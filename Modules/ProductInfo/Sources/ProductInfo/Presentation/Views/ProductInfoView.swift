@@ -10,35 +10,44 @@ struct ProductInfoView: View {
     }
 
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .idle, .loading:
-                ProgressView()
-
-            case .success(let product):
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text(product.title)
-                            .font(.title)
-                            .fontWeight(.semibold)
-
-                        Text(product.description)
-                            .font(.body)
-
-                        Text(product.priceRange.minVariantPrice.amount)
-                            .font(.headline)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                }
-
-            case .failure(let message):
-                Text(message)
-                    .foregroundStyle(.red)
-            }
+        NavigationView {
+            content
+                .navigationTitle("Product Details")
+                .productNavigationTitleStyle()
         }
+        .productNavigationContainerStyle()
         .task {
             await viewModel.loadProduct(id: productID)
         }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        Group {
+            switch viewModel.state {
+            case .idle, .loading:
+                ProductInfoLoadingView()
+
+            case .success(let product):
+                ProductInfoContentView(product: product)
+
+            case .failure(let message):
+                ProductInfoErrorView(message: message) {
+                    Task {
+                        await viewModel.loadProduct(id: productID)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private extension View {
+    func productNavigationTitleStyle() -> some View {
+        navigationBarTitleDisplayMode(.inline)
+    }
+
+    func productNavigationContainerStyle() -> some View {
+        navigationViewStyle(.stack)
     }
 }
