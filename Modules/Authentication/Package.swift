@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Authentication",
+    platforms: [.iOS(.v16)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -14,7 +15,8 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.28.0")),
-        .package(url: "https://github.com/google/GoogleSignIn-iOS",.upToNextMajor(from: "7.0.0") )
+        .package(url: "https://github.com/google/GoogleSignIn-iOS",.upToNextMajor(from: "7.0.0") ) ,
+        .package(url:"https://github.com/apollographql/apollo-ios.git",.upToNextMajor(from : "1.5.0"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -23,7 +25,8 @@ let package = Package(
             name: "Authentication",
             dependencies: [
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk") ,
-                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS")
+                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
+                .product(name: "Apollo", package:"apollo-ios")
             ],
             resources: [.process("Assets.xcassets")]),
         .testTarget(
