@@ -14,7 +14,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ProductInfoViewFactory.makeProductInfoView(productID: "gid://shopify/Product/7471718006839")
+            ProductInfoViewFactory.makeProductInfoView(productID: "gid://shopify/Product/7471719088183")
         }
     }
 }
