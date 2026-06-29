@@ -1,21 +1,30 @@
 struct AddCartLineRequest: Equatable, Sendable {
     let merchandiseID: String
     let quantity: Int
+    let availableQuantity: Int?
 
-    init(merchandiseID: String, quantity: Int) {
+    init(merchandiseID: String, quantity: Int, availableQuantity: Int? = nil) {
         self.merchandiseID = merchandiseID
         self.quantity = quantity
+        self.availableQuantity = availableQuantity
     }
 }
 
 struct UpdateCartLineRequest: Equatable, Sendable {
     let lineID: String
     let quantity: Int
+    let availableQuantity: Int?
     let merchandiseID: String?
 
-    init(lineID: String, quantity: Int, merchandiseID: String? = nil) {
+    init(
+        lineID: String,
+        quantity: Int,
+        availableQuantity: Int? = nil,
+        merchandiseID: String? = nil
+    ) {
         self.lineID = lineID
         self.quantity = quantity
+        self.availableQuantity = availableQuantity
         self.merchandiseID = merchandiseID
     }
 }
