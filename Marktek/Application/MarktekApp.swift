@@ -6,15 +6,30 @@
 //
 
 import SwiftUI
-import ProductInfo
-
+import Home
+import FirebaseAuth
+import FirebaseCore
+import Authentication
+import GoogleSignIn
+@available(iOS 14.0, *)
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        FirebaseApp.configure()
+        return true
+    }
+    
+}
 @main
 struct MarktekApp: App {
-    let persistenceController = PersistenceController.shared
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
 
     var body: some Scene {
         WindowGroup {
-            ProductInfoViewFactory.makeProductInfoView(productID: "gid://shopify/Product/7471719088183")
+            SwiftUIView().onOpenURL{
+                url in GIDSignIn.sharedInstance.handle(url)
+            }
         }
     }
 }
