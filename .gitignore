@@ -151,6 +151,5 @@ Carthage/Build/
 GoogleService-Info.plist
 google-services.json
 
-# Local secrets
-Config/Secrets.xcconfig
-Secrets.xcconfig
+Config/
+Modules/MarktekNetworking/apollo-codegen-config.local.json
