@@ -16,6 +16,7 @@
 		2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CC2FEFFA380073F428 /* AppColors.swift */; };
 		2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */; };
 		2C74F8D22FEFFF460073F428 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D12FEFFF460073F428 /* Home */; };
+		2C74F8D42FF01F000073F428 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D32FF01F000073F428 /* Common */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
 		2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */; };
 		2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */; };
@@ -89,6 +90,7 @@
 				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
 				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
 				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
+				2C74F8D42FF01F000073F428 /* Common in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,15 +111,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C74F8CB2FEFF9AC0073F428 /* Theme */ = {
-			isa = PBXGroup;
-			children = (
-				2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */,
-				2C74F8CC2FEFFA380073F428 /* AppColors.swift */,
-			);
-			path = Theme;
-			sourceTree = "<group>";
-		};
 		2C74F8D02FEFFF460073F428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,7 +137,6 @@
 		2C90D3152FEFEF8300FADB94 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				2C74F8CB2FEFF9AC0073F428 /* Theme */,
 				2C90D3A52FEFF24300FADB94 /* Services */,
 				2C90D3AC2FEFF24900FADB94 /* Networking */,
 			);
@@ -391,11 +383,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */,
 				2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */,
 				2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */,
 				2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */,
-				2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */,
 				2C90D3AD2FEFF24900FADB94 /* ApiClient.swift in Sources */,
 				2C90D3AE2FEFF24900FADB94 /* ApiConstants.swift in Sources */,
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
@@ -820,6 +810,10 @@
 		CA7D800B2FF335C50090C2CF /* ApolloAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ApolloAPI;
+		};
+		2C74F8D32FF01F000073F428 /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
 		};
 /* End XCSwiftPackageProductDependency section */
 

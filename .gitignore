@@ -150,5 +150,6 @@ Carthage/Build/
 # Firebase
 GoogleService-Info.plist
 google-services.json
+
 Config/
 Modules/MarktekNetworking/apollo-codegen-config.local.json
