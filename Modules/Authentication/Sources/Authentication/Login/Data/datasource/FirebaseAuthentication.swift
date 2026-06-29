@@ -9,9 +9,17 @@ import Foundation
 import FirebaseAuth
 import FirebaseCore
 class FirebaseAuthenitcation : AuthenticationProtcol{
-    func createUserWithEmailAndPassword() throws {
-        
-    }
+    
+    @available(iOS 13.0.0, *)
+    func createUserWithEmailAndPassword(email: String, password: String) async throws {
+            do {
+                let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
+                print("User Registered Successfully: \(authResult.user.email ?? "No Email")")
+            } catch {
+                print("Error creating user: \(error.localizedDescription)")
+                throw error
+            }
+        }
     
     func signInUsingGoogle() throws {
         
