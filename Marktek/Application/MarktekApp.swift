@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Home
+import ProductInfo
 
 @main
 struct MarktekApp: App {
@@ -14,7 +14,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeScreenView()
+            ProductInfoViewFactory.makeProductInfoView(productID: "gid://shopify/Product/7471719088183")
         }
     }
 }

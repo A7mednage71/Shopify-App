@@ -13,10 +13,10 @@ enum Secrets {
         value(for: "SHOPIFY_STOREFRONT_ACCESS_TOKEN")
     }
 
-    static var shopifyStorefrontGraphQLEndpoint: URL {
+    static var shopifyStorefrontGraphQLEndpoint: Foundation.URL {
         let urlString = "https://\(shopifyHost)/api/\(shopifyAPIVersion)/graphql.json"
 
-        guard let url = URL(string: urlString) else {
+        guard let url = Foundation.URL(string: urlString) else {
             fatalError("Invalid Shopify Storefront GraphQL endpoint.")
         }
 
