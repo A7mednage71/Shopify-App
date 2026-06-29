@@ -23,5 +23,10 @@ class AuthenticationRepositarory :AuthRepoInterface  {
     func signInByGoogle() async throws {
         try await firebaseAuth.signInUsingGoogle()
     }
+    
+    @available(iOS 13.0.0, *)
+        func createUserWithEmailAndPassword(email: String, password: String) async throws {
+            try await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
+        }
 }
 
