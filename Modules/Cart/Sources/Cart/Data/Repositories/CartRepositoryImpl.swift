@@ -1,25 +1,36 @@
 struct CartRepositoryImpl: CartRepository, Sendable {
+    private let localDataSource: any CartLocalDataSource
     private let remoteDataSource: any CartRemoteDataSource
     private let cartManager: any CartManager
 
     init(
+        localDataSource: any CartLocalDataSource,
         remoteDataSource: any CartRemoteDataSource,
         cartManager: any CartManager
     ) {
+        self.localDataSource = localDataSource
         self.remoteDataSource = remoteDataSource
         self.cartManager = cartManager
     }
 
     func createCart(lines: [AddCartLineRequest]) async throws -> CartDetails {
-        let cart = try await remoteDataSource.createCart(lines: lines).toDomain()
+        let cart = try await remoteDataSource.createCart(
+            lines: lines,
+            customerAccessToken: localDataSource.customerAccessToken
+        ).toDomain()
         cartManager.save(cartID: cart.id)
 
         return cart
     }
 
     func getCurrentCart() async throws -> CartDetails {
-        guard let cartID = cartManager.cartID else {
-            return .empty
+        let cartID: String
+
+        if let savedCartID = cartManager.cartID {
+            cartID = savedCartID
+        } else {
+            cartID = localDataSource.testCartID
+            cartManager.save(cartID: cartID)
         }
 
         guard let cart = try await remoteDataSource.getCart(cartID: cartID)?.toDomain() else {

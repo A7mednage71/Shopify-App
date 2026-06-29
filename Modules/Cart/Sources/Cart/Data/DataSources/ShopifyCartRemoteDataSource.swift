@@ -1,9 +1,16 @@
 @preconcurrency import MarktekNetworking
 
 struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
-    func createCart(lines: [AddCartLineRequest]) async throws -> CartDataModel {
+    func createCart(lines: [AddCartLineRequest], customerAccessToken: String) async throws -> CartDataModel {
         let mutation = try CreateCartMutation(
-            input: CartInput(lines: .some(lines.map { try $0.toGraphQLInput() }))
+            input: CartInput(
+                lines: .some(lines.map { try $0.toGraphQLInput() }),
+                buyerIdentity: .some(
+                    CartBuyerIdentityInput(
+                        customerAccessToken: .some(customerAccessToken)
+                    )
+                )
+            )
         )
         let data = try await ShopifyGraphQLClient.shared.perform(mutation)
 

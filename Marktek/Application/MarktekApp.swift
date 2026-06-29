@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ProductInfo
+import Cart
 
 @main
 struct MarktekApp: App {
@@ -14,7 +14,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ProductInfoViewFactory.makeProductInfoView(productID: "gid://shopify/Product/7471719088183")
+            CartViewFactory.makeCartView()
         }
     }
 }

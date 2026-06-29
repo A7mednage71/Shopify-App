@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0860648A2FF126690010B267 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 086064892FF126690010B267 /* Swinject */; };
-		0860648C2FF12E5C0010B267 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 0860648B2FF12E5C0010B267 /* ProductInfo */; };
 		086CE18C2FF0074F005DEA2D /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18B2FF0074F005DEA2D /* Apollo */; };
 		086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18D2FF0074F005DEA2D /* ApolloAPI */; };
 		086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18F2FF008E4005DEA2D /* MarktekNetworking */; };
+		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
 		2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CC2FEFFA380073F428 /* AppColors.swift */; };
 		2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */; };
 		2C74F8D22FEFFF460073F428 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D12FEFFF460073F428 /* Home */; };
@@ -71,10 +71,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */,
+				08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */,
 				0860648A2FF126690010B267 /* Swinject in Frameworks */,
 				086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */,
 				2C74F8D22FEFFF460073F428 /* Home in Frameworks */,
-				0860648C2FF12E5C0010B267 /* ProductInfo in Frameworks */,
 				086CE18C2FF0074F005DEA2D /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -735,10 +735,6 @@
 			package = 086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
 		};
-		0860648B2FF12E5C0010B267 /* ProductInfo */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProductInfo;
-		};
 		086CE18B2FF0074F005DEA2D /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */;
@@ -752,6 +748,10 @@
 		086CE18F2FF008E4005DEA2D /* MarktekNetworking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MarktekNetworking;
+		};
+		08EA15A92FF2B32E0056ECA5 /* Cart */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cart;
 		};
 		2C74F8D12FEFFF460073F428 /* Home */ = {
 			isa = XCSwiftPackageProductDependency;

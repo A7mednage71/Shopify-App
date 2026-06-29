@@ -1,5 +1,5 @@
 protocol CartRemoteDataSource: Sendable {
-    func createCart(lines: [AddCartLineRequest]) async throws -> CartDataModel
+    func createCart(lines: [AddCartLineRequest], customerAccessToken: String) async throws -> CartDataModel
     func getCart(cartID: String) async throws -> CartDataModel?
     func addLines(cartID: String, lines: [AddCartLineRequest]) async throws -> CartDataModel
     func updateLines(cartID: String, lines: [UpdateCartLineRequest]) async throws -> CartDataModel
