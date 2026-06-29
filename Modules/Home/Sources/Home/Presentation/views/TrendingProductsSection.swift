@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 // MARK: - Trending Products Section
 // Shopify API: products(first: 10, sortKey: BEST_SELLING)
@@ -12,56 +13,52 @@ struct TrendingProductsSection: View {
     var body: some View {
         VStack(spacing: 0) {
             
-            // Section Header — Orange bar
-            HStack {
-                HStack(spacing: 8) {
-                    Image(systemName: "flame.fill")
-                        .font(.system(size: 14))
-                        .foregroundColor(.textWhite)
-                    
-                    Text("Trending Products")
+            // Section Header — Unified orange banner card
+            HStack(alignment: .center) {
+                // Left: Title + Date
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(HomeStrings.Trending.sectionTitle)
                         .font(.sectionTitle)
-                        .foregroundColor(.textWhite)
+                        .foregroundColor(.appTextWhite)
+                    
+                    HStack(spacing: 5) {
+                        Image(systemName: "calendar")
+                            .font(.system(size: 12))
+                            .foregroundColor(.appTextWhite.opacity(0.85))
+                        Text(HomeStrings.Trending.lastDate)
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundColor(.appTextWhite.opacity(0.85))
+                    }
                 }
                 
                 Spacer()
                 
+                // Right: View All button
                 Button(action: { onViewAll?() }) {
-                    HStack(spacing: 4) {
-                        Text("View all")
+                    HStack(spacing: 5) {
+                        Text(HomeStrings.Trending.viewAll)
                             .font(.buttonSmall)
-                            .foregroundColor(.textWhite)
-                        Image(systemName: "arrow.right")
-                            .font(.system(size: 11))
-                            .foregroundColor(.textWhite)
+                            .foregroundColor(.appTextWhite)
+                        Text("→")
+                            .font(.sectionAction)
+                            .foregroundColor(.appTextWhite)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(Color.textWhite, lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.appTextWhite, lineWidth: 1.5)
                     )
                 }
+                .buttonStyle(.plain)
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(Color.primaryOrange)
-            
-            // Last Date Label
-            HStack(spacing: 6) {
-                Image(systemName: "calendar")
-                    .font(.system(size: 11))
-                    .foregroundColor(.textTertiary)
-                Text("Last Date 29/02/22")
-                    .font(.system(size: 11))
-                    .foregroundColor(.textTertiary)
-                Spacer()
-            }
+            .padding(.vertical, 14)
+            .background(Color.appPrimaryOrange)
+            .cornerRadius(14)
             .padding(.horizontal, 16)
-            .padding(.vertical, 6)
-            .background(Color.primaryOrange.opacity(0.08))
             
-            // Horizontal Product Grid (3 per row, scrollable)
+            // Horizontal Product Grid
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(products) { product in
@@ -78,41 +75,47 @@ struct TrendingProductsSection: View {
     }
 }
 
+
 // MARK: - Trending Product Card (compact square)
 struct TrendingProductCard: View {
     let product: ShopifyProduct
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 0) {
             
-            // Image
+            // Image — full width, no side padding
             AsyncImage(url: URL(string: product.featuredImageURL)) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
-                    .fill(Color.backgroundGray)
+                    .fill(Color.appBackgroundGray)
             }
-            .frame(width: 120, height: 120)
+            .frame(width: 140, height: 130)
             .clipped()
-            .cornerRadius(10)
             
-            // Product Name
-            Text(product.title)
-                .font(.productName)
-                .foregroundColor(.textPrimary)
-                .lineLimit(1)
-                .frame(width: 120, alignment: .leading)
-            
-            // Price
-            Text(product.formattedPrice)
-                .font(.productPrice)
-                .foregroundColor(.textPrimary)
+            // Text block
+            VStack(alignment: .leading, spacing: 4) {
+                Text(product.title)
+                    .font(.productName)
+                    .foregroundColor(.appTextPrimary)
+                    .lineLimit(1)
+                
+                Text(product.formattedPrice)
+                    .font(.productPrice)
+                    .foregroundColor(.appPrimaryOrange)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
         }
-        .frame(width: 120)
+        .frame(width: 140)
+        .background(Color.appBackgroundWhite)
+        .cornerRadius(12)
+        .shadow(color: Color.appCardShadow, radius: 6, x: 0, y: 2)
     }
 }
+
 
 // MARK: - Preview
 #Preview {

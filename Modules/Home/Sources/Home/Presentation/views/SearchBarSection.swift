@@ -1,7 +1,5 @@
 import SwiftUI
-
-// MARK: - Search Bar Section
-// Shopify: Links to Storefront Search API → /search?q={query}
+import Common
 
 struct SearchBarSection: View {
     @Binding var searchText: String
@@ -10,31 +8,31 @@ struct SearchBarSection: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(.searchIcon)
+                .foregroundColor(.appSearchIcon)
                 .font(.system(size: 16))
             
-            TextField("Search any Product...", text: $searchText)
+            TextField(HomeStrings.Search.placeholder, text: $searchText)
                 .font(.searchPlaceholder)
-                .foregroundColor(.textPrimary)
+                .foregroundColor(.appTextPrimary)
             
             Spacer()
             
             Button(action: { onVoiceSearch?() }) {
                 Image(systemName: "mic.fill")
-                    .foregroundColor(.searchIcon)
+                    .foregroundColor(.appSearchIcon)
                     .font(.system(size: 16))
             }
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 11)
-        .background(Color.searchBackground)
+        .background(Color.appBackgroundWhite)
         .cornerRadius(10)
         .padding(.horizontal, 16)
     }
 }
 
-// MARK: - Preview
 #Preview {
     SearchBarSection(searchText: .constant(""))
         .padding(.vertical)
+        .background(Color.appSearchBarBg)
 }

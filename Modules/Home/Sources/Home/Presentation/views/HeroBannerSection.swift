@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 // MARK: - Hero Banner / Carousel Section
 // Shopify API: Requires metafields OR Theme Customizer blocks
@@ -9,7 +10,6 @@ struct HeroBannerSection: View {
     let banners: [HeroBanner]
     @State private var currentIndex: Int = 0
     
-    // Auto-scroll timer
     private let timer = Timer.publish(every: 3.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -35,7 +35,7 @@ struct HeroBannerSection: View {
             HStack(spacing: 6) {
                 ForEach(0..<banners.count, id: \.self) { index in
                     Circle()
-                        .fill(index == currentIndex ? Color.primaryPink : Color.borderMedium)
+                        .fill(index == currentIndex ? Color.appPrimaryOrange : Color.appBorderMedium)
                         .frame(width: index == currentIndex ? 10 : 6,
                                height: index == currentIndex ? 10 : 6)
                         .animation(.easeInOut(duration: 0.2), value: currentIndex)
@@ -54,9 +54,9 @@ struct BannerCard: View {
             
             // Gradient Background
             LinearGradient(
-                colors: [Color.heroBannerStart, Color.heroBannerEnd],
-                startPoint: .leading,
-                endPoint: .trailing
+                colors: banner.gradientColors,
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
             .cornerRadius(16)
             
@@ -67,12 +67,12 @@ struct BannerCard: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(banner.title)
                         .font(.heroTitle)
-                        .foregroundColor(.textWhite)
+                        .foregroundColor(.appTextWhite)
                         .lineLimit(2)
                     
                     Text(banner.subtitle)
                         .font(.heroSubtitle)
-                        .foregroundColor(.textWhite.opacity(0.9))
+                        .foregroundColor(.appTextWhite.opacity(0.9))
                         .lineLimit(3)
                     
                     // CTA Button
@@ -80,16 +80,16 @@ struct BannerCard: View {
                         HStack(spacing: 6) {
                             Text(banner.ctaText)
                                 .font(.buttonPrimary)
-                                .foregroundColor(.textWhite)
+                                .foregroundColor(.appTextWhite)
                             Image(systemName: "arrow.right")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(.textWhite)
+                                .font(.dealButtonIcon)
+                                .foregroundColor(.appTextWhite)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.textWhite, lineWidth: 1.5)
+                                .stroke(Color.appTextWhite, lineWidth: 1.5)
                         )
                     }
                     .padding(.top, 4)
@@ -103,11 +103,12 @@ struct BannerCard: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                 } placeholder: {
-                    Color.white.opacity(0.2)
+                    Color.appWhiteOverlayLight
                 }
                 .frame(width: 130, height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
                 .clipped()
-                .padding(.trailing, 0)
+                .padding(.trailing, 10)
             }
         }
         .frame(height: 170)

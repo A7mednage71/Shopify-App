@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // MARK: - Shopify API Models
 // These map directly to Shopify Storefront API GraphQL responses
@@ -66,6 +67,7 @@ struct HeroBanner: Identifiable {
     let ctaText: String             // "Shop Now"
     let ctaHandle: String           // collection or product handle
     let imageURL: String
+    let gradientColors: [Color]     // per-banner gradient
 }
 
 // MARK: - Mock Data (replace with real Shopify API calls)
@@ -86,7 +88,8 @@ struct MockShopifyData {
             subtitle: "Now in all products\nAll colours",
             ctaText: "Shop Now",
             ctaHandle: "sale",
-            imageURL: "https://picsum.photos/seed/banner1/400/200"
+            imageURL: "https://picsum.photos/seed/banner1/400/200",
+            gradientColors: [Color(red: 1.0, green: 0.45, blue: 0.0), Color(red: 1.0, green: 0.65, blue: 0.1)]
         ),
         HeroBanner(
             id: "2",
@@ -94,7 +97,17 @@ struct MockShopifyData {
             subtitle: "Fresh styles just landed",
             ctaText: "Explore",
             ctaHandle: "new-arrivals",
-            imageURL: "https://picsum.photos/seed/banner2/400/200"
+            imageURL: "https://picsum.photos/seed/banner2/400/200",
+            gradientColors: [Color(red: 0.05, green: 0.35, blue: 0.50), Color(red: 0.1, green: 0.55, blue: 0.65)]
+        ),
+        HeroBanner(
+            id: "3",
+            title: "Top Brands",
+            subtitle: "Exclusive deals on premium brands",
+            ctaText: "Discover",
+            ctaHandle: "brands",
+            imageURL: "https://picsum.photos/seed/banner3/400/200",
+            gradientColors: [Color(red: 0.30, green: 0.15, blue: 0.65), Color(red: 0.55, green: 0.25, blue: 0.85)]
         )
     ]
     

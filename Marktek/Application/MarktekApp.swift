@@ -14,7 +14,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeScreenView()
+            HomeView()
         }
     }
 }
