@@ -117,6 +117,3 @@ public struct SwiftUIView: View {
         }
     }
 }
-
-
-
