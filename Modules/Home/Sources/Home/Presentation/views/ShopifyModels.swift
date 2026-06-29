@@ -160,4 +160,14 @@ struct MockShopifyData {
         ShopifyProduct(id: "5", title: "White Sneakers", description: "", handle: "sneakers", featuredImageURL: "https://picsum.photos/seed/sneak/300/300", price: 1299, compareAtPrice: 1999, currencyCode: "INR", rating: 4.3, reviewCount: 8900),
         ShopifyProduct(id: "6", title: "Summer Dress", description: "", handle: "dress", featuredImageURL: "https://picsum.photos/seed/dress/300/300", price: 2199, compareAtPrice: 3499, currencyCode: "INR", rating: 4.6, reviewCount: 5600),
     ]
+
+    // All products merged — used for search (replace with real API)
+    static let allProducts: [ShopifyProduct] = featuredProducts + trendingProducts + [
+        ShopifyProduct(id: "7",  title: "Black Winter Jacket",        description: "Autumn And Winter Casual cotton-padded jacket",   handle: "jacket",   featuredImageURL: "https://picsum.photos/seed/jacket/300/300",   price: 499,  compareAtPrice: nil,  currencyCode: "INR", rating: 4.0, reviewCount: 6890),
+        ShopifyProduct(id: "8",  title: "Mens Starry Shirt",          description: "Mens Starry Sky Printed Shirt 100% Cotton Fabric", handle: "shirt",    featuredImageURL: "https://picsum.photos/seed/shirt/300/300",    price: 399,  compareAtPrice: nil,  currencyCode: "INR", rating: 3.5, reviewCount: 152344),
+        ShopifyProduct(id: "9",  title: "Black Dress",                description: "Solid Black Dress for Women, Sexy Chain Shorts",   handle: "bdress",   featuredImageURL: "https://picsum.photos/seed/bdress/300/300",   price: 2000, compareAtPrice: nil,  currencyCode: "INR", rating: 4.2, reviewCount: 523456),
+        ShopifyProduct(id: "10", title: "Pink Embroidered Dress",     description: "EARTHEN Rose Pink Embroidered Tiered Maxi",        handle: "pdress",   featuredImageURL: "https://picsum.photos/seed/pdress/300/300",   price: 1900, compareAtPrice: nil,  currencyCode: "INR", rating: 4.4, reviewCount: 45678),
+        ShopifyProduct(id: "11", title: "Blue Denim Jacket",          description: "Classic denim jacket with faded wash finish",      handle: "denim",    featuredImageURL: "https://picsum.photos/seed/denim/300/300",    price: 1599, compareAtPrice: 2400, currencyCode: "INR", rating: 4.1, reviewCount: 3200),
+        ShopifyProduct(id: "12", title: "Gold Hoop Earrings",         description: "18K gold plated lightweight hoop earrings",        handle: "earrings", featuredImageURL: "https://picsum.photos/seed/earrings/300/300", price: 299,  compareAtPrice: nil,  currencyCode: "INR", rating: 4.7, reviewCount: 9800),
+    ]
 }
