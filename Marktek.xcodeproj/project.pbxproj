@@ -25,6 +25,8 @@
 		616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E32FF1A35200F29AA5 /* GoogleSignInSwift */; };
 		617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C62FF01B7C001CC25D /* FirebaseAuth */; };
 		617276C92FF023F9001CC25D /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C82FF023F9001CC25D /* Authentication */; };
+		CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D80092FF335C50090C2CF /* Apollo */; };
+		CA7D800C2FF335C50090C2CF /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D800B2FF335C50090C2CF /* ApolloAPI */; };
 		CADF40DE2FF32C610017E813 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CADF40DD2FF32C610017E813 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -72,9 +74,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */,
+				CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */,
 				2C74F8D22FEFFF460073F428 /* Home in Frameworks */,
 				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
 				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
+				CA7D800C2FF335C50090C2CF /* ApolloAPI in Frameworks */,
 				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,6 +257,8 @@
 				617276C82FF023F9001CC25D /* Authentication */,
 				616851E12FF1A35200F29AA5 /* GoogleSignIn */,
 				616851E32FF1A35200F29AA5 /* GoogleSignInSwift */,
+				CA7D80092FF335C50090C2CF /* Apollo */,
+				CA7D800B2FF335C50090C2CF /* ApolloAPI */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -329,6 +335,7 @@
 			packageReferences = (
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				CA7D80082FF335C50090C2CF /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -719,6 +726,14 @@
 				minimumVersion = 10.28.0;
 			};
 		};
+		CA7D80082FF335C50090C2CF /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -744,6 +759,16 @@
 		617276C82FF023F9001CC25D /* Authentication */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Authentication;
+		};
+		CA7D80092FF335C50090C2CF /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA7D80082FF335C50090C2CF /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		CA7D800B2FF335C50090C2CF /* ApolloAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA7D80082FF335C50090C2CF /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = ApolloAPI;
 		};
 /* End XCSwiftPackageProductDependency section */
 
