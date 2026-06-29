@@ -10,9 +10,16 @@ import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
 class FirebaseAuthenitcation : AuthenticationService{
-    func createUserWithEmailAndPassword() throws {
-        
-    }
+    @available(iOS 13.0.0, *)
+    func createUserWithEmailAndPassword(email: String, password: String) async throws {
+            do {
+                let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
+                print("User Registered Successfully: \(authResult.user.email ?? "No Email")")
+            } catch {
+                print("Error creating user: \(error.localizedDescription)")
+                throw error
+            }
+        }
     
     @available(iOS 13.0.0, *)
     func signInUsingGoogle() async throws {
