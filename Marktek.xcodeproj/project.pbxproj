@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0860648A2FF126690010B267 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 086064892FF126690010B267 /* Swinject */; };
 		0860648C2FF12E5C0010B267 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 0860648B2FF12E5C0010B267 /* ProductInfo */; };
+		0860648E2FF12F8A0010B267 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 0860648D2FF12F8A0010B267 /* Onboarding */; };
 		086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18D2FF0074F005DEA2D /* ApolloAPI */; };
 		086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18F2FF008E4005DEA2D /* MarktekNetworking */; };
 		08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D800B2FF335C50090C2CF /* ApolloAPI */; };
@@ -81,6 +82,7 @@
 				0860648A2FF126690010B267 /* Swinject in Frameworks */,
 				086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */,
 				2C74F8D22FEFFF460073F428 /* Home in Frameworks */,
+				0860648E2FF12F8A0010B267 /* Onboarding in Frameworks */,
 				0860648C2FF12E5C0010B267 /* ProductInfo in Frameworks */,
 				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
 				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
@@ -764,6 +766,10 @@
 		0860648B2FF12E5C0010B267 /* ProductInfo */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProductInfo;
+		};
+		0860648D2FF12F8A0010B267 /* Onboarding */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Onboarding;
 		};
 		086CE18D2FF0074F005DEA2D /* ApolloAPI */ = {
 			isa = XCSwiftPackageProductDependency;
