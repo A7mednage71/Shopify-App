@@ -4,7 +4,7 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
     func createCart(lines: [AddCartLineRequest], customerAccessToken: String) async throws -> CartDataModel {
         let mutation = try CreateCartMutation(
             input: CartInput(
-                lines: .some(lines.map { try $0.toGraphQLInput() }),
+                lines: lines.isEmpty ? nil : .some(lines.map { try $0.toGraphQLInput() }),
                 buyerIdentity: .some(
                     CartBuyerIdentityInput(
                         customerAccessToken: .some(customerAccessToken)

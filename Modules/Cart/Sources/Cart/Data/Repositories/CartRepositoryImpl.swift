@@ -24,21 +24,21 @@ struct CartRepositoryImpl: CartRepository, Sendable {
     }
 
     func getCurrentCart() async throws -> CartDetails {
-        let cartID: String
-
-        if let savedCartID = cartManager.cartID {
-            cartID = savedCartID
-        } else {
-            cartID = localDataSource.testCartID
-            cartManager.save(cartID: cartID)
+        guard let cartID = cartManager.cartID else {
+            return try await createCart(lines: [])
         }
 
-        guard let cart = try await remoteDataSource.getCart(cartID: cartID)?.toDomain() else {
+        do {
+            guard let cart = try await remoteDataSource.getCart(cartID: cartID)?.toDomain() else {
+                cartManager.clearCartID()
+                return try await createCart(lines: [])
+            }
+
+            return cart
+        } catch where error.isRecoverableStaleCartError {
             cartManager.clearCartID()
-            return .empty
+            return try await createCart(lines: [])
         }
-
-        return cart
     }
 
     func addLines(lines: [AddCartLineRequest]) async throws -> CartDetails {
