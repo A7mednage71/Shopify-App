@@ -27,9 +27,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SwiftUIView().onOpenURL{
-                url in GIDSignIn.sharedInstance.handle(url)
-            }
+            HomeView()
         }
     }
 }
