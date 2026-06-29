@@ -1,0 +1,47 @@
+{
+  "schemaNamespace" : "ShopifyAPI",
+  "input" : {
+    "operationSearchPaths" : [
+      "**/*.graphql"
+    ],
+    "schemaSearchPaths" : [
+      "**/*.graphqls"
+    ]
+  },
+  "output" : {
+    "testMocks" : {
+      "none" : {
+      }
+    },
+    "schemaTypes" : {
+      "path" : "./ShopifyAPI",
+      "moduleType" : {
+        "swiftPackageManager" : {
+        }
+      }
+    },
+    "operations" : {
+      "inSchemaModule" : {
+      }
+    }
+  },
+  "schemaDownloadConfiguration": {
+    "downloadMethod": {
+      "introspection": {
+      "endpointURL": "https://mad46-ios-team3.myshopify.com/api/2024-01/graphql.json",
+      "httpMethod": {
+             "POST": {}
+          },
+       "outputFormat": "SDL",
+        "includeDeprecatedInputValues": false,
+       "headers": [
+           {
+              "key": "X-Shopify-Storefront-Access-Token",
+              "value": "2f30f34e02314069529b0ac05e730270"
+         }
+      ]
+   } },
+    "downloadTimeout": 60,
+    "outputPath": "./shopify-schema.graphqls"
+ }
+}    

@@ -6,6 +6,6 @@
 //
 
 import Foundation
-protocol AuthenticationService {
+protocol AuthService {
     
 }
