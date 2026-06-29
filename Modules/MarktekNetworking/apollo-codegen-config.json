@@ -1,0 +1,21 @@
+{
+  "schemaNamespace": "ShopifyAPI",
+  "input": {
+    "schemaSearchPaths": ["schema.graphqls"],
+    "operationSearchPaths": ["GraphQL/**/*.graphql"]
+  },
+  "output": {
+    "schemaTypes": {
+      "path": "./Sources/ShopifyAPI",
+      "moduleType": {
+        "other": {}
+      }
+    },
+    "operations": {
+      "inSchemaModule": {}
+    },
+    "testMocks": {
+      "none": {}
+    }
+  }
+}

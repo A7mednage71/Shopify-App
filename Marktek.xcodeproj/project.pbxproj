@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0860648A2FF126690010B267 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 086064892FF126690010B267 /* Swinject */; };
+		0860648C2FF12E5C0010B267 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 0860648B2FF12E5C0010B267 /* ProductInfo */; };
+		086CE18C2FF0074F005DEA2D /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18B2FF0074F005DEA2D /* Apollo */; };
+		086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18D2FF0074F005DEA2D /* ApolloAPI */; };
+		086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18F2FF008E4005DEA2D /* MarktekNetworking */; };
 		2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CC2FEFFA380073F428 /* AppColors.swift */; };
 		2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */; };
 		2C74F8D22FEFFF460073F428 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D12FEFFF460073F428 /* Home */; };
@@ -48,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Secrets.xcconfig; sourceTree = "<group>"; };
 		2C74F8CC2FEFFA380073F428 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,10 +81,13 @@
 			files = (
 				616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */,
 				CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */,
+				086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */,
+				0860648A2FF126690010B267 /* Swinject in Frameworks */,
+				086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */,
 				2C74F8D22FEFFF460073F428 /* Home in Frameworks */,
+				0860648C2FF12E5C0010B267 /* ProductInfo in Frameworks */,
 				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
 				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
-				CA7D800C2FF335C50090C2CF /* ApolloAPI in Frameworks */,
 				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +189,7 @@
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
+				086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
 				616653AE2FEFCEA200C605D3 /* MarktekUITests */,
@@ -333,9 +343,10 @@
 			);
 			mainGroup = 616653832FEFCE9F00C605D3;
 			packageReferences = (
+				086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */,
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				CA7D80082FF335C50090C2CF /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -540,20 +551,27 @@
 		};
 		616653B62FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Marktek/Preview Content\"";
+				DEVELOPMENT_TEAM = 9XB3Q87QK8;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Marktek/Info.plist;
+				INFOPLIST_KEY_SHOPIFY_API_VERSION = "$(SHOPIFY_API_VERSION)";
+				INFOPLIST_KEY_SHOPIFY_HOST = "$(SHOPIFY_HOST)";
+				INFOPLIST_KEY_SHOPIFY_STOREFRONT_ACCESS_TOKEN = "$(SHOPIFY_STOREFRONT_ACCESS_TOKEN)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -561,6 +579,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ITI.Marktek;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -569,20 +588,27 @@
 		};
 		616653B72FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Marktek/Preview Content\"";
+				DEVELOPMENT_TEAM = 9XB3Q87QK8;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Marktek/Info.plist;
+				INFOPLIST_KEY_SHOPIFY_API_VERSION = "$(SHOPIFY_API_VERSION)";
+				INFOPLIST_KEY_SHOPIFY_HOST = "$(SHOPIFY_HOST)";
+				INFOPLIST_KEY_SHOPIFY_STOREFRONT_ACCESS_TOKEN = "$(SHOPIFY_STOREFRONT_ACCESS_TOKEN)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -590,6 +616,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ITI.Marktek;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -710,6 +737,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+		086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
 		616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -726,17 +769,32 @@
 				minimumVersion = 10.28.0;
 			};
 		};
-		CA7D80082FF335C50090C2CF /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
-			requirement = {
-				kind = exactVersion;
-				version = 1.5.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		086064892FF126690010B267 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		0860648B2FF12E5C0010B267 /* ProductInfo */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductInfo;
+		};
+		086CE18B2FF0074F005DEA2D /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		086CE18D2FF0074F005DEA2D /* ApolloAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = ApolloAPI;
+		};
+		086CE18F2FF008E4005DEA2D /* MarktekNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MarktekNetworking;
+		};
 		2C74F8D12FEFFF460073F428 /* Home */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Home;

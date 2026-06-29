@@ -1,5 +1,24 @@
 {
+  "originHash" : "f11ae0274cce99fa513c9930c7fd2d6a653205ca8a08b2d7528d920e9ca33350",
   "pins" : [
+    {
+      "identity" : "apollo-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apollographql/apollo-ios",
+      "state" : {
+        "revision" : "5a8d18cc239dd3c4b31c9e13e671dbcef5e4072a",
+        "version" : "2.2.0"
+      }
+    },
+    {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/Swinject.git",
+      "state" : {
+        "revision" : "b685b549fe4d8ae265fc7a2f27d0789720425d69",
+        "version" : "2.10.0"
+      }
+    },
     {
       "identity" : "abseil-cpp-binary",
       "kind" : "remoteSourceControl",
@@ -7,15 +26,6 @@
       "state" : {
         "revision" : "194a6706acbd25e4ef639bcaddea16e8758a3e27",
         "version" : "1.2024011602.0"
-      }
-    },
-    {
-      "identity" : "apollo-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apollographql/apollo-ios.git",
-      "state" : {
-        "revision" : "07739642383de02e1ca225207f8f64acc328b610",
-        "version" : "1.5.0"
       }
     },
     {
@@ -190,5 +200,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
