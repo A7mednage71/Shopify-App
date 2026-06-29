@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ProductInfo
+import Onboarding
 
 @main
 struct MarktekApp: App {
@@ -14,9 +14,8 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ProductInfoViewFactory.makeProductInfoView(productID: "gid://shopify/Product/7471719088183")
+            OnboardingViewFactory.makeOnboardingView(onFinish: {})
         }
     }
 }
-
 
