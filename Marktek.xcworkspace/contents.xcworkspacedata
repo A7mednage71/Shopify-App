@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Modules/Common">
+   </FileRef>
+   <FileRef
       location = "group:Modules/ProductInfo">
    </FileRef>
    <FileRef
@@ -9,9 +12,6 @@
    </FileRef>
    <FileRef
       location = "group:Modules/Authentication">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Common">
    </FileRef>
    <FileRef
       location = "group:Modules/Home">
