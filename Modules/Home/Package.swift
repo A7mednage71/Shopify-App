@@ -13,7 +13,8 @@ let package = Package(
             targets: ["Home"]),
     ],
     dependencies: [
-        .package(name: "Common", path: "../Common")
+        .package(path: "../MarktekNetworking"),
+        .package(path: "../Common")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -21,8 +22,9 @@ let package = Package(
         .target(
             name: "Home",
             dependencies: [
+                .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                 .product(name: "Common", package: "Common")
-            ],
+            ]
         ),
         
         .testTarget(

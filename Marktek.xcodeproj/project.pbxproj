@@ -13,10 +13,7 @@
 		086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18F2FF008E4005DEA2D /* MarktekNetworking */; };
 		08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D800B2FF335C50090C2CF /* ApolloAPI */; };
 		08B93C902FF3246100AAA4F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */; };
-		2C74F8CD2FEFFA380073F428 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CC2FEFFA380073F428 /* AppColors.swift */; };
-		2C74F8CF2FEFFABD0073F428 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */; };
 		2C74F8D22FEFFF460073F428 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D12FEFFF460073F428 /* Home */; };
-		2C74F8D42FF01F000073F428 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D32FF01F000073F428 /* Common */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
 		2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */; };
 		2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */; };
@@ -55,8 +52,6 @@
 /* Begin PBXFileReference section */
 		086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Secrets.xcconfig; sourceTree = "<group>"; };
 		08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		2C74F8CC2FEFFA380073F428 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
-		2C74F8CE2FEFFABD0073F428 /* AppFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		2C90D3A32FEFF24300FADB94 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -90,7 +85,6 @@
 				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
 				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
 				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
-				2C74F8D42FF01F000073F428 /* Common in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,10 +804,6 @@
 		CA7D800B2FF335C50090C2CF /* ApolloAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ApolloAPI;
-		};
-		2C74F8D32FF01F000073F428 /* Common */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Common;
 		};
 /* End XCSwiftPackageProductDependency section */
 
