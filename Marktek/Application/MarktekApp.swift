@@ -8,6 +8,7 @@
 import FirebaseCore
 import GoogleSignIn
 import Home
+import Persistence
 import SwiftUI
 
 @available(iOS 14.0, *)
@@ -17,15 +18,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
     }
-    
+
 }
 @main
 struct MarktekApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+    private let persistenceController = PersistenceController.shared
+
     var body: some Scene {
         WindowGroup {
             HomeView()
         }
     }
 }
+
