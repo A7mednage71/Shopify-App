@@ -6,13 +6,14 @@ struct ProductInfoPurchaseBar: View {
     let quantity: Int
     let isSelectedVariantAvailable: Bool
     let addToCartState: ProductInfoAddToCartState
+    let onAddButtonFrameChange: (CGRect) -> Void
     let onAddToCart: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 14) {
                 VStack(alignment: .leading, spacing: 3) {
-                    Text("Total")
+                    Text(ProductInfoText.totalTitle)
                         .font(.system(size: 12, weight: .bold, design: .rounded))
                         .foregroundColor(ProductPalette.textTertiary)
                         .lineLimit(1)
@@ -26,18 +27,21 @@ struct ProductInfoPurchaseBar: View {
                 .frame(width: 108, alignment: .leading)
 
                 Button(action: onAddToCart) {
-                    buttonContent
+                    ProductInfoAddToCartButtonContent(isAddingToCart: isAddingToCart)
                         .font(.system(size: 17, weight: .bold, design: .rounded))
                         .frame(maxWidth: .infinity)
                         .frame(height: 58)
-                        .foregroundColor(.white)
+                        .foregroundColor(ProductPalette.textWhite)
                         .background(buttonBackgroundColor)
                         .clipShape(Capsule())
                 }
                 .disabled(!isSelectedVariantAvailable || isAddingToCart)
                 .buttonStyle(.plain)
-                .accessibilityLabel("Add \(productTitle) to cart")
+                .accessibilityLabel(ProductInfoText.addToCartAccessibilityLabel(productTitle: productTitle))
                 .layoutPriority(1)
+                .background(
+                    ProductInfoFrameReader(onChange: onAddButtonFrameChange)
+                )
             }
 
             if let message = statusMessage {
@@ -55,21 +59,6 @@ struct ProductInfoPurchaseBar: View {
         .padding(.bottom, 16)
         .background(ProductPalette.cardBackground)
         .shadow(color: ProductPalette.shadow, radius: 18, x: 0, y: -8)
-    }
-
-    @ViewBuilder
-    private var buttonContent: some View {
-        if isAddingToCart {
-            HStack(spacing: 8) {
-                ProgressView()
-                    .controlSize(.small)
-                    .tint(.white)
-
-                Text("Adding...")
-            }
-        } else {
-            Label("Add to Cart", systemImage: "bag")
-        }
     }
 
     private var isAddingToCart: Bool {
@@ -90,7 +79,7 @@ struct ProductInfoPurchaseBar: View {
             return nil
 
         case .success:
-            return ("Added to cart.", ProductPalette.success)
+            return nil
 
         case .failure(let message):
             return (message, ProductPalette.error)

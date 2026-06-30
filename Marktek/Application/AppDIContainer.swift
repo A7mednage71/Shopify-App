@@ -15,14 +15,18 @@ final class AppDIContainer {
 
     @MainActor
     func makeRootView() -> some View {
-        guard let viewFactory = assembler.resolver.resolve(ProductInfoViewFactory.self) else {
+        guard let productInfoViewFactory = assembler.resolver.resolve(ProductInfoViewFactory.self),
+              let cartViewFactory = assembler.resolver.resolve(CartViewFactory.self) else {
             return AnyView(Text("Unable to load cart."))
         }
-        return AnyView(viewFactory.makeProductInfoView(productID: "gid://shopify/Product/7471719088183", ))
-//        guard let viewFactory = assembler.resolver.resolve(CartViewFactory.self) else {
-//            return AnyView(Text("Unable to load cart."))
-//        }
-//
-//        return AnyView(viewFactory.makeCartView())
+
+        return AnyView(
+            productInfoViewFactory.makeProductInfoView(
+                productID: "gid://shopify/Product/7471719088183",
+                cartDestination: {
+                    AnyView(cartViewFactory.makeCartDestinationView())
+                }
+            )
+        )
     }
 }

@@ -17,6 +17,19 @@ public struct CartViewFactory {
 
     @MainActor
     public func makeCartView() -> some View {
+        NavigationView {
+            makeCartDetailsView()
+        }
+        .cartNavigationContainerStyle()
+    }
+
+    @MainActor
+    public func makeCartDestinationView() -> some View {
+        makeCartDetailsView()
+    }
+
+    @MainActor
+    private func makeCartDetailsView() -> some View {
         CartDetailsView(
             viewModel: CartViewModel(
                 getCurrentCartUseCase: getCurrentCartUseCase,

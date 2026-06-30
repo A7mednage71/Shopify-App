@@ -8,10 +8,14 @@ public struct ProductInfoViewFactory {
     }
 
     @MainActor
-    public func makeProductInfoView(productID: String) -> some View {
+    public func makeProductInfoView(
+        productID: String,
+        cartDestination: @escaping () -> AnyView
+    ) -> some View {
         ProductInfoView(
             productID: productID,
-            viewModel: viewModelFactory.makeViewModel()
+            viewModel: viewModelFactory.makeViewModel(),
+            cartDestination: cartDestination
         )
     }
 }

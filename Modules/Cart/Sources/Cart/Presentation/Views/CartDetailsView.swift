@@ -9,18 +9,15 @@ struct CartDetailsView: View {
     }
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                AppColors.background
-                    .ignoresSafeArea()
+        ZStack {
+            AppColors.background
+                .ignoresSafeArea()
 
-                content
-                    .transition(.opacity.combined(with: .scale(scale: 0.98)))
-            }
-            .navigationTitle(CartText.navigationTitle)
-            .cartNavigationTitleStyle()
+            content
+                .transition(.opacity.combined(with: .scale(scale: 0.98)))
         }
-        .cartNavigationContainerStyle()
+        .navigationTitle(CartText.navigationTitle)
+        .cartNavigationTitleStyle()
         .task {
             await viewModel.loadCart()
         }
