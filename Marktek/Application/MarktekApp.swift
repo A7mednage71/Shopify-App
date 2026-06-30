@@ -7,7 +7,7 @@
 
 import FirebaseCore
 import GoogleSignIn
-import Home
+import Cart
 import Persistence
 import SwiftUI
 
@@ -27,8 +27,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            CartViewFactory.makeCartView()
         }
     }
 }
-

@@ -22,6 +22,14 @@ enum CartAssembler {
         makeAssembler().resolver.resolve(UpdateCartLinesUseCaseProtocol.self)!
     }
 
+    static func resolveUpdateCartLineQuantityUseCase() -> any UpdateCartLineQuantityUseCaseProtocol {
+        makeAssembler().resolver.resolve(UpdateCartLineQuantityUseCaseProtocol.self)!
+    }
+
+    static func resolveRemoveCartLineUseCase() -> any RemoveCartLineUseCaseProtocol {
+        makeAssembler().resolver.resolve(RemoveCartLineUseCaseProtocol.self)!
+    }
+
     private static func makeAssembler() -> Assembler {
         Assembler([
             CartDataAssembly(),

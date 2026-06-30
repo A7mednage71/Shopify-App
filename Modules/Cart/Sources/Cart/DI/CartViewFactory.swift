@@ -6,8 +6,8 @@ public enum CartViewFactory {
         CartDetailsView(
             viewModel: CartViewModel(
                 getCurrentCartUseCase: CartAssembler.resolveGetCurrentCartUseCase(),
-                updateCartLinesUseCase: CartAssembler.resolveUpdateCartLinesUseCase(),
-                removeCartLinesUseCase: CartAssembler.resolveRemoveCartLinesUseCase()
+                updateCartLineQuantityUseCase: CartAssembler.resolveUpdateCartLineQuantityUseCase(),
+                removeCartLineUseCase: CartAssembler.resolveRemoveCartLineUseCase()
             )
         )
     }
