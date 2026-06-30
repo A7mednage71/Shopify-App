@@ -1,13 +1,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-@_spi(Internal) @_spi(Unsafe) import ApolloAPI
+import ApolloAPI
 
 /// The input fields for the cart's delivery properties.
-nonisolated public struct CartDeliveryInput: InputObject {
-  @_spi(Unsafe) public private(set) var __data: InputDict
+public struct CartDeliveryInput: InputObject {
+  public private(set) var __data: InputDict
 
-  @_spi(Unsafe) public init(_ data: InputDict) {
+  public init(_ data: InputDict) {
     __data = data
   }
 

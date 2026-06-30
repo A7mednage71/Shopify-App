@@ -1,16 +1,16 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-@_spi(Internal) @_spi(Unsafe) import ApolloAPI
+import ApolloAPI
 
 /// The input fields for a selectable delivery address to present to the buyer. Used by [`CartDeliveryInput`](https://shopify.dev/docs/api/storefront/current/input-objects/CartDeliveryInput) when creating a cart with the [`cartCreate`](https://shopify.dev/docs/api/storefront/current/mutations/cartCreate) mutation.
 ///
 /// You can pre-select an address for the buyer, mark it as one-time use so it isn't saved after checkout, and specify how strictly the address should be validated.
 ///
-nonisolated public struct CartSelectableAddressInput: InputObject {
-  @_spi(Unsafe) public private(set) var __data: InputDict
+public struct CartSelectableAddressInput: InputObject {
+  public private(set) var __data: InputDict
 
-  @_spi(Unsafe) public init(_ data: InputDict) {
+  public init(_ data: InputDict) {
     __data = data
   }
 
@@ -18,7 +18,7 @@ nonisolated public struct CartSelectableAddressInput: InputObject {
     address: CartAddressInput,
     selected: GraphQLNullable<Bool> = nil,
     oneTimeUse: GraphQLNullable<Bool> = nil,
-    validationStrategy: GraphQLNullable<GraphQLEnum<DeliveryAddressValidationStrategy>> = nil
+    validationStrategy: GraphQLNullable<GraphQLEnum<DeliveryAddressValidationStrategy>>
   ) {
     __data = InputDict([
       "address": address,

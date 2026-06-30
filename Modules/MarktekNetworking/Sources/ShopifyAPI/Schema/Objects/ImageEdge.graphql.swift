@@ -6,9 +6,8 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type which holds one Image and a cursor during pagination.
   ///
-  nonisolated static let ImageEdge = ApolloAPI.Object(
+  static let ImageEdge = ApolloAPI.Object(
     typename: "ImageEdge",
-    implementedInterfaces: [],
-    keyFields: nil
+    implementedInterfaces: []
   )
 }

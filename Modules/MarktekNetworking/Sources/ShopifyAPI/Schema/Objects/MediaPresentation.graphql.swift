@@ -5,9 +5,8 @@ import ApolloAPI
 
 public extension Objects {
   /// A media presentation.
-  nonisolated static let MediaPresentation = ApolloAPI.Object(
+  static let MediaPresentation = ApolloAPI.Object(
     typename: "MediaPresentation",
-    implementedInterfaces: [Interfaces.Node.self],
-    keyFields: nil
+    implementedInterfaces: [Interfaces.Node.self]
   )
 }

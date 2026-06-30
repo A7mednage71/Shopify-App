@@ -5,9 +5,8 @@ import ApolloAPI
 
 public extension Objects {
   /// An error that occurs during the execution of cart metafield deletion.
-  nonisolated static let MetafieldDeleteUserError = ApolloAPI.Object(
+  static let MetafieldDeleteUserError = ApolloAPI.Object(
     typename: "MetafieldDeleteUserError",
-    implementedInterfaces: [Interfaces.DisplayableError.self],
-    keyFields: nil
+    implementedInterfaces: [Interfaces.DisplayableError.self]
   )
 }

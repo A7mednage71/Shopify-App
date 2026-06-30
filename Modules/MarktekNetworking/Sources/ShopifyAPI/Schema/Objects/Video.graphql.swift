@@ -8,12 +8,11 @@ public extension Objects {
   ///
   /// For videos hosted on external platforms like YouTube or Vimeo, use [`ExternalVideo`](https://shopify.dev/docs/api/storefront/current/objects/ExternalVideo) instead.
   ///
-  nonisolated static let Video = ApolloAPI.Object(
+  static let Video = ApolloAPI.Object(
     typename: "Video",
     implementedInterfaces: [
       Interfaces.Media.self,
       Interfaces.Node.self
-    ],
-    keyFields: nil
+    ]
   )
 }

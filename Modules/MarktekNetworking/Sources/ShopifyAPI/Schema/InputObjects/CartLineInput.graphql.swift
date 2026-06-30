@@ -1,22 +1,22 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-@_spi(Internal) @_spi(Unsafe) import ApolloAPI
+import ApolloAPI
 
 /// The input fields for adding a merchandise line to a cart. Each line represents a [`ProductVariant`](https://shopify.dev/docs/api/storefront/current/objects/ProductVariant) the buyer intends to purchase, along with the quantity and optional [`SellingPlan`](https://shopify.dev/docs/api/storefront/current/objects/SellingPlan) for subscriptions.
 ///
 /// Used by the [`cartCreate`](https://shopify.dev/docs/api/storefront/current/mutations/cartCreate) mutation when creating a cart with initial items, and the [`cartLinesAdd`](https://shopify.dev/docs/api/storefront/current/mutations/cartLinesAdd) mutation when adding items to an existing cart.
 ///
-nonisolated public struct CartLineInput: InputObject {
-  @_spi(Unsafe) public private(set) var __data: InputDict
+public struct CartLineInput: InputObject {
+  public private(set) var __data: InputDict
 
-  @_spi(Unsafe) public init(_ data: InputDict) {
+  public init(_ data: InputDict) {
     __data = data
   }
 
   public init(
     attributes: GraphQLNullable<[AttributeInput]> = nil,
-    quantity: GraphQLNullable<Int32> = nil,
+    quantity: GraphQLNullable<Int>,
     merchandiseId: ID,
     sellingPlanId: GraphQLNullable<ID> = nil
   ) {
@@ -37,7 +37,7 @@ nonisolated public struct CartLineInput: InputObject {
   }
 
   /// The quantity of the merchandise.
-  public var quantity: GraphQLNullable<Int32> {
+  public var quantity: GraphQLNullable<Int> {
     get { __data["quantity"] }
     set { __data["quantity"] = newValue }
   }
