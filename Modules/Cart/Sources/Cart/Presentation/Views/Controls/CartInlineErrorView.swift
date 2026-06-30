@@ -15,10 +15,10 @@ struct CartInlineErrorView: View {
 
             Spacer()
         }
-        .foregroundColor(AppColors.primaryDark)
+        .foregroundColor(AppColors.textWhite)
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(AppColors.primary.opacity(0.12))
+        .background(AppColors.primary)
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }

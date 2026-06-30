@@ -8,7 +8,7 @@ enum CartText {
     static let startShoppingButtonTitle = "Start Shopping"
 
     static let checkoutButtonTitle = "Proceed to Checkout"
-    static let orderSummaryTitle = "Order Summary"
+    static let orderSummaryTitle = "Cart Summary"
     static let itemsSummaryTitle = "Items"
     static let subtotalSummaryTitle = "Subtotal"
     static let totalSummaryTitle = "Total"
