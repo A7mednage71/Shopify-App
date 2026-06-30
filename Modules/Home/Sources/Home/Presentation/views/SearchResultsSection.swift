@@ -54,13 +54,3 @@ private struct SearchEmptyStateView: View {
         }
     }
 }
-
-#Preview {
-    ScrollView {
-        SearchResultsSection(
-            products: MockShopifyData.allProducts,
-        )
-        .padding(.vertical)
-    }
-    .background(Color.appBackgroundGray)
-}

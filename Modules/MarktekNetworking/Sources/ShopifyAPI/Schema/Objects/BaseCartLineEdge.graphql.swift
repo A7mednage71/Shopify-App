@@ -6,9 +6,8 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type which holds one BaseCartLine and a cursor during pagination.
   ///
-  nonisolated static let BaseCartLineEdge = ApolloAPI.Object(
+  static let BaseCartLineEdge = ApolloAPI.Object(
     typename: "BaseCartLineEdge",
-    implementedInterfaces: [],
-    keyFields: nil
+    implementedInterfaces: []
   )
 }

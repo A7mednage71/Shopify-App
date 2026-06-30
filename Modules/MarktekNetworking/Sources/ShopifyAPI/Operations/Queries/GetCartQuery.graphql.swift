@@ -2,9 +2,8 @@
 // This file was automatically generated and should not be edited.
 
 @_exported import ApolloAPI
-@_spi(Execution) @_spi(Unsafe) import ApolloAPI
 
-nonisolated public struct GetCartQuery: GraphQLQuery {
+public class GetCartQuery: GraphQLQuery {
   public static let operationName: String = "GetCart"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
@@ -17,18 +16,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
     self.cartId = cartId
   }
 
-  @_spi(Unsafe) public var __variables: Variables? { ["cartId": cartId] }
+  public var __variables: Variables? { ["cartId": cartId] }
 
-  nonisolated public struct Data: ShopifyAPI.SelectionSet {
-    @_spi(Unsafe) public let __data: DataDict
-    @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+  public struct Data: ShopifyAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
 
-    @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.QueryRoot }
-    @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+    public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.QueryRoot }
+    public static var __selections: [ApolloAPI.Selection] { [
       .field("cart", Cart?.self, arguments: ["id": .variable("cartId")]),
-    ] }
-    @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-      GetCartQuery.Data.self
     ] }
 
     /// Returns a [`Cart`](https://shopify.dev/docs/api/storefront/current/objects/Cart) by its ID. The cart contains the merchandise lines a buyer intends to purchase, along with estimated costs, applied discounts, gift cards, and delivery options.
@@ -40,12 +36,12 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
     /// Cart
     ///
     /// Parent Type: `Cart`
-    nonisolated public struct Cart: ShopifyAPI.SelectionSet {
-      @_spi(Unsafe) public let __data: DataDict
-      @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+    public struct Cart: ShopifyAPI.SelectionSet {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
 
-      @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.Cart }
-      @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+      public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Cart }
+      public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("id", ShopifyAPI.ID.self),
         .field("checkoutUrl", ShopifyAPI.URL.self),
@@ -53,9 +49,6 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
         .field("discountCodes", [DiscountCode].self),
         .field("cost", Cost.self),
         .field("lines", Lines.self, arguments: ["first": 20]),
-      ] }
-      @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-        GetCartQuery.Data.Cart.self
       ] }
 
       /// A globally-unique ID.
@@ -74,18 +67,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
       /// Cart.DiscountCode
       ///
       /// Parent Type: `CartDiscountCode`
-      nonisolated public struct DiscountCode: ShopifyAPI.SelectionSet {
-        @_spi(Unsafe) public let __data: DataDict
-        @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+      public struct DiscountCode: ShopifyAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
 
-        @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.CartDiscountCode }
-        @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.CartDiscountCode }
+        public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("code", String.self),
           .field("applicable", Bool.self),
-        ] }
-        @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          GetCartQuery.Data.Cart.DiscountCode.self
         ] }
 
         /// The code for the discount.
@@ -97,20 +87,17 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
       /// Cart.Cost
       ///
       /// Parent Type: `CartCost`
-      nonisolated public struct Cost: ShopifyAPI.SelectionSet {
-        @_spi(Unsafe) public let __data: DataDict
-        @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+      public struct Cost: ShopifyAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
 
-        @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.CartCost }
-        @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.CartCost }
+        public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("subtotalAmount", SubtotalAmount.self),
           .field("totalAmount", TotalAmount.self),
           .field("totalTaxAmount", TotalTaxAmount?.self),
           .field("checkoutChargeAmount", CheckoutChargeAmount.self),
-        ] }
-        @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          GetCartQuery.Data.Cart.Cost.self
         ] }
 
         /// The amount, before taxes and cart-level discounts, for the customer to pay.
@@ -126,18 +113,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
         /// Cart.Cost.SubtotalAmount
         ///
         /// Parent Type: `MoneyV2`
-        nonisolated public struct SubtotalAmount: ShopifyAPI.SelectionSet {
-          @_spi(Unsafe) public let __data: DataDict
-          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+        public struct SubtotalAmount: ShopifyAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
 
-          @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-          @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+          public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("amount", ShopifyAPI.Decimal.self),
             .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-          ] }
-          @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-            GetCartQuery.Data.Cart.Cost.SubtotalAmount.self
           ] }
 
           /// Decimal money amount.
@@ -149,18 +133,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
         /// Cart.Cost.TotalAmount
         ///
         /// Parent Type: `MoneyV2`
-        nonisolated public struct TotalAmount: ShopifyAPI.SelectionSet {
-          @_spi(Unsafe) public let __data: DataDict
-          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+        public struct TotalAmount: ShopifyAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
 
-          @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-          @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+          public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("amount", ShopifyAPI.Decimal.self),
             .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-          ] }
-          @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-            GetCartQuery.Data.Cart.Cost.TotalAmount.self
           ] }
 
           /// Decimal money amount.
@@ -172,18 +153,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
         /// Cart.Cost.TotalTaxAmount
         ///
         /// Parent Type: `MoneyV2`
-        nonisolated public struct TotalTaxAmount: ShopifyAPI.SelectionSet {
-          @_spi(Unsafe) public let __data: DataDict
-          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+        public struct TotalTaxAmount: ShopifyAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
 
-          @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-          @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+          public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("amount", ShopifyAPI.Decimal.self),
             .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-          ] }
-          @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-            GetCartQuery.Data.Cart.Cost.TotalTaxAmount.self
           ] }
 
           /// Decimal money amount.
@@ -195,18 +173,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
         /// Cart.Cost.CheckoutChargeAmount
         ///
         /// Parent Type: `MoneyV2`
-        nonisolated public struct CheckoutChargeAmount: ShopifyAPI.SelectionSet {
-          @_spi(Unsafe) public let __data: DataDict
-          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+        public struct CheckoutChargeAmount: ShopifyAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
 
-          @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-          @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+          public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("amount", ShopifyAPI.Decimal.self),
             .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-          ] }
-          @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-            GetCartQuery.Data.Cart.Cost.CheckoutChargeAmount.self
           ] }
 
           /// Decimal money amount.
@@ -219,17 +194,14 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
       /// Cart.Lines
       ///
       /// Parent Type: `BaseCartLineConnection`
-      nonisolated public struct Lines: ShopifyAPI.SelectionSet {
-        @_spi(Unsafe) public let __data: DataDict
-        @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+      public struct Lines: ShopifyAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
 
-        @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.BaseCartLineConnection }
-        @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.BaseCartLineConnection }
+        public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("edges", [Edge].self),
-        ] }
-        @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          GetCartQuery.Data.Cart.Lines.self
         ] }
 
         /// A list of edges.
@@ -238,17 +210,14 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
         /// Cart.Lines.Edge
         ///
         /// Parent Type: `BaseCartLineEdge`
-        nonisolated public struct Edge: ShopifyAPI.SelectionSet {
-          @_spi(Unsafe) public let __data: DataDict
-          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+        public struct Edge: ShopifyAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
 
-          @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.BaseCartLineEdge }
-          @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.BaseCartLineEdge }
+          public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("node", Node.self),
-          ] }
-          @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-            GetCartQuery.Data.Cart.Lines.Edge.self
           ] }
 
           /// The item at the end of BaseCartLineEdge.
@@ -257,20 +226,17 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
           /// Cart.Lines.Edge.Node
           ///
           /// Parent Type: `BaseCartLine`
-          nonisolated public struct Node: ShopifyAPI.SelectionSet {
-            @_spi(Unsafe) public let __data: DataDict
-            @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+          public struct Node: ShopifyAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
 
-            @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Interfaces.BaseCartLine }
-            @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Interfaces.BaseCartLine }
+            public static var __selections: [ApolloAPI.Selection] { [
               .field("__typename", String.self),
               .field("id", ShopifyAPI.ID.self),
               .field("quantity", Int.self),
               .field("cost", Cost.self),
               .field("merchandise", Merchandise.self),
-            ] }
-            @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-              GetCartQuery.Data.Cart.Lines.Edge.Node.self
             ] }
 
             /// A globally-unique ID.
@@ -285,19 +251,16 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
             /// Cart.Lines.Edge.Node.Cost
             ///
             /// Parent Type: `CartLineCost`
-            nonisolated public struct Cost: ShopifyAPI.SelectionSet {
-              @_spi(Unsafe) public let __data: DataDict
-              @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+            public struct Cost: ShopifyAPI.SelectionSet {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
 
-              @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.CartLineCost }
-              @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.CartLineCost }
+              public static var __selections: [ApolloAPI.Selection] { [
                 .field("__typename", String.self),
                 .field("totalAmount", TotalAmount.self),
                 .field("amountPerQuantity", AmountPerQuantity.self),
                 .field("compareAtAmountPerQuantity", CompareAtAmountPerQuantity?.self),
-              ] }
-              @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                GetCartQuery.Data.Cart.Lines.Edge.Node.Cost.self
               ] }
 
               /// The total cost of the merchandise line.
@@ -310,18 +273,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
               /// Cart.Lines.Edge.Node.Cost.TotalAmount
               ///
               /// Parent Type: `MoneyV2`
-              nonisolated public struct TotalAmount: ShopifyAPI.SelectionSet {
-                @_spi(Unsafe) public let __data: DataDict
-                @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+              public struct TotalAmount: ShopifyAPI.SelectionSet {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
 
-                @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-                @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                public static var __selections: [ApolloAPI.Selection] { [
                   .field("__typename", String.self),
                   .field("amount", ShopifyAPI.Decimal.self),
                   .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-                ] }
-                @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                  GetCartQuery.Data.Cart.Lines.Edge.Node.Cost.TotalAmount.self
                 ] }
 
                 /// Decimal money amount.
@@ -333,18 +293,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
               /// Cart.Lines.Edge.Node.Cost.AmountPerQuantity
               ///
               /// Parent Type: `MoneyV2`
-              nonisolated public struct AmountPerQuantity: ShopifyAPI.SelectionSet {
-                @_spi(Unsafe) public let __data: DataDict
-                @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+              public struct AmountPerQuantity: ShopifyAPI.SelectionSet {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
 
-                @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-                @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                public static var __selections: [ApolloAPI.Selection] { [
                   .field("__typename", String.self),
                   .field("amount", ShopifyAPI.Decimal.self),
                   .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-                ] }
-                @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                  GetCartQuery.Data.Cart.Lines.Edge.Node.Cost.AmountPerQuantity.self
                 ] }
 
                 /// Decimal money amount.
@@ -356,18 +313,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
               /// Cart.Lines.Edge.Node.Cost.CompareAtAmountPerQuantity
               ///
               /// Parent Type: `MoneyV2`
-              nonisolated public struct CompareAtAmountPerQuantity: ShopifyAPI.SelectionSet {
-                @_spi(Unsafe) public let __data: DataDict
-                @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+              public struct CompareAtAmountPerQuantity: ShopifyAPI.SelectionSet {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
 
-                @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-                @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                public static var __selections: [ApolloAPI.Selection] { [
                   .field("__typename", String.self),
                   .field("amount", ShopifyAPI.Decimal.self),
                   .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-                ] }
-                @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                  GetCartQuery.Data.Cart.Lines.Edge.Node.Cost.CompareAtAmountPerQuantity.self
                 ] }
 
                 /// Decimal money amount.
@@ -380,17 +334,14 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
             /// Cart.Lines.Edge.Node.Merchandise
             ///
             /// Parent Type: `Merchandise`
-            nonisolated public struct Merchandise: ShopifyAPI.SelectionSet {
-              @_spi(Unsafe) public let __data: DataDict
-              @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+            public struct Merchandise: ShopifyAPI.SelectionSet {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
 
-              @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Unions.Merchandise }
-              @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Unions.Merchandise }
+              public static var __selections: [ApolloAPI.Selection] { [
                 .field("__typename", String.self),
                 .inlineFragment(AsProductVariant.self),
-              ] }
-              @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.self
               ] }
 
               public var asProductVariant: AsProductVariant? { _asInlineFragment() }
@@ -398,13 +349,13 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
               /// Cart.Lines.Edge.Node.Merchandise.AsProductVariant
               ///
               /// Parent Type: `ProductVariant`
-              nonisolated public struct AsProductVariant: ShopifyAPI.InlineFragment {
-                @_spi(Unsafe) public let __data: DataDict
-                @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+              public struct AsProductVariant: ShopifyAPI.InlineFragment {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
 
                 public typealias RootEntityType = GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise
-                @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.ProductVariant }
-                @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductVariant }
+                public static var __selections: [ApolloAPI.Selection] { [
                   .field("id", ShopifyAPI.ID.self),
                   .field("title", String.self),
                   .field("price", Price.self),
@@ -414,10 +365,6 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
                   .field("selectedOptions", [SelectedOption].self),
                   .field("image", Image?.self),
                   .field("product", Product.self),
-                ] }
-                @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                  GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.self,
-                  GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.AsProductVariant.self
                 ] }
 
                 /// A globally-unique ID.
@@ -442,18 +389,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
                 /// Cart.Lines.Edge.Node.Merchandise.AsProductVariant.Price
                 ///
                 /// Parent Type: `MoneyV2`
-                nonisolated public struct Price: ShopifyAPI.SelectionSet {
-                  @_spi(Unsafe) public let __data: DataDict
-                  @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+                public struct Price: ShopifyAPI.SelectionSet {
+                  public let __data: DataDict
+                  public init(_dataDict: DataDict) { __data = _dataDict }
 
-                  @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-                  @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                  public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                  public static var __selections: [ApolloAPI.Selection] { [
                     .field("__typename", String.self),
                     .field("amount", ShopifyAPI.Decimal.self),
                     .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-                  ] }
-                  @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                    GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.AsProductVariant.Price.self
                   ] }
 
                   /// Decimal money amount.
@@ -465,18 +409,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
                 /// Cart.Lines.Edge.Node.Merchandise.AsProductVariant.CompareAtPrice
                 ///
                 /// Parent Type: `MoneyV2`
-                nonisolated public struct CompareAtPrice: ShopifyAPI.SelectionSet {
-                  @_spi(Unsafe) public let __data: DataDict
-                  @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+                public struct CompareAtPrice: ShopifyAPI.SelectionSet {
+                  public let __data: DataDict
+                  public init(_dataDict: DataDict) { __data = _dataDict }
 
-                  @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-                  @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                  public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                  public static var __selections: [ApolloAPI.Selection] { [
                     .field("__typename", String.self),
                     .field("amount", ShopifyAPI.Decimal.self),
                     .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-                  ] }
-                  @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                    GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.AsProductVariant.CompareAtPrice.self
                   ] }
 
                   /// Decimal money amount.
@@ -488,18 +429,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
                 /// Cart.Lines.Edge.Node.Merchandise.AsProductVariant.SelectedOption
                 ///
                 /// Parent Type: `SelectedOption`
-                nonisolated public struct SelectedOption: ShopifyAPI.SelectionSet {
-                  @_spi(Unsafe) public let __data: DataDict
-                  @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+                public struct SelectedOption: ShopifyAPI.SelectionSet {
+                  public let __data: DataDict
+                  public init(_dataDict: DataDict) { __data = _dataDict }
 
-                  @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.SelectedOption }
-                  @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                  public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.SelectedOption }
+                  public static var __selections: [ApolloAPI.Selection] { [
                     .field("__typename", String.self),
                     .field("name", String.self),
                     .field("value", String.self),
-                  ] }
-                  @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                    GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.AsProductVariant.SelectedOption.self
                   ] }
 
                   /// The product option’s name.
@@ -511,18 +449,15 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
                 /// Cart.Lines.Edge.Node.Merchandise.AsProductVariant.Image
                 ///
                 /// Parent Type: `Image`
-                nonisolated public struct Image: ShopifyAPI.SelectionSet {
-                  @_spi(Unsafe) public let __data: DataDict
-                  @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+                public struct Image: ShopifyAPI.SelectionSet {
+                  public let __data: DataDict
+                  public init(_dataDict: DataDict) { __data = _dataDict }
 
-                  @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.Image }
-                  @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                  public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Image }
+                  public static var __selections: [ApolloAPI.Selection] { [
                     .field("__typename", String.self),
                     .field("url", ShopifyAPI.URL.self),
                     .field("altText", String?.self),
-                  ] }
-                  @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                    GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.AsProductVariant.Image.self
                   ] }
 
                   /// The location of the image as a URL.
@@ -541,19 +476,16 @@ nonisolated public struct GetCartQuery: GraphQLQuery {
                 /// Cart.Lines.Edge.Node.Merchandise.AsProductVariant.Product
                 ///
                 /// Parent Type: `Product`
-                nonisolated public struct Product: ShopifyAPI.SelectionSet {
-                  @_spi(Unsafe) public let __data: DataDict
-                  @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+                public struct Product: ShopifyAPI.SelectionSet {
+                  public let __data: DataDict
+                  public init(_dataDict: DataDict) { __data = _dataDict }
 
-                  @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.Product }
-                  @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+                  public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Product }
+                  public static var __selections: [ApolloAPI.Selection] { [
                     .field("__typename", String.self),
                     .field("id", ShopifyAPI.ID.self),
                     .field("title", String.self),
                     .field("vendor", String.self),
-                  ] }
-                  @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-                    GetCartQuery.Data.Cart.Lines.Edge.Node.Merchandise.AsProductVariant.Product.self
                   ] }
 
                   /// A globally-unique ID.

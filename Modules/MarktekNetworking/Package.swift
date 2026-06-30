@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 5.9
 
 import PackageDescription
 
@@ -15,7 +15,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/apollographql/apollo-ios", exact: "2.2.0"),
+        .package(url: "https://github.com/apollographql/apollo-ios", exact: "1.9.3"),
     ],
     targets: [
         .target(
@@ -38,6 +38,5 @@ let package = Package(
             name: "MarktekNetworkingTests",
             dependencies: ["MarktekNetworking"]
         ),
-    ],
-    swiftLanguageModes: [.v5]
+    ]
 )

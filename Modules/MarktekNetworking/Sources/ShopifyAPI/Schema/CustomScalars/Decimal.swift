@@ -5,7 +5,7 @@
 // Any changes to this file will not be overwritten by future
 // code generation execution.
 
-@_spi(Internal) @_spi(Execution) import ApolloAPI
+import ApolloAPI
 
 /// A signed decimal number, which supports arbitrary precision and is serialized as a string.
 ///

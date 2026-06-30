@@ -2,9 +2,8 @@
 // This file was automatically generated and should not be edited.
 
 @_exported import ApolloAPI
-@_spi(Execution) @_spi(Unsafe) import ApolloAPI
 
-nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
+public class ApplyDiscountCodeMutation: GraphQLMutation {
   public static let operationName: String = "ApplyDiscountCode"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
@@ -22,24 +21,21 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
     self.discountCodes = discountCodes
   }
 
-  @_spi(Unsafe) public var __variables: Variables? { [
+  public var __variables: Variables? { [
     "cartId": cartId,
     "discountCodes": discountCodes
   ] }
 
-  nonisolated public struct Data: ShopifyAPI.SelectionSet {
-    @_spi(Unsafe) public let __data: DataDict
-    @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+  public struct Data: ShopifyAPI.SelectionSet {
+    public let __data: DataDict
+    public init(_dataDict: DataDict) { __data = _dataDict }
 
-    @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.Mutation }
-    @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+    public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Mutation }
+    public static var __selections: [ApolloAPI.Selection] { [
       .field("cartDiscountCodesUpdate", CartDiscountCodesUpdate?.self, arguments: [
         "cartId": .variable("cartId"),
         "discountCodes": .variable("discountCodes")
       ]),
-    ] }
-    @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-      ApplyDiscountCodeMutation.Data.self
     ] }
 
     /// Updates the discount codes applied to a [`Cart`](https://shopify.dev/docs/api/storefront/current/objects/Cart). This mutation replaces all existing discount codes with the provided list, so pass an empty array to remove all codes. Discount codes are case-insensitive.
@@ -51,18 +47,15 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
     /// CartDiscountCodesUpdate
     ///
     /// Parent Type: `CartDiscountCodesUpdatePayload`
-    nonisolated public struct CartDiscountCodesUpdate: ShopifyAPI.SelectionSet {
-      @_spi(Unsafe) public let __data: DataDict
-      @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+    public struct CartDiscountCodesUpdate: ShopifyAPI.SelectionSet {
+      public let __data: DataDict
+      public init(_dataDict: DataDict) { __data = _dataDict }
 
-      @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.CartDiscountCodesUpdatePayload }
-      @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+      public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.CartDiscountCodesUpdatePayload }
+      public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("cart", Cart?.self),
         .field("userErrors", [UserError].self),
-      ] }
-      @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-        ApplyDiscountCodeMutation.Data.CartDiscountCodesUpdate.self
       ] }
 
       /// The updated cart.
@@ -73,19 +66,16 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
       /// CartDiscountCodesUpdate.Cart
       ///
       /// Parent Type: `Cart`
-      nonisolated public struct Cart: ShopifyAPI.SelectionSet {
-        @_spi(Unsafe) public let __data: DataDict
-        @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+      public struct Cart: ShopifyAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
 
-        @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.Cart }
-        @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Cart }
+        public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("id", ShopifyAPI.ID.self),
           .field("discountCodes", [DiscountCode].self),
           .field("cost", Cost.self),
-        ] }
-        @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          ApplyDiscountCodeMutation.Data.CartDiscountCodesUpdate.Cart.self
         ] }
 
         /// A globally-unique ID.
@@ -98,18 +88,15 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
         /// CartDiscountCodesUpdate.Cart.DiscountCode
         ///
         /// Parent Type: `CartDiscountCode`
-        nonisolated public struct DiscountCode: ShopifyAPI.SelectionSet {
-          @_spi(Unsafe) public let __data: DataDict
-          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+        public struct DiscountCode: ShopifyAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
 
-          @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.CartDiscountCode }
-          @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.CartDiscountCode }
+          public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("code", String.self),
             .field("applicable", Bool.self),
-          ] }
-          @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-            ApplyDiscountCodeMutation.Data.CartDiscountCodesUpdate.Cart.DiscountCode.self
           ] }
 
           /// The code for the discount.
@@ -121,18 +108,15 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
         /// CartDiscountCodesUpdate.Cart.Cost
         ///
         /// Parent Type: `CartCost`
-        nonisolated public struct Cost: ShopifyAPI.SelectionSet {
-          @_spi(Unsafe) public let __data: DataDict
-          @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+        public struct Cost: ShopifyAPI.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
 
-          @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.CartCost }
-          @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.CartCost }
+          public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("subtotalAmount", SubtotalAmount.self),
             .field("totalAmount", TotalAmount.self),
-          ] }
-          @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-            ApplyDiscountCodeMutation.Data.CartDiscountCodesUpdate.Cart.Cost.self
           ] }
 
           /// The amount, before taxes and cart-level discounts, for the customer to pay.
@@ -143,18 +127,15 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
           /// CartDiscountCodesUpdate.Cart.Cost.SubtotalAmount
           ///
           /// Parent Type: `MoneyV2`
-          nonisolated public struct SubtotalAmount: ShopifyAPI.SelectionSet {
-            @_spi(Unsafe) public let __data: DataDict
-            @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+          public struct SubtotalAmount: ShopifyAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
 
-            @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-            @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+            public static var __selections: [ApolloAPI.Selection] { [
               .field("__typename", String.self),
               .field("amount", ShopifyAPI.Decimal.self),
               .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-            ] }
-            @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-              ApplyDiscountCodeMutation.Data.CartDiscountCodesUpdate.Cart.Cost.SubtotalAmount.self
             ] }
 
             /// Decimal money amount.
@@ -166,18 +147,15 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
           /// CartDiscountCodesUpdate.Cart.Cost.TotalAmount
           ///
           /// Parent Type: `MoneyV2`
-          nonisolated public struct TotalAmount: ShopifyAPI.SelectionSet {
-            @_spi(Unsafe) public let __data: DataDict
-            @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+          public struct TotalAmount: ShopifyAPI.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
 
-            @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
-            @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+            public static var __selections: [ApolloAPI.Selection] { [
               .field("__typename", String.self),
               .field("amount", ShopifyAPI.Decimal.self),
               .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
-            ] }
-            @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-              ApplyDiscountCodeMutation.Data.CartDiscountCodesUpdate.Cart.Cost.TotalAmount.self
             ] }
 
             /// Decimal money amount.
@@ -191,19 +169,16 @@ nonisolated public struct ApplyDiscountCodeMutation: GraphQLMutation {
       /// CartDiscountCodesUpdate.UserError
       ///
       /// Parent Type: `CartUserError`
-      nonisolated public struct UserError: ShopifyAPI.SelectionSet {
-        @_spi(Unsafe) public let __data: DataDict
-        @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
+      public struct UserError: ShopifyAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
 
-        @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { ShopifyAPI.Objects.CartUserError }
-        @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
+        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.CartUserError }
+        public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("code", GraphQLEnum<ShopifyAPI.CartErrorCode>?.self),
           .field("field", [String]?.self),
           .field("message", String.self),
-        ] }
-        @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          ApplyDiscountCodeMutation.Data.CartDiscountCodesUpdate.UserError.self
         ] }
 
         /// The error code.

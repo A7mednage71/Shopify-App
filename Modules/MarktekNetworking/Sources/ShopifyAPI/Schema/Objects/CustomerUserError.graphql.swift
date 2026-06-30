@@ -5,9 +5,8 @@ import ApolloAPI
 
 public extension Objects {
   /// Represents an error that happens during execution of a customer mutation.
-  nonisolated static let CustomerUserError = ApolloAPI.Object(
+  static let CustomerUserError = ApolloAPI.Object(
     typename: "CustomerUserError",
-    implementedInterfaces: [Interfaces.DisplayableError.self],
-    keyFields: nil
+    implementedInterfaces: [Interfaces.DisplayableError.self]
   )
 }

@@ -5,9 +5,8 @@ import ApolloAPI
 
 public extension Objects {
   /// An error that occurs during the execution of `MetafieldsSet`.
-  nonisolated static let MetafieldsSetUserError = ApolloAPI.Object(
+  static let MetafieldsSetUserError = ApolloAPI.Object(
     typename: "MetafieldsSetUserError",
-    implementedInterfaces: [Interfaces.DisplayableError.self],
-    keyFields: nil
+    implementedInterfaces: [Interfaces.DisplayableError.self]
   )
 }
