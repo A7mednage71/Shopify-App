@@ -10,11 +10,6 @@ public struct AddItemToCartUseCase: AddItemToCartUseCaseProtocol, Sendable {
     }
 
     public func execute(input: AddCartItemInput) async throws -> CartDetails {
-        try CartQuantityValidator.validate(
-            requestedQuantity: input.quantity,
-            availableQuantity: input.availableQuantity
-        )
-
         return try await addCartLinesUseCase.execute(
             lines: [
                 AddCartLineRequest(
