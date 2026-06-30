@@ -10,31 +10,21 @@ struct ProductRemoteImage: View {
                 AsyncImage(url: url, transaction: Transaction(animation: .easeInOut(duration: 0.24))) { phase in
                     switch phase {
                     case .empty:
-                        placeholder
+                        ProductImagePlaceholder()
                     case .success(let image):
                         image
                             .resizable()
                             .scaledToFill()
                     case .failure:
-                        placeholder
+                        ProductImagePlaceholder()
                     @unknown default:
-                        placeholder
+                        ProductImagePlaceholder()
                     }
                 }
             } else {
-                placeholder
+                ProductImagePlaceholder()
             }
         }
-        .accessibilityLabel(altText ?? "Product image")
-    }
-
-    private var placeholder: some View {
-        ZStack {
-            ProductPalette.imageBackground
-
-            Image(systemName: "photo")
-                .font(.system(size: 34, weight: .medium))
-                .foregroundColor(ProductPalette.textTertiary)
-        }
+        .accessibilityLabel(altText ?? ProductInfoText.productImageAccessibilityLabel)
     }
 }
