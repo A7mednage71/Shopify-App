@@ -1,0 +1,113 @@
+# .swiftlint.yml
+
+# Lint all Swift files except generated/dependency/build folders.
+excluded:
+  - Pods
+  - Carthage
+  - DerivedData
+  - .build
+  - Generated
+  - "**/Generated"
+  - "**/*.generated.swift"
+  - "**/ApolloGenerated"
+
+# Do not turn every warning into an error.
+# Specific dangerous things below are errors.
+strict: false
+
+opt_in_rules:
+  # Real code-quality / safety rules
+  - no_empty_block
+  - force_unwrapping
+  - empty_count
+  - empty_string
+  - empty_collection_literal
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - first_where
+  - last_where
+  - array_init
+  - fatal_error_message
+  - discouraged_optional_boolean
+  - discouraged_optional_collection
+  - superfluous_else
+  - toggle_bool
+
+# Dangerous code
+force_cast:
+  severity: error
+
+force_try:
+  severity: error
+
+force_unwrapping:
+  severity: warning
+
+# Empty if / else / closures / functions
+no_empty_block:
+  severity: error
+
+# Complexity / maintainability
+cyclomatic_complexity:
+  warning: 10
+  error: 15
+
+function_body_length:
+  warning: 60
+  error: 100
+
+type_body_length:
+  warning: 300
+  error: 500
+
+file_length:
+  warning: 500
+  error: 800
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+nesting:
+  type_level:
+    warning: 2
+    error: 3
+  function_level:
+    warning: 3
+    error: 5
+
+# Names: not too strict, because real projects need id, vm, db, etc.
+identifier_name:
+  min_length:
+    warning: 2
+  excluded:
+    - id
+    - vm
+    - db
+    - x
+    - y
+    - i
+    - j
+    - to
+    - at
+    - ok
+    - url
+    - URL
+
+type_name:
+  min_length:
+    warning: 3
+  max_length:
+    warning: 45
+    error: 60
+
+# Keep line length as a warning only, not an annoying build blocker.
+line_length:
+  warning: 140
+  error: 180
+  ignores_comments: true
+  ignores_urls: true
+  ignores_function_declarations: true
+
+# Xcode-friendly output
+reporter: "xcode"

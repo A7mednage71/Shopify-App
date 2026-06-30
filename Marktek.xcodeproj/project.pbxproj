@@ -14,13 +14,11 @@
 		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
 		08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D800B2FF335C50090C2CF /* ApolloAPI */; };
 		08B93C902FF3246100AAA4F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */; };
+		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
 		2C74F8D22FEFFF460073F428 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D12FEFFF460073F428 /* Home */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
-		2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */; };
 		2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */; };
 		2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A32FEFF24300FADB94 /* Persistence.swift */; };
-		2C90D3AD2FEFF24900FADB94 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3AA2FEFF24900FADB94 /* ApiClient.swift */; };
-		2C90D3AE2FEFF24900FADB94 /* ApiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3AB2FEFF24900FADB94 /* ApiConstants.swift */; };
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
@@ -51,14 +49,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		083555A02FF3A07D00083148 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Secrets.xcconfig; sourceTree = "<group>"; };
 		08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		2C90D3A32FEFF24300FADB94 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Marktek.xcdatamodel; sourceTree = "<group>"; };
-		2C90D3AA2FEFF24900FADB94 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
-		2C90D3AB2FEFF24900FADB94 /* ApiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiConstants.swift; sourceTree = "<group>"; };
 		610825582FF1882D002433CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekApp.swift; sourceTree = "<group>"; };
@@ -134,17 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				2C90D3A52FEFF24300FADB94 /* Services */,
-				2C90D3AC2FEFF24900FADB94 /* Networking */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		2C90D3A12FEFF24300FADB94 /* FirebaseService */ = {
-			isa = PBXGroup;
-			children = (
-				2C90D3A02FEFF24300FADB94 /* FirebaseService.swift */,
-			);
-			path = FirebaseService;
 			sourceTree = "<group>";
 		};
 		2C90D3A42FEFF24300FADB94 /* LocalService */ = {
@@ -159,24 +146,15 @@
 		2C90D3A52FEFF24300FADB94 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2C90D3A12FEFF24300FADB94 /* FirebaseService */,
 				2C90D3A42FEFF24300FADB94 /* LocalService */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		2C90D3AC2FEFF24900FADB94 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				2C90D3AA2FEFF24900FADB94 /* ApiClient.swift */,
-				2C90D3AB2FEFF24900FADB94 /* ApiConstants.swift */,
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
+				083555A02FF3A07D00083148 /* .swiftlint.yml */,
 				086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
@@ -248,6 +226,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0835559F2FF3A01600083148 /* PBXTargetDependency */,
 			);
 			name = Marktek;
 			packageProductDependencies = (
@@ -335,6 +314,7 @@
 				086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */,
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -379,11 +359,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C90D3A72FEFF24300FADB94 /* FirebaseService.swift in Sources */,
 				2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */,
 				2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */,
-				2C90D3AD2FEFF24900FADB94 /* ApiClient.swift in Sources */,
-				2C90D3AE2FEFF24900FADB94 /* ApiConstants.swift in Sources */,
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,6 +385,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0835559F2FF3A01600083148 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 0835559E2FF3A01600083148 /* SwiftLintBuildToolPlugin */;
+		};
 		616653A32FEFCEA200C605D3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6166538B2FEFCE9F00C605D3 /* Marktek */;
@@ -723,6 +704,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.65.0;
+			};
+		};
 		086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -758,6 +747,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0835559E2FF3A01600083148 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		086064892FF126690010B267 /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */;
