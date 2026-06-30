@@ -5,12 +5,11 @@
 //  Created by Eyad waleed on 27/06/2026.
 //
 
-import SwiftUI
-import Home
-import FirebaseAuth
 import FirebaseCore
-import Authentication
 import GoogleSignIn
+import Home
+import SwiftUI
+
 @available(iOS 14.0, *)
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -23,8 +22,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct MarktekApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
