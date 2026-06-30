@@ -11,14 +11,12 @@
 		0860648E2FF12F8A0010B267 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 0860648D2FF12F8A0010B267 /* Onboarding */; };
 		086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18D2FF0074F005DEA2D /* ApolloAPI */; };
 		086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18F2FF008E4005DEA2D /* MarktekNetworking */; };
-		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
 		08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D800B2FF335C50090C2CF /* ApolloAPI */; };
 		08B93C902FF3246100AAA4F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */; };
 		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
+		0A3E50012FF4000000000001 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 0A3E50022FF4000000000002 /* Persistence */; };
 		2C74F8D22FEFFF460073F428 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74F8D12FEFFF460073F428 /* Home */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
-		2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */; };
-		2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90D3A32FEFF24300FADB94 /* Persistence.swift */; };
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
@@ -53,8 +51,6 @@
 		086CE1912FF00C3F005DEA2D /* Config/Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Secrets.xcconfig; sourceTree = "<group>"; };
 		08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2C90D3A32FEFF24300FADB94 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Marktek.xcdatamodel; sourceTree = "<group>"; };
 		610825582FF1882D002433CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekApp.swift; sourceTree = "<group>"; };
@@ -76,6 +72,7 @@
 				CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */,
 				086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */,
 				08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */,
+				0A3E50012FF4000000000001 /* Persistence in Frameworks */,
 				0860648A2FF126690010B267 /* Swinject in Frameworks */,
 				086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */,
 				2C74F8D22FEFFF460073F428 /* Home in Frameworks */,
@@ -126,31 +123,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		2C90D3152FEFEF8300FADB94 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				2C90D3A52FEFF24300FADB94 /* Services */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		2C90D3A42FEFF24300FADB94 /* LocalService */ = {
-			isa = PBXGroup;
-			children = (
-				2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */,
-				2C90D3A32FEFF24300FADB94 /* Persistence.swift */,
-			);
-			path = LocalService;
-			sourceTree = "<group>";
-		};
-		2C90D3A52FEFF24300FADB94 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				2C90D3A42FEFF24300FADB94 /* LocalService */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
@@ -178,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				610825582FF1882D002433CB /* Info.plist */,
-				2C90D3152FEFEF8300FADB94 /* Core */,
 				2C90D2942FEFEEAA00FADB94 /* Resources */,
 				2C90D2152FEFD85300FADB94 /* Application */,
 				616653952FEFCEA200C605D3 /* Preview Content */,
@@ -236,6 +207,7 @@
 				616851E32FF1A35200F29AA5 /* GoogleSignInSwift */,
 				CA7D80092FF335C50090C2CF /* Apollo */,
 				CA7D800B2FF335C50090C2CF /* ApolloAPI */,
+				0A3E50022FF4000000000002 /* Persistence */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -359,8 +331,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C90D3A82FEFF24300FADB94 /* Marktek.xcdatamodeld in Sources */,
-				2C90D3A92FEFF24300FADB94 /* Persistence.swift in Sources */,
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,6 +744,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Cart;
 		};
+		0A3E50022FF4000000000002 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Persistence;
+		};
 		2C74F8D12FEFFF460073F428 /* Home */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Home;
@@ -806,19 +780,6 @@
 			productName = ApolloAPI;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		2C90D3A22FEFF24300FADB94 /* Marktek.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */,
-			);
-			currentVersion = 2C90D3A62FEFF24300FADB94 /* Marktek.xcdatamodel */;
-			path = Marktek.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 616653842FEFCE9F00C605D3 /* Project object */;
 }
