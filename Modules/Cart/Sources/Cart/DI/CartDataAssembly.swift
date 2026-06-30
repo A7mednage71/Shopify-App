@@ -1,7 +1,9 @@
 import Swinject
 
-struct CartDataAssembly: Assembly {
-    func assemble(container: Container) {
+public struct CartDataAssembly: Assembly {
+    public init() {}
+
+    public func assemble(container: Container) {
         container.register(CartLocalDataSource.self) { _ in
             DummyCartLocalDataSource()
         }

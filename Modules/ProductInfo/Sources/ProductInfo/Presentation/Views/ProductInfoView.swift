@@ -29,7 +29,14 @@ struct ProductInfoView: View {
                 ProductInfoLoadingView()
 
             case .success(let product):
-                ProductInfoContentView(product: product)
+                ProductInfoContentView(
+                    product: product,
+                    addToCartState: viewModel.addToCartState
+                ) { variant, quantity in
+                    Task {
+                        await viewModel.addToCart(variant: variant, quantity: quantity)
+                    }
+                }
 
             case .failure(let message):
                 ProductInfoErrorView(message: message) {

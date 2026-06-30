@@ -1,7 +1,10 @@
+import Common
 import Swinject
 
-struct CartDomainAssembly: Assembly {
-    func assemble(container: Container) {
+public struct CartDomainAssembly: Assembly {
+    public init() {}
+
+    public func assemble(container: Container) {
         container.register(CreateCartUseCaseProtocol.self) { resolver in
             CreateCartUseCase(
                 repository: resolver.resolve(CartRepository.self)!

@@ -26,10 +26,16 @@ enum CartText {
     static let cartItemImageAccessibilityLabel = "Cart item image"
     static let cartItemFallbackTitle = "Cart Item"
     static let colorOptionName = "color"
+    static let colourOptionName = "colour"
+    static let sizeOptionName = "size"
     static let defaultVariantName = "default"
 
     static func optionText(name: String, value: String) -> String {
         "\(name): \(value)"
+    }
+
+    static func optionsText(_ options: [String]) -> String {
+        options.joined(separator: " • ")
     }
 
     static func variantText(title: String) -> String {

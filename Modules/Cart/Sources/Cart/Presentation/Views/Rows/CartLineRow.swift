@@ -26,7 +26,8 @@ struct CartLineRow: View {
                     Text(optionText)
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(AppColors.textSecondary)
-                        .lineLimit(1)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
 
                 HStack(alignment: .center, spacing: 12) {

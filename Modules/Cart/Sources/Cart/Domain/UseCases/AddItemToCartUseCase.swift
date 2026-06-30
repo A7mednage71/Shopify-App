@@ -1,6 +1,4 @@
-public protocol AddItemToCartUseCaseProtocol: Sendable {
-    func execute(input: AddCartItemInput) async throws -> CartDetails
-}
+import Common
 
 public struct AddItemToCartUseCase: AddItemToCartUseCaseProtocol, Sendable {
     private let addCartLinesUseCase: any AddCartLinesUseCaseProtocol

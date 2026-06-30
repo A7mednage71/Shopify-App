@@ -1,13 +1,27 @@
 import SwiftUI
 
-public enum CartViewFactory {
+public struct CartViewFactory {
+    private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
+    private let updateCartLineQuantityUseCase: any UpdateCartLineQuantityUseCaseProtocol
+    private let removeCartLineUseCase: any RemoveCartLineUseCaseProtocol
+
+    init(
+        getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
+        updateCartLineQuantityUseCase: any UpdateCartLineQuantityUseCaseProtocol,
+        removeCartLineUseCase: any RemoveCartLineUseCaseProtocol
+    ) {
+        self.getCurrentCartUseCase = getCurrentCartUseCase
+        self.updateCartLineQuantityUseCase = updateCartLineQuantityUseCase
+        self.removeCartLineUseCase = removeCartLineUseCase
+    }
+
     @MainActor
-    public static func makeCartView() -> some View {
+    public func makeCartView() -> some View {
         CartDetailsView(
             viewModel: CartViewModel(
-                getCurrentCartUseCase: CartAssembler.resolveGetCurrentCartUseCase(),
-                updateCartLineQuantityUseCase: CartAssembler.resolveUpdateCartLineQuantityUseCase(),
-                removeCartLineUseCase: CartAssembler.resolveRemoveCartLineUseCase()
+                getCurrentCartUseCase: getCurrentCartUseCase,
+                updateCartLineQuantityUseCase: updateCartLineQuantityUseCase,
+                removeCartLineUseCase: removeCartLineUseCase
             )
         )
     }

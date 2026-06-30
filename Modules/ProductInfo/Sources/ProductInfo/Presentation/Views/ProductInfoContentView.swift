@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ProductInfoContentView: View {
     let product: ProductDetails
+    let addToCartState: ProductInfoAddToCartState
+    let onAddToCart: (ProductVariant?, Int) -> Void
 
     @State private var selectedImageURL: String?
     @State private var selectedOptions: [String: String]
@@ -9,8 +11,14 @@ struct ProductInfoContentView: View {
     @State private var isFavorite = false
     @State private var isDescriptionExpanded = false
 
-    init(product: ProductDetails) {
+    init(
+        product: ProductDetails,
+        addToCartState: ProductInfoAddToCartState,
+        onAddToCart: @escaping (ProductVariant?, Int) -> Void
+    ) {
         self.product = product
+        self.addToCartState = addToCartState
+        self.onAddToCart = onAddToCart
 
         let initialOptions = product.initialSelectedOptions
         _selectedOptions = State(initialValue: initialOptions)
@@ -65,7 +73,10 @@ struct ProductInfoContentView: View {
                         displayMoney: displayMoney,
                         quantity: quantity,
                         isSelectedVariantAvailable: isSelectedVariantAvailable,
-                        onAddToCart: {}
+                        addToCartState: addToCartState,
+                        onAddToCart: {
+                            onAddToCart(selectedVariant, quantity)
+                        }
                     )
                     .frame(width: geometry.size.width)
                 }

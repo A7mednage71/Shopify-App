@@ -4,11 +4,19 @@ extension CartLine {
     }
 
     var optionText: String? {
-        if let colorOption = variant?.selectedOptions.first(where: { $0.name.localizedCaseInsensitiveContains(CartText.colorOptionName) }) {
-            return CartText.optionText(name: colorOption.name, value: colorOption.value)
+        let selectedOptions = variant?.selectedOptions ?? []
+        let prioritizedOptions = [
+            selectedOptions.first(where: \.isColorOption),
+            selectedOptions.first(where: \.isSizeOption)
+        ].compactMap { $0 }
+
+        if !prioritizedOptions.isEmpty {
+            return CartText.optionsText(
+                prioritizedOptions.map { CartText.optionText(name: $0.name, value: $0.value) }
+            )
         }
 
-        if let option = variant?.selectedOptions.first {
+        if let option = selectedOptions.first {
             return CartText.optionText(name: option.name, value: option.value)
         }
 
@@ -26,5 +34,16 @@ extension CartLine {
         }
 
         return cost?.totalAmount
+    }
+}
+
+private extension CartSelectedOption {
+    var isColorOption: Bool {
+        name.localizedCaseInsensitiveContains(CartText.colorOptionName)
+            || name.localizedCaseInsensitiveContains(CartText.colourOptionName)
+    }
+
+    var isSizeOption: Bool {
+        name.localizedCaseInsensitiveContains(CartText.sizeOptionName)
     }
 }

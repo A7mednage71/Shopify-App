@@ -7,7 +7,6 @@
 
 import FirebaseCore
 import GoogleSignIn
-import Cart
 import Persistence
 import SwiftUI
 
@@ -24,10 +23,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MarktekApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     private let persistenceController = PersistenceController.shared
+    private let appDIContainer = AppDIContainer()
 
     var body: some Scene {
         WindowGroup {
-            CartViewFactory.makeCartView()
+            appDIContainer.makeRootView()
         }
     }
 }
