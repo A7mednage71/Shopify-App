@@ -7,7 +7,7 @@ struct ProductInfoDescriptionSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Description")
+            Text(ProductInfoText.descriptionTitle)
                 .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(ProductPalette.textPrimary)
 
@@ -22,7 +22,7 @@ struct ProductInfoDescriptionSection: View {
                 Button {
                     isExpanded.toggle()
                 } label: {
-                    Text(isExpanded ? "Read Less" : "Read More")
+                    Text(isExpanded ? ProductInfoText.readLessButtonTitle : ProductInfoText.readMoreButtonTitle)
                         .font(.system(size: 14, weight: .bold, design: .rounded))
                         .foregroundColor(ProductPalette.primary)
                 }

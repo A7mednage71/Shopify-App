@@ -30,7 +30,7 @@ public final class ProductInfoViewModel: ObservableObject {
 
     public func addToCart(variant: ProductVariant?, quantity: Int) async {
         guard let variant else {
-            addToCartState = .failure("Please select an available variant.")
+            addToCartState = .failure(ProductInfoText.selectAvailableVariantMessage)
             return
         }
 

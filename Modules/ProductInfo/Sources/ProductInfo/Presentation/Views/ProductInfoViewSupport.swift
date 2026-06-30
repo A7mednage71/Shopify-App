@@ -1,5 +1,24 @@
+import Common
 import Foundation
 import SwiftUI
+
+struct ProductInfoFrameReader: View {
+    let onChange: (CGRect) -> Void
+
+    var body: some View {
+        GeometryReader { proxy in
+            let frame = proxy.frame(in: .global)
+
+            Color.clear
+                .onAppear {
+                    onChange(frame)
+                }
+                .onChange(of: frame) { newFrame in
+                    onChange(newFrame)
+                }
+        }
+    }
+}
 
 struct ProductGalleryImage: Identifiable, Equatable {
     let id: String
@@ -16,7 +35,7 @@ struct ProductSwatch {
         if let hexColor = Color(hexString: value) {
             self.color = hexColor
             self.borderColor = ProductPalette.border
-            self.checkmarkColor = value.isLightHexColor ? ProductPalette.textPrimary : .white
+            self.checkmarkColor = value.isLightHexColor ? ProductPalette.textPrimary : ProductPalette.textWhite
             return
         }
 
@@ -28,7 +47,7 @@ struct ProductSwatch {
         case "black", "jet black", "midnight":
             self.color = .black
             self.borderColor = .black
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "white", "ivory", "cream":
             self.color = .white
             self.borderColor = ProductPalette.border
@@ -36,15 +55,15 @@ struct ProductSwatch {
         case "gray", "grey", "silver":
             self.color = Color(red: 0.58, green: 0.59, blue: 0.62)
             self.borderColor = ProductPalette.border
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "red", "crimson", "burgundy":
             self.color = Color(red: 0.84, green: 0.12, blue: 0.16)
             self.borderColor = .clear
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "orange", "coral":
             self.color = Color(red: 0.95, green: 0.43, blue: 0.18)
             self.borderColor = .clear
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "yellow", "gold":
             self.color = Color(red: 1, green: 0.78, blue: 0.18)
             self.borderColor = .clear
@@ -52,23 +71,23 @@ struct ProductSwatch {
         case "green", "olive", "mint":
             self.color = Color(red: 0.02, green: 0.74, blue: 0.35)
             self.borderColor = .clear
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "blue", "navy", "denim":
             self.color = Color(red: 0.10, green: 0.34, blue: 0.76)
             self.borderColor = .clear
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "purple", "violet", "lavender":
             self.color = Color(red: 0.43, green: 0.29, blue: 0.84)
             self.borderColor = .clear
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "pink", "rose":
             self.color = Color(red: 0.95, green: 0.42, blue: 0.62)
             self.borderColor = .clear
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         case "brown", "tan", "camel":
             self.color = Color(red: 0.55, green: 0.32, blue: 0.18)
             self.borderColor = .clear
-            self.checkmarkColor = .white
+            self.checkmarkColor = ProductPalette.textWhite
         default:
             self.color = ProductPalette.controlBackground
             self.borderColor = ProductPalette.border
@@ -78,23 +97,60 @@ struct ProductSwatch {
 }
 
 enum ProductPalette {
-    static let pageBackground = Color(red: 0.956, green: 0.948, blue: 0.970)
-    static let cardBackground = Color.white
-    static let controlBackground = Color(red: 0.958, green: 0.958, blue: 0.970)
-    static let imageBackground = Color(red: 0.918, green: 0.914, blue: 0.930)
-    static let primary = Color(red: 1.0, green: 0.631, blue: 0.008)
-    static let favorite = Color(red: 0.91, green: 0.22, blue: 0.34)
-    static let success = Color(red: 0.13, green: 0.62, blue: 0.34)
-    static let warning = Color(red: 0.96, green: 0.58, blue: 0.10)
-    static let error = Color(red: 0.83, green: 0.17, blue: 0.18)
-    static let textPrimary = Color(red: 0.08, green: 0.08, blue: 0.13)
-    static let textSecondary = Color(red: 0.47, green: 0.47, blue: 0.55)
-    static let textTertiary = Color(red: 0.62, green: 0.62, blue: 0.68)
-    static let border = Color(red: 0.86, green: 0.86, blue: 0.90)
-    static let disabled = Color(red: 0.70, green: 0.70, blue: 0.76)
-    static let shadow = Color.black.opacity(0.12)
-    static let skeletonBase = Color(red: 0.86, green: 0.86, blue: 0.90)
-    static let skeletonHighlight = Color.white
+    static let pageBackground = AppColors.background
+    static let cardBackground = AppColors.background
+    static let controlBackground = AppColors.backgroundSecondary
+    static let imageBackground = AppColors.backgroundSecondary
+    static let primary = AppColors.primary
+    static let favorite = AppColors.secondary
+    static let success = AppColors.success
+    static let warning = AppColors.primaryDark
+    static let error = AppColors.error
+    static let textPrimary = AppColors.textPrimary
+    static let textSecondary = AppColors.textSecondary
+    static let textTertiary = AppColors.textTertiary
+    static let textWhite = AppColors.textWhite
+    static let border = AppColors.border
+    static let disabled = AppColors.disabled
+    static let shadow = AppColors.shadow
+    static let skeletonBase = AppColors.border
+    static let skeletonHighlight = AppColors.textWhite
+}
+
+enum ProductInfoText {
+    static let productLoadFailureTitle = "Product could not load"
+    static let retryButtonTitle = "Try Again"
+    static let retryAccessibilityLabel = "Try loading the product again"
+    static let failureHelpMessage = "Check your connection and try again in a moment."
+    static let failureFallbackMessage = "Something went wrong while fetching this product."
+    static let loadingAccessibilityLabel = "Loading product details"
+    static let productImageAccessibilityLabel = "Product image"
+    static let selectAvailableVariantMessage = "Please select an available variant."
+    static let viewCartAccessibilityLabel = "View cart"
+    static let removeFromFavoritesAccessibilityLabel = "Remove from favorites"
+    static let addToFavoritesAccessibilityLabel = "Add to favorites"
+    static let noDescriptionAvailable = "No description available."
+    static let descriptionTitle = "Description"
+    static let readLessButtonTitle = "Read Less"
+    static let readMoreButtonTitle = "Read More"
+    static let quantityTitle = "Quantity"
+    static let totalTitle = "Total"
+    static let addingToCartButtonTitle = "Adding..."
+    static let addToCartButtonTitle = "Add to Cart"
+    static let outOfStock = "Out of stock"
+    static let inStock = "In stock"
+    static let colorOptionName = "color"
+    static let colourOptionName = "colour"
+    static let defaultTitleOptionName = "Title"
+    static let defaultVariantTitle = "Default Title"
+
+    static func stockQuantity(_ quantity: Int) -> String {
+        "\(quantity) in stock"
+    }
+
+    static func addToCartAccessibilityLabel(productTitle: String) -> String {
+        "Add \(productTitle) to cart"
+    }
 }
 
 extension ProductDetails {
@@ -172,13 +228,14 @@ extension ProductVariant {
 extension ProductOption {
     var isColorOption: Bool {
         let normalizedName = name.lowercased()
-        return normalizedName.contains("color") || normalizedName.contains("colour")
+        return normalizedName.contains(ProductInfoText.colorOptionName)
+            || normalizedName.contains(ProductInfoText.colourOptionName)
     }
 
     var isDefaultTitleOption: Bool {
-        name.caseInsensitiveCompare("Title") == .orderedSame
+        name.caseInsensitiveCompare(ProductInfoText.defaultTitleOptionName) == .orderedSame
             && values.count == 1
-            && values.first?.caseInsensitiveCompare("Default Title") == .orderedSame
+            && values.first?.caseInsensitiveCompare(ProductInfoText.defaultVariantTitle) == .orderedSame
     }
 }
 
