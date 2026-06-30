@@ -41,7 +41,8 @@ struct CartDetailsView: View {
                     cart: cart,
                     errorMessage: viewModel.errorMessage,
                     onIncrement: viewModel.increment(lineID:),
-                    onDecrement: viewModel.decrement(lineID:)
+                    onDecrement: viewModel.decrement(lineID:),
+                    onRemove: viewModel.remove(lineID:)
                 )
             }
 

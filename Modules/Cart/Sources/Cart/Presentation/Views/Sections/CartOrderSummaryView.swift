@@ -5,18 +5,18 @@ struct CartOrderSummaryView: View {
     let cart: CartDetails
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 17) {
+        VStack(alignment: .leading, spacing: 12) {
             Text(CartText.orderSummaryTitle)
-                .font(.system(size: 24, weight: .bold))
+                .font(.system(size: 21, weight: .bold))
                 .foregroundColor(AppColors.textPrimary)
 
-            VStack(spacing: 13) {
+            VStack(spacing: 10) {
                 CartSummaryRow(title: CartText.itemsSummaryTitle, value: "\(cart.totalQuantity)")
                 CartSummaryRow(title: CartText.subtotalSummaryTitle, value: cart.cost.subtotalAmount.formattedCurrency(fractionDigits: 0))
 
                 Divider()
                     .background(AppColors.border)
-                    .padding(.top, 10)
+                    .padding(.top, 6)
 
                 CartSummaryRow(
                     title: CartText.totalSummaryTitle,
@@ -26,9 +26,9 @@ struct CartOrderSummaryView: View {
             }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 18)
+        .padding(.vertical, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(AppColors.backgroundSecondary)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }

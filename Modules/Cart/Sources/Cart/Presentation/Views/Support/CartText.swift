@@ -12,6 +12,11 @@ enum CartText {
     static let itemsSummaryTitle = "Items"
     static let subtotalSummaryTitle = "Subtotal"
     static let totalSummaryTitle = "Total"
+    static let priceFallbackText = "$0"
+    static let deleteActionTitle = "Delete"
+    static let deleteAlertTitle = "Remove item?"
+    static let deleteAlertConfirmTitle = "Remove"
+    static let deleteAlertCancelTitle = "Cancel"
 
     static let failureTitle = "Cart could not load"
     static let failureRetryTitle = "Try Again"
@@ -29,5 +34,9 @@ enum CartText {
 
     static func variantText(title: String) -> String {
         "Variant: \(title)"
+    }
+
+    static func deleteAlertMessage(itemTitle: String) -> String {
+        "Remove \(itemTitle) from your cart?"
     }
 }

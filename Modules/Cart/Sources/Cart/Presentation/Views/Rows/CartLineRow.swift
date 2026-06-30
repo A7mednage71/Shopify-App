@@ -7,43 +7,45 @@ struct CartLineRow: View {
     let onDecrement: () -> Void
 
     var body: some View {
-        HStack(alignment: .center, spacing: 16) {
+        HStack(alignment: .center, spacing: 14) {
             CartRemoteImage(
                 urlString: line.variant?.image?.url,
                 altText: line.variant?.image?.altText ?? line.productTitle
             )
-            .frame(width: 92, height: 92)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .frame(width: 78, height: 78)
+            .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
 
-            VStack(alignment: .leading, spacing: 12) {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(line.productTitle)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(AppColors.textPrimary)
+            VStack(alignment: .leading, spacing: 7) {
+                Text(line.productTitle)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(AppColors.textPrimary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if let optionText = line.optionText {
+                    Text(optionText)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(AppColors.textSecondary)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.78)
-
-                    if let optionText = line.optionText {
-                        Text(optionText)
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(AppColors.textSecondary)
-                            .lineLimit(1)
-                    }
                 }
 
-                CartQuantityStepper(
-                    quantity: line.quantity,
-                    onIncrement: onIncrement,
-                    onDecrement: onDecrement
-                )
+                HStack(alignment: .center, spacing: 12) {
+                    CartQuantityStepper(
+                        quantity: line.quantity,
+                        onIncrement: onIncrement,
+                        onDecrement: onDecrement
+                    )
+
+                    Spacer(minLength: 8)
+
+                    CartPriceView(money: line.displayMoney)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-
-            CartPriceView(money: line.displayMoney)
-                .frame(width: 92, alignment: .trailing)
+            .layoutPriority(1)
         }
         .padding(.horizontal, 22)
-        .padding(.vertical, 20)
+        .padding(.vertical, 14)
         .contentShape(Rectangle())
         .animation(.easeInOut(duration: 0.18), value: line.quantity)
     }

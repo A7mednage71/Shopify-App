@@ -8,9 +8,9 @@ struct CartQuantityButton: View {
     var body: some View {
         Button(action: action) {
             Image(systemName: systemName)
-                .font(.system(size: 15, weight: .heavy))
+                .font(.system(size: 13, weight: .heavy))
                 .foregroundColor(AppColors.textPrimary)
-                .frame(width: 34, height: 34)
+                .frame(width: 28, height: 28)
                 .background(AppColors.background)
                 .clipShape(Circle())
         }
