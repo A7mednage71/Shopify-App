@@ -112,6 +112,4 @@ struct OnboardingView: View {
     }
 }
 
-#Preview {
-    OnboardingView(onFinish: {})
-}
+

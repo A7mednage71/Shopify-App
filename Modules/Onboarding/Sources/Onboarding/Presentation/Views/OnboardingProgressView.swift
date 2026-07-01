@@ -18,8 +18,4 @@ struct OnboardingProgressView: View {
     }
 }
 
-#Preview {
-    OnboardingProgressView(currentIndex: 1, totalCount: 3)
-        .padding()
-        .background(OnboardingPalette.pageBackground)
-}
+
