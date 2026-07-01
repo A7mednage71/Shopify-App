@@ -7,5 +7,11 @@ struct HomeDomainAssembly: Assembly {
                 repository: resolver.resolve(HomeRepository.self)!
             )
         }
+
+        container.register(SearchProductsUseCaseProtocol.self) { resolver in
+            SearchProductsUseCase(
+                repository: resolver.resolve(HomeRepository.self)!
+            )
+        }
     }
 }

@@ -4,7 +4,7 @@ import Common
 // MARK: - Flat and Heels Banner Section
 
 struct FlatHeeelsBannerSection: View {
-    let product: ShopifyProduct
+    let product: Product
     var onVisitTap: (() -> Void)? = nil
     
     var body: some View {
@@ -20,7 +20,7 @@ struct FlatHeeelsBannerSection: View {
             
             HStack(spacing: 0) {
                 // Product Image
-                AsyncImage(url: URL(string: product.featuredImageURL)) { image in
+                AsyncImage(url: URL(string: product.featuredImageURL!)) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)

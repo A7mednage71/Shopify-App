@@ -5,7 +5,8 @@ public enum HomeViewFactory {
     public static func makeHomeView() -> some View {
         HomeView(
             viewModel: HomeViewModel(
-                getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase()
+                getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
+                searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase()
             )
         )
     }

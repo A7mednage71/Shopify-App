@@ -6,9 +6,9 @@ import Common
 // OR: collection(handle: "trending") { products(first:10) }
 
 struct TrendingProductsSection: View {
-    let products: [ShopifyProduct]
+    let products: [Product]
     var onViewAll: (() -> Void)? = nil
-    var onProductTap: ((ShopifyProduct) -> Void)? = nil
+    var onProductTap: ((Product) -> Void)? = nil
     
     var body: some View {
         VStack(spacing: 0) {
@@ -78,19 +78,29 @@ struct TrendingProductsSection: View {
 
 // MARK: - Trending Product Card (compact square)
 struct TrendingProductCard: View {
-    let product: ShopifyProduct
+    let product: Product
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
             // Image — full width, no side padding
-            AsyncImage(url: URL(string: product.featuredImageURL)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } placeholder: {
-                Rectangle()
-                    .fill(Color.appBackgroundGray)
+            ZStack {
+                if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        default:
+                            Rectangle()
+                                .fill(Color.appBackgroundGray)
+                        }
+                    }
+                } else {
+                    Rectangle()
+                        .fill(Color.appBackgroundGray)
+                }
             }
             .frame(width: 140, height: 130)
             .clipped()
@@ -102,7 +112,7 @@ struct TrendingProductCard: View {
                     .foregroundColor(.appTextPrimary)
                     .lineLimit(1)
                 
-                Text(product.formattedPrice)
+                Text(product.price)
                     .font(.productPrice)
                     .foregroundColor(.appPrimaryOrange)
             }
@@ -116,8 +126,3 @@ struct TrendingProductCard: View {
     }
 }
 
-
-// MARK: - Preview
-#Preview {
-    TrendingProductsSection(products: MockShopifyData.trendingProducts)
-}

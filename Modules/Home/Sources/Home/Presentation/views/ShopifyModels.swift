@@ -33,6 +33,39 @@ struct ShopifyProduct: Identifiable {
         let symbol = currencyCode == "INR" ? "₹" : "$"
         return "\(symbol)\(Int(compare))"
     }
+    
+    // Convert to common Product model
+    func toProduct() -> Product {
+        return Product(
+            id: id,
+            title: title,
+            description: description,
+            handle: handle,
+            featuredImageURL: featuredImageURL.isEmpty ? nil : featuredImageURL,
+            featuredImageAltText: nil,
+            price: String(format: "%.2f", price),
+            currencyCode: currencyCode,
+            compareAtPrice: compareAtPrice.map { String(format: "%.2f", $0) },
+            compareAtCurrencyCode: currencyCode,
+            rating: rating,
+            reviewCount: reviewCount
+        )
+    }
+}
+
+extension ShopifyProduct {
+    init(product: Product) {
+        self.id = product.id
+        self.title = product.title
+        self.description = product.description
+        self.handle = product.handle
+        self.featuredImageURL = product.featuredImageURL ?? ""
+        self.price = Double(product.price) ?? 0.0
+        self.compareAtPrice = product.compareAtPrice.flatMap { Double($0) }
+        self.currencyCode = product.currencyCode
+        self.rating = product.rating
+        self.reviewCount = product.reviewCount
+    }
 }
 
 // MARK: - Collection / Category (from Shopify collections query)
@@ -44,10 +77,9 @@ struct ShopifyCollection: Identifiable {
 }
 
 // MARK: - Deal of the Day Model
-// Requires Shopify metafield: custom.deal_end_time (date_time type)
 struct DealOfDay {
-    let product: ShopifyProduct
-    let endDate: Date               // from metafield
+    let product: Product
+    let endDate: Date
     
     var timeRemaining: (hours: Int, minutes: Int, seconds: Int) {
         let remaining = max(0, endDate.timeIntervalSince(Date()))
@@ -59,18 +91,17 @@ struct DealOfDay {
 }
 
 // MARK: - Hero Banner Model
-// Requires Shopify metafield or Theme customizer
 struct HeroBanner: Identifiable {
     let id: String
-    let title: String               // "50-40% OFF"
-    let subtitle: String            // "Now in (product)"
-    let ctaText: String             // "Shop Now"
-    let ctaHandle: String           // collection or product handle
+    let title: String
+    let subtitle: String
+    let ctaText: String
+    let ctaHandle: String
     let imageURL: String
-    let gradientColors: [Color]     // per-banner gradient
+    let gradientColors: [Color]
 }
 
-// MARK: - Mock Data (replace with real Shopify API calls)
+// MARK: - Mock Data
 struct MockShopifyData {
     
     static let categories: [ShopifyCollection] = [
@@ -111,42 +142,147 @@ struct MockShopifyData {
         )
     ]
     
-    static let featuredProducts: [ShopifyProduct] = [
-        ShopifyProduct(
+    // MARK: - Featured Products (using Product model)
+    static let featuredProducts: [Product] = [
+        Product(
             id: "1",
             title: "Women Printed Kurta",
-            description: "Neque porro quisquam est qui dolorem ipsum quia",
+            description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
             handle: "women-printed-kurta",
-            featuredImageURL: "https://picsum.photos/seed/kurta/300/300",
-            price: 1500,
-            compareAtPrice: 2499,
+            featuredImageURL: "https://picsum.photos/seed/kurta/400/400",
+            featuredImageAltText: "Women Printed Kurta in floral design",
+            price: "1500.00",
             currencyCode: "INR",
+            compareAtPrice: "2499.00",
+            compareAtCurrencyCode: "INR",
             rating: 4.0,
             reviewCount: 56890
         ),
-        ShopifyProduct(
+        Product(
             id: "2",
             title: "HRX by Hrithik Roshan",
-            description: "Neque porro quisquam est qui dolorem ipsum quia",
+            description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
             handle: "hrx-sneakers",
-            featuredImageURL: "https://picsum.photos/seed/shoes/300/300",
-            price: 2499,
-            compareAtPrice: 4999,
+            featuredImageURL: "https://picsum.photos/seed/shoes/400/400",
+            featuredImageAltText: "HRX Sports Sneakers in black",
+            price: "2499.00",
             currencyCode: "INR",
+            compareAtPrice: "4999.00",
+            compareAtCurrencyCode: "INR",
             rating: 4.5,
             reviewCount: 344567
         ),
-        ShopifyProduct(
+        Product(
             id: "3",
             title: "Flat and Heels",
-            description: "Stand a chance to get rewarded",
+            description: "Stand a chance to get rewarded with every purchase",
             handle: "heels",
-            featuredImageURL: "https://picsum.photos/seed/heels/300/300",
-            price: 899,
-            compareAtPrice: 1499,
+            featuredImageURL: "https://picsum.photos/seed/heels/400/400",
+            featuredImageAltText: "Stylish flat heels in beige",
+            price: "899.00",
             currencyCode: "INR",
+            compareAtPrice: "1499.00",
+            compareAtCurrencyCode: "INR",
             rating: 4.2,
             reviewCount: 12300
+        ),
+        Product(
+            id: "4",
+            title: "Men's Casual Shirt",
+            description: "Comfortable cotton casual shirt for everyday wear",
+            handle: "mens-casual-shirt",
+            featuredImageURL: "https://picsum.photos/seed/shirt/400/400",
+            featuredImageAltText: "Blue Men's Casual Shirt",
+            price: "1299.00",
+            currencyCode: "EGP",
+            compareAtPrice: "1999.00",
+            compareAtCurrencyCode: "EGP",
+            rating: 4.3,
+            reviewCount: 8900
+        ),
+        Product(
+            id: "5",
+            title: "Wireless Bluetooth Headphones",
+            description: "Premium sound quality with noise cancellation",
+            handle: "wireless-headphones",
+            featuredImageURL: "https://picsum.photos/seed/headphones/400/400",
+            featuredImageAltText: "Black wireless bluetooth headphones",
+            price: "3499.00",
+            currencyCode: "EGP",
+            compareAtPrice: "4599.00",
+            compareAtCurrencyCode: "EGP",
+            rating: 4.8,
+            reviewCount: 2500
+        ),
+        Product(
+            id: "6",
+            title: "Leather Handbag",
+            description: "Elegant genuine leather handbag for women",
+            handle: "leather-handbag",
+            featuredImageURL: "https://picsum.photos/seed/handbag/400/400",
+            featuredImageAltText: "Brown leather handbag",
+            price: "2500.00",
+            currencyCode: "EGP",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 4.6,
+            reviewCount: 12300
+        ),
+        Product(
+            id: "7",
+            title: "Running Shoes Pro",
+            description: "Lightweight running shoes with cushioning technology",
+            handle: "running-shoes-pro",
+            featuredImageURL: nil,
+            featuredImageAltText: nil,
+            price: "1899.00",
+            currencyCode: "EGP",
+            compareAtPrice: "2400.00",
+            compareAtCurrencyCode: "EGP",
+            rating: nil,
+            reviewCount: nil
+        ),
+        Product(
+            id: "8",
+            title: "Smart Watch Series X",
+            description: "Advanced fitness tracking with heart rate monitor",
+            handle: "smart-watch-x",
+            featuredImageURL: "https://picsum.photos/seed/watch/400/400",
+            featuredImageAltText: "Smart Watch with black strap",
+            price: "7999.00",
+            currencyCode: "EGP",
+            compareAtPrice: "9999.00",
+            compareAtCurrencyCode: "EGP",
+            rating: 4.7,
+            reviewCount: 45600
+        ),
+        Product(
+            id: "9",
+            title: "Cotton T-Shirt Basic",
+            description: "Essential cotton t-shirt for daily use",
+            handle: "cotton-tshirt-basic",
+            featuredImageURL: "https://picsum.photos/seed/tshirt/400/400",
+            featuredImageAltText: "White basic cotton t-shirt",
+            price: "499.00",
+            currencyCode: "EGP",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 4.1,
+            reviewCount: 34500
+        ),
+        Product(
+            id: "10",
+            title: "Professional Camera Lens",
+            description: "High-quality lens for professional photography",
+            handle: "pro-camera-lens",
+            featuredImageURL: "https://picsum.photos/seed/camera/400/400",
+            featuredImageAltText: "Professional camera lens",
+            price: "15999.00",
+            currencyCode: "EGP",
+            compareAtPrice: "19999.00",
+            compareAtCurrencyCode: "EGP",
+            rating: 4.9,
+            reviewCount: 890
         )
     ]
     
@@ -155,19 +291,139 @@ struct MockShopifyData {
         endDate: Date().addingTimeInterval(22 * 3600 + 55 * 60 + 20)
     )
     
-    static let trendingProducts: [ShopifyProduct] = [
-        ShopifyProduct(id: "4", title: "Watch Collection", description: "", handle: "watch", featuredImageURL: "https://picsum.photos/seed/watch/300/300", price: 3999, compareAtPrice: nil, currencyCode: "INR", rating: 4.8, reviewCount: 2300),
-        ShopifyProduct(id: "5", title: "White Sneakers", description: "", handle: "sneakers", featuredImageURL: "https://picsum.photos/seed/sneak/300/300", price: 1299, compareAtPrice: 1999, currencyCode: "INR", rating: 4.3, reviewCount: 8900),
-        ShopifyProduct(id: "6", title: "Summer Dress", description: "", handle: "dress", featuredImageURL: "https://picsum.photos/seed/dress/300/300", price: 2199, compareAtPrice: 3499, currencyCode: "INR", rating: 4.6, reviewCount: 5600),
+    // MARK: - Trending Products (using Product model)
+    static let trendingProducts: [Product] = [
+        Product(
+            id: "11",
+            title: "Watch Collection",
+            description: "Premium watch collection with leather straps",
+            handle: "watch",
+            featuredImageURL: "https://picsum.photos/seed/watch/300/300",
+            featuredImageAltText: "Watch collection",
+            price: "3999.00",
+            currencyCode: "INR",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 4.8,
+            reviewCount: 2300
+        ),
+        Product(
+            id: "12",
+            title: "White Sneakers",
+            description: "Classic white sneakers for everyday wear",
+            handle: "sneakers",
+            featuredImageURL: "https://picsum.photos/seed/sneak/300/300",
+            featuredImageAltText: "White sneakers",
+            price: "1299.00",
+            currencyCode: "INR",
+            compareAtPrice: "1999.00",
+            compareAtCurrencyCode: "INR",
+            rating: 4.3,
+            reviewCount: 8900
+        ),
+        Product(
+            id: "13",
+            title: "Summer Dress",
+            description: "Light and flowy summer dress with floral pattern",
+            handle: "dress",
+            featuredImageURL: "https://picsum.photos/seed/dress/300/300",
+            featuredImageAltText: "Summer dress",
+            price: "2199.00",
+            currencyCode: "INR",
+            compareAtPrice: "3499.00",
+            compareAtCurrencyCode: "INR",
+            rating: 4.6,
+            reviewCount: 5600
+        ),
+        Product(
+            id: "14",
+            title: "Black Winter Jacket",
+            description: "Autumn And Winter Casual cotton-padded jacket",
+            handle: "jacket",
+            featuredImageURL: "https://picsum.photos/seed/jacket/300/300",
+            featuredImageAltText: "Black winter jacket",
+            price: "499.00",
+            currencyCode: "INR",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 4.0,
+            reviewCount: 6890
+        ),
+        Product(
+            id: "15",
+            title: "Mens Starry Shirt",
+            description: "Mens Starry Sky Printed Shirt 100% Cotton Fabric",
+            handle: "shirt",
+            featuredImageURL: "https://picsum.photos/seed/shirt/300/300",
+            featuredImageAltText: "Starry printed shirt",
+            price: "399.00",
+            currencyCode: "INR",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 3.5,
+            reviewCount: 152344
+        ),
+        Product(
+            id: "16",
+            title: "Black Dress",
+            description: "Solid Black Dress for Women, Sexy Chain Shorts",
+            handle: "bdress",
+            featuredImageURL: "https://picsum.photos/seed/bdress/300/300",
+            featuredImageAltText: "Black dress for women",
+            price: "2000.00",
+            currencyCode: "INR",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 4.2,
+            reviewCount: 523456
+        ),
+        Product(
+            id: "17",
+            title: "Pink Embroidered Dress",
+            description: "EARTHEN Rose Pink Embroidered Tiered Maxi",
+            handle: "pdress",
+            featuredImageURL: "https://picsum.photos/seed/pdress/300/300",
+            featuredImageAltText: "Pink embroidered maxi dress",
+            price: "1900.00",
+            currencyCode: "INR",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 4.4,
+            reviewCount: 45678
+        ),
+        Product(
+            id: "18",
+            title: "Blue Denim Jacket",
+            description: "Classic denim jacket with faded wash finish",
+            handle: "denim",
+            featuredImageURL: "https://picsum.photos/seed/denim/300/300",
+            featuredImageAltText: "Blue denim jacket",
+            price: "1599.00",
+            currencyCode: "INR",
+            compareAtPrice: "2400.00",
+            compareAtCurrencyCode: "INR",
+            rating: 4.1,
+            reviewCount: 3200
+        ),
+        Product(
+            id: "19",
+            title: "Gold Hoop Earrings",
+            description: "18K gold plated lightweight hoop earrings",
+            handle: "earrings",
+            featuredImageURL: "https://picsum.photos/seed/earrings/300/300",
+            featuredImageAltText: "Gold hoop earrings",
+            price: "299.00",
+            currencyCode: "INR",
+            compareAtPrice: nil,
+            compareAtCurrencyCode: nil,
+            rating: 4.7,
+            reviewCount: 9800
+        )
     ]
 
-    // All products merged — used for search (replace with real API)
-    static let allProducts: [ShopifyProduct] = featuredProducts + trendingProducts + [
-        ShopifyProduct(id: "7",  title: "Black Winter Jacket",        description: "Autumn And Winter Casual cotton-padded jacket",   handle: "jacket",   featuredImageURL: "https://picsum.photos/seed/jacket/300/300",   price: 499,  compareAtPrice: nil,  currencyCode: "INR", rating: 4.0, reviewCount: 6890),
-        ShopifyProduct(id: "8",  title: "Mens Starry Shirt",          description: "Mens Starry Sky Printed Shirt 100% Cotton Fabric", handle: "shirt",    featuredImageURL: "https://picsum.photos/seed/shirt/300/300",    price: 399,  compareAtPrice: nil,  currencyCode: "INR", rating: 3.5, reviewCount: 152344),
-        ShopifyProduct(id: "9",  title: "Black Dress",                description: "Solid Black Dress for Women, Sexy Chain Shorts",   handle: "bdress",   featuredImageURL: "https://picsum.photos/seed/bdress/300/300",   price: 2000, compareAtPrice: nil,  currencyCode: "INR", rating: 4.2, reviewCount: 523456),
-        ShopifyProduct(id: "10", title: "Pink Embroidered Dress",     description: "EARTHEN Rose Pink Embroidered Tiered Maxi",        handle: "pdress",   featuredImageURL: "https://picsum.photos/seed/pdress/300/300",   price: 1900, compareAtPrice: nil,  currencyCode: "INR", rating: 4.4, reviewCount: 45678),
-        ShopifyProduct(id: "11", title: "Blue Denim Jacket",          description: "Classic denim jacket with faded wash finish",      handle: "denim",    featuredImageURL: "https://picsum.photos/seed/denim/300/300",    price: 1599, compareAtPrice: 2400, currencyCode: "INR", rating: 4.1, reviewCount: 3200),
-        ShopifyProduct(id: "12", title: "Gold Hoop Earrings",         description: "18K gold plated lightweight hoop earrings",        handle: "earrings", featuredImageURL: "https://picsum.photos/seed/earrings/300/300", price: 299,  compareAtPrice: nil,  currencyCode: "INR", rating: 4.7, reviewCount: 9800),
-    ]
+    // All products merged — used for search
+    static let allProducts: [Product] = featuredProducts + trendingProducts
+    
+    // For preview/testing with single product
+    static let sampleProduct = featuredProducts[0]
 }

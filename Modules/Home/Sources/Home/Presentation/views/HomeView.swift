@@ -12,7 +12,8 @@ public struct HomeView: View {
     // Public no-arg init for backwards compatibility — wires real dependencies via factory
     public init() {
         _viewModel = StateObject(wrappedValue: HomeViewModel(
-            getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase()
+            getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
+            searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase()
         ))
     }
 
@@ -28,17 +29,17 @@ public struct HomeView: View {
 
                     // MARK: Sort & Filter Bar — always visible
                     SortAndFilterSearch(
-                        leadingLabel: viewModel.isSearching
+                        leadingLabel: viewModel.searchText.trimmingCharacters(in: .whitespaces).count >= 2
                             ? viewModel.resultCountLabel
                             : HomeStrings.Category.sectionTitle
                     )
                     .padding(.top, 8)
                     .padding(.bottom, 8)
 
-                    if viewModel.isSearching {
-                        // MARK: Search Results
+                    if viewModel.searchText.trimmingCharacters(in: .whitespaces).count >= 2 {
+                        // MARK: Search Results — live data
                         SearchResultsSection(
-                            products: [],
+                            products: viewModel.searchResults,
                             onProductTap: { product in
                                 print("Search result tapped: \(product.title)")
                             }
@@ -148,4 +149,3 @@ public struct HomeView: View {
         }
     }
 }
-
