@@ -3,6 +3,7 @@ import SwiftUI
 
 struct CheckoutView: View {
     @StateObject private var viewModel: CheckoutViewModel
+    @State private var hasLoadedContentAppeared = false
 
     init(viewModel: CheckoutViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -23,13 +24,28 @@ struct CheckoutView: View {
         }
         .animation(.easeInOut(duration: 0.22), value: viewModel.state)
         .animation(.easeInOut(duration: 0.22), value: viewModel.addressState)
+        .onChange(of: viewModel.state) { state in
+            guard case .success = state else {
+                hasLoadedContentAppeared = false
+                return
+            }
+
+            hasLoadedContentAppeared = false
+
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
+                hasLoadedContentAppeared = true
+            }
+        }
         .sheet(item: $viewModel.webCheckoutRoute) { route in
             NavigationView {
-                CheckoutWebView(url: route.url)
+                CheckoutWebView(url: route.url) { url in
+                    viewModel.checkoutCompleted(url: url)
+                }
                     .navigationTitle(CheckoutText.checkoutWebTitle)
                     .checkoutNavigationTitleStyle()
             }
         }
+        .background(orderConfirmationNavigationLink)
         .alert(
             CheckoutText.checkoutErrorTitle,
             isPresented: Binding(
@@ -96,5 +112,38 @@ struct CheckoutView: View {
             .padding(.bottom, 28)
         }
         .background(AppColors.background)
+        .opacity(hasLoadedContentAppeared ? 1 : 0)
+        .offset(y: hasLoadedContentAppeared ? 0 : 18)
+        .onAppear {
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
+                hasLoadedContentAppeared = true
+            }
+        }
+    }
+
+    private var orderConfirmationNavigationLink: some View {
+        NavigationLink(
+            destination: orderConfirmationDestination,
+            isActive: Binding(
+                get: { viewModel.orderConfirmationRoute != nil },
+                set: { isActive in
+                    if !isActive {
+                        viewModel.dismissOrderConfirmation()
+                    }
+                }
+            )
+        ) {
+            EmptyView()
+        }
+        .hidden()
+    }
+
+    @ViewBuilder
+    private var orderConfirmationDestination: some View {
+        if let route = viewModel.orderConfirmationRoute {
+            CheckoutOrderConfirmationView(route: route)
+        } else {
+            EmptyView()
+        }
     }
 }

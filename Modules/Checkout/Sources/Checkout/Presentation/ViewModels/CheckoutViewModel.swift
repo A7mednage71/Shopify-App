@@ -9,6 +9,7 @@ public final class CheckoutViewModel: ObservableObject {
     @Published public private(set) var selectedPaymentMethodType: CheckoutPaymentMethodType
     @Published public var webCheckoutRoute: CheckoutWebCheckoutRoute?
     @Published public var checkoutErrorMessage: String?
+    @Published var orderConfirmationRoute: CheckoutOrderConfirmationRoute?
 
     private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
@@ -53,6 +54,7 @@ public final class CheckoutViewModel: ObservableObject {
         guard case let .success(cart) = state else { return }
 
         checkoutErrorMessage = nil
+        orderConfirmationRoute = nil
 
         do {
             let action = try await performCheckoutUseCase.execute(
@@ -70,6 +72,25 @@ public final class CheckoutViewModel: ObservableObject {
             checkoutErrorMessage = error.localizedDescription
         }
     }
+
+    func checkoutCompleted(url: URL) {
+        guard orderConfirmationRoute == nil,
+              case let .success(cart) = state else {
+            webCheckoutRoute = nil
+            return
+        }
+
+        webCheckoutRoute = nil
+        orderConfirmationRoute = CheckoutOrderConfirmationRoute(
+            completionURL: url,
+            cart: cart,
+            paymentMethodTitle: selectedPaymentMethod?.title
+        )
+    }
+
+    func dismissOrderConfirmation() {
+        orderConfirmationRoute = nil
+    }
 }
 
 public struct CheckoutWebCheckoutRoute: Identifiable, Equatable {
@@ -78,4 +99,11 @@ public struct CheckoutWebCheckoutRoute: Identifiable, Equatable {
     public var id: String {
         url.absoluteString
     }
+}
+
+struct CheckoutOrderConfirmationRoute: Identifiable {
+    let id = UUID()
+    let completionURL: URL
+    let cart: CartDetails
+    let paymentMethodTitle: String?
 }
