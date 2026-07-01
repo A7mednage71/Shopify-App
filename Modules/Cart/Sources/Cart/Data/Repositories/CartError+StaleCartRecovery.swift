@@ -33,6 +33,7 @@ private extension CartError {
              .malformedResponse:
             false
         }
+        return  false 
     }
 }
 

@@ -61,8 +61,4 @@ struct CategoryItem: View {
     }
 }
 
-// MARK: - Preview
-#Preview {
-    CategoriesListSection(categories: MockShopifyData.categories)
-        .padding(.vertical)
-}
+

@@ -20,7 +20,3 @@ struct ProductCardsSection: View {
     }
 }
 
-#Preview {
-    ScrollView { ProductCardsSection(products: MockShopifyData.featuredProducts) }
-    .background(Color.appBackgroundGray)
-}

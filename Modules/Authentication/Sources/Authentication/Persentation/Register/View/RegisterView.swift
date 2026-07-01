@@ -166,6 +166,4 @@ public struct RegisterView: View {
         }
     }
 }
-#Preview {
-    RegisterView()
-}
+

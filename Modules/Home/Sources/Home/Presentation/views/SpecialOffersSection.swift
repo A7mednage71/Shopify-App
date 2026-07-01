@@ -85,8 +85,4 @@ struct SpecialOffersSection: View {
     }
 }
 
-// MARK: - Preview
-#Preview {
-    SpecialOffersSection()
-        .padding(.vertical)
-}
+

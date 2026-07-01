@@ -25,6 +25,7 @@ extension CartError: LocalizedError {
         case let .malformedResponse(message):
             message
         }
+        return ""
     }
 }
 

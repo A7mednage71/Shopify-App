@@ -285,10 +285,10 @@
 			mainGroup = 616653832FEFCE9F00C605D3;
 			packageReferences = (
 				086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */,
-				086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */,
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				61627E592FF515F0009EDBA6 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -678,8 +678,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/SwiftLint";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.65.0;
+				kind = exactVersion;
+				version = 0.51.0;
 			};
 		};
 		086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */ = {
@@ -687,7 +687,7 @@
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
 			requirement = {
 				kind = exactVersion;
-				version = 2.9.1;
+				version = 2.8.4;
 			};
 		};
 		086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
@@ -695,7 +695,15 @@
 			repositoryURL = "https://github.com/apollographql/apollo-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 1.9.3;
+				version = 1.5.0;
+			};
+		};
+		61627E592FF515F0009EDBA6 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.8.3;
 			};
 		};
 		616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {

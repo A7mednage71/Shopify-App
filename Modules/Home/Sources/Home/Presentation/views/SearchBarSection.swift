@@ -31,8 +31,4 @@ struct SearchBarSection: View {
     }
 }
 
-#Preview {
-    SearchBarSection(searchText: .constant(""))
-        .padding(.vertical)
-        .background(Color.appSearchBarBg)
-}
+
