@@ -4,8 +4,8 @@ import Common
 // MARK: - Horizontal Categories List
 
 struct CategoriesListSection: View {
-    let categories: [ShopifyCollection]
-    var onCategoryTap: ((ShopifyCollection) -> Void)? = nil
+    let categories: [Collection]
+    var onCategoryTap: ((Collection) -> Void)? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -29,7 +29,7 @@ struct CategoriesListSection: View {
 // MARK: - Single Category Item
 
 struct CategoryItem: View {
-    let category: ShopifyCollection
+    let category: Collection
 
     var body: some View {
         VStack(spacing: 6) {
@@ -63,6 +63,10 @@ struct CategoryItem: View {
 
 // MARK: - Preview
 #Preview {
-    CategoriesListSection(categories: MockShopifyData.categories)
-        .padding(.vertical)
+    CategoriesListSection(categories: [
+        Collection(id: "1", title: "Beauty",  handle: "beauty",  imageURL: "https://picsum.photos/seed/beauty/80/80"),
+        Collection(id: "2", title: "Fashion", handle: "fashion", imageURL: "https://picsum.photos/seed/fashion/80/80"),
+        Collection(id: "3", title: "Kids",    handle: "kids",    imageURL: "https://picsum.photos/seed/kids/80/80"),
+    ])
+    .padding(.vertical)
 }

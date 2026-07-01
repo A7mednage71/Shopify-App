@@ -2,9 +2,19 @@ import SwiftUI
 import Common
 
 public struct HomeView: View {
-    @StateObject private var viewModel = HomeViewModel()
+    @StateObject private var viewModel: HomeViewModel
 
-    public init() {}
+    // Internal init — used by HomeViewFactory (same module)
+    init(viewModel: HomeViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+
+    // Public no-arg init for backwards compatibility — wires real dependencies via factory
+    public init() {
+        _viewModel = StateObject(wrappedValue: HomeViewModel(
+            getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase()
+        ))
+    }
 
     public var body: some View {
         NavigationView {
@@ -28,7 +38,7 @@ public struct HomeView: View {
                     if viewModel.isSearching {
                         // MARK: Search Results
                         SearchResultsSection(
-                            products: viewModel.searchResults,
+                            products: [],
                             onProductTap: { product in
                                 print("Search result tapped: \(product.title)")
                             }
@@ -36,15 +46,27 @@ public struct HomeView: View {
                         .padding(.bottom, 30)
 
                     } else {
-                        // MARK: Normal Home Content
-                        CategoriesListSection(
-                            categories: MockShopifyData.categories,
-                            onCategoryTap: { collection in
-                                print("Tapped: \(collection.title)")
-                            }
-                        )
-                        .padding(.bottom, 16)
+                        // MARK: Categories — live data
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                        } else if let error = viewModel.error {
+                            Text(error)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.horizontal, 16)
+                        } else {
+                            CategoriesListSection(
+                                categories: viewModel.collections,
+                                onCategoryTap: { collection in
+                                    print("Tapped: \(collection.title)")
+                                }
+                            )
+                            .padding(.bottom, 16)
+                        }
 
+                        // MARK: Remaining sections — mock data (pending future passes)
                         HeroBannerSection(banners: MockShopifyData.heroBanners)
                             .padding(.bottom, 20)
 
@@ -121,9 +143,9 @@ public struct HomeView: View {
                 }
             }
         }
+        .task {
+            await viewModel.loadCollections()
+        }
     }
 }
 
-#Preview {
-    HomeView()
-}

@@ -90,6 +90,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
     case "CartLinesUpdatePayload": return ShopifyAPI.Objects.CartLinesUpdatePayload
+    case "CollectionConnection": return ShopifyAPI.Objects.Collection
     default: return nil
     }
   }

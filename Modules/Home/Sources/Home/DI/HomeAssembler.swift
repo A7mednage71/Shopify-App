@@ -1,0 +1,15 @@
+import Swinject
+
+enum HomeAssembler {
+    static func resolveGetCollectionsUseCase() -> any GetCollectionsUseCaseProtocol {
+        makeAssembler().resolver.resolve(GetCollectionsUseCaseProtocol.self)!
+    }
+
+    private static func makeAssembler() -> Assembler {
+        Assembler([
+            HomeDataAssembly(),
+            HomeDomainAssembly(),
+            HomePresentationAssembly(),
+        ])
+    }
+}

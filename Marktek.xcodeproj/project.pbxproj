@@ -107,6 +107,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2C78E1F02FF4E7CB00B71508 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				CADE619D2FF47D6600290B13 /* Secrets.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		2C90D2152FEFD85300FADB94 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,8 +134,8 @@
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
+				2C78E1F02FF4E7CB00B71508 /* Config */,
 				083555A02FF3A07D00083148 /* .swiftlint.yml */,
-				CADE619D2FF47D6600290B13 /* Secrets.xcconfig */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
 				616653AE2FEFCEA200C605D3 /* MarktekUITests */,
@@ -376,6 +384,7 @@
 /* Begin XCBuildConfiguration section */
 		616653B32FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -436,6 +445,7 @@
 		};
 		616653B42FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

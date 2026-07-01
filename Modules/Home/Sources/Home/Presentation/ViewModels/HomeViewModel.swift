@@ -1,63 +1,61 @@
 import Foundation
-import SwiftUI
 import Combine
-
-// MARK: - HomeViewModel
 
 @MainActor
 final class HomeViewModel: ObservableObject {
 
     // MARK: - Published State
+
+    @Published private(set) var collections: [Collection] = []
+    @Published private(set) var isLoading: Bool = false
+    @Published private(set) var error: String? = nil
+
+    // MARK: - Search
+
     @Published var searchText: String = ""
-    @Published private(set) var searchResults: [ShopifyProduct] = []
     @Published private(set) var isSearching: Bool = false
 
-    // MARK: - Data (replace with real repository calls)
-    let allProducts: [ShopifyProduct] = MockShopifyData.allProducts
-    let totalItemCount: Int = MockShopifyData.allProducts.count
+    // MARK: - Use Cases
+
+    private let getCollectionsUseCase: any GetCollectionsUseCaseProtocol
+
+    // MARK: - Combine
 
     private var cancellables = Set<AnyCancellable>()
 
-    init() {
-        // Debounce search so it doesn't fire on every keystroke
+    // MARK: - Init
+
+    init(getCollectionsUseCase: any GetCollectionsUseCaseProtocol) {
+        self.getCollectionsUseCase = getCollectionsUseCase
+        bindSearch()
+    }
+
+    // MARK: - Load
+
+    func loadCollections() async {
+        isLoading = true
+        error = nil
+        do {
+            collections = try await getCollectionsUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
+        }
+        isLoading = false
+    }
+
+    // MARK: - Search
+
+    var resultCountLabel: String {
+        "\(collections.count)+ Items"
+    }
+
+    private func bindSearch() {
         $searchText
             .debounce(for: .milliseconds(250), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] query in
-                self?.performSearch(query: query)
+                self?.isSearching = !query.trimmingCharacters(in: .whitespaces).isEmpty
             }
             .store(in: &cancellables)
-    }
-
-    // MARK: - Search Logic
-    private func performSearch(query: String) {
-        let trimmed = query.trimmingCharacters(in: .whitespaces)
-        isSearching = !trimmed.isEmpty
-
-        guard !trimmed.isEmpty else {
-            searchResults = []
-            return
-        }
-
-        let lower = trimmed.lowercased()
-        searchResults = allProducts.filter {
-            $0.title.lowercased().contains(lower) ||
-            $0.description.lowercased().contains(lower)
-        }
-    }
-
-    // MARK: - Formatted Count Label
-    var resultCountLabel: String {
-        let count = isSearching ? searchResults.count : totalItemCount
-        return formatCount(count) + "+ Items"
-    }
-
-    private func formatCount(_ n: Int) -> String {
-        if n >= 1_000_000 {
-            return String(format: "%.1fM", Double(n) / 1_000_000)
-        } else if n >= 1_000 {
-            return String(format: "%.0fK", Double(n) / 1_000)
-        }
-        return "\(n)"
     }
 }
