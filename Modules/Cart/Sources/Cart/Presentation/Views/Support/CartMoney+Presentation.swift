@@ -37,7 +37,14 @@ extension CartMoney {
         return CartMoney(amount: NSDecimalNumber(decimal: total).stringValue, currencyCode: currencyCode)
     }
 
-    private var decimalValue: Decimal {
+    func subtracting(_ money: CartMoney, clampedToZero: Bool = false) -> CartMoney {
+        let difference = decimalValue - money.decimalValue
+        let amount = clampedToZero && difference < 0 ? 0 : difference
+
+        return CartMoney(amount: NSDecimalNumber(decimal: amount).stringValue, currencyCode: currencyCode)
+    }
+
+    var decimalValue: Decimal {
         Decimal(string: amount.replacingOccurrences(of: ",", with: "")) ?? 0
     }
 }

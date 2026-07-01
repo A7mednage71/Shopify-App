@@ -37,9 +37,24 @@ struct CartDetailsView: View {
                 CartLoadedView(
                     cart: cart,
                     errorMessage: viewModel.errorMessage,
+                    discountCodeText: viewModel.discountCodeText,
+                    appliedDiscountCode: viewModel.appliedDiscountCode,
+                    isApplyingDiscountCode: viewModel.isApplyingDiscountCode,
+                    discountCodeErrorMessage: viewModel.discountCodeErrorMessage,
                     onIncrement: viewModel.increment(lineID:),
                     onDecrement: viewModel.decrement(lineID:),
-                    onRemove: viewModel.remove(lineID:)
+                    onRemove: viewModel.remove(lineID:),
+                    onDiscountCodeChange: viewModel.updateDiscountCodeText(_:),
+                    onApplyDiscountCode: {
+                        Task {
+                            await viewModel.applyDiscountCode()
+                        }
+                    },
+                    onRemoveDiscountCode: {
+                        Task {
+                            await viewModel.removeDiscountCode()
+                        }
+                    }
                 )
             }
 

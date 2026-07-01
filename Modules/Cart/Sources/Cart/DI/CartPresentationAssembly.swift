@@ -8,7 +8,8 @@ public struct CartPresentationAssembly: Assembly {
             CartViewFactory(
                 getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
                 updateCartLineQuantityUseCase: resolver.resolve(UpdateCartLineQuantityUseCaseProtocol.self)!,
-                removeCartLineUseCase: resolver.resolve(RemoveCartLineUseCaseProtocol.self)!
+                removeCartLineUseCase: resolver.resolve(RemoveCartLineUseCaseProtocol.self)!,
+                applyDiscountCodeUseCase: resolver.resolve(ApplyDiscountCodeUseCaseProtocol.self)!
             )
         }
     }

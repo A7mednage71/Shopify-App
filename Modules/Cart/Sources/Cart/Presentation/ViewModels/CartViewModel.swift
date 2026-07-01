@@ -5,10 +5,14 @@ import Foundation
 public final class CartViewModel: ObservableObject {
     @Published public private(set) var state: CartViewState = .idle
     @Published public private(set) var errorMessage: String?
+    @Published public private(set) var discountCodeText = ""
+    @Published public private(set) var isApplyingDiscountCode = false
+    @Published public private(set) var discountCodeErrorMessage: String?
 
     private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
     private let updateCartLineQuantityUseCase: any UpdateCartLineQuantityUseCaseProtocol
     private let removeCartLineUseCase: any RemoveCartLineUseCaseProtocol
+    private let applyDiscountCodeUseCase: any ApplyDiscountCodeUseCaseProtocol
     private var pendingLineRequests: [String: PendingLineRequest] = [:]
     private var pendingLineTasks: [String: Task<Void, Never>] = [:]
     private var nextRequestID = 0
@@ -16,11 +20,19 @@ public final class CartViewModel: ObservableObject {
     init(
         getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
         updateCartLineQuantityUseCase: any UpdateCartLineQuantityUseCaseProtocol,
-        removeCartLineUseCase: any RemoveCartLineUseCaseProtocol
+        removeCartLineUseCase: any RemoveCartLineUseCaseProtocol,
+        applyDiscountCodeUseCase: any ApplyDiscountCodeUseCaseProtocol
     ) {
         self.getCurrentCartUseCase = getCurrentCartUseCase
         self.updateCartLineQuantityUseCase = updateCartLineQuantityUseCase
         self.removeCartLineUseCase = removeCartLineUseCase
+        self.applyDiscountCodeUseCase = applyDiscountCodeUseCase
+    }
+
+    public var appliedDiscountCode: String? {
+        guard case let .success(cart) = state else { return nil }
+
+        return cart.discountCodes.first(where: \.applicable)?.code
     }
 
     public func loadCart() async {
@@ -31,6 +43,7 @@ public final class CartViewModel: ObservableObject {
         do {
             let cart = try await getCurrentCartUseCase.execute()
             state = .success(cart)
+            syncDiscountCodeText(with: cart)
         } catch {
             state = .failure(error.localizedDescription)
         }
@@ -60,6 +73,66 @@ public final class CartViewModel: ObservableObject {
         pendingLineTasks[lineID] = Task { [weak self] in
             await self?.removeLineOnServer(lineID: lineID, requestID: requestID)
         }
+    }
+
+    public func updateDiscountCodeText(_ text: String) {
+        discountCodeText = text
+        discountCodeErrorMessage = nil
+    }
+
+    public func applyDiscountCode() async {
+        let trimmedCode = discountCodeText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !trimmedCode.isEmpty, !isApplyingDiscountCode else { return }
+
+        isApplyingDiscountCode = true
+        discountCodeErrorMessage = nil
+        errorMessage = nil
+
+        do {
+            _ = try await applyDiscountCodeUseCase.execute(
+                input: ApplyDiscountCodesInput(discountCodes: [trimmedCode])
+            )
+
+            let cart = try await getCurrentCartUseCase.execute()
+            state = .success(cart)
+
+            if let appliedCode = cart.discountCodes.first(where: { discountCode in
+                discountCode.applicable && discountCode.code.caseInsensitiveCompare(trimmedCode) == .orderedSame
+            })?.code {
+                discountCodeText = appliedCode
+                discountCodeErrorMessage = nil
+            } else {
+                discountCodeText = trimmedCode
+                discountCodeErrorMessage = CartText.discountCodeNotApplicableMessage
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+
+        isApplyingDiscountCode = false
+    }
+
+    public func removeDiscountCode() async {
+        guard !isApplyingDiscountCode else { return }
+
+        isApplyingDiscountCode = true
+        discountCodeErrorMessage = nil
+        errorMessage = nil
+
+        do {
+            _ = try await applyDiscountCodeUseCase.execute(
+                input: ApplyDiscountCodesInput(discountCodes: [])
+            )
+
+            let cart = try await getCurrentCartUseCase.execute()
+            state = .success(cart)
+            discountCodeText = ""
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+
+        isApplyingDiscountCode = false
     }
 
     private func changeQuantity(for lineID: String, by delta: Int) {
@@ -169,6 +242,15 @@ public final class CartViewModel: ObservableObject {
         nextRequestID += 1
 
         return nextRequestID
+    }
+
+    private func syncDiscountCodeText(with cart: CartDetails) {
+        guard let appliedCode = cart.discountCodes.first(where: \.applicable)?.code else {
+            return
+        }
+
+        discountCodeText = appliedCode
+        discountCodeErrorMessage = nil
     }
 }
 

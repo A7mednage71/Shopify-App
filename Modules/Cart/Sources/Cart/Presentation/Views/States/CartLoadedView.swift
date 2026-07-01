@@ -4,9 +4,16 @@ import SwiftUI
 struct CartLoadedView: View {
     let cart: CartDetails
     let errorMessage: String?
+    let discountCodeText: String
+    let appliedDiscountCode: String?
+    let isApplyingDiscountCode: Bool
+    let discountCodeErrorMessage: String?
     let onIncrement: (String) -> Void
     let onDecrement: (String) -> Void
     let onRemove: (String) -> Void
+    let onDiscountCodeChange: (String) -> Void
+    let onApplyDiscountCode: () -> Void
+    let onRemoveDiscountCode: () -> Void
 
     @State private var deletionConfirmation: CartDeletionConfirmation?
     @State private var toastMessage: String?
@@ -51,6 +58,17 @@ struct CartLoadedView: View {
                 .animation(.easeInOut(duration: 0.24), value: cartLineIDs)
 
                 VStack(spacing: 12) {
+                    CartDiscountCodeView(
+                        codeText: discountCodeText,
+                        appliedCode: appliedDiscountCode,
+                        isApplying: isApplyingDiscountCode,
+                        errorMessage: discountCodeErrorMessage,
+                        onTextChange: onDiscountCodeChange,
+                        onApply: onApplyDiscountCode,
+                        onRemove: onRemoveDiscountCode
+                    )
+                    .padding(.horizontal, 22)
+
                     CartOrderSummaryView(cart: cart)
                         .padding(.horizontal, 22)
 

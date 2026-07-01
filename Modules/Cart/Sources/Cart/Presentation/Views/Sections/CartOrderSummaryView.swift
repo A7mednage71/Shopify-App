@@ -13,6 +13,7 @@ struct CartOrderSummaryView: View {
             VStack(spacing: 10) {
                 CartSummaryRow(title: CartText.itemsSummaryTitle, value: "\(cart.totalQuantity)")
                 CartSummaryRow(title: CartText.subtotalSummaryTitle, value: cart.cost.subtotalAmount.formattedCurrency(fractionDigits: 0))
+                CartSummaryRow(title: CartText.discountSummaryTitle, value: discountText)
 
                 Divider()
                     .background(AppColors.border)
@@ -30,5 +31,15 @@ struct CartOrderSummaryView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(AppColors.backgroundSecondary)
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    private var discountText: String {
+        let discount = cart.cost.subtotalAmount.subtracting(cart.cost.totalAmount, clampedToZero: true)
+
+        guard discount.decimalValue > 0 else {
+            return discount.formattedCurrency(fractionDigits: 0)
+        }
+
+        return "-\(discount.formattedCurrency(fractionDigits: 0))"
     }
 }
