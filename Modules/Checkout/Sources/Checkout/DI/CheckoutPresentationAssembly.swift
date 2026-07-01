@@ -9,10 +9,17 @@ public struct CheckoutPresentationAssembly: Assembly {
             CheckoutPaymentStrategyProvider()
         }
 
+        container.register(PerformCheckoutUseCaseProtocol.self) { resolver in
+            PerformCheckoutUseCase(
+                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!
+            )
+        }
+
         container.register(CheckoutViewFactory.self) { resolver in
             CheckoutViewFactory(
                 getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
-                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!
+                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
+                performCheckoutUseCase: resolver.resolve(PerformCheckoutUseCaseProtocol.self)!
             )
         }
     }
