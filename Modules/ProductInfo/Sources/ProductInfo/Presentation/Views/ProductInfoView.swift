@@ -3,41 +3,40 @@ import SwiftUI
 struct ProductInfoView: View {
     @StateObject private var viewModel: ProductInfoViewModel
     private let productID: String
+    private let cartDestination: () -> AnyView
 
-    init(productID: String, viewModel: ProductInfoViewModel) {
+    init(
+        productID: String,
+        viewModel: ProductInfoViewModel,
+        cartDestination: @escaping () -> AnyView
+    ) {
         self.productID = productID
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.cartDestination = cartDestination
     }
 
     var body: some View {
         NavigationView {
-            content
-                .navigationTitle("Product Details")
+            ProductInfoStateContentView(
+                state: viewModel.state,
+                addToCartState: viewModel.addToCartState,
+                cartDestination: cartDestination,
+                onAddToCart: { variant, quantity in
+                    Task {
+                        await viewModel.addToCart(variant: variant, quantity: quantity)
+                    }
+                },
+                onRetry: {
+                    Task {
+                        await viewModel.loadProduct(id: productID)
+                    }
+                }
+            )
                 .productNavigationTitleStyle()
         }
         .productNavigationContainerStyle()
         .task {
             await viewModel.loadProduct(id: productID)
-        }
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        Group {
-            switch viewModel.state {
-            case .idle, .loading:
-                ProductInfoLoadingView()
-
-            case .success(let product):
-                ProductInfoContentView(product: product)
-
-            case .failure(let message):
-                ProductInfoErrorView(message: message) {
-                    Task {
-                        await viewModel.loadProduct(id: productID)
-                    }
-                }
-            }
         }
     }
 }

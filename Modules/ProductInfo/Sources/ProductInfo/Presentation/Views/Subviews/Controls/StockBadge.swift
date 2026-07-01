@@ -23,8 +23,8 @@ struct StockBadge: View {
     }
 
     private var text: String {
-        guard isAvailable else { return "Out of stock" }
-        guard let quantityAvailable else { return "In stock" }
-        return quantityAvailable > 0 ? "\(quantityAvailable) in stock" : "In stock"
+        guard isAvailable else { return ProductInfoText.outOfStock }
+        guard let quantityAvailable else { return ProductInfoText.inStock }
+        return quantityAvailable > 0 ? ProductInfoText.stockQuantity(quantityAvailable) : ProductInfoText.inStock
     }
 }
