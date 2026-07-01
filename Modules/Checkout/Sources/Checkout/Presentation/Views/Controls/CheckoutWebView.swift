@@ -25,6 +25,7 @@ private struct PlatformCheckoutWebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.navigationDelegate = context.coordinator
+        webView.uiDelegate = context.coordinator
         return webView
     }
 
@@ -37,7 +38,7 @@ private struct PlatformCheckoutWebView: UIViewRepresentable {
     }
 }
 
-private final class Coordinator: NSObject, WKNavigationDelegate {
+private final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
     var onCheckoutCompleted: (URL) -> Void
 
     private let completionDetector = CheckoutCompletionDetector()
@@ -59,10 +60,57 @@ private final class Coordinator: NSObject, WKNavigationDelegate {
         decisionHandler(.allow)
     }
 
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationResponse: WKNavigationResponse,
+        decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void
+    ) {
+        if let url = navigationResponse.response.url {
+            reportCompletionIfNeeded(url)
+        }
+
+        decisionHandler(.allow)
+    }
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        guard let url = webView.url else { return }
+
+        reportCompletionIfNeeded(url)
+    }
+
+    func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+        guard let url = webView.url else { return }
+
+        reportCompletionIfNeeded(url)
+    }
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        guard let url = webView.url else { return }
+
+        reportCompletionIfNeeded(url)
+    }
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         guard let url = webView.url else { return }
 
         reportCompletionIfNeeded(url)
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        createWebViewWith configuration: WKWebViewConfiguration,
+        for navigationAction: WKNavigationAction,
+        windowFeatures: WKWindowFeatures
+    ) -> WKWebView? {
+        guard navigationAction.targetFrame == nil,
+              let url = navigationAction.request.url else {
+            return nil
+        }
+
+        reportCompletionIfNeeded(url)
+        webView.load(URLRequest(url: url))
+
+        return nil
     }
 
     private func reportCompletionIfNeeded(_ url: URL) {
@@ -72,6 +120,9 @@ private final class Coordinator: NSObject, WKNavigationDelegate {
         }
 
         didReportCompletion = true
-        onCheckoutCompleted(url)
+
+        DispatchQueue.main.async { [onCheckoutCompleted] in
+            onCheckoutCompleted(url)
+        }
     }
 }

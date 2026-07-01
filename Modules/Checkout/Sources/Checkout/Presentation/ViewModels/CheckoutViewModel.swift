@@ -11,6 +11,7 @@ public final class CheckoutViewModel: ObservableObject {
     @Published public var checkoutErrorMessage: String?
     @Published var orderConfirmationRoute: CheckoutOrderConfirmationRoute?
 
+    private var isCompletingCheckout = false
     private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
     private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
@@ -55,6 +56,7 @@ public final class CheckoutViewModel: ObservableObject {
 
         checkoutErrorMessage = nil
         orderConfirmationRoute = nil
+        isCompletingCheckout = false
 
         do {
             let action = try await performCheckoutUseCase.execute(
@@ -74,22 +76,30 @@ public final class CheckoutViewModel: ObservableObject {
     }
 
     func checkoutCompleted(url: URL) {
-        guard orderConfirmationRoute == nil,
+        guard !isCompletingCheckout,
               case let .success(cart) = state else {
             webCheckoutRoute = nil
             return
         }
 
+        isCompletingCheckout = true
         webCheckoutRoute = nil
-        orderConfirmationRoute = CheckoutOrderConfirmationRoute(
+
+        let confirmationRoute = CheckoutOrderConfirmationRoute(
             completionURL: url,
             cart: cart,
             paymentMethodTitle: selectedPaymentMethod?.title
         )
+
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 350_000_000)
+            orderConfirmationRoute = confirmationRoute
+        }
     }
 
     func dismissOrderConfirmation() {
         orderConfirmationRoute = nil
+        isCompletingCheckout = false
     }
 }
 
