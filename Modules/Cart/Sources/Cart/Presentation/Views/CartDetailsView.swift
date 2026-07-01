@@ -3,9 +3,14 @@ import SwiftUI
 
 struct CartDetailsView: View {
     @StateObject private var viewModel: CartViewModel
+    private let checkoutDestination: () -> AnyView
 
-    init(viewModel: CartViewModel) {
+    init(
+        viewModel: CartViewModel,
+        checkoutDestination: @escaping () -> AnyView
+    ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.checkoutDestination = checkoutDestination
     }
 
     var body: some View {
@@ -54,7 +59,8 @@ struct CartDetailsView: View {
                         Task {
                             await viewModel.removeDiscountCode()
                         }
-                    }
+                    },
+                    checkoutDestination: checkoutDestination
                 )
             }
 

@@ -14,6 +14,7 @@ struct CartLoadedView: View {
     let onDiscountCodeChange: (String) -> Void
     let onApplyDiscountCode: () -> Void
     let onRemoveDiscountCode: () -> Void
+    let checkoutDestination: () -> AnyView
 
     @State private var deletionConfirmation: CartDeletionConfirmation?
     @State private var toastMessage: String?
@@ -72,7 +73,22 @@ struct CartLoadedView: View {
                     CartOrderSummaryView(cart: cart)
                         .padding(.horizontal, 22)
 
-                    CartPrimaryButton(title: CartText.checkoutButtonTitle, action: {})
+                    NavigationLink(destination: checkoutDestination()) {
+                        HStack(spacing: 10) {
+                            Text(CartText.checkoutButtonTitle)
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 17, weight: .bold))
+                        }
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(AppColors.textWhite)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 58)
+                        .background(AppColors.primary)
+                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .shadow(color: AppColors.primary.opacity(0.28), radius: 16, x: 0, y: 10)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(CartText.checkoutButtonTitle)
                         .padding(.horizontal, 22)
                 }
                 .padding(.top, 12)
