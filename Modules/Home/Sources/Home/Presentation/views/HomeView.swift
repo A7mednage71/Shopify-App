@@ -124,6 +124,3 @@ public struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView()
-}

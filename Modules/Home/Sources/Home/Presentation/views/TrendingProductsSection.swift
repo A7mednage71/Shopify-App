@@ -117,7 +117,3 @@ struct TrendingProductCard: View {
 }
 
 
-// MARK: - Preview
-#Preview {
-    TrendingProductsSection(products: MockShopifyData.trendingProducts)
-}

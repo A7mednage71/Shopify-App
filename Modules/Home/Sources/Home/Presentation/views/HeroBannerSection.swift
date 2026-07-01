@@ -116,8 +116,3 @@ struct BannerCard: View {
     }
 }
 
-// MARK: - Preview
-#Preview {
-    HeroBannerSection(banners: MockShopifyData.heroBanners)
-        .padding(.vertical)
-}

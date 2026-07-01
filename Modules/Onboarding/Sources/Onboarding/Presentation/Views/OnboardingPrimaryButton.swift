@@ -28,8 +28,4 @@ struct OnboardingPrimaryButton: View {
     }
 }
 
-#Preview {
-    OnboardingPrimaryButton(title: "Next", action: {})
-        .padding()
-        .background(OnboardingPalette.pageBackground)
-}
+
