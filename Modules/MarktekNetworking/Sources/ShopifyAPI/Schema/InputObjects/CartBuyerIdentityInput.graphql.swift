@@ -1,7 +1,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-@_spi(Internal) @_spi(Unsafe) import ApolloAPI
+import ApolloAPI
 
 /// The input fields for identifying the buyer associated with a cart. Buyer identity determines [international pricing](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/markets/international-pricing) and should match the customer's shipping address.
 ///
@@ -10,10 +10,10 @@
 /// > Note:
 /// > Preferences prefill fields at checkout but don't sync back to the cart if overwritten.
 ///
-nonisolated public struct CartBuyerIdentityInput: InputObject {
-  @_spi(Unsafe) public private(set) var __data: InputDict
+public struct CartBuyerIdentityInput: InputObject {
+  public private(set) var __data: InputDict
 
-  @_spi(Unsafe) public init(_ data: InputDict) {
+  public init(_ data: InputDict) {
     __data = data
   }
 

@@ -5,9 +5,8 @@ import ApolloAPI
 
 public extension Objects {
   /// Error codes for failed Shop Pay payment request session mutations.
-  nonisolated static let UserErrorsShopPayPaymentRequestSessionUserErrors = ApolloAPI.Object(
+  static let UserErrorsShopPayPaymentRequestSessionUserErrors = ApolloAPI.Object(
     typename: "UserErrorsShopPayPaymentRequestSessionUserErrors",
-    implementedInterfaces: [Interfaces.DisplayableError.self],
-    keyFields: nil
+    implementedInterfaces: [Interfaces.DisplayableError.self]
   )
 }

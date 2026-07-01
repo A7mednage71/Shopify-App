@@ -113,7 +113,7 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
 private extension AddCartLineRequest {
     func toGraphQLInput() throws -> CartLineInput {
         try CartLineInput(
-            quantity: .some(quantity.toGraphQLQuantity()),
+            quantity: .some(quantity),
             merchandiseId: merchandiseID
         )
     }
@@ -123,7 +123,7 @@ private extension UpdateCartLineRequest {
     func toGraphQLInput() throws -> CartLineUpdateInput {
         try CartLineUpdateInput(
             id: lineID,
-            quantity: .some(quantity.toGraphQLQuantity()),
+            quantity: .some(quantity),
             merchandiseId: merchandiseID.map { .some($0) } ?? nil
         )
     }

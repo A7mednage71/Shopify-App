@@ -5,12 +5,11 @@ import ApolloAPI
 
 public extension Objects {
   /// Represents a Shopify hosted 3D model.
-  nonisolated static let Model3d = ApolloAPI.Object(
+  static let Model3d = ApolloAPI.Object(
     typename: "Model3d",
     implementedInterfaces: [
       Interfaces.Media.self,
       Interfaces.Node.self
-    ],
-    keyFields: nil
+    ]
   )
 }

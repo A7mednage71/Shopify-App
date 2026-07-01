@@ -5,7 +5,7 @@
 // Any changes to this file will not be overwritten by future
 // code generation execution.
 
-@_spi(Internal) @_spi(Execution) import ApolloAPI
+import ApolloAPI
 
 /// A string containing HTML code. Refer to the [HTML spec](https://html.spec.whatwg.org/#elements-3) for a
 /// complete list of HTML elements.

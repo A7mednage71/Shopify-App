@@ -1,13 +1,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-@_spi(Internal) @_spi(Unsafe) import ApolloAPI
+import ApolloAPI
 
 /// Preferred location used to find the closest pick up point based on coordinates.
-nonisolated public struct CartDeliveryCoordinatesPreferenceInput: InputObject {
-  @_spi(Unsafe) public private(set) var __data: InputDict
+public struct CartDeliveryCoordinatesPreferenceInput: InputObject {
+  public private(set) var __data: InputDict
 
-  @_spi(Unsafe) public init(_ data: InputDict) {
+  public init(_ data: InputDict) {
     __data = data
   }
 

@@ -8,14 +8,13 @@ public extension Objects {
   ///
   /// Query a collection's products with [filtering options](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/products-collections/filter-products) like availability, price range, vendor, and tags. Each collection includes [`SEO`](https://shopify.dev/docs/api/storefront/current/objects/SEO) information, an optional [`Image`](https://shopify.dev/docs/api/storefront/current/objects/Image), and supports custom data through [`metafields`](https://shopify.dev/docs/api/storefront/current/objects/Metafield).
   ///
-  nonisolated static let Collection = ApolloAPI.Object(
+  static let Collection = ApolloAPI.Object(
     typename: "Collection",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,
       Interfaces.Node.self,
       Interfaces.OnlineStorePublishable.self,
       Interfaces.Trackable.self
-    ],
-    keyFields: nil
+    ]
   )
 }

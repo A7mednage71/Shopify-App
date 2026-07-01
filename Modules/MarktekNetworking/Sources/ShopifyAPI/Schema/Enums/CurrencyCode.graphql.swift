@@ -1,13 +1,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-@_spi(Internal) import ApolloAPI
+import ApolloAPI
 
 /// The three-letter currency codes that represent the world currencies used in
 /// stores. These include standard ISO 4217 codes, legacy codes,
 /// and non-standard codes.
 ///
-nonisolated public enum CurrencyCode: String, EnumType {
+public enum CurrencyCode: String, EnumType {
   /// United States Dollars (USD).
   case usd = "USD"
   /// Euro (EUR).

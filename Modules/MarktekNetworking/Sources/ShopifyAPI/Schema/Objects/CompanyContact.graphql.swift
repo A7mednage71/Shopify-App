@@ -5,9 +5,8 @@ import ApolloAPI
 
 public extension Objects {
   /// A company's main point of contact.
-  nonisolated static let CompanyContact = ApolloAPI.Object(
+  static let CompanyContact = ApolloAPI.Object(
     typename: "CompanyContact",
-    implementedInterfaces: [Interfaces.Node.self],
-    keyFields: nil
+    implementedInterfaces: [Interfaces.Node.self]
   )
 }

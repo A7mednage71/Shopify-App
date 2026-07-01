@@ -5,7 +5,7 @@
 // Any changes to this file will not be overwritten by future
 // code generation execution.
 
-@_spi(Internal) @_spi(Execution) import ApolloAPI
+import ApolloAPI
 
 /// Represents an [RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986) and
 /// [RFC 3987](https://datatracker.ietf.org/doc/html/rfc3987)-compliant URI string.
