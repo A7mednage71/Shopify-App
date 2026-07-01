@@ -7,7 +7,6 @@ let package = Package(
     name: "Checkout",
     platforms: [
         .iOS(.v15),
-        .macOS(.v13),
     ],
     products: [
         .library(
