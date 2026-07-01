@@ -99,7 +99,6 @@ public struct HomeView: View {
 
                         TrendingProductsSection(
                             products: viewModel.trendingProducts,
-                            onViewAll: { print("View all trending") },
                             onProductTap: { product in
                                 print("Trending: \(product.title)")
                             }

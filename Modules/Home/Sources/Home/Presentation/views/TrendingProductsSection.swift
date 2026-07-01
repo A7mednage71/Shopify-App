@@ -5,55 +5,48 @@ import Common
 
 struct TrendingProductsSection: View {
     let products: [Product]
-    var onViewAll: (() -> Void)? = nil
     var onProductTap: ((Product) -> Void)? = nil
     
     var body: some View {
-        VStack(spacing: 0) {
+
+        VStack(alignment: .leading, spacing: 0) {
             
-            // Section Header — Unified orange banner card
-            HStack(alignment: .center) {
-                // Left: Title + Date
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(HomeStrings.Trending.sectionTitle)
-                        .font(.sectionTitle)
-                        .foregroundColor(.appTextWhite)
-                    
-                    HStack(spacing: 5) {
-                        Image(systemName: "calendar")
-                            .font(.system(size: 12))
-                            .foregroundColor(.appTextWhite.opacity(0.85))
-                        Text(HomeStrings.Trending.lastDate)
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundColor(.appTextWhite.opacity(0.85))
-                    }
-                }
+            VStack(alignment: .leading, spacing: 4) {
+                Text(HomeStrings.Trending.sectionTitle)
+                    .font(.sectionTitle)
+                    .foregroundColor(.appTextWhite)
                 
-                Spacer()
+                HStack(spacing: 5) {
+                    Image(systemName: "calendar")
+                        .font(.system(size: 11))
+                    Text(HomeStrings.Trending.lastDate)
+                        .font(.system(size: 11, weight: .regular))
+                }
+                .foregroundColor(.appTextWhite.opacity(0.9))
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 14)
-            .background(Color.appPrimaryOrange)
-            .cornerRadius(14)
-            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 12)
             
-            // Horizontal Product Grid
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(Array(products.enumerated()), id: \.element.id) { index, product in
                         TrendingProductCard(product: product, index: index)
+                            .padding(.vertical, 4)
                             .onTapGesture {
                                 onProductTap?(product)
                             }
                     }
                 }
                 .padding(.horizontal, 16)
-                .padding(.vertical, 12)
+                .padding(.bottom, 16)
             }
         }
+        .background(Color.appPrimaryOrange)
+        .cornerRadius(14)
+        .padding(.horizontal, 16)
     }
 }
-
 
 // MARK: - Trending Product Card (compact square)
 struct TrendingProductCard: View {
