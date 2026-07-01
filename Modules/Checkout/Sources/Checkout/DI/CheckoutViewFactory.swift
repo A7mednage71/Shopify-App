@@ -4,13 +4,16 @@ import SwiftUI
 public struct CheckoutViewFactory {
     private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
+    private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
 
     init(
         getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
-        paymentStrategyProvider: CheckoutPaymentStrategyProvider
+        paymentStrategyProvider: CheckoutPaymentStrategyProvider,
+        performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
     ) {
         self.getCurrentCartUseCase = getCurrentCartUseCase
         self.paymentStrategyProvider = paymentStrategyProvider
+        self.performCheckoutUseCase = performCheckoutUseCase
     }
 
     @MainActor
@@ -18,7 +21,8 @@ public struct CheckoutViewFactory {
         CheckoutView(
             viewModel: CheckoutViewModel(
                 getCurrentCartUseCase: getCurrentCartUseCase,
-                paymentStrategyProvider: paymentStrategyProvider
+                paymentStrategyProvider: paymentStrategyProvider,
+                performCheckoutUseCase: performCheckoutUseCase
             )
         )
     }

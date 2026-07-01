@@ -23,6 +23,30 @@ struct CheckoutView: View {
         }
         .animation(.easeInOut(duration: 0.22), value: viewModel.state)
         .animation(.easeInOut(duration: 0.22), value: viewModel.addressState)
+        .sheet(item: $viewModel.webCheckoutRoute) { route in
+            NavigationView {
+                CheckoutWebView(url: route.url)
+                    .navigationTitle(CheckoutText.checkoutWebTitle)
+                    .checkoutNavigationTitleStyle()
+            }
+        }
+        .alert(
+            CheckoutText.checkoutErrorTitle,
+            isPresented: Binding(
+                get: { viewModel.checkoutErrorMessage != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        viewModel.checkoutErrorMessage = nil
+                    }
+                }
+            )
+        ) {
+            Button(CheckoutText.checkoutErrorDismissTitle, role: .cancel) {
+                viewModel.checkoutErrorMessage = nil
+            }
+        } message: {
+            Text(viewModel.checkoutErrorMessage ?? "")
+        }
     }
 
     @ViewBuilder
@@ -60,7 +84,11 @@ struct CheckoutView: View {
 
                 CheckoutPrimaryButton(
                     title: CheckoutText.checkoutButtonTitle,
-                    action: viewModel.checkoutNow
+                    action: {
+                        Task {
+                            await viewModel.checkoutNow()
+                        }
+                    }
                 )
             }
             .padding(.horizontal, 22)

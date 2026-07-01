@@ -1,6 +1,9 @@
+import Common
+import Foundation
+
 public protocol CheckoutPaymentStrategy: Sendable {
     var method: CheckoutPaymentMethod { get }
-    func prepareForCheckout() async throws
+    func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction
 }
 
 public struct CardPaymentStrategy: CheckoutPaymentStrategy {
@@ -13,7 +16,14 @@ public struct CardPaymentStrategy: CheckoutPaymentStrategy {
 
     public init() {}
 
-    public func prepareForCheckout() async throws {}
+    public func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction {
+        guard let checkoutUrl = cart.checkoutUrl,
+              let url = URL(string: checkoutUrl) else {
+            throw CheckoutPaymentError.missingCheckoutURL
+        }
+
+        return .presentWebCheckout(url)
+    }
 }
 
 public struct ApplePayPaymentStrategy: CheckoutPaymentStrategy {
@@ -26,7 +36,9 @@ public struct ApplePayPaymentStrategy: CheckoutPaymentStrategy {
 
     public init() {}
 
-    public func prepareForCheckout() async throws {}
+    public func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction {
+        .none
+    }
 }
 
 public struct CashOnDeliveryPaymentStrategy: CheckoutPaymentStrategy {
@@ -39,7 +51,9 @@ public struct CashOnDeliveryPaymentStrategy: CheckoutPaymentStrategy {
 
     public init() {}
 
-    public func prepareForCheckout() async throws {}
+    public func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction {
+        .none
+    }
 }
 
 public struct CheckoutPaymentStrategyProvider: Sendable {

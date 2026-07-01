@@ -1,4 +1,5 @@
 import Cart
+import Checkout
 import ProductInfo
 import SwiftUI
 import Swinject
@@ -8,6 +9,7 @@ final class AppDIContainer {
         CartDataAssembly(),
         CartDomainAssembly(),
         CartPresentationAssembly(),
+        CheckoutPresentationAssembly(),
         ProductInfoDataAssembly(),
         ProductInfoDomainAssembly(),
         ProductInfoPresentationAssembly()
@@ -16,7 +18,8 @@ final class AppDIContainer {
     @MainActor
     func makeRootView() -> some View {
         guard let productInfoViewFactory = assembler.resolver.resolve(ProductInfoViewFactory.self),
-              let cartViewFactory = assembler.resolver.resolve(CartViewFactory.self) else {
+              let cartViewFactory = assembler.resolver.resolve(CartViewFactory.self),
+              let checkoutViewFactory = assembler.resolver.resolve(CheckoutViewFactory.self) else {
             return AnyView(Text("Unable to load cart."))
         }
 
@@ -24,7 +27,13 @@ final class AppDIContainer {
             productInfoViewFactory.makeProductInfoView(
                 productID: "gid://shopify/Product/7471719088183",
                 cartDestination: {
-                    AnyView(cartViewFactory.makeCartDestinationView())
+                    AnyView(
+                        cartViewFactory.makeCartDestinationView(
+                            checkoutDestination: {
+                                AnyView(checkoutViewFactory.makeCheckoutDestinationView())
+                            }
+                        )
+                    )
                 }
             )
         )

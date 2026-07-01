@@ -19,27 +19,28 @@ public struct CartViewFactory {
     }
 
     @MainActor
-    public func makeCartView() -> some View {
+    public func makeCartView(checkoutDestination: @escaping () -> AnyView) -> some View {
         NavigationView {
-            makeCartDetailsView()
+            makeCartDetailsView(checkoutDestination: checkoutDestination)
         }
         .cartNavigationContainerStyle()
     }
 
     @MainActor
-    public func makeCartDestinationView() -> some View {
-        makeCartDetailsView()
+    public func makeCartDestinationView(checkoutDestination: @escaping () -> AnyView) -> some View {
+        makeCartDetailsView(checkoutDestination: checkoutDestination)
     }
 
     @MainActor
-    private func makeCartDetailsView() -> some View {
+    private func makeCartDetailsView(checkoutDestination: @escaping () -> AnyView) -> some View {
         CartDetailsView(
             viewModel: CartViewModel(
                 getCurrentCartUseCase: getCurrentCartUseCase,
                 updateCartLineQuantityUseCase: updateCartLineQuantityUseCase,
                 removeCartLineUseCase: removeCartLineUseCase,
                 applyDiscountCodeUseCase: applyDiscountCodeUseCase
-            )
+            ),
+            checkoutDestination: checkoutDestination
         )
     }
 }
