@@ -2,7 +2,7 @@ import Foundation
 
 struct UserDefaultsCartManager: CartManager, Sendable {
     private static let cartIDKey = "com.marktek.cart.id"
-    private static let testingCartID = "gid://shopify/Cart/hWNDw4cAgUNvAoiR1XL2K3QA?key=2d7d3c4dd2c8cec2fae59ad257c8faaa"
+    private static let testingCartID = "gid://shopify/Cart/hWNDyenitSQjCY44qIxN5hWk?key=04004bd1b3e54ad5e23600f35c4c5255"
 
     var cartID: String? {
         if !Self.testingCartID.isEmpty {
