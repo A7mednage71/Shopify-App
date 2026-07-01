@@ -6,7 +6,8 @@ public enum HomeViewFactory {
         HomeView(
             viewModel: HomeViewModel(
                 getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
-                searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase()
+                searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
+                getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase()
             )
         )
     }

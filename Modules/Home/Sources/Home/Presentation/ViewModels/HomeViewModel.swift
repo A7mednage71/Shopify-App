@@ -10,17 +10,23 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var error: String? = nil
 
-    // MARK: - Search State
+    // MARK: - Search
 
     @Published var searchText: String = ""
-    @Published private(set) var searchResults: [Product] = []
-    @Published private(set) var searchTotalCount: Int = 0
     @Published private(set) var isSearching: Bool = false
+    @Published private(set) var searchResults: [Product] = []
+    @Published private(set) var isSearchLoading: Bool = false
+
+    // MARK: - Trending
+
+    @Published private(set) var trendingProducts: [Product] = []
+    @Published private(set) var isTrendingLoading: Bool = false
 
     // MARK: - Use Cases
 
     private let getCollectionsUseCase: any GetCollectionsUseCaseProtocol
     private let searchProductsUseCase: any SearchProductsUseCaseProtocol
+    private let getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
 
     // MARK: - Combine
 
@@ -30,14 +36,16 @@ final class HomeViewModel: ObservableObject {
 
     init(
         getCollectionsUseCase: any GetCollectionsUseCaseProtocol,
-        searchProductsUseCase: any SearchProductsUseCaseProtocol
+        searchProductsUseCase: any SearchProductsUseCaseProtocol,
+        getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
     ) {
         self.getCollectionsUseCase = getCollectionsUseCase
         self.searchProductsUseCase = searchProductsUseCase
+        self.getTrendingProductsUseCase = getTrendingProductsUseCase
         bindSearch()
     }
 
-    // MARK: - Load Collections
+    // MARK: - Load
 
     func loadCollections() async {
         isLoading = true
@@ -50,40 +58,49 @@ final class HomeViewModel: ObservableObject {
         isLoading = false
     }
 
+    func loadTrendingProducts() async {
+        isTrendingLoading = true
+        do {
+            trendingProducts = try await getTrendingProductsUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
+        }
+        isTrendingLoading = false
+    }
+
     // MARK: - Search
 
     var resultCountLabel: String {
-        "\(searchTotalCount)+ Items"
+        "\(searchResults.count) results"
+    }
+
+    private func performSearch(query: String) {
+        Task {
+            isSearchLoading = true
+            defer { isSearchLoading = false }
+            
+            do {
+                searchResults = try await searchProductsUseCase.execute(query: query)
+            } catch {
+                self.error = error.localizedDescription
+                searchResults = []
+            }
+        }
     }
 
     private func bindSearch() {
         $searchText
-            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
+            .debounce(for: .milliseconds(400), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] query in
-                guard let self else { return }
                 let trimmed = query.trimmingCharacters(in: .whitespaces)
-                if trimmed.count >= 2 {
-                    Task { await self.search(query: trimmed) }
+                self?.isSearching = !trimmed.isEmpty
+                if !trimmed.isEmpty {
+                    self?.performSearch(query: trimmed)
                 } else {
-                    self.searchResults = []
-                    self.searchTotalCount = 0
-                    self.isSearching = false
+                    self?.searchResults = []
                 }
             }
             .store(in: &cancellables)
-    }
-
-    private func search(query: String) async {
-        isSearching = true
-        do {
-            let results = try await searchProductsUseCase.execute(query: query)
-            searchResults = results
-            searchTotalCount = results.count
-        } catch {
-            searchResults = []
-            searchTotalCount = 0
-        }
-        isSearching = false
     }
 }

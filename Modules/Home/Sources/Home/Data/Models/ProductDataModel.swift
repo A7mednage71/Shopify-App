@@ -1,4 +1,4 @@
-struct SearchResultDataModel: Sendable {
+struct ProductDataModel: Sendable {
     let id: String
     let title: String
     let description: String

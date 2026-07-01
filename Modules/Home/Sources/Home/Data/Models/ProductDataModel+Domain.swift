@@ -1,4 +1,4 @@
-extension SearchResultDataModel {
+extension ProductDataModel {
     func toDomain() -> Product {
         Product(
             id: id,

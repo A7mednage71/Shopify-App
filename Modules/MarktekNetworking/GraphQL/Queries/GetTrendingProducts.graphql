@@ -1,0 +1,32 @@
+query GetTrendingProducts($first: Int = 10) {
+  products(first: $first, sortKey: BEST_SELLING) {
+    nodes {
+      id
+      title
+      description
+      handle
+      featuredImage {
+        url
+        altText
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      compareAtPriceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      ratingMetafield: metafield(namespace: "custom", key: "rating") {
+        value
+      }
+      reviewCountMetafield: metafield(namespace: "custom", key: "review_count") {
+        value
+      }
+    }
+  }
+}

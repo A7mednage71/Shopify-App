@@ -2,8 +2,6 @@ import SwiftUI
 import Common
 
 // MARK: - Trending Products Section
-// Shopify API: products(first: 10, sortKey: BEST_SELLING)
-// OR: collection(handle: "trending") { products(first:10) }
 
 struct TrendingProductsSection: View {
     let products: [Product]
@@ -32,25 +30,6 @@ struct TrendingProductsSection: View {
                 }
                 
                 Spacer()
-                
-                // Right: View All button
-                Button(action: { onViewAll?() }) {
-                    HStack(spacing: 5) {
-                        Text(HomeStrings.Trending.viewAll)
-                            .font(.buttonSmall)
-                            .foregroundColor(.appTextWhite)
-                        Text("→")
-                            .font(.sectionAction)
-                            .foregroundColor(.appTextWhite)
-                    }
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.appTextWhite, lineWidth: 1.5)
-                    )
-                }
-                .buttonStyle(.plain)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 14)
@@ -61,8 +40,8 @@ struct TrendingProductsSection: View {
             // Horizontal Product Grid
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
-                    ForEach(products) { product in
-                        TrendingProductCard(product: product)
+                    ForEach(Array(products.enumerated()), id: \.element.id) { index, product in
+                        TrendingProductCard(product: product, index: index)
                             .onTapGesture {
                                 onProductTap?(product)
                             }
@@ -79,12 +58,16 @@ struct TrendingProductsSection: View {
 // MARK: - Trending Product Card (compact square)
 struct TrendingProductCard: View {
     let product: Product
-    
+    let index: Int
+
+    private let cardWidth: CGFloat = 140
+    private let cardHeight: CGFloat = 190
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            // Image — full width, no side padding
-            ZStack {
+        ZStack(alignment: .bottomLeading) {
+
+            // Background image — fills entire card
+            Group {
                 if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
                     AsyncImage(url: url) { phase in
                         switch phase {
@@ -92,9 +75,17 @@ struct TrendingProductCard: View {
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
+                        case .empty:
+                            Rectangle()
+                                .fill(Color.appBackgroundGray)
+                                .overlay(ProgressView().tint(.appTextTertiary))
                         default:
                             Rectangle()
                                 .fill(Color.appBackgroundGray)
+                                .overlay(
+                                    Image(systemName: "photo")
+                                        .foregroundColor(.appTextTertiary)
+                                )
                         }
                     }
                 } else {
@@ -102,27 +93,96 @@ struct TrendingProductCard: View {
                         .fill(Color.appBackgroundGray)
                 }
             }
-            .frame(width: 140, height: 130)
+            .frame(width: cardWidth, height: cardHeight)
             .clipped()
-            
-            // Text block
-            VStack(alignment: .leading, spacing: 4) {
+
+            // Gradient — stronger and taller for legibility
+            LinearGradient(
+                colors: [
+                    .black.opacity(0),
+                    .black.opacity(0),
+                    .black.opacity(0.55),
+                    .black.opacity(0.85)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(width: cardWidth, height: cardHeight)
+
+            // Product info — overlaid on top of image
+            VStack(alignment: .leading, spacing: 6) {
                 Text(product.title)
-                    .font(.productName)
-                    .foregroundColor(.appTextPrimary)
-                    .lineLimit(1)
-                
-                Text(product.price)
-                    .font(.productPrice)
-                    .foregroundColor(.appPrimaryOrange)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.white)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                HStack(spacing: 6) {
+                    Text(product.price)
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(.white)
+
+                    if let compareAtPrice = product.compareAtPrice {
+                        Text(compareAtPrice)
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.white.opacity(0.65))
+                            .strikethrough(true, color: .white.opacity(0.65))
+                    }
+                }
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 8)
+            .padding(12)
+
+            // Trending rank badge — top leading
+            HStack(spacing: 4) {
+                Image(systemName: "flame.fill")
+                    .font(.system(size: 10, weight: .bold))
+                Text("#\(index + 1)")
+                    .font(.system(size: 12, weight: .bold))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
+            .background(
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.appPrimaryOrange, Color.appPrimaryOrange.opacity(0.85)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            )
+            .shadow(color: Color.appPrimaryOrange.opacity(0.4), radius: 4, x: 0, y: 2)
+            .padding(8)
+            .frame(width: cardWidth, height: cardHeight, alignment: .topLeading)
+
+            // Discount badge — top trailing (only if on sale)
+            if let discount = discountPercentage {
+                Text("-\(discount)%")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color.red))
+                    .frame(width: cardWidth, height: cardHeight, alignment: .topTrailing)
+                    .padding(8)
+            }
         }
-        .frame(width: 140)
+        .frame(width: cardWidth, height: cardHeight)
         .background(Color.appBackgroundWhite)
-        .cornerRadius(12)
-        .shadow(color: Color.appCardShadow, radius: 6, x: 0, y: 2)
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .shadow(color: Color.appCardShadow.opacity(0.25), radius: 10, x: 0, y: 6)
+    }
+
+    // Helper to compute discount % if compareAtPrice exists and is valid
+    private var discountPercentage: Int? {
+        guard let compareAtPrice = product.compareAtPrice,
+              let compareValue = Double(compareAtPrice.filter { "0123456789.".contains($0) }),
+              let priceValue = Double(product.price.filter { "0123456789.".contains($0) }),
+              compareValue > priceValue else {
+            return nil
+        }
+        let discount = ((compareValue - priceValue) / compareValue) * 100
+        return Int(discount.rounded())
     }
 }
-

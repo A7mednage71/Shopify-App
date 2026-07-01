@@ -13,7 +13,8 @@ public struct HomeView: View {
     public init() {
         _viewModel = StateObject(wrappedValue: HomeViewModel(
             getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
-            searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase()
+            searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
+            getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase()
         ))
     }
 
@@ -29,15 +30,15 @@ public struct HomeView: View {
 
                     // MARK: Sort & Filter Bar — always visible
                     SortAndFilterSearch(
-                        leadingLabel: viewModel.searchText.trimmingCharacters(in: .whitespaces).count >= 2
+                        leadingLabel: viewModel.isSearching
                             ? viewModel.resultCountLabel
                             : HomeStrings.Category.sectionTitle
                     )
                     .padding(.top, 8)
                     .padding(.bottom, 8)
 
-                    if viewModel.searchText.trimmingCharacters(in: .whitespaces).count >= 2 {
-                        // MARK: Search Results — live data
+                    if viewModel.isSearching {
+                        // MARK: Search Results
                         SearchResultsSection(
                             products: viewModel.searchResults,
                             onProductTap: { product in
@@ -97,7 +98,7 @@ public struct HomeView: View {
                         .padding(.vertical, 16)
 
                         TrendingProductsSection(
-                            products: MockShopifyData.trendingProducts,
+                            products: viewModel.trendingProducts,
                             onViewAll: { print("View all trending") },
                             onProductTap: { product in
                                 print("Trending: \(product.title)")
@@ -146,6 +147,7 @@ public struct HomeView: View {
         }
         .task {
             await viewModel.loadCollections()
+            await viewModel.loadTrendingProducts()
         }
     }
 }

@@ -13,5 +13,11 @@ struct HomeDomainAssembly: Assembly {
                 repository: resolver.resolve(HomeRepository.self)!
             )
         }
+
+        container.register(GetTrendingProductsUseCaseProtocol.self) { resolver in
+            GetTrendingProductsUseCase(
+                repository: resolver.resolve(HomeRepository.self)!
+            )
+        }
     }
 }
