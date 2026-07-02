@@ -5,6 +5,8 @@ import SwiftUI
 import Swinject
 
 final class AppDIContainer {
+    static let shared = AppDIContainer()
+
     private let assembler = Assembler([
         CartDataAssembly(),
         CartDomainAssembly(),
@@ -15,27 +17,9 @@ final class AppDIContainer {
         ProductInfoPresentationAssembly()
     ])
 
-    @MainActor
-    func makeRootView() -> some View {
-        guard let productInfoViewFactory = assembler.resolver.resolve(ProductInfoViewFactory.self),
-              let cartViewFactory = assembler.resolver.resolve(CartViewFactory.self),
-              let checkoutViewFactory = assembler.resolver.resolve(CheckoutViewFactory.self) else {
-            return AnyView(Text("Unable to load cart."))
-        }
+    private init() {}
 
-        return AnyView(
-            productInfoViewFactory.makeProductInfoView(
-                productID: "gid://shopify/Product/7471719088183",
-                cartDestination: {
-                    AnyView(
-                        cartViewFactory.makeCartDestinationView(
-                            checkoutDestination: {
-                                AnyView(checkoutViewFactory.makeCheckoutDestinationView())
-                            }
-                        )
-                    )
-                }
-            )
-        )
+    func resolve<Service>(_ serviceType: Service.Type) -> Service? {
+        assembler.resolver.resolve(serviceType)
     }
 }
