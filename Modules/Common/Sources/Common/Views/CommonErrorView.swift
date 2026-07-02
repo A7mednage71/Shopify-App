@@ -1,11 +1,15 @@
 import SwiftUI
-import Common
 
-struct HomeErrorView: View {
-    let message: String
-    let onRetry: () -> Void
+public struct CommonErrorView: View {
+    public let message: String
+    public let onRetry: () -> Void
 
-    var body: some View {
+    public init(message: String, onRetry: @escaping () -> Void) {
+        self.message = message
+        self.onRetry = onRetry
+    }
+
+    public var body: some View {
         VStack(spacing: 24) {
             // Icon container
             ZStack {
@@ -53,15 +57,14 @@ struct HomeErrorView: View {
             .padding(.bottom, 24)
         }
         .frame(maxWidth: .infinity)
-    
         .padding(.horizontal, 20)
         .padding(.vertical, 40)
     }
 }
 
-struct HomeErrorView_Previews: PreviewProvider {
+struct CommonErrorView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeErrorView(message: "Failed to load collections due to a network connection timeout. Please check your connection and try again.") {
+        CommonErrorView(message: "Failed to load collections due to a network connection timeout. Please check your connection and try again.") {
             print("Retry tapped")
         }
         .background(Color.appBackgroundGray)

@@ -9,7 +9,7 @@ struct HomeMainContentView: View {
             if viewModel.isLoading {
                 HomeMainSkeletonView()
             } else if let error = viewModel.error {
-                HomeErrorView(message: error) {
+                CommonErrorView(message: error) {
                     viewModel.retry()
                 }
             } else {
