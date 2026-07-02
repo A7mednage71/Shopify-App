@@ -111,8 +111,8 @@ public struct CheckoutWebCheckoutRoute: Identifiable, Equatable {
     }
 }
 
-struct CheckoutOrderConfirmationRoute: Identifiable {
-    let id = UUID()
+public struct CheckoutOrderConfirmationRoute: Identifiable {
+    public let id = UUID()
     let completionURL: URL
     let cart: CartDetails
     let paymentMethodTitle: String?
