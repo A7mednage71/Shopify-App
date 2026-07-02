@@ -1,21 +1,34 @@
 //
-//  SwiftUIView.swift
-//  
+//  LoginView.swift
+//
 //
 //  Created by Eyad waleed on 28/06/2026.
 //
 
 import SwiftUI
+import Common
+
 @available(iOS 14.0, *)
-public struct SwiftUIView: View {
+public struct LoginView: View {
     @State var emailStateValue = ""
     @State var passwordStatValue = ""
-    @StateObject var viewModel = LoginViewModel(signIn: SignInUseCase(Authrepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation())),
-  signInWithGoogle: SignWithGoogleUseCase(authRepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation()))
+    @StateObject var viewModel = LoginViewModel(signIn: SignInUseCase(Authrepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation(), apiAuth:ApiAuth.shared)),
+   signInWithGoogle: SignWithGoogleUseCase(authRepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation(), apiAuth: ApiAuth.shared))
     )
-    public  init() {
-        
-    }
+    var onNavigateToRegister: () -> Void
+    var onGuestContinue: () -> Void
+    var onLoginSuccess: () -> Void
+
+    public init(
+            onNavigateToRegister: @escaping () -> Void = {},
+            onGuestContinue: @escaping () -> Void = {},
+            onLoginSuccess : @escaping () -> Void = {}
+        ) {
+            self.onNavigateToRegister = onNavigateToRegister
+            self.onGuestContinue = onGuestContinue
+            self.onLoginSuccess = onLoginSuccess
+            
+        }
     public var body: some View {
         ZStack {
             formContent
@@ -39,8 +52,13 @@ public struct SwiftUIView: View {
                 message: Text(errorMessage),
                 dismissButton: .default(Text("OK"))
             )
+        }.onChange(of: viewModel.loginState) { newState in
+            if newState == .success {
+                onLoginSuccess()
+            }
         }
     }
+    
     
     @ViewBuilder
     private var formContent: some View {
@@ -68,11 +86,13 @@ public struct SwiftUIView: View {
             }
             Group {
                 Spacer().frame(height: 9)
-                Button { } label: {
+                Button {
+                } label: {
                     Text("Forget Password ?")
                         .font(.system(size: 12))
-                        .foregroundColor(Color(red: 255/255, green: 161/255, blue: 2/255))
+                        .foregroundColor(AppColors.primary)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer().frame(height: 52)
                 CustomBtn(label: "Login", action: {
                     Task {
@@ -82,26 +102,25 @@ public struct SwiftUIView: View {
                 Spacer().frame(height: 75)
             }
             Group {
-                Text("-OR Continue with-").font(.system(size: 12, design: .default))
-                Spacer().frame(height: 35)
-                HStack {
-                    CutomeCircularBtn(image: "apple", action: {})
-                    CutomeCircularBtn(image: "facebook", action: {})
-                    CutomeCircularBtn(image: "google", action: {
-                        Task{
+                SocialSignInSection(
+                    guestAction: {
+                        onGuestContinue()
+                    },
+                    appleAction: {},
+                    googleAction: {
+                        Task {
                             await viewModel.signInWithGoogle()
                         }
-                    })
-                }
-                Spacer().frame(height: 28)
-                HStack {
-                    Text("Create An Account").font(.system(size: 14))
-                    Button { } label: {
-                        Text("Sign Up")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(Color(red: 255/255, green: 161/255, blue: 2/255))
                     }
-                }
+                )
+                Spacer().frame(height: 28)
+                AuthBottomPrompt(
+                    promptText: "Create An Account",
+                    actionText: "Sign Up",
+                    action: {
+                        onNavigateToRegister()
+                    }
+                )
             }
         }
         .disabled(viewModel.loginState == .loading)

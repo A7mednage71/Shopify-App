@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Esraa Ehab on 29/06/2026.
 //
@@ -16,6 +16,7 @@ class RegisterViewModel: ObservableObject {
     
     @Published var registerState: AuthState = .idel
     @Published var emailError: String = ""
+    @Published var nameError: String = ""
     @Published var passwordError: String = ""
     @Published var confirmPasswordError: String = ""
     
@@ -24,18 +25,20 @@ class RegisterViewModel: ObservableObject {
         self.signInWithGoogle = signInWithGoogle
     }
     
-    func register(email: String, password: String, confirmPassword: String) async {
+    func register(fullName: String, email: String, password: String, confirmPassword: String) async {
+        nameError = ""
         emailError = ""
         passwordError = ""
         confirmPasswordError = ""
         
         do {
             registerState = .loading
-            try await registerUseCase.execute(email: email, password: password, confirmPassword: confirmPassword)
+            try await registerUseCase.execute(fullName: fullName, email: email, password: password, confirmPassword: confirmPassword)
             registerState = .success
             
         } catch let error as RegisterValidateError {
             registerState = .idel
+            nameError = error.fullNameErrorMessage
             emailError = error.emailErrorMessage
             passwordError = error.passwordErrorMessage
             confirmPasswordError = error.confirmPasswordErrorMessage
@@ -71,6 +74,8 @@ class RegisterViewModel: ObservableObject {
             return "Check your internet connection"
         case .unknown:
             return "Unknown Error"
+        case .unknowns:
+            return "Unkown Error"
         }
     }
 }

@@ -9,63 +9,61 @@ import Foundation
 import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
-class FirebaseAuthenitcation : AuthenticationService{
+import CryptoKit
+class FirebaseAuthenitcation : AuthenticationServiceViaPlatform{
+    
     @available(iOS 13.0.0, *)
-    func createUserWithEmailAndPassword(email: String, password: String) async throws {
-            do {
-                let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
-                print("User Registered Successfully: \(authResult.user.email ?? "No Email")")
-            } catch {
-                print("Error creating user: \(error.localizedDescription)")
-                throw error
-            }
+    func signInUsingGoogle() async throws -> (email: String, password: String) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            throw AuthError.unknown
         }
-    
-    @available(iOS 13.0.0, *)
-    func signInUsingGoogle() async throws {
-         guard let clientID = FirebaseApp.app()?.options.clientID else {
-             throw AuthError.unknown
-         }
-         
-         let config = GIDConfiguration(clientID: clientID)
-         GIDSignIn.sharedInstance.configuration = config
-         
-         guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let rootViewController = await windowScene.windows.first?.rootViewController else {
-             throw AuthError.unknown
-         }
-         
-         do {
-             let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
-             guard let idToken = result.user.idToken?.tokenString else {
-                 throw AuthError.unknown
-             }
-             let credential = GoogleAuthProvider.credential(
-                 withIDToken: idToken,
-                 accessToken: result.user.accessToken.tokenString
-             )
-             try await Auth.auth().signIn(with: credential)
-         } catch {
-             try mapGoogleError(error)
-         }
-        
-     }
-    
+
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+
+        guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootViewController = await windowScene.windows.first?.rootViewController else {
+            throw AuthError.unknown
+        }
+
+        do {
+            let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
+
+            guard let idToken = result.user.idToken?.tokenString else {
+                throw AuthError.unknown
+            }
+
+            let credential = GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: result.user.accessToken.tokenString
+            )
+
+            let authResult = try await Auth.auth().signIn(with: credential)
+
+            guard let email = authResult.user.email else {
+                throw AuthError.unknown
+            }
+
+            let password = Self.generateShopifyPassword(for: email)
+
+            return (email: email, password: password)
+
+        } catch {
+            try mapGoogleError(error)
+            throw AuthError.unknown
+        }
+    }
+
+    private static func generateShopifyPassword(for email: String) -> String {
+        let salt = "YOUR_APP_SPECIFIC_SALT"
+        let raw = email.lowercased() + salt
+        let hash = SHA256.hash(data: Data(raw.utf8))
+        return hash.compactMap { String(format: "%02x", $0) }.joined()
+    }
     func signInUsingApple() throws {
         
     }
     
-    @available(iOS 13.0.0, *)
-    func signInUsingEmailAndpassword(email: String, password: String) async throws {
-        do{
-           
-                 try await Auth.auth().signIn(withEmail: email, password: password)
-            
-        } catch {
-            print(error.localizedDescription)
-            try mapFirebaseError(error)
-        }
-    }
     
     private func mapFirebaseError(_ error: Error) throws {
         let error = error as NSError
@@ -86,12 +84,11 @@ class FirebaseAuthenitcation : AuthenticationService{
     }
     private func mapGoogleError(_ error: Error) throws {
         let nsError = error as NSError
-        // user cancelled
         if nsError.domain == kGIDSignInErrorDomain {
             switch nsError.code {
-            case -5: // kGIDSignInErrorCodeCanceled
+            case -5: //
                 break
-            case -4: // kGIDSignInErrorCodeEMM
+            case -4:
                 throw AuthError.unknown
             default:
                 throw AuthError.unknown

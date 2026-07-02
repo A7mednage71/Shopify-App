@@ -5,7 +5,7 @@ import ApolloAPI
 
 public extension Objects {
   /// Represents information about the grouped merchandise in the cart.
-  static let ComponentizableCartLine = ApolloAPI.Object(
+  static let ComponentizableCartLine = Object(
     typename: "ComponentizableCartLine",
     implementedInterfaces: [
       Interfaces.BaseCartLine.self,

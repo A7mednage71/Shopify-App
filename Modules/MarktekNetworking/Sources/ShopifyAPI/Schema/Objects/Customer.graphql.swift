@@ -10,7 +10,7 @@ public extension Objects {
   ///
   /// The object implements the [`HasMetafields`](https://shopify.dev/docs/api/storefront/current/interfaces/HasMetafields) interface, enabling retrieval of [custom data](https://shopify.dev/docs/apps/build/custom-data) associated with the customer.
   ///
-  static let Customer = ApolloAPI.Object(
+  static let Customer = Object(
     typename: "Customer",
     implementedInterfaces: [Interfaces.HasMetafields.self]
   )

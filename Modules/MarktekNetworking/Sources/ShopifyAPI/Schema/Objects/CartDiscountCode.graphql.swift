@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// The [`applicable`](https://shopify.dev/docs/api/storefront/current/objects/CartDiscountCode#field-CartDiscountCode.fields.applicable) field indicates whether the code applies to the cart's current contents, which might change as items are added or removed.
   ///
-  static let CartDiscountCode = ApolloAPI.Object(
+  static let CartDiscountCode = Object(
     typename: "CartDiscountCode",
     implementedInterfaces: []
   )

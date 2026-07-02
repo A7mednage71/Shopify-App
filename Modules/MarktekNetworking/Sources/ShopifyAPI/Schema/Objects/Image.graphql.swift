@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// The [`url`](https://shopify.dev/docs/api/storefront/current/objects/Image#field-Image.fields.url) field accepts an [`ImageTransformInput`](https://shopify.dev/docs/api/storefront/current/input-objects/ImageTransformInput) argument for resizing, cropping, scaling for retina displays, and converting between image formats. Use the [`thumbhash`](https://shopify.dev/docs/api/storefront/current/objects/Image#field-Image.fields.thumbhash) field to display lightweight placeholders while images load.
   ///
-  static let Image = ApolloAPI.Object(
+  static let Image = Object(
     typename: "Image",
     implementedInterfaces: []
   )

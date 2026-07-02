@@ -6,7 +6,7 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type for paginating through multiple Images.
   ///
-  static let ImageConnection = ApolloAPI.Object(
+  static let ImageConnection = Object(
     typename: "ImageConnection",
     implementedInterfaces: []
   )

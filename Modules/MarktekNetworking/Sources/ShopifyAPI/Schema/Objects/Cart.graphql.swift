@@ -10,7 +10,7 @@ public extension Objects {
   ///
   /// Learn more about [interacting with carts](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/cart/manage).
   ///
-  static let Cart = ApolloAPI.Object(
+  static let Cart = Object(
     typename: "Cart",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,

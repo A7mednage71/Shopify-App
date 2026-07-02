@@ -12,7 +12,7 @@ public extension Objects {
   ///
   /// Learn more about working with [products and collections](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
   ///
-  static let Product = ApolloAPI.Object(
+  static let Product = Object(
     typename: "Product",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,
