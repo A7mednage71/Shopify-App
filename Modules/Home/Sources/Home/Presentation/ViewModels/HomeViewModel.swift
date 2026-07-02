@@ -64,14 +64,12 @@ final class HomeViewModel: ObservableObject {
     @Published var isSearchLoading: Bool = false
     var originalSearchResults: [SearchProduct] = []
 
-    // MARK: - Trending
-
-    @Published private(set) var trendingProducts: [TrendingProduct] = []
+    @Published private(set) var trendingProducts: [HomeProduct] = []
     @Published private(set) var isTrendingLoading: Bool = false
 
     // MARK: - Special Offers
 
-    @Published private(set) var specialOffers: [OfferProduct] = []
+    @Published private(set) var specialOffers: [HomeProduct] = []
     @Published private(set) var isSpecialOffersLoading: Bool = false
     
     // MARK: - Sorting

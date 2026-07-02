@@ -2,8 +2,8 @@ import SwiftUI
 import Common
 
 struct OfferProductCardsSection: View {
-    let products: [OfferProduct]
-    var onProductTap: ((OfferProduct) -> Void)? = nil
+    let products: [HomeProduct]
+    var onProductTap: ((HomeProduct) -> Void)? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -22,7 +22,7 @@ struct OfferProductCardsSection: View {
 #Preview {
     ScrollView {
         OfferProductCardsSection(products: MockShopifyData.featuredProducts.map {
-            OfferProduct(
+            HomeProduct(
                 id: $0.id,
                 title: $0.title,
                 handle: $0.handle,

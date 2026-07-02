@@ -1,7 +1,7 @@
 import Foundation
 
 protocol GetSpecialOffersUseCaseProtocol: Sendable {
-    func execute(first: Int) async throws -> [OfferProduct]
+    func execute(first: Int) async throws -> [HomeProduct]
 }
 
 struct GetSpecialOffersUseCase: GetSpecialOffersUseCaseProtocol, Sendable {
@@ -11,7 +11,7 @@ struct GetSpecialOffersUseCase: GetSpecialOffersUseCaseProtocol, Sendable {
         self.repository = repository
     }
 
-    func execute(first: Int = 10) async throws -> [OfferProduct] {
+    func execute(first: Int = 10) async throws -> [HomeProduct] {
         try await repository.getSpecialOffers(first: first)
     }
 }

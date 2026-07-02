@@ -16,21 +16,21 @@ struct ShopifyHomeRemoteDataSource: HomeRemoteDataSource, Sendable {
         return SearchResponseData(data: response)
     }
 
-    func fetchTrendingProducts(first: Int) async throws -> [TrendingProductDataModel] {
+    func fetchTrendingProducts(first: Int) async throws -> [HomeProductDataModel] {
         let data = try await ShopifyGraphQLClient.shared.fetch(
             GetTrendingProductsQuery(first: .some(first))
         )
         return data.products.nodes.map { (node: GetTrendingProductsQuery.Data.Products.Node) in
-            TrendingProductDataModel(node: node)
+            HomeProductDataModel(trendingNode: node)
         }
     }
 
-    func fetchSpecialOffers(first: Int) async throws -> [SpecialOfferDataModel] {
+    func fetchSpecialOffers(first: Int) async throws -> [HomeProductDataModel] {
         let data = try await ShopifyGraphQLClient.shared.fetch(
             GetSpecialOffersQuery(first: .some(first))
         )
         return data.products.nodes.map { (node: GetSpecialOffersQuery.Data.Products.Node) in
-            SpecialOfferDataModel(node: node)
+            HomeProductDataModel(specialOfferNode: node)
         }
     }
 }

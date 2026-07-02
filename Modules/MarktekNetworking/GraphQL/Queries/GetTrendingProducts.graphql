@@ -3,11 +3,9 @@ query GetTrendingProducts($first: Int = 10) {
     nodes {
       id
       title
-      description
       handle
       featuredImage {
         url
-        altText
       }
       priceRange {
         minVariantPrice {
@@ -20,12 +18,6 @@ query GetTrendingProducts($first: Int = 10) {
           amount
           currencyCode
         }
-      }
-      ratingMetafield: metafield(namespace: "custom", key: "rating") {
-        value
-      }
-      reviewCountMetafield: metafield(namespace: "custom", key: "review_count") {
-        value
       }
     }
   }

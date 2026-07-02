@@ -25,7 +25,7 @@ struct HomeMainSkeletonView: View {
 
             OfferProductCardsSection(
                 products: Array(MockShopifyData.featuredProducts.prefix(2)).map {
-                    OfferProduct(
+                    HomeProduct(
                         id: $0.id,
                         title: $0.title,
                         handle: $0.handle,
@@ -48,9 +48,9 @@ struct HomeMainSkeletonView: View {
 
             TrendingProductsSection(
                 products: [
-                    TrendingProduct(id: "1", title: "Trending Product 1", featuredImageURL: nil, featuredImageAltText: nil, price: "100.00", currencyCode: "INR", compareAtPrice: nil, compareAtCurrencyCode: nil),
-                    TrendingProduct(id: "2", title: "Trending Product 2", featuredImageURL: nil, featuredImageAltText: nil, price: "200.00", currencyCode: "INR", compareAtPrice: nil, compareAtCurrencyCode: nil),
-                    TrendingProduct(id: "3", title: "Trending Product 3", featuredImageURL: nil, featuredImageAltText: nil, price: "300.00", currencyCode: "INR", compareAtPrice: nil, compareAtCurrencyCode: nil)
+                    HomeProduct(id: "1", title: "Trending Product 1", handle: "t1", featuredImageURL: nil, price: "100.00", currencyCode: "INR", compareAtPrice: nil, compareAtCurrencyCode: nil),
+                    HomeProduct(id: "2", title: "Trending Product 2", handle: "t2", featuredImageURL: nil, price: "200.00", currencyCode: "INR", compareAtPrice: nil, compareAtCurrencyCode: nil),
+                    HomeProduct(id: "3", title: "Trending Product 3", handle: "t3", featuredImageURL: nil, price: "300.00", currencyCode: "INR", compareAtPrice: nil, compareAtCurrencyCode: nil)
                 ],
                 onProductTap: { _ in }
             )

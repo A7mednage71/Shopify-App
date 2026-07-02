@@ -11,7 +11,7 @@ import SwiftUI
 
 // MARK: - Trending Product Card (compact square)
 struct TrendingProductCard: View {
-    let product: TrendingProduct
+    let product: HomeProduct
     let index: Int
 
     private let cardWidth: CGFloat = 140

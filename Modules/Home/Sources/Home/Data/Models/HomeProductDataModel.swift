@@ -1,11 +1,11 @@
 import Foundation
 
-// MARK: - Trending Product Data Model
-struct TrendingProductDataModel: Sendable {
+// MARK: - Home Product Data Model
+struct HomeProductDataModel: Sendable {
     let id: String
     let title: String
+    let handle: String
     let featuredImageURL: String?
-    let featuredImageAltText: String?
     let price: String
     let currencyCode: String
     let compareAtPrice: String?

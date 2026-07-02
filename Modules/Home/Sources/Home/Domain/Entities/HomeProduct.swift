@@ -1,10 +1,10 @@
 import Foundation
 
-public struct TrendingProduct: Identifiable, Sendable {
+public struct HomeProduct: Identifiable, Sendable {
     public let id: String
     public let title: String
+    public let handle: String
     public let featuredImageURL: String?
-    public let featuredImageAltText: String?
     public let price: String
     public let currencyCode: String
     public let compareAtPrice: String?
@@ -13,8 +13,8 @@ public struct TrendingProduct: Identifiable, Sendable {
     public init(
         id: String,
         title: String,
+        handle: String,
         featuredImageURL: String?,
-        featuredImageAltText: String?,
         price: String,
         currencyCode: String,
         compareAtPrice: String?,
@@ -22,8 +22,8 @@ public struct TrendingProduct: Identifiable, Sendable {
     ) {
         self.id = id
         self.title = title
+        self.handle = handle
         self.featuredImageURL = featuredImageURL
-        self.featuredImageAltText = featuredImageAltText
         self.price = price
         self.currencyCode = currencyCode
         self.compareAtPrice = compareAtPrice

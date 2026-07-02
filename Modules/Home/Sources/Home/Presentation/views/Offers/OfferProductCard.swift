@@ -3,7 +3,7 @@ import Common
 
 struct OfferProductCard: View {
     
-    let product: OfferProduct
+    let product: HomeProduct
     @State private var isWishlisted = false
 
     var body: some View {

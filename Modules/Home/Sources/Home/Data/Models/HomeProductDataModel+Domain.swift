@@ -1,12 +1,12 @@
 import Foundation
 
-extension TrendingProductDataModel {
-    func toDomain() -> TrendingProduct {
-        TrendingProduct(
+extension HomeProductDataModel {
+    func toDomain() -> HomeProduct {
+        HomeProduct(
             id: id,
             title: title,
+            handle: handle,
             featuredImageURL: featuredImageURL,
-            featuredImageAltText: featuredImageAltText,
             price: price,
             currencyCode: currencyCode,
             compareAtPrice: compareAtPrice,

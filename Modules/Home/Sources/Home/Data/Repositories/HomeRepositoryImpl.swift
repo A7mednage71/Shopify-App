@@ -14,11 +14,11 @@ struct HomeRepositoryImpl: HomeRepository, Sendable {
         return response.data.search.edges.map { $0.node.toDomain() }
     }
 
-    func getTrendingProducts(first: Int) async throws -> [TrendingProduct] {
+    func getTrendingProducts(first: Int) async throws -> [HomeProduct] {
         try await remoteDataSource.fetchTrendingProducts(first: first).map { $0.toDomain() }
     }
 
-    func getSpecialOffers(first: Int) async throws -> [OfferProduct] {
+    func getSpecialOffers(first: Int) async throws -> [HomeProduct] {
         try await remoteDataSource.fetchSpecialOffers(first: first).map { $0.toDomain() }
     }
 }

@@ -4,8 +4,8 @@ import Common
 // MARK: - Trending Products Section
 
 struct TrendingProductsSection: View {
-    let products: [TrendingProduct]
-    var onProductTap: ((TrendingProduct) -> Void)? = nil
+    let products: [HomeProduct]
+    var onProductTap: ((HomeProduct) -> Void)? = nil
     
     var body: some View {
 
