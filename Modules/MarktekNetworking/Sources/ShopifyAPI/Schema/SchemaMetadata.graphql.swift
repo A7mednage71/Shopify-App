@@ -20,7 +20,7 @@ where Schema == ShopifyAPI.SchemaMetadata {}
 public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
   public static let configuration: ApolloAPI.SchemaConfiguration.Type = SchemaConfiguration.self
 
-  public static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
+  public static func objectType(forTypename typename: String) -> Object? {
     switch typename {
     case "Mutation": return ShopifyAPI.Objects.Mutation
     case "CartLinesRemovePayload": return ShopifyAPI.Objects.CartLinesRemovePayload
@@ -82,6 +82,8 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "QueryRoot": return ShopifyAPI.Objects.QueryRoot
     case "ProductConnection": return ShopifyAPI.Objects.ProductConnection
     case "ProductEdge": return ShopifyAPI.Objects.ProductEdge
+    case "CustomerAccessTokenCreatePayload": return ShopifyAPI.Objects.CustomerAccessTokenCreatePayload
+    case "CustomerAccessToken": return ShopifyAPI.Objects.CustomerAccessToken
     case "ProductPriceRange": return ShopifyAPI.Objects.ProductPriceRange
     case "ImageConnection": return ShopifyAPI.Objects.ImageConnection
     case "ImageEdge": return ShopifyAPI.Objects.ImageEdge
@@ -89,6 +91,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductVariantEdge": return ShopifyAPI.Objects.ProductVariantEdge
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
+    case "CustomerCreatePayload": return ShopifyAPI.Objects.CustomerCreatePayload
     case "CartLinesUpdatePayload": return ShopifyAPI.Objects.CartLinesUpdatePayload
     default: return nil
     }

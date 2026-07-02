@@ -5,7 +5,7 @@ import ApolloAPI
 
 public extension Objects {
   /// A redirect on the online store.
-  static let UrlRedirect = ApolloAPI.Object(
+  static let UrlRedirect = Object(
     typename: "UrlRedirect",
     implementedInterfaces: [Interfaces.Node.self]
   )

@@ -5,7 +5,7 @@ import ApolloAPI
 
 public extension Objects {
   /// Represents an error in the input of a mutation.
-  static let UserError = ApolloAPI.Object(
+  static let UserError = Object(
     typename: "UserError",
     implementedInterfaces: [Interfaces.DisplayableError.self]
   )

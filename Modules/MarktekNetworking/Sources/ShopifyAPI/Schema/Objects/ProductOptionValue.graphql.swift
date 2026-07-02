@@ -10,7 +10,7 @@ public extension Objects {
   ///
   /// Learn more about [Shopify's product model](https://shopify.dev/docs/apps/build/product-merchandising/products-and-collections).
   ///
-  static let ProductOptionValue = ApolloAPI.Object(
+  static let ProductOptionValue = Object(
     typename: "ProductOptionValue",
     implementedInterfaces: [Interfaces.Node.self]
   )

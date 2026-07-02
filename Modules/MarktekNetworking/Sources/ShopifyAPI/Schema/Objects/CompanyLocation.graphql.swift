@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// Access through the [`PurchasingCompany`](https://shopify.dev/docs/api/storefront/current/objects/PurchasingCompany) object, which associates the location with the buyer's [`Cart`](https://shopify.dev/docs/api/storefront/current/objects/Cart).
   ///
-  static let CompanyLocation = ApolloAPI.Object(
+  static let CompanyLocation = Object(
     typename: "CompanyLocation",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,
