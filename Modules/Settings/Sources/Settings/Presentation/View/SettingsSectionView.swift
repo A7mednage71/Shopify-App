@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Common
 
 @available(iOS 14.0, *)
 public struct SettingsSectionView<Content: View>: View {
@@ -20,16 +21,17 @@ public struct SettingsSectionView<Content: View>: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title.uppercased())
-                .font(.system(size: 13, weight: .bold))
-                .foregroundColor(.black.opacity(0.8))
+                .font(AppFonts.footnote.weight(.bold))
+                .foregroundColor(AppColors.textSecondary)
                 .padding(.horizontal, 4)
             
             VStack(spacing: 0) {
                 content
             }
             .padding(.horizontal, 16)
-            .background(Color.white)
+            .background(AppColors.background)
             .cornerRadius(20)
+            .shadow(color: AppColors.shadow.opacity(0.3), radius: 4, x: 0, y: 2)
         }
     }
 }

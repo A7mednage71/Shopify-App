@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import Common
 
 @available(iOS 14.0, *)
 public struct UserProfileCard: View {
     let user: UserProfile
-    let primaryOrange = Color(red: 255/255, green: 161/255, blue: 2/255)
     
     public init(user: UserProfile) {
         self.user = user
@@ -18,7 +18,6 @@ public struct UserProfileCard: View {
     
     public var body: some View {
         VStack(alignment: .center, spacing: 16) {
-            
             ZStack(alignment: .bottomTrailing) {
                 if let urlString = user.profileImageURL, let url = URL(string: urlString) {
                     if #available(iOS 15.0, *) {
@@ -32,42 +31,42 @@ public struct UserProfileCard: View {
                     } else {
                         Image(systemName: "person.crop.circle.fill")
                             .resizable()
-                            .foregroundColor(.gray.opacity(0.3))
-                            .frame(width: 80, height: 80) 
-                            .background(Color.white)
+                            .foregroundColor(AppColors.textSecondary.opacity(0.3))
+                            .frame(width: 80, height: 80)
+                            .background(AppColors.background)
                             .clipShape(Circle())
                     }
                 } else {
                     Image(systemName: "person.crop.circle.fill")
                         .resizable()
-                        .foregroundColor(.gray.opacity(0.3))
-                        .frame(width: 80, height: 80) 
-                        .background(Color.white)
+                        .foregroundColor(AppColors.textSecondary.opacity(0.3))
+                        .frame(width: 80, height: 80)
+                        .background(AppColors.background)
                         .clipShape(Circle())
                 }
                 
                 Circle()
-                    .fill(primaryOrange)
+                    .fill(AppColors.primary)
                     .frame(width: 24, height: 24)
-                    .overlay(Image(systemName: "pencil").foregroundColor(.white).font(.system(size: 12)))
+                    .overlay(Image(systemName: "pencil").foregroundColor(AppColors.textWhite).font(.system(size: 12)))
                     .offset(x: 2, y: 2)
             }
             
             VStack(alignment: .center, spacing: 4) {
                 Text(user.name)
-                    .font(.title3)
-                    .fontWeight(.semibold)
+                    .font(AppFonts.title3)
+                    .foregroundColor(AppColors.textPrimary)
                 Text(user.email)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .font(AppFonts.subheadline)
+                    .foregroundColor(AppColors.textSecondary)
             }
             .multilineTextAlignment(.center)
-            
         }
-        .padding(.vertical, 24) 
+        .padding(.vertical, 24)
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity)
-        .background(Color(red: 252/255, green: 243/255, blue: 230/255))
+        .background(AppColors.background)
         .cornerRadius(20)
+        .shadow(color: AppColors.shadow.opacity(0.5), radius: 5, x: 0, y: 2)
     }
 }

@@ -6,125 +6,112 @@
 //
 
 import SwiftUI
+import Common
 
 @available(iOS 14.0, *)
 public struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     
-    let backgroundColor = Color(red: 250/255, green: 245/255, blue: 239/255)
-    let primaryOrange = Color(red: 255/255, green: 161/255, blue: 2/255)
-    
     public init() {}
     
     public var body: some View {
-            NavigationView {
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 28) {
-                        
-                        Text("Profile")
-                            .font(.system(size: 34, weight: .bold))
-                            .padding(.top, 10)
-                            .frame(maxWidth: .infinity,alignment:.center)
-                        
-                        UserProfileCard(user: viewModel.user)
-                        
-                        SettingsSectionView(title: "Account Settings") {
-                            SettingsActionRow(icon: "person", title: "Profile Information") {
-                                print("Go to Profile Info")
-                            }
-                            Divider()
-                            SettingsActionRow(icon: "mappin.and.ellipse", title: "Saved Addresses") {
-                                print("Go to Addresses")
-                            }
-                        }
-                        
-                        SettingsSectionView(title: "Regional Preferences") {
-                            SettingsActionRow(icon: "globe", title: "Language", subtitle: "English (United Kingdom)") {
-                                print("Change Language")
-                            }
-                            Divider()
-                            
-                            HStack(spacing: 16) {
-                                ZStack {
-                                    Circle().fill(primaryOrange.opacity(0.1)).frame(width: 36, height: 36)
-                                    Image(systemName: "banknote").foregroundColor(primaryOrange)
-                                }
-                                
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Currency Display")
-                                        .font(.system(size: 16))
-                                    Text(viewModel.selectedCurrency.rawValue)
-                                        .font(.system(size: 12))
-                                        .foregroundColor(.gray)
-                                }
-                                Spacer()
-                                
-                                Picker("", selection: $viewModel.selectedCurrency) {
-                                    ForEach(AppCurrency.allCases) { currency in
-                                        Text(currency.rawValue).tag(currency)
-                                    }
-                                }
-                                .pickerStyle(MenuPickerStyle())
-                                .accentColor(.gray)
-                            }
-                            .padding(.vertical, 12)
-                        }
-                        
-                        SettingsSectionView(title: "Preferences") {
-                            HStack(spacing: 16) {
-                                ZStack {
-                                    Circle().fill(primaryOrange.opacity(0.1)).frame(width: 36, height: 36)
-                                    Image(systemName: "moon.fill").foregroundColor(primaryOrange)
-                                }
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Dark Mode")
-                                        .font(.system(size: 16))
-                                    Text("System Default")
-                                        .font(.system(size: 12))
-                                        .foregroundColor(.gray)
-                                }
-                                Spacer()
-                                Toggle("", isOn: $viewModel.isDarkMode)
-                                    .accentColor(primaryOrange)
-                            }
-                            .padding(.vertical, 12)
-                            
-                            Divider()
-                            
-                            SettingsActionRow(icon: "textformat", title: "Language") {
-                                print("App Language")
-                            }
-                        }
-                        
-                        Button(action: {
-                            viewModel.signOut()
-                        }) {
-                            Text("Sign Out")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.red)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color.red.opacity(0.3), lineWidth: 1)
-                                )
-                        }
+        NavigationView {
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 28) {
+                    
+                    Text("Profile")
+                        .font(AppFonts.largeTitle)
+                        .foregroundColor(AppColors.textPrimary)
                         .padding(.top, 10)
-                        .padding(.bottom, 40)
-                        
+                        .frame(maxWidth: .infinity,alignment:.center)
+                    
+                    UserProfileCard(user: viewModel.user)
+                    
+                    SettingsSectionView(title: "Account Settings") {
+                        SettingsActionRow(icon: "person", title: "Profile Information") {
+                            print("Go to Profile Info")
+                        }
+                        Divider().background(AppColors.border)
+                        SettingsActionRow(icon: "mappin.and.ellipse", title: "Saved Addresses") {
+                            print("Go to Addresses")
+                        }
                     }
-                    .padding(.horizontal, 20)
+                    
+                    SettingsSectionView(title: "Regional Preferences") {
+                        SettingsActionRow(icon: "globe", title: "Language", subtitle: "English (United Kingdom)") {
+                            print("Change Language")
+                        }
+                        Divider().background(AppColors.border)
+                        
+                        HStack(spacing: 16) {
+                            ZStack {
+                                Circle().fill(AppColors.primary.opacity(0.1)).frame(width: 36, height: 36)
+                                Image(systemName: "banknote").foregroundColor(AppColors.primary)
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Currency Display")
+                                    .font(AppFonts.callout)
+                                    .foregroundColor(AppColors.textPrimary)
+                                Text(viewModel.selectedCurrency.rawValue)
+                                    .font(AppFonts.caption)
+                                    .foregroundColor(AppColors.textSecondary)
+                            }
+                            Spacer()
+                            
+                            Picker("", selection: $viewModel.selectedCurrency) {
+                                ForEach(AppCurrency.allCases) { currency in
+                                    Text(currency.rawValue).tag(currency)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .accentColor(AppColors.textSecondary)
+                        }
+                        .padding(.vertical, 12)
+                    }
+                    
+                    SettingsSectionView(title: "Preferences") {
+                        HStack(spacing: 16) {
+                            ZStack {
+                                Circle().fill(AppColors.primary.opacity(0.1)).frame(width: 36, height: 36)
+                                Image(systemName: "moon.fill").foregroundColor(AppColors.primary)
+                            }
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Dark Mode")
+                                    .font(AppFonts.callout)
+                                    .foregroundColor(AppColors.textPrimary)
+                                Text("System Default")
+                                    .font(AppFonts.caption)
+                                    .foregroundColor(AppColors.textSecondary)
+                            }
+                            Spacer()
+                            Toggle("", isOn: $viewModel.isDarkMode)
+                                .toggleStyle(SwitchToggleStyle(tint: AppColors.primary))
+                        }
+                        .padding(.vertical, 12)
+                    }
+                    
+                    Button(action: {
+                        viewModel.signOut()
+                    }) {
+                        Text("Sign Out")
+                            .font(AppFonts.title3)
+                            .foregroundColor(AppColors.error)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(AppColors.error.opacity(0.3), lineWidth: 1)
+                            )
+                    }
+                    .padding(.top, 10)
+                    .padding(.bottom, 40)
+                    
                 }
-                .background(backgroundColor.ignoresSafeArea())
-                .preferredColorScheme(viewModel.isDarkMode ? .dark : .light)
-                .navigationBarHidden(true)
+                .padding(.horizontal, 20)
             }
+            .background(AppColors.backgroundSecondary.ignoresSafeArea())
+            .navigationBarHidden(true)
         }
     }
-
-      @available(iOS 14.0, *)
-    struct SettingsView_Previews: PreviewProvider {
-        static var previews: some View {
-            SettingsView()
-        }
-    }
+}
