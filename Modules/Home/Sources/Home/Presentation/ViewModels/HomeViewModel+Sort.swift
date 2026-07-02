@@ -1,5 +1,14 @@
 import Foundation
 
+enum SortOption: String, CaseIterable {
+    case featured = "Featured"
+    case priceLowToHigh = "Price: Low to High"
+    case priceHighToLow = "Price: High to Low"
+    case newest = "Newest"
+
+    var displayName: String { rawValue }
+}
+
 extension HomeViewModel {
 
     func applySort() {
@@ -10,7 +19,7 @@ extension HomeViewModel {
         }
     }
 
-    func sortProducts(_ products: [SearchProduct], by option: SortOption) -> [SearchProduct] {
+    func sortProducts(_ products: [ShopProduct], by option: SortOption) -> [ShopProduct] {
         switch option {
         case .featured:
             return products

@@ -17,6 +17,10 @@ enum HomeAssembler {
         makeAssembler().resolver.resolve(GetSpecialOffersUseCaseProtocol.self)!
     }
 
+    static func resolveGetProductsByVendorUseCase() -> any GetProductsByVendorUseCaseProtocol {
+        makeAssembler().resolver.resolve(GetProductsByVendorUseCaseProtocol.self)!
+    }
+
     private static func makeAssembler() -> Assembler {
         Assembler([
             HomeDataAssembly(),

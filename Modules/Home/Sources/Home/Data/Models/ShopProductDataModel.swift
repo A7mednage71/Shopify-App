@@ -6,18 +6,18 @@ struct SearchResponseData: Codable {
 }
 
 struct SearchData: Codable {
-    let search: SearchConnection
+    let search: ShopProductConnection
 }
 
-struct SearchConnection: Codable {
+struct ShopProductConnection: Codable {
     let totalCount: Int
-    let edges: [SearchEdge]
+    let edges: [ShopProductEdge]
     let pageInfo: PageInfo
 }
 
-struct SearchEdge: Codable {
+struct ShopProductEdge: Codable {
     let cursor: String
-    let node: SearchProductNode
+    let node: ShopProductNode
 }
 
 struct PageInfo: Codable {
@@ -25,8 +25,8 @@ struct PageInfo: Codable {
     let endCursor: String?
 }
 
-// MARK: - Search Product Node
-struct SearchProductNode: Codable {
+// MARK: - Shop Product Node
+struct ShopProductNode: Codable {
     let id: String
     let title: String
     let description: String

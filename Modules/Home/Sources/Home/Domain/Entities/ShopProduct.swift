@@ -1,4 +1,4 @@
-public struct SearchProduct: Identifiable, Sendable {
+public struct ShopProduct: Identifiable, Sendable {
     public let id: String
     public let title: String
     public let description: String

@@ -25,5 +25,11 @@ struct HomeDomainAssembly: Assembly {
                 repository: resolver.resolve(HomeRepository.self)!
             )
         }
+
+        container.register(GetProductsByVendorUseCaseProtocol.self) { resolver in
+            GetProductsByVendorUseCase(
+                repository: resolver.resolve(HomeRepository.self)!
+            )
+        }
     }
 }

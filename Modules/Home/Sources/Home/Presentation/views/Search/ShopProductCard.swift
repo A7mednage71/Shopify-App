@@ -1,9 +1,9 @@
 import SwiftUI
 import Common
 
-struct SearchProductCard: View {
+struct ShopProductCard: View {
     
-    let product: SearchProduct
+    let product: ShopProduct
     @State private var isWishlisted = false
 
     var body: some View {

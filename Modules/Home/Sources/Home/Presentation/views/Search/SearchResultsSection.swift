@@ -4,8 +4,8 @@ import Common
 // MARK: - Search Results Grid
 
 struct SearchResultsSection: View {
-    let products: [SearchProduct]
-    var onProductTap: ((SearchProduct) -> Void)? = nil
+    let products: [ShopProduct]
+    var onProductTap: ((ShopProduct) -> Void)? = nil
 
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -21,7 +21,7 @@ struct SearchResultsSection: View {
             } else {
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(products) { product in
-                        SearchProductCard(product: product)
+                        ShopProductCard(product: product)
                             .onTapGesture { onProductTap?(product) }
                     }
                 }

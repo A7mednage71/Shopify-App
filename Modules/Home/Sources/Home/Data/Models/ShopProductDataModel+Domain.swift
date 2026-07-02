@@ -1,7 +1,7 @@
 import Foundation
 
-extension SearchProductNode {
-    func toDomain() -> SearchProduct {
+extension ShopProductNode {
+    func toDomain() -> ShopProduct {
         let imageURL = images.edges.first?.node.url
         let altText = images.edges.first?.node.altText
         let minPrice = priceRange.minVariantPrice.amount
@@ -21,7 +21,7 @@ extension SearchProductNode {
             )
         }
         
-        return SearchProduct(
+        return ShopProduct(
             id: id,
             title: title,
             description: description,
