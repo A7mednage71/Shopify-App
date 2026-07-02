@@ -4,9 +4,14 @@ import SwiftUI
 struct CheckoutView: View {
     @StateObject private var viewModel: CheckoutViewModel
     @State private var hasLoadedContentAppeared = false
+    private let onOrderConfirmed: (CheckoutOrderConfirmationRoute) -> Void
 
-    init(viewModel: CheckoutViewModel) {
+    init(
+        viewModel: CheckoutViewModel,
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void = { _ in }
+    ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.onOrderConfirmed = onOrderConfirmed
     }
 
     var body: some View {
@@ -37,7 +42,7 @@ struct CheckoutView: View {
             }
         }
         .sheet(item: $viewModel.webCheckoutRoute) { route in
-            NavigationView {
+            NavigationStack {
                 CheckoutWebView(url: route.url) { url in
                     viewModel.checkoutCompleted(url: url)
                 }
@@ -45,7 +50,10 @@ struct CheckoutView: View {
                     .checkoutNavigationTitleStyle()
             }
         }
-        .background(orderConfirmationNavigationLink)
+        .onChange(of: viewModel.orderConfirmationRoute?.id) { _ in
+            guard let route = viewModel.orderConfirmationRoute else { return }
+            onOrderConfirmed(route)
+        }
         .alert(
             CheckoutText.checkoutErrorTitle,
             isPresented: Binding(
@@ -121,29 +129,4 @@ struct CheckoutView: View {
         }
     }
 
-    private var orderConfirmationNavigationLink: some View {
-        NavigationLink(
-            destination: orderConfirmationDestination,
-            isActive: Binding(
-                get: { viewModel.orderConfirmationRoute != nil },
-                set: { isActive in
-                    if !isActive {
-                        viewModel.dismissOrderConfirmation()
-                    }
-                }
-            )
-        ) {
-            EmptyView()
-        }
-        .hidden()
-    }
-
-    @ViewBuilder
-    private var orderConfirmationDestination: some View {
-        if let route = viewModel.orderConfirmationRoute {
-            CheckoutOrderConfirmationView(route: route)
-        } else {
-            EmptyView()
-        }
-    }
 }

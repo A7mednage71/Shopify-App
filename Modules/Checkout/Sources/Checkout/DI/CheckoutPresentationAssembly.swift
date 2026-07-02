@@ -15,11 +15,17 @@ public struct CheckoutPresentationAssembly: Assembly {
             )
         }
 
-        container.register(CheckoutViewFactory.self) { resolver in
-            CheckoutViewFactory(
+        container.register(CheckoutViewModelFactory.self) { resolver in
+            CheckoutViewModelFactory(
                 getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
                 paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
                 performCheckoutUseCase: resolver.resolve(PerformCheckoutUseCaseProtocol.self)!
+            )
+        }
+
+        container.register(CheckoutViewFactory.self) { resolver in
+            CheckoutViewFactory(
+                viewModelFactory: resolver.resolve(CheckoutViewModelFactory.self)!
             )
         }
     }

@@ -1,29 +1,28 @@
-import Common
 import SwiftUI
 
 public struct CheckoutViewFactory {
-    private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
-    private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
-    private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
+    private let viewModelFactory: CheckoutViewModelFactory
 
-    init(
-        getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
-        paymentStrategyProvider: CheckoutPaymentStrategyProvider,
-        performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
-    ) {
-        self.getCurrentCartUseCase = getCurrentCartUseCase
-        self.paymentStrategyProvider = paymentStrategyProvider
-        self.performCheckoutUseCase = performCheckoutUseCase
+    init(viewModelFactory: CheckoutViewModelFactory) {
+        self.viewModelFactory = viewModelFactory
     }
 
     @MainActor
-    public func makeCheckoutDestinationView() -> some View {
+    public func makeCheckoutDestinationView(
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void = { _ in }
+    ) -> some View {
+        // Checkout is a destination screen; completion is reported back to the flow coordinator.
         CheckoutView(
-            viewModel: CheckoutViewModel(
-                getCurrentCartUseCase: getCurrentCartUseCase,
-                paymentStrategyProvider: paymentStrategyProvider,
-                performCheckoutUseCase: performCheckoutUseCase
-            )
+            viewModel: viewModelFactory.makeViewModel(),
+            onOrderConfirmed: onOrderConfirmed
         )
+    }
+
+    @MainActor
+    public func makeOrderConfirmationDestinationView(
+        route: CheckoutOrderConfirmationRoute
+    ) -> some View {
+        // Order confirmation stays Checkout-owned, while the app flow decides when to present it.
+        CheckoutOrderConfirmationView(route: route)
     }
 }
