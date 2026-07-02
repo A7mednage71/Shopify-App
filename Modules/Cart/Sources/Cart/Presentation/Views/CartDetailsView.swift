@@ -3,14 +3,20 @@ import SwiftUI
 
 struct CartDetailsView: View {
     @StateObject private var viewModel: CartViewModel
-    private let checkoutDestination: () -> AnyView
+    private let onCheckoutTap: () -> Void
+    private let onStartShoppingTap: () -> Void
+    private let onProductTap: (String) -> Void
 
     init(
         viewModel: CartViewModel,
-        checkoutDestination: @escaping () -> AnyView
+        onCheckoutTap: @escaping () -> Void,
+        onStartShoppingTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
-        self.checkoutDestination = checkoutDestination
+        self.onCheckoutTap = onCheckoutTap
+        self.onStartShoppingTap = onStartShoppingTap
+        self.onProductTap = onProductTap
     }
 
     var body: some View {
@@ -21,8 +27,6 @@ struct CartDetailsView: View {
             content
                 .transition(.opacity.combined(with: .scale(scale: 0.98)))
         }
-        .navigationTitle(CartText.navigationTitle)
-        .cartNavigationTitleStyle()
         .task {
             await viewModel.loadCart()
         }
@@ -37,7 +41,7 @@ struct CartDetailsView: View {
 
         case .success(let cart):
             if cart.isEmpty {
-                CartEmptyView()
+                CartEmptyView(onStartShoppingTap: onStartShoppingTap)
             } else {
                 CartLoadedView(
                     cart: cart,
@@ -60,7 +64,8 @@ struct CartDetailsView: View {
                             await viewModel.removeDiscountCode()
                         }
                     },
-                    checkoutDestination: checkoutDestination
+                    onCheckoutTap: onCheckoutTap,
+                    onProductTap: onProductTap
                 )
             }
 

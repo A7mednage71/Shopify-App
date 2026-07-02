@@ -1,46 +1,23 @@
 import SwiftUI
 
 public struct CartViewFactory {
-    private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
-    private let updateCartLineQuantityUseCase: any UpdateCartLineQuantityUseCaseProtocol
-    private let removeCartLineUseCase: any RemoveCartLineUseCaseProtocol
-    private let applyDiscountCodeUseCase: any ApplyDiscountCodeUseCaseProtocol
+    private let viewModelFactory: CartViewModelFactory
 
-    init(
-        getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
-        updateCartLineQuantityUseCase: any UpdateCartLineQuantityUseCaseProtocol,
-        removeCartLineUseCase: any RemoveCartLineUseCaseProtocol,
-        applyDiscountCodeUseCase: any ApplyDiscountCodeUseCaseProtocol
-    ) {
-        self.getCurrentCartUseCase = getCurrentCartUseCase
-        self.updateCartLineQuantityUseCase = updateCartLineQuantityUseCase
-        self.removeCartLineUseCase = removeCartLineUseCase
-        self.applyDiscountCodeUseCase = applyDiscountCodeUseCase
+    init(viewModelFactory: CartViewModelFactory) {
+        self.viewModelFactory = viewModelFactory
     }
 
     @MainActor
-    public func makeCartView(checkoutDestination: @escaping () -> AnyView) -> some View {
-        NavigationView {
-            makeCartDetailsView(checkoutDestination: checkoutDestination)
-        }
-        .cartNavigationContainerStyle()
-    }
-
-    @MainActor
-    public func makeCartDestinationView(checkoutDestination: @escaping () -> AnyView) -> some View {
-        makeCartDetailsView(checkoutDestination: checkoutDestination)
-    }
-
-    @MainActor
-    private func makeCartDetailsView(checkoutDestination: @escaping () -> AnyView) -> some View {
+    public func makeCartDestinationView(
+        onCheckoutTap: @escaping () -> Void,
+        onStartShoppingTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void
+    ) -> some View {
         CartDetailsView(
-            viewModel: CartViewModel(
-                getCurrentCartUseCase: getCurrentCartUseCase,
-                updateCartLineQuantityUseCase: updateCartLineQuantityUseCase,
-                removeCartLineUseCase: removeCartLineUseCase,
-                applyDiscountCodeUseCase: applyDiscountCodeUseCase
-            ),
-            checkoutDestination: checkoutDestination
+            viewModel: viewModelFactory.makeViewModel(),
+            onCheckoutTap: onCheckoutTap,
+            onStartShoppingTap: onStartShoppingTap,
+            onProductTap: onProductTap
         )
     }
 }
