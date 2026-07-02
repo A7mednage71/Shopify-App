@@ -5,15 +5,19 @@ struct CartLineRow: View {
     let line: CartLine
     let onIncrement: () -> Void
     let onDecrement: () -> Void
+    let onProductTap: () -> Void
 
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
-            CartRemoteImage(
-                urlString: line.variant?.image?.url,
-                altText: line.variant?.image?.altText ?? line.productTitle
-            )
-            .frame(width: 78, height: 78)
-            .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+            Button(action: onProductTap) {
+                CartRemoteImage(
+                    urlString: line.variant?.image?.url,
+                    altText: line.variant?.image?.altText ?? line.productTitle
+                )
+                .frame(width: 78, height: 78)
+                .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+            }
+            .buttonStyle(CartProductImageButtonStyle())
 
             VStack(alignment: .leading, spacing: 7) {
                 Text(line.productTitle)
@@ -49,5 +53,23 @@ struct CartLineRow: View {
         .padding(.vertical, 14)
         .contentShape(Rectangle())
         .animation(.easeInOut(duration: 0.18), value: line.quantity)
+    }
+}
+
+private struct CartProductImageButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .overlay(
+                RoundedRectangle(cornerRadius: 9, style: .continuous)
+                    .stroke(AppColors.primary.opacity(configuration.isPressed ? 0.42 : 0), lineWidth: 2)
+            )
+            .scaleEffect(configuration.isPressed ? 0.94 : 1)
+            .shadow(
+                color: AppColors.primary.opacity(configuration.isPressed ? 0.18 : 0),
+                radius: configuration.isPressed ? 10 : 0,
+                x: 0,
+                y: configuration.isPressed ? 6 : 0
+            )
+            .animation(.spring(response: 0.24, dampingFraction: 0.76), value: configuration.isPressed)
     }
 }
