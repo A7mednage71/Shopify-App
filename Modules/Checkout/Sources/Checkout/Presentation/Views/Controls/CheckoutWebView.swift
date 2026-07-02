@@ -23,14 +23,7 @@ private struct PlatformCheckoutWebView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> WKWebView {
-        let configuration = WKWebViewConfiguration()
-        configuration.userContentController.addUserScript(CheckoutWebViewLocationScript.userScript)
-        configuration.userContentController.add(
-            context.coordinator,
-            name: CheckoutWebViewLocationScript.messageName
-        )
-
-        let webView = WKWebView(frame: .zero, configuration: configuration)
+        let webView = WKWebView()
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
         context.coordinator.observeURLChanges(in: webView)
@@ -43,14 +36,11 @@ private struct PlatformCheckoutWebView: UIViewRepresentable {
     }
 
     static func dismantleUIView(_ webView: WKWebView, coordinator: Coordinator) {
-        webView.configuration.userContentController.removeScriptMessageHandler(
-            forName: CheckoutWebViewLocationScript.messageName
-        )
         coordinator.stopObservingURLChanges()
     }
 }
 
-private final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
+private final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
     var onCheckoutCompleted: (URL) -> Void
 
     private let completionDetector = CheckoutCompletionDetector()
@@ -148,19 +138,6 @@ private final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, W
         return nil
     }
 
-    func userContentController(
-        _ userContentController: WKUserContentController,
-        didReceive message: WKScriptMessage
-    ) {
-        guard message.name == CheckoutWebViewLocationScript.messageName,
-              let urlString = message.body as? String,
-              let url = URL(string: urlString) else {
-            return
-        }
-
-        reportCompletionIfNeeded(url)
-    }
-
     private func reportCompletionIfNeeded(_ url: URL) {
         guard !didReportCompletion,
               completionDetector.isCompletionURL(url) else {
@@ -184,44 +161,4 @@ private final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, W
             self?.reportCompletionIfNeeded(url)
         }
     }
-}
-
-private enum CheckoutWebViewLocationScript {
-    static let messageName = "checkoutLocationChanged"
-
-    static let userScript = WKUserScript(
-        source: """
-        (function() {
-            function notifyCheckoutLocationChanged() {
-                try {
-                    window.webkit.messageHandlers.\(messageName).postMessage(window.location.href);
-                } catch (error) {}
-            }
-
-            var originalPushState = history.pushState;
-            history.pushState = function() {
-                var result = originalPushState.apply(this, arguments);
-                notifyCheckoutLocationChanged();
-                return result;
-            };
-
-            var originalReplaceState = history.replaceState;
-            history.replaceState = function() {
-                var result = originalReplaceState.apply(this, arguments);
-                notifyCheckoutLocationChanged();
-                return result;
-            };
-
-            window.addEventListener("popstate", notifyCheckoutLocationChanged);
-            window.addEventListener("hashchange", notifyCheckoutLocationChanged);
-            window.addEventListener("load", notifyCheckoutLocationChanged);
-            document.addEventListener("readystatechange", notifyCheckoutLocationChanged);
-
-            setInterval(notifyCheckoutLocationChanged, 1000);
-            notifyCheckoutLocationChanged();
-        })();
-        """,
-        injectionTime: .atDocumentStart,
-        forMainFrameOnly: true
-    )
 }
