@@ -21,7 +21,7 @@ struct SearchResultsSection: View {
             } else {
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(products) { product in
-                        ProductCard(product: product)
+                        SearchProductCard(product: product)
                             .onTapGesture { onProductTap?(product) }
                     }
                 }

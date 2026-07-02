@@ -23,8 +23,22 @@ struct HomeMainSkeletonView: View {
             DealOfTheDaySection(deal: MockShopifyData.dealOfDay, onViewAll: {})
                 .padding(.bottom, 4)
 
-            ProductCardsSection(products: Array(MockShopifyData.featuredProducts.prefix(2)), onProductTap: { _ in })
-                .padding(.bottom, 8)
+            OfferProductCardsSection(
+                products: Array(MockShopifyData.featuredProducts.prefix(2)).map {
+                    OfferProduct(
+                        id: $0.id,
+                        title: $0.title,
+                        handle: $0.handle,
+                        featuredImageURL: $0.featuredImageURL,
+                        price: $0.price,
+                        currencyCode: $0.currencyCode,
+                        compareAtPrice: $0.compareAtPrice,
+                        compareAtCurrencyCode: $0.compareAtCurrencyCode
+                    )
+                },
+                onProductTap: { _ in }
+            )
+            .padding(.bottom, 8)
 
             SpecialOffersSection(onTap: {})
                 .padding(.vertical, 8)

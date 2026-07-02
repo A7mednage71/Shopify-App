@@ -7,7 +7,8 @@ public enum HomeViewFactory {
             viewModel: HomeViewModel(
                 getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
                 searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
-                getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase()
+                getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase(),
+                getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase()
             )
         )
     }

@@ -19,5 +19,11 @@ struct HomeDomainAssembly: Assembly {
                 repository: resolver.resolve(HomeRepository.self)!
             )
         }
+
+        container.register(GetSpecialOffersUseCaseProtocol.self) { resolver in
+            GetSpecialOffersUseCase(
+                repository: resolver.resolve(HomeRepository.self)!
+            )
+        }
     }
 }

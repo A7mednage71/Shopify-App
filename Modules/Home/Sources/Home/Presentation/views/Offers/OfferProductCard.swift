@@ -1,10 +1,9 @@
 import SwiftUI
 import Common
 
-
-struct ProductCard: View {
+struct OfferProductCard: View {
     
-    let product: SearchProduct
+    let product: OfferProduct
     @State private var isWishlisted = false
 
     var body: some View {
@@ -52,7 +51,7 @@ struct ProductCard: View {
                 .padding(8)
             }
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 4) {
                 // Name
                 Text(product.title)
                     .font(.productName)
@@ -61,15 +60,7 @@ struct ProductCard: View {
                     .frame(width: 150, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
 
-                // Description
-                Text(product.description)
-                    .font(.productDesc)
-                    .foregroundColor(.appTextTertiary)
-                    .lineLimit(2)
-                    .frame(width: 150, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Spacer(minLength: 2)
+                Spacer(minLength: 4)
 
                 // Price
                 HStack(alignment: .center, spacing: 4) {
@@ -96,7 +87,7 @@ struct ProductCard: View {
             .padding(.top, 6)
             .padding(.bottom, 8)
         }
-        .frame(width: 170, height: 290)
+        .frame(width: 170, height: 260)
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)

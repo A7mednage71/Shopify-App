@@ -54,20 +54,25 @@ final class HomeViewModel: ObservableObject {
 
     @Published private(set) var collections: [Collection] = []
     @Published private(set) var isLoading: Bool = false
-    @Published private(set) var error: String? = nil
+    @Published var error: String? = nil
 
     // MARK: - Search
 
     @Published var searchText: String = ""
-    @Published private(set) var isSearching: Bool = false
-    @Published private(set) var searchResults: [SearchProduct] = []
-    @Published private(set) var isSearchLoading: Bool = false
-    private(set) var originalSearchResults: [SearchProduct] = []
+    @Published var isSearching: Bool = false
+    @Published var searchResults: [SearchProduct] = []
+    @Published var isSearchLoading: Bool = false
+    var originalSearchResults: [SearchProduct] = []
 
     // MARK: - Trending
 
     @Published private(set) var trendingProducts: [TrendingProduct] = []
     @Published private(set) var isTrendingLoading: Bool = false
+
+    // MARK: - Special Offers
+
+    @Published private(set) var specialOffers: [OfferProduct] = []
+    @Published private(set) var isSpecialOffersLoading: Bool = false
     
     // MARK: - Sorting
 
@@ -78,29 +83,32 @@ final class HomeViewModel: ObservableObject {
 
     @Published var filterState = FilterState()
     @Published var showFilterSheet: Bool = false
-    @Published private(set) var availableVendors: [String] = []
-    @Published private(set) var availableProductTypes: [String] = []
-    @Published private(set) var availableTags: [String] = []
+    @Published var availableVendors: [String] = []
+    @Published var availableProductTypes: [String] = []
+    @Published var availableTags: [String] = []
     @Published var priceBounds: ClosedRange<Double> = 0...2000
 
     // MARK: - Use Cases
 
-    private let getCollectionsUseCase: any GetCollectionsUseCaseProtocol
-    private let searchProductsUseCase: any SearchProductsUseCaseProtocol
-    private let getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
+    let getCollectionsUseCase: any GetCollectionsUseCaseProtocol
+    let searchProductsUseCase: any SearchProductsUseCaseProtocol
+    let getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
+    let getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol
 
     // MARK: - Combine
 
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
 
     init(
         getCollectionsUseCase: any GetCollectionsUseCaseProtocol,
         searchProductsUseCase: any SearchProductsUseCaseProtocol,
-        getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
+        getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol,
+        getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol
     ) {
         self.getCollectionsUseCase = getCollectionsUseCase
         self.searchProductsUseCase = searchProductsUseCase
         self.getTrendingProductsUseCase = getTrendingProductsUseCase
+        self.getSpecialOffersUseCase = getSpecialOffersUseCase
         bindSearch()
     }
 
@@ -126,178 +134,22 @@ final class HomeViewModel: ObservableObject {
         isTrendingLoading = false
     }
 
+    func loadSpecialOffers() async {
+        isSpecialOffersLoading = true
+        do {
+            specialOffers = try await getSpecialOffersUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
+        }
+        isSpecialOffersLoading = false
+    }
+
     func retry() {
         Task {
             error = nil
             await loadCollections()
             await loadTrendingProducts()
-        }
-    }
-
-
-    var resultCountLabel: String {
-        "\(searchResults.count) results"
-    }
-
-    private func performSearch(query: String) {
-        Task {
-            isSearchLoading = true
-            defer { isSearchLoading = false }
-            
-            do {
-                let results = try await searchProductsUseCase.execute(query: query)
-                searchResults = results
-                originalSearchResults = results
-                extractFilterOptions(from: results)
-            } catch {
-                self.error = error.localizedDescription
-                searchResults = []
-                originalSearchResults = []
-            }
-        }
-    }
-    
-    private func extractFilterOptions(from products: [SearchProduct]) {
-        // Extract vendors
-        let vendors = Set(products.compactMap { $0.vendor })
-        availableVendors = Array(vendors).sorted()
-        
-        // Extract product types
-        let productTypes = Set(products.compactMap { $0.productType })
-        availableProductTypes = Array(productTypes).sorted()
-        
-        // Extract tags
-        let allTags = Set(products.flatMap { $0.tags })
-        availableTags = Array(allTags).sorted()
-        
-        // Extract prices
-        let prices = products.compactMap { Double($0.price.filter { "0123456789.".contains($0) }) }
-        if let minP = prices.min(), let maxP = prices.max(), minP < maxP {
-            priceBounds = minP...maxP
-        } else if let singlePrice = prices.first {
-            priceBounds = 0...(singlePrice * 2)
-        } else {
-            priceBounds = 0...2000
-        }
-    }
-
-    private func bindSearch() {
-        $searchText
-            .debounce(for: .milliseconds(400), scheduler: RunLoop.main)
-            .removeDuplicates()
-            .sink { [weak self] query in
-                let trimmed = query.trimmingCharacters(in: .whitespaces)
-                self?.isSearching = !trimmed.isEmpty
-                if !trimmed.isEmpty {
-                    self?.performSearch(query: trimmed)
-                } else {
-                    self?.searchResults = []
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
-    // MARK: - Sorting
-
-    func applySort() {
-        if selectedSortOption == .featured {
-            searchResults = originalSearchResults
-        } else {
-            searchResults = sortProducts(originalSearchResults, by: selectedSortOption)
-        }
-    }
-
-    // MARK: - Filtering
-
-    func applyFilter() {
-        var filtered = originalSearchResults
-
-        // Price filter
-        if let minPrice = filterState.minPrice {
-            filtered = filtered.filter { product in
-                let price = Double(product.price.filter { "0123456789.".contains($0) }) ?? 0
-                return price >= minPrice
-            }
-        }
-        if let maxPrice = filterState.maxPrice {
-            filtered = filtered.filter { product in
-                let price = Double(product.price.filter { "0123456789.".contains($0) }) ?? 0
-                return price <= maxPrice
-            }
-        }
-
-        // In stock filter
-        if filterState.inStockOnly {
-            filtered = filtered.filter { $0.availableForSale }
-        }
-
-        // Vendor filter
-        if !filterState.selectedVendors.isEmpty {
-            filtered = filtered.filter { product in
-                guard let vendor = product.vendor else { return false }
-                return filterState.selectedVendors.contains(vendor)
-            }
-        }
-
-        // Product type filter
-        if !filterState.selectedProductTypes.isEmpty {
-            filtered = filtered.filter { product in
-                guard let productType = product.productType else { return false }
-                return filterState.selectedProductTypes.contains(productType)
-            }
-        }
-
-        // Tags filter
-        if !filterState.selectedTags.isEmpty {
-            filtered = filtered.filter { product in
-                return !Set(product.tags).isDisjoint(with: filterState.selectedTags)
-            }
-        }
-
-        // Size filter (from options)
-        if !filterState.selectedSizes.isEmpty {
-            filtered = filtered.filter { product in
-                return product.options.contains { option in
-                    option.name.lowercased() == "size" && !Set(option.values).isDisjoint(with: filterState.selectedSizes)
-                }
-            }
-        }
-
-        // Color filter (from options)
-        if !filterState.selectedColors.isEmpty {
-            filtered = filtered.filter { product in
-                return product.options.contains { option in
-                    option.name.lowercased() == "color" && !Set(option.values).isDisjoint(with: filterState.selectedColors)
-                }
-            }
-        }
-
-        searchResults = filtered
-    }
-
-    func resetFilters() {
-        filterState.reset()
-        searchResults = originalSearchResults
-    }
-    
-    private func sortProducts(_ products: [SearchProduct], by option: SortOption) -> [SearchProduct] {
-        switch option {
-        case .featured:
-            return products
-        case .priceLowToHigh:
-            return products.sorted { product1, product2 in
-                let price1 = Double(product1.price.filter { "0123456789.".contains($0) }) ?? 0
-                let price2 = Double(product2.price.filter { "0123456789.".contains($0) }) ?? 0
-                return price1 < price2
-            }
-        case .priceHighToLow:
-            return products.sorted { product1, product2 in
-                let price1 = Double(product1.price.filter { "0123456789.".contains($0) }) ?? 0
-                let price2 = Double(product2.price.filter { "0123456789.".contains($0) }) ?? 0
-                return price1 > price2
-            }
-        case .newest:
-            return products.reversed()
+            await loadSpecialOffers()
         }
     }
 }
