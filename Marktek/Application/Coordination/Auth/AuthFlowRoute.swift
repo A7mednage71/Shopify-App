@@ -1,0 +1,1 @@
+enum AuthFlowRoute: Hashable {}
