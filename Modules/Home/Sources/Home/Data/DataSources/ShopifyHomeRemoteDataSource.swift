@@ -24,5 +24,14 @@ struct ShopifyHomeRemoteDataSource: HomeRemoteDataSource, Sendable {
             TrendingProductDataModel(node: node)
         }
     }
+
+    func fetchSpecialOffers(first: Int) async throws -> [SpecialOfferDataModel] {
+        let data = try await ShopifyGraphQLClient.shared.fetch(
+            GetSpecialOffersQuery(first: .some(first))
+        )
+        return data.products.nodes.map { (node: GetSpecialOffersQuery.Data.Products.Node) in
+            SpecialOfferDataModel(node: node)
+        }
+    }
 }
 

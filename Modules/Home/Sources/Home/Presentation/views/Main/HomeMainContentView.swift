@@ -30,25 +30,20 @@ struct HomeMainContentView: View {
 
             HeroBannerSection(banners: MockShopifyData.heroBanners)
                 .padding(.bottom, 20)
-
-            DealOfTheDaySection(
-                deal: MockShopifyData.dealOfDay,
-                onViewAll: { print("View all deals") }
+            
+            SpecialOffersSection(
+                onTap: { print("Special offers tapped") }
             )
-            .padding(.bottom, 4)
+            .padding(.vertical, 8)
 
-            ProductCardsSection(
-                products: MockShopifyData.featuredProducts,
+            OfferProductCardsSection(
+                products: viewModel.specialOffers,
                 onProductTap: { product in
                     print("Product: \(product.title)")
                 }
             )
             .padding(.bottom, 8)
 
-            SpecialOffersSection(
-                onTap: { print("Special offers tapped") }
-            )
-            .padding(.vertical, 8)
 
             FlatHeeelsBannerSection(
                 product: MockShopifyData.featuredProducts[2],

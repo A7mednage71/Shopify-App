@@ -14,7 +14,8 @@ public struct HomeView: View {
         _viewModel = StateObject(wrappedValue: HomeViewModel(
             getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
             searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
-            getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase()
+            getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase(),
+            getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase()
         ))
     }
 
@@ -85,6 +86,7 @@ public struct HomeView: View {
         .task {
             await viewModel.loadCollections()
             await viewModel.loadTrendingProducts()
+            await viewModel.loadSpecialOffers()
         }
         .overlay(
             SortMenuOverlay(

@@ -17,5 +17,9 @@ struct HomeRepositoryImpl: HomeRepository, Sendable {
     func getTrendingProducts(first: Int) async throws -> [TrendingProduct] {
         try await remoteDataSource.fetchTrendingProducts(first: first).map { $0.toDomain() }
     }
+
+    func getSpecialOffers(first: Int) async throws -> [OfferProduct] {
+        try await remoteDataSource.fetchSpecialOffers(first: first).map { $0.toDomain() }
+    }
 }
 
