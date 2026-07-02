@@ -119,7 +119,7 @@ struct ProductInfoContentView: View {
             Circle()
                 .fill(ProductPalette.primary)
                 .frame(width: flyDotSize, height: flyDotSize)
-                .opacity(1 - (flyProgress * 0.35))
+                .opacity(1.0 - (Double(flyProgress) * 0.35))
                 .scaleEffect(1 - (flyProgress * 0.45))
                 .position(flyDotPosition(rootFrame: rootFrame))
                 .allowsHitTesting(false)
