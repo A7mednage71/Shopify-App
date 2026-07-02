@@ -1,5 +1,5 @@
 protocol GetTrendingProductsUseCaseProtocol: Sendable {
-    func execute(first: Int) async throws -> [Product]
+    func execute(first: Int) async throws -> [TrendingProduct]
 }
 
 struct GetTrendingProductsUseCase: GetTrendingProductsUseCaseProtocol, Sendable {
@@ -9,7 +9,7 @@ struct GetTrendingProductsUseCase: GetTrendingProductsUseCaseProtocol, Sendable 
         self.repository = repository
     }
 
-    func execute(first: Int = 10) async throws -> [Product] {
+    func execute(first: Int = 10) async throws -> [TrendingProduct] {
         try await repository.getTrendingProducts(first: first)
     }
 }

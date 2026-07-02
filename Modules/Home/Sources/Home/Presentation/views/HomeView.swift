@@ -2,7 +2,9 @@ import SwiftUI
 import Common
 
 public struct HomeView: View {
+    
     @StateObject private var viewModel: HomeViewModel
+    @State private var sortButtonAnchor: Anchor<CGRect>?
 
     // Internal init — used by HomeViewFactory (same module)
     init(viewModel: HomeViewModel) {
@@ -30,9 +32,16 @@ public struct HomeView: View {
 
                     // MARK: Sort & Filter Bar — always visible
                     SortAndFilterSearch(
-                        leadingLabel: viewModel.isSearching
+                        leadingLabel:
+                          viewModel.isSearching
                             ? viewModel.resultCountLabel
-                            : HomeStrings.Category.sectionTitle
+                            : HomeStrings.Category.sectionTitle,
+                        onSortTap: {
+                            viewModel.showSortSheet = true
+                        },
+                        onFilterTap: {
+                            viewModel.showFilterSheet = true
+                        }, isSortEnabled: viewModel.isSearching
                     )
                     .padding(.top, 8)
                     .padding(.bottom, 8)
@@ -48,7 +57,7 @@ public struct HomeView: View {
                         .padding(.bottom, 30)
 
                     } else {
-                        // MARK: Categories — live data
+
                         if viewModel.isLoading {
                             ProgressView()
                                 .frame(maxWidth: .infinity)
@@ -68,7 +77,7 @@ public struct HomeView: View {
                             .padding(.bottom, 16)
                         }
 
-                        // MARK: Remaining sections — mock data (pending future passes)
+                        // MARK: Remaining sections — mock data
                         HeroBannerSection(banners: MockShopifyData.heroBanners)
                             .padding(.bottom, 20)
 
@@ -78,6 +87,7 @@ public struct HomeView: View {
                         )
                         .padding(.bottom, 4)
 
+                        // MARK: Remaining sections — mock data
                         ProductCardsSection(
                             products: MockShopifyData.featuredProducts,
                             onProductTap: { product in
@@ -91,6 +101,7 @@ public struct HomeView: View {
                         )
                         .padding(.vertical, 8)
 
+                        // MARK: Remaining sections — mock data
                         FlatHeeelsBannerSection(
                             product: MockShopifyData.featuredProducts[2],
                             onVisitTap: { print("Visit heels collection") }
@@ -109,6 +120,9 @@ public struct HomeView: View {
             }
             .background(Color.appBackgroundGray)
             .navigationBarTitleDisplayMode(.inline)
+            .onPreferenceChange(SortButtonAnchorKey.self) { anchor in
+                sortButtonAnchor = anchor
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {}) {
@@ -148,5 +162,43 @@ public struct HomeView: View {
             await viewModel.loadCollections()
             await viewModel.loadTrendingProducts()
         }
+        .overlay(
+            SortMenuOverlay(
+                isPresented: $viewModel.showSortSheet,
+                anchor: sortButtonAnchor,
+                options: SortOption.allCases,
+                selected: $viewModel.selectedSortOption,
+                title: { $0.displayName },
+                icon: { sortIcon(for: $0) },
+                onPick: {
+                    viewModel.applySort()
+                }
+            )
+        )
+        .sheet(isPresented: $viewModel.showFilterSheet) {
+            FilterSheet(
+                filterState: $viewModel.filterState,
+                availableVendors: viewModel.availableVendors,
+                availableProductTypes: viewModel.availableProductTypes,
+                availableTags: viewModel.availableTags,
+                onApply: {
+                    viewModel.applyFilter()
+                    viewModel.showFilterSheet = false
+                },
+                onReset: {
+                    viewModel.resetFilters()
+                }
+            )
+        }
     }
+
+    private func sortIcon(for option: SortOption) -> String {
+        switch option {
+        case .featured: return "star.fill"
+        case .priceLowToHigh: return "arrow.up"
+        case .priceHighToLow: return "arrow.down"
+        case .newest: return "sparkles"
+        }
+    }
+    
 }

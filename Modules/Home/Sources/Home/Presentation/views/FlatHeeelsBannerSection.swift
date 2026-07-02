@@ -4,7 +4,7 @@ import Common
 // MARK: - Flat and Heels Banner Section
 
 struct FlatHeeelsBannerSection: View {
-    let product: Product
+    let product: SearchProduct
     var onVisitTap: (() -> Void)? = nil
     
     var body: some View {

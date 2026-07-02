@@ -1,5 +1,5 @@
 protocol SearchProductsUseCaseProtocol: Sendable {
-    func execute(query: String) async throws -> [Product]
+    func execute(query: String) async throws -> [SearchProduct]
 }
 
 struct SearchProductsUseCase: SearchProductsUseCaseProtocol, Sendable {
@@ -9,7 +9,7 @@ struct SearchProductsUseCase: SearchProductsUseCaseProtocol, Sendable {
         self.repository = repository
     }
 
-    func execute(query: String) async throws -> [Product] {
+    func execute(query: String) async throws -> [SearchProduct] {
         try await repository.searchProducts(query: query)
     }
 }

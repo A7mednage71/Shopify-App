@@ -9,11 +9,12 @@ struct HomeRepositoryImpl: HomeRepository, Sendable {
         try await remoteDataSource.fetchCollections(first: first).map { $0.toDomain() }
     }
 
-    func searchProducts(query: String) async throws -> [Product] {
-        try await remoteDataSource.searchProducts(query: query, first: 20).map { $0.toDomain() }
+    func searchProducts(query: String) async throws -> [SearchProduct] {
+        let response = try await remoteDataSource.searchProducts(query: query, first: 20)
+        return response.data.search.edges.map { $0.node.toDomain() }
     }
 
-    func getTrendingProducts(first: Int) async throws -> [Product] {
+    func getTrendingProducts(first: Int) async throws -> [TrendingProduct] {
         try await remoteDataSource.fetchTrendingProducts(first: first).map { $0.toDomain() }
     }
 }

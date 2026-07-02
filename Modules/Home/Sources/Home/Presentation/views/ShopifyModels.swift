@@ -4,7 +4,7 @@ import SwiftUI
 // MARK: - Shopify API Models
 // These map directly to Shopify Storefront API GraphQL responses
 
-// MARK: - Product Model (from Shopify products query)
+// MARK: - SearchProduct Model (from Shopify products query)
 struct ShopifyProduct: Identifiable {
     let id: String
     let title: String
@@ -34,9 +34,9 @@ struct ShopifyProduct: Identifiable {
         return "\(symbol)\(Int(compare))"
     }
     
-    // Convert to common Product model
-    func toProduct() -> Product {
-        return Product(
+    // Convert to common SearchProduct model
+    func toProduct() -> SearchProduct {
+        return SearchProduct(
             id: id,
             title: title,
             description: description,
@@ -54,7 +54,7 @@ struct ShopifyProduct: Identifiable {
 }
 
 extension ShopifyProduct {
-    init(product: Product) {
+    init(product: SearchProduct) {
         self.id = product.id
         self.title = product.title
         self.description = product.description
@@ -78,7 +78,7 @@ struct ShopifyCollection: Identifiable {
 
 // MARK: - Deal of the Day Model
 struct DealOfDay {
-    let product: Product
+    let product: SearchProduct
     let endDate: Date
     
     var timeRemaining: (hours: Int, minutes: Int, seconds: Int) {
@@ -142,9 +142,9 @@ struct MockShopifyData {
         )
     ]
     
-    // MARK: - Featured Products (using Product model)
-    static let featuredProducts: [Product] = [
-        Product(
+    // MARK: - Featured Products (using SearchProduct model)
+    static let featuredProducts: [SearchProduct] = [
+        SearchProduct(
             id: "1",
             title: "Women Printed Kurta",
             description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
@@ -158,7 +158,7 @@ struct MockShopifyData {
             rating: 4.0,
             reviewCount: 56890
         ),
-        Product(
+        SearchProduct(
             id: "2",
             title: "HRX by Hrithik Roshan",
             description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
@@ -172,7 +172,7 @@ struct MockShopifyData {
             rating: 4.5,
             reviewCount: 344567
         ),
-        Product(
+        SearchProduct(
             id: "3",
             title: "Flat and Heels",
             description: "Stand a chance to get rewarded with every purchase",
@@ -186,7 +186,7 @@ struct MockShopifyData {
             rating: 4.2,
             reviewCount: 12300
         ),
-        Product(
+        SearchProduct(
             id: "4",
             title: "Men's Casual Shirt",
             description: "Comfortable cotton casual shirt for everyday wear",
@@ -200,7 +200,7 @@ struct MockShopifyData {
             rating: 4.3,
             reviewCount: 8900
         ),
-        Product(
+        SearchProduct(
             id: "5",
             title: "Wireless Bluetooth Headphones",
             description: "Premium sound quality with noise cancellation",
@@ -214,7 +214,7 @@ struct MockShopifyData {
             rating: 4.8,
             reviewCount: 2500
         ),
-        Product(
+        SearchProduct(
             id: "6",
             title: "Leather Handbag",
             description: "Elegant genuine leather handbag for women",
@@ -228,7 +228,7 @@ struct MockShopifyData {
             rating: 4.6,
             reviewCount: 12300
         ),
-        Product(
+        SearchProduct(
             id: "7",
             title: "Running Shoes Pro",
             description: "Lightweight running shoes with cushioning technology",
@@ -242,7 +242,7 @@ struct MockShopifyData {
             rating: nil,
             reviewCount: nil
         ),
-        Product(
+        SearchProduct(
             id: "8",
             title: "Smart Watch Series X",
             description: "Advanced fitness tracking with heart rate monitor",
@@ -256,7 +256,7 @@ struct MockShopifyData {
             rating: 4.7,
             reviewCount: 45600
         ),
-        Product(
+        SearchProduct(
             id: "9",
             title: "Cotton T-Shirt Basic",
             description: "Essential cotton t-shirt for daily use",
@@ -270,7 +270,7 @@ struct MockShopifyData {
             rating: 4.1,
             reviewCount: 34500
         ),
-        Product(
+        SearchProduct(
             id: "10",
             title: "Professional Camera Lens",
             description: "High-quality lens for professional photography",
@@ -291,9 +291,9 @@ struct MockShopifyData {
         endDate: Date().addingTimeInterval(22 * 3600 + 55 * 60 + 20)
     )
     
-    // MARK: - Trending Products (using Product model)
-    static let trendingProducts: [Product] = [
-        Product(
+    // MARK: - Trending Products (using SearchProduct model)
+    static let trendingProducts: [SearchProduct] = [
+        SearchProduct(
             id: "11",
             title: "Watch Collection",
             description: "Premium watch collection with leather straps",
@@ -307,7 +307,7 @@ struct MockShopifyData {
             rating: 4.8,
             reviewCount: 2300
         ),
-        Product(
+        SearchProduct(
             id: "12",
             title: "White Sneakers",
             description: "Classic white sneakers for everyday wear",
@@ -321,7 +321,7 @@ struct MockShopifyData {
             rating: 4.3,
             reviewCount: 8900
         ),
-        Product(
+        SearchProduct(
             id: "13",
             title: "Summer Dress",
             description: "Light and flowy summer dress with floral pattern",
@@ -335,7 +335,7 @@ struct MockShopifyData {
             rating: 4.6,
             reviewCount: 5600
         ),
-        Product(
+        SearchProduct(
             id: "14",
             title: "Black Winter Jacket",
             description: "Autumn And Winter Casual cotton-padded jacket",
@@ -349,7 +349,7 @@ struct MockShopifyData {
             rating: 4.0,
             reviewCount: 6890
         ),
-        Product(
+        SearchProduct(
             id: "15",
             title: "Mens Starry Shirt",
             description: "Mens Starry Sky Printed Shirt 100% Cotton Fabric",
@@ -363,7 +363,7 @@ struct MockShopifyData {
             rating: 3.5,
             reviewCount: 152344
         ),
-        Product(
+        SearchProduct(
             id: "16",
             title: "Black Dress",
             description: "Solid Black Dress for Women, Sexy Chain Shorts",
@@ -377,7 +377,7 @@ struct MockShopifyData {
             rating: 4.2,
             reviewCount: 523456
         ),
-        Product(
+        SearchProduct(
             id: "17",
             title: "Pink Embroidered Dress",
             description: "EARTHEN Rose Pink Embroidered Tiered Maxi",
@@ -391,7 +391,7 @@ struct MockShopifyData {
             rating: 4.4,
             reviewCount: 45678
         ),
-        Product(
+        SearchProduct(
             id: "18",
             title: "Blue Denim Jacket",
             description: "Classic denim jacket with faded wash finish",
@@ -405,7 +405,7 @@ struct MockShopifyData {
             rating: 4.1,
             reviewCount: 3200
         ),
-        Product(
+        SearchProduct(
             id: "19",
             title: "Gold Hoop Earrings",
             description: "18K gold plated lightweight hoop earrings",
@@ -422,7 +422,7 @@ struct MockShopifyData {
     ]
 
     // All products merged — used for search
-    static let allProducts: [Product] = featuredProducts + trendingProducts
+    static let allProducts: [SearchProduct] = featuredProducts + trendingProducts
     
     // For preview/testing with single product
     static let sampleProduct = featuredProducts[0]

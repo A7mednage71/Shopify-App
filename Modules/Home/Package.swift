@@ -14,7 +14,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../MarktekNetworking"),
-        .package(path: "../Common")
+        .package(path: "../Common"),
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.9.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -23,7 +24,8 @@ let package = Package(
             name: "Home",
             dependencies: [
                 .product(name: "MarktekNetworking", package: "MarktekNetworking"),
-                .product(name: "Common", package: "Common")
+                .product(name: "Common", package: "Common"),
+                .product(name: "Swinject", package: "Swinject")
             ]
         ),
         

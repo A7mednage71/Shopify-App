@@ -4,7 +4,7 @@ import Common
 
 struct ProductCard: View {
     
-    let product: Product
+    let product: SearchProduct
     @State private var isWishlisted = false
 
     var body: some View {

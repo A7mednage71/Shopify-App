@@ -7,23 +7,27 @@ public class SearchProductsQuery: GraphQLQuery {
   public static let operationName: String = "SearchProducts"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query SearchProducts($query: String!, $first: Int = 20) { search(query: $query, types: PRODUCT, first: $first) { __typename totalCount nodes { __typename ... on Product { id title description handle featuredImage { __typename url altText } priceRange { __typename minVariantPrice { __typename amount currencyCode } } compareAtPriceRange { __typename minVariantPrice { __typename amount currencyCode } } ratingMetafield: metafield(namespace: "custom", key: "rating") { __typename value } reviewCountMetafield: metafield(namespace: "custom", key: "review_count") { __typename value } } } } }"#
+      #"query SearchProducts($query: String!, $first: Int!, $after: String) { search(query: $query, first: $first, after: $after, types: [PRODUCT]) { __typename totalCount edges { __typename cursor node { __typename ... on Product { id title description handle vendor productType tags availableForSale options { __typename name values } priceRange { __typename minVariantPrice { __typename amount currencyCode } maxVariantPrice { __typename amount currencyCode } } images(first: 1) { __typename edges { __typename node { __typename url altText } } } variants(first: 10) { __typename edges { __typename node { __typename id title availableForSale price { __typename amount currencyCode } } } } } } } pageInfo { __typename hasNextPage endCursor } } }"#
     ))
 
   public var query: String
-  public var first: GraphQLNullable<Int>
+  public var first: Int
+  public var after: GraphQLNullable<String>
 
   public init(
     query: String,
-    first: GraphQLNullable<Int> = 20
+    first: Int,
+    after: GraphQLNullable<String>
   ) {
     self.query = query
     self.first = first
+    self.after = after
   }
 
   public var __variables: Variables? { [
     "query": query,
-    "first": first
+    "first": first,
+    "after": after
   ] }
 
   public struct Data: ShopifyAPI.SelectionSet {
@@ -34,8 +38,9 @@ public class SearchProductsQuery: GraphQLQuery {
     public static var __selections: [ApolloAPI.Selection] { [
       .field("search", Search.self, arguments: [
         "query": .variable("query"),
-        "types": "PRODUCT",
-        "first": .variable("first")
+        "first": .variable("first"),
+        "after": .variable("after"),
+        "types": ["PRODUCT"]
       ]),
     ] }
 
@@ -56,221 +61,360 @@ public class SearchProductsQuery: GraphQLQuery {
       public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("totalCount", Int.self),
-        .field("nodes", [Node].self),
+        .field("edges", [Edge].self),
+        .field("pageInfo", PageInfo.self),
       ] }
 
       /// The total number of results.
       public var totalCount: Int { __data["totalCount"] }
-      /// A list of the nodes contained in SearchResultItemEdge.
-      public var nodes: [Node] { __data["nodes"] }
+      /// A list of edges.
+      public var edges: [Edge] { __data["edges"] }
+      /// Information to aid in pagination.
+      public var pageInfo: PageInfo { __data["pageInfo"] }
 
-      /// Search.Node
+      /// Search.Edge
       ///
-      /// Parent Type: `SearchResultItem`
-      public struct Node: ShopifyAPI.SelectionSet {
+      /// Parent Type: `SearchResultItemEdge`
+      public struct Edge: ShopifyAPI.SelectionSet {
         public let __data: DataDict
         public init(_dataDict: DataDict) { __data = _dataDict }
 
-        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Unions.SearchResultItem }
+        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.SearchResultItemEdge }
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
-          .inlineFragment(AsProduct.self),
+          .field("cursor", String.self),
+          .field("node", Node.self),
         ] }
 
-        public var asProduct: AsProduct? { _asInlineFragment() }
+        /// A cursor for use in pagination.
+        public var cursor: String { __data["cursor"] }
+        /// The item at the end of SearchResultItemEdge.
+        public var node: Node { __data["node"] }
 
-        /// Search.Node.AsProduct
+        /// Search.Edge.Node
         ///
-        /// Parent Type: `Product`
-        public struct AsProduct: ShopifyAPI.InlineFragment {
+        /// Parent Type: `SearchResultItem`
+        public struct Node: ShopifyAPI.SelectionSet {
           public let __data: DataDict
           public init(_dataDict: DataDict) { __data = _dataDict }
 
-          public typealias RootEntityType = SearchProductsQuery.Data.Search.Node
-          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Product }
+          public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Unions.SearchResultItem }
           public static var __selections: [ApolloAPI.Selection] { [
-            .field("id", ShopifyAPI.ID.self),
-            .field("title", String.self),
-            .field("description", String.self),
-            .field("handle", String.self),
-            .field("featuredImage", FeaturedImage?.self),
-            .field("priceRange", PriceRange.self),
-            .field("compareAtPriceRange", CompareAtPriceRange.self),
-            .field("metafield", alias: "ratingMetafield", RatingMetafield?.self, arguments: [
-              "namespace": "custom",
-              "key": "rating"
-            ]),
-            .field("metafield", alias: "reviewCountMetafield", ReviewCountMetafield?.self, arguments: [
-              "namespace": "custom",
-              "key": "review_count"
-            ]),
+            .field("__typename", String.self),
+            .inlineFragment(AsProduct.self),
           ] }
 
-          /// A globally-unique ID.
-          public var id: ShopifyAPI.ID { __data["id"] }
-          /// The name for the product that displays to customers. The title is used to construct the product's handle.
-          /// For example, if a product is titled "Black Sunglasses", then the handle is `black-sunglasses`.
-          ///
-          public var title: String { __data["title"] }
-          /// A single-line description of the product, with [HTML tags](https://developer.mozilla.org/en-US/docs/Web/HTML) removed.
-          public var description: String { __data["description"] }
-          /// A unique, human-readable string of the product's title.
-          /// A handle can contain letters, hyphens (`-`), and numbers, but no spaces.
-          /// The handle is used in the online store URL for the product.
-          ///
-          public var handle: String { __data["handle"] }
-          /// The featured image for the product.
-          ///
-          /// This field is functionally equivalent to `images(first: 1)`.
-          ///
-          public var featuredImage: FeaturedImage? { __data["featuredImage"] }
-          /// The minimum and maximum prices of a product, expressed in decimal numbers.
-          /// For example, if the product is priced between $10.00 and $50.00,
-          /// then the price range is $10.00 - $50.00.
-          ///
-          public var priceRange: PriceRange { __data["priceRange"] }
-          /// The [compare-at price range](https://help.shopify.com/manual/products/details/product-pricing/sale-pricing) of the product in the shop's default currency.
-          public var compareAtPriceRange: CompareAtPriceRange { __data["compareAtPriceRange"] }
-          /// A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information.
-          public var ratingMetafield: RatingMetafield? { __data["ratingMetafield"] }
-          /// A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information.
-          public var reviewCountMetafield: ReviewCountMetafield? { __data["reviewCountMetafield"] }
+          public var asProduct: AsProduct? { _asInlineFragment() }
 
-          /// Search.Node.AsProduct.FeaturedImage
+          /// Search.Edge.Node.AsProduct
           ///
-          /// Parent Type: `Image`
-          public struct FeaturedImage: ShopifyAPI.SelectionSet {
+          /// Parent Type: `Product`
+          public struct AsProduct: ShopifyAPI.InlineFragment {
             public let __data: DataDict
             public init(_dataDict: DataDict) { __data = _dataDict }
 
-            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Image }
+            public typealias RootEntityType = SearchProductsQuery.Data.Search.Edge.Node
+            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Product }
             public static var __selections: [ApolloAPI.Selection] { [
-              .field("__typename", String.self),
-              .field("url", ShopifyAPI.URL.self),
-              .field("altText", String?.self),
+              .field("id", ShopifyAPI.ID.self),
+              .field("title", String.self),
+              .field("description", String.self),
+              .field("handle", String.self),
+              .field("vendor", String.self),
+              .field("productType", String.self),
+              .field("tags", [String].self),
+              .field("availableForSale", Bool.self),
+              .field("options", [Option].self),
+              .field("priceRange", PriceRange.self),
+              .field("images", Images.self, arguments: ["first": 1]),
+              .field("variants", Variants.self, arguments: ["first": 10]),
             ] }
 
-            /// The location of the image as a URL.
+            /// A globally-unique ID.
+            public var id: ShopifyAPI.ID { __data["id"] }
+            /// The name for the product that displays to customers. The title is used to construct the product's handle.
+            /// For example, if a product is titled "Black Sunglasses", then the handle is `black-sunglasses`.
             ///
-            /// If no transform options are specified, then the original image will be preserved including any pre-applied transforms.
+            public var title: String { __data["title"] }
+            /// A single-line description of the product, with [HTML tags](https://developer.mozilla.org/en-US/docs/Web/HTML) removed.
+            public var description: String { __data["description"] }
+            /// A unique, human-readable string of the product's title.
+            /// A handle can contain letters, hyphens (`-`), and numbers, but no spaces.
+            /// The handle is used in the online store URL for the product.
             ///
-            /// All transformation options are considered "best-effort". Any transformation that the original image type doesn't support will be ignored.
+            public var handle: String { __data["handle"] }
+            /// The name of the product's vendor.
+            public var vendor: String { __data["vendor"] }
+            /// The [product type](https://help.shopify.com/manual/products/details/product-type)
+            /// that merchants define.
             ///
-            /// If you need multiple variations of the same image, then you can use [GraphQL aliases](https://graphql.org/learn/queries/#aliases).
+            public var productType: String { __data["productType"] }
+            /// A comma-separated list of searchable keywords that are
+            /// associated with the product. For example, a merchant might apply the `sports`
+            /// and `summer` tags to products that are associated with sportwear for summer.
+            /// Updating `tags` overwrites any existing tags that were previously added to the product.
+            /// To add new tags without overwriting existing tags,
+            /// use the GraphQL Admin API's [`tagsAdd`](/docs/api/admin-graphql/latest/mutations/tagsadd)
+            /// mutation.
             ///
-            public var url: ShopifyAPI.URL { __data["url"] }
-            /// A word or phrase to share the nature or contents of an image.
-            public var altText: String? { __data["altText"] }
-          }
+            public var tags: [String] { __data["tags"] }
+            /// Indicates if at least one product variant is available for sale.
+            public var availableForSale: Bool { __data["availableForSale"] }
+            /// A list of product options. The limit is defined by the [shop's resource limits for product options](/docs/api/admin-graphql/latest/objects/Shop#field-resourcelimits) (`Shop.resourceLimits.maxProductOptions`).
+            public var options: [Option] { __data["options"] }
+            /// The minimum and maximum prices of a product, expressed in decimal numbers.
+            /// For example, if the product is priced between $10.00 and $50.00,
+            /// then the price range is $10.00 - $50.00.
+            ///
+            public var priceRange: PriceRange { __data["priceRange"] }
+            /// List of images associated with the product.
+            public var images: Images { __data["images"] }
+            /// A list of [variants](/docs/api/storefront/latest/objects/ProductVariant) that are associated with the product.
+            public var variants: Variants { __data["variants"] }
 
-          /// Search.Node.AsProduct.PriceRange
-          ///
-          /// Parent Type: `ProductPriceRange`
-          public struct PriceRange: ShopifyAPI.SelectionSet {
-            public let __data: DataDict
-            public init(_dataDict: DataDict) { __data = _dataDict }
-
-            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductPriceRange }
-            public static var __selections: [ApolloAPI.Selection] { [
-              .field("__typename", String.self),
-              .field("minVariantPrice", MinVariantPrice.self),
-            ] }
-
-            /// The lowest variant's price.
-            public var minVariantPrice: MinVariantPrice { __data["minVariantPrice"] }
-
-            /// Search.Node.AsProduct.PriceRange.MinVariantPrice
+            /// Search.Edge.Node.AsProduct.Option
             ///
-            /// Parent Type: `MoneyV2`
-            public struct MinVariantPrice: ShopifyAPI.SelectionSet {
+            /// Parent Type: `ProductOption`
+            public struct Option: ShopifyAPI.SelectionSet {
               public let __data: DataDict
               public init(_dataDict: DataDict) { __data = _dataDict }
 
-              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductOption }
               public static var __selections: [ApolloAPI.Selection] { [
                 .field("__typename", String.self),
-                .field("amount", ShopifyAPI.Decimal.self),
-                .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
+                .field("name", String.self),
+                .field("values", [String].self),
               ] }
 
-              /// Decimal money amount.
-              public var amount: ShopifyAPI.Decimal { __data["amount"] }
-              /// Currency of the money.
-              public var currencyCode: GraphQLEnum<ShopifyAPI.CurrencyCode> { __data["currencyCode"] }
+              /// The product option’s name.
+              public var name: String { __data["name"] }
+              /// The corresponding value to the product option name.
+              @available(*, deprecated, message: "Use `optionValues` instead.")
+              public var values: [String] { __data["values"] }
             }
-          }
 
-          /// Search.Node.AsProduct.CompareAtPriceRange
-          ///
-          /// Parent Type: `ProductPriceRange`
-          public struct CompareAtPriceRange: ShopifyAPI.SelectionSet {
-            public let __data: DataDict
-            public init(_dataDict: DataDict) { __data = _dataDict }
-
-            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductPriceRange }
-            public static var __selections: [ApolloAPI.Selection] { [
-              .field("__typename", String.self),
-              .field("minVariantPrice", MinVariantPrice.self),
-            ] }
-
-            /// The lowest variant's price.
-            public var minVariantPrice: MinVariantPrice { __data["minVariantPrice"] }
-
-            /// Search.Node.AsProduct.CompareAtPriceRange.MinVariantPrice
+            /// Search.Edge.Node.AsProduct.PriceRange
             ///
-            /// Parent Type: `MoneyV2`
-            public struct MinVariantPrice: ShopifyAPI.SelectionSet {
+            /// Parent Type: `ProductPriceRange`
+            public struct PriceRange: ShopifyAPI.SelectionSet {
               public let __data: DataDict
               public init(_dataDict: DataDict) { __data = _dataDict }
 
-              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductPriceRange }
               public static var __selections: [ApolloAPI.Selection] { [
                 .field("__typename", String.self),
-                .field("amount", ShopifyAPI.Decimal.self),
-                .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
+                .field("minVariantPrice", MinVariantPrice.self),
+                .field("maxVariantPrice", MaxVariantPrice.self),
               ] }
 
-              /// Decimal money amount.
-              public var amount: ShopifyAPI.Decimal { __data["amount"] }
-              /// Currency of the money.
-              public var currencyCode: GraphQLEnum<ShopifyAPI.CurrencyCode> { __data["currencyCode"] }
+              /// The lowest variant's price.
+              public var minVariantPrice: MinVariantPrice { __data["minVariantPrice"] }
+              /// The highest variant's price.
+              public var maxVariantPrice: MaxVariantPrice { __data["maxVariantPrice"] }
+
+              /// Search.Edge.Node.AsProduct.PriceRange.MinVariantPrice
+              ///
+              /// Parent Type: `MoneyV2`
+              public struct MinVariantPrice: ShopifyAPI.SelectionSet {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
+
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                public static var __selections: [ApolloAPI.Selection] { [
+                  .field("__typename", String.self),
+                  .field("amount", ShopifyAPI.Decimal.self),
+                  .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
+                ] }
+
+                /// Decimal money amount.
+                public var amount: ShopifyAPI.Decimal { __data["amount"] }
+                /// Currency of the money.
+                public var currencyCode: GraphQLEnum<ShopifyAPI.CurrencyCode> { __data["currencyCode"] }
+              }
+
+              /// Search.Edge.Node.AsProduct.PriceRange.MaxVariantPrice
+              ///
+              /// Parent Type: `MoneyV2`
+              public struct MaxVariantPrice: ShopifyAPI.SelectionSet {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
+
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                public static var __selections: [ApolloAPI.Selection] { [
+                  .field("__typename", String.self),
+                  .field("amount", ShopifyAPI.Decimal.self),
+                  .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
+                ] }
+
+                /// Decimal money amount.
+                public var amount: ShopifyAPI.Decimal { __data["amount"] }
+                /// Currency of the money.
+                public var currencyCode: GraphQLEnum<ShopifyAPI.CurrencyCode> { __data["currencyCode"] }
+              }
             }
-          }
 
-          /// Search.Node.AsProduct.RatingMetafield
-          ///
-          /// Parent Type: `Metafield`
-          public struct RatingMetafield: ShopifyAPI.SelectionSet {
-            public let __data: DataDict
-            public init(_dataDict: DataDict) { __data = _dataDict }
+            /// Search.Edge.Node.AsProduct.Images
+            ///
+            /// Parent Type: `ImageConnection`
+            public struct Images: ShopifyAPI.SelectionSet {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
 
-            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Metafield }
-            public static var __selections: [ApolloAPI.Selection] { [
-              .field("__typename", String.self),
-              .field("value", String.self),
-            ] }
+              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ImageConnection }
+              public static var __selections: [ApolloAPI.Selection] { [
+                .field("__typename", String.self),
+                .field("edges", [Edge].self),
+              ] }
 
-            /// The data stored in the metafield. Always stored as a string, regardless of the metafield's type.
-            public var value: String { __data["value"] }
-          }
+              /// A list of edges.
+              public var edges: [Edge] { __data["edges"] }
 
-          /// Search.Node.AsProduct.ReviewCountMetafield
-          ///
-          /// Parent Type: `Metafield`
-          public struct ReviewCountMetafield: ShopifyAPI.SelectionSet {
-            public let __data: DataDict
-            public init(_dataDict: DataDict) { __data = _dataDict }
+              /// Search.Edge.Node.AsProduct.Images.Edge
+              ///
+              /// Parent Type: `ImageEdge`
+              public struct Edge: ShopifyAPI.SelectionSet {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
 
-            public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Metafield }
-            public static var __selections: [ApolloAPI.Selection] { [
-              .field("__typename", String.self),
-              .field("value", String.self),
-            ] }
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ImageEdge }
+                public static var __selections: [ApolloAPI.Selection] { [
+                  .field("__typename", String.self),
+                  .field("node", Node.self),
+                ] }
 
-            /// The data stored in the metafield. Always stored as a string, regardless of the metafield's type.
-            public var value: String { __data["value"] }
+                /// The item at the end of ImageEdge.
+                public var node: Node { __data["node"] }
+
+                /// Search.Edge.Node.AsProduct.Images.Edge.Node
+                ///
+                /// Parent Type: `Image`
+                public struct Node: ShopifyAPI.SelectionSet {
+                  public let __data: DataDict
+                  public init(_dataDict: DataDict) { __data = _dataDict }
+
+                  public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Image }
+                  public static var __selections: [ApolloAPI.Selection] { [
+                    .field("__typename", String.self),
+                    .field("url", ShopifyAPI.URL.self),
+                    .field("altText", String?.self),
+                  ] }
+
+                  /// The location of the image as a URL.
+                  ///
+                  /// If no transform options are specified, then the original image will be preserved including any pre-applied transforms.
+                  ///
+                  /// All transformation options are considered "best-effort". Any transformation that the original image type doesn't support will be ignored.
+                  ///
+                  /// If you need multiple variations of the same image, then you can use [GraphQL aliases](https://graphql.org/learn/queries/#aliases).
+                  ///
+                  public var url: ShopifyAPI.URL { __data["url"] }
+                  /// A word or phrase to share the nature or contents of an image.
+                  public var altText: String? { __data["altText"] }
+                }
+              }
+            }
+
+            /// Search.Edge.Node.AsProduct.Variants
+            ///
+            /// Parent Type: `ProductVariantConnection`
+            public struct Variants: ShopifyAPI.SelectionSet {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductVariantConnection }
+              public static var __selections: [ApolloAPI.Selection] { [
+                .field("__typename", String.self),
+                .field("edges", [Edge].self),
+              ] }
+
+              /// A list of edges.
+              public var edges: [Edge] { __data["edges"] }
+
+              /// Search.Edge.Node.AsProduct.Variants.Edge
+              ///
+              /// Parent Type: `ProductVariantEdge`
+              public struct Edge: ShopifyAPI.SelectionSet {
+                public let __data: DataDict
+                public init(_dataDict: DataDict) { __data = _dataDict }
+
+                public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductVariantEdge }
+                public static var __selections: [ApolloAPI.Selection] { [
+                  .field("__typename", String.self),
+                  .field("node", Node.self),
+                ] }
+
+                /// The item at the end of ProductVariantEdge.
+                public var node: Node { __data["node"] }
+
+                /// Search.Edge.Node.AsProduct.Variants.Edge.Node
+                ///
+                /// Parent Type: `ProductVariant`
+                public struct Node: ShopifyAPI.SelectionSet {
+                  public let __data: DataDict
+                  public init(_dataDict: DataDict) { __data = _dataDict }
+
+                  public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.ProductVariant }
+                  public static var __selections: [ApolloAPI.Selection] { [
+                    .field("__typename", String.self),
+                    .field("id", ShopifyAPI.ID.self),
+                    .field("title", String.self),
+                    .field("availableForSale", Bool.self),
+                    .field("price", Price.self),
+                  ] }
+
+                  /// A globally-unique ID.
+                  public var id: ShopifyAPI.ID { __data["id"] }
+                  /// The product variant’s title.
+                  public var title: String { __data["title"] }
+                  /// Indicates if the product variant is available for sale.
+                  public var availableForSale: Bool { __data["availableForSale"] }
+                  /// The product variant’s price.
+                  public var price: Price { __data["price"] }
+
+                  /// Search.Edge.Node.AsProduct.Variants.Edge.Node.Price
+                  ///
+                  /// Parent Type: `MoneyV2`
+                  public struct Price: ShopifyAPI.SelectionSet {
+                    public let __data: DataDict
+                    public init(_dataDict: DataDict) { __data = _dataDict }
+
+                    public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MoneyV2 }
+                    public static var __selections: [ApolloAPI.Selection] { [
+                      .field("__typename", String.self),
+                      .field("amount", ShopifyAPI.Decimal.self),
+                      .field("currencyCode", GraphQLEnum<ShopifyAPI.CurrencyCode>.self),
+                    ] }
+
+                    /// Decimal money amount.
+                    public var amount: ShopifyAPI.Decimal { __data["amount"] }
+                    /// Currency of the money.
+                    public var currencyCode: GraphQLEnum<ShopifyAPI.CurrencyCode> { __data["currencyCode"] }
+                  }
+                }
+              }
+            }
           }
         }
+      }
+
+      /// Search.PageInfo
+      ///
+      /// Parent Type: `PageInfo`
+      public struct PageInfo: ShopifyAPI.SelectionSet {
+        public let __data: DataDict
+        public init(_dataDict: DataDict) { __data = _dataDict }
+
+        public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.PageInfo }
+        public static var __selections: [ApolloAPI.Selection] { [
+          .field("__typename", String.self),
+          .field("hasNextPage", Bool.self),
+          .field("endCursor", String?.self),
+        ] }
+
+        /// Whether there are more pages to fetch following the current page.
+        public var hasNextPage: Bool { __data["hasNextPage"] }
+        /// The cursor corresponding to the last node in edges.
+        public var endCursor: String? { __data["endCursor"] }
       }
     }
   }

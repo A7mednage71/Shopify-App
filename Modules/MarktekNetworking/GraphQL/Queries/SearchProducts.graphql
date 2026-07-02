@@ -1,18 +1,55 @@
-query SearchProducts($query: String!, $first: Int = 20) {
-  search(query: $query, types: PRODUCT, first: $first) {
+query SearchProducts($query: String!, $first: Int!, $after: String) {
+  search(query: $query, first: $first, after: $after, types: [PRODUCT]) {
     totalCount
-    nodes {
-      ... on Product {
-        id
-        title
-        description
-        handle
-        featuredImage { url altText }
-        priceRange { minVariantPrice { amount currencyCode } }
-        compareAtPriceRange { minVariantPrice { amount currencyCode } }
-        ratingMetafield: metafield(namespace: "custom", key: "rating") { value }
-        reviewCountMetafield: metafield(namespace: "custom", key: "review_count") { value }
+    edges {
+      cursor
+      node {
+        ... on Product {
+          id
+          title
+          description
+          handle
+          vendor           # مهم جداً للـ Filter بالـ Brand (مثل: Nike, Adidas)
+          productType      # مهم جداً للـ Filter بنوع المنتج (مثل: T-Shirt, Shoes)
+          tags             # مصفوفة الـ Tags (ممتازة لعمل فلاتر مخصصة مثل: New, Sale)
+          availableForSale # للـ Filter بالمنتجات المتاحة في المخزن فقط (In Stock)
+          
+          # بنجيب الـ Options هنا فقط لو عايز تظهر للمستخدم إن المنتج فيه ألوان/مقاسات متوفرة
+          options {
+            name
+            values
+          }
+          
+          # السعر الأساسي لعرضه في الكارت ولعمل فلترة بالـ Price Range
+          priceRange {
+            minVariantPrice { amount currencyCode }
+            maxVariantPrice { amount currencyCode }
+          }
+          
+          # صورة واحدة فقط تظهر في كارت المنتج لتوفير الـ Data
+          images(first: 1) {
+            edges { 
+              node { 
+                url 
+                altText 
+              } 
+            }
+          }
+          
+          # تفاصيل الـ Variants بشكل مبسط جداً بدون بيانات معقدة
+          variants(first: 10) {
+            edges {
+              node {
+                id
+                title
+                availableForSale
+                price { amount currencyCode }
+              }
+            }
+          }
+        }
       }
     }
+    pageInfo { hasNextPage endCursor }
   }
 }

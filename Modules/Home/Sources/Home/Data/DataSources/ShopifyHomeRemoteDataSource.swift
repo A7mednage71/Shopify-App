@@ -9,22 +9,19 @@ struct ShopifyHomeRemoteDataSource: HomeRemoteDataSource, Sendable {
         return data.collections.nodes.map { CollectionDataModel(node: $0) }
     }
 
-    func searchProducts(query: String, first: Int) async throws -> [ProductDataModel] {
-        let data = try await ShopifyGraphQLClient.shared.fetch(
-            SearchProductsQuery(query: query, first: .some(first))
+    func searchProducts(query: String, first: Int) async throws -> SearchResponseData {
+        let response = try await ShopifyGraphQLClient.shared.fetch(
+            SearchProductsQuery(query: query, first: first, after: .none)
         )
-        return data.search.nodes.compactMap { node in
-            guard let product = node.asProduct else { return nil }
-            return ProductDataModel(node: product)
-        }
+        return SearchResponseData(data: response)
     }
 
-    func fetchTrendingProducts(first: Int) async throws -> [ProductDataModel] {
+    func fetchTrendingProducts(first: Int) async throws -> [TrendingProductDataModel] {
         let data = try await ShopifyGraphQLClient.shared.fetch(
             GetTrendingProductsQuery(first: .some(first))
         )
         return data.products.nodes.map { (node: GetTrendingProductsQuery.Data.Products.Node) in
-            ProductDataModel(node: node)
+            TrendingProductDataModel(node: node)
         }
     }
 }

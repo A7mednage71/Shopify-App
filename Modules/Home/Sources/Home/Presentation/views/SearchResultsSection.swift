@@ -4,8 +4,8 @@ import Common
 // MARK: - Search Results Grid
 
 struct SearchResultsSection: View {
-    let products: [Product]
-    var onProductTap: ((Product) -> Void)? = nil
+    let products: [SearchProduct]
+    var onProductTap: ((SearchProduct) -> Void)? = nil
 
     private let columns = [
         GridItem(.flexible(), spacing: 16),

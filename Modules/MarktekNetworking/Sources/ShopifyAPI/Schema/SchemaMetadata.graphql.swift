@@ -83,11 +83,13 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductConnection": return ShopifyAPI.Objects.ProductConnection
     case "ProductEdge": return ShopifyAPI.Objects.ProductEdge
     case "SearchResultItemConnection": return ShopifyAPI.Objects.SearchResultItemConnection
+    case "SearchResultItemEdge": return ShopifyAPI.Objects.SearchResultItemEdge
     case "ProductPriceRange": return ShopifyAPI.Objects.ProductPriceRange
     case "ImageConnection": return ShopifyAPI.Objects.ImageConnection
     case "ImageEdge": return ShopifyAPI.Objects.ImageEdge
     case "ProductVariantConnection": return ShopifyAPI.Objects.ProductVariantConnection
     case "ProductVariantEdge": return ShopifyAPI.Objects.ProductVariantEdge
+    case "PageInfo": return ShopifyAPI.Objects.PageInfo
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
     case "CollectionConnection": return ShopifyAPI.Objects.CollectionConnection
