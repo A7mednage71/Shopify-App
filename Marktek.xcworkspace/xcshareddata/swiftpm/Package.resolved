@@ -226,6 +226,15 @@
       }
     },
     {
+      "identity" : "swiftui-shimmer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/markiv/swiftui-Shimmer",
+      "state" : {
+        "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
+        "version" : "1.5.1"
+      }
+    },
+    {
       "identity" : "swiftytexttable",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scottrhoyt/SwiftyTextTable.git",

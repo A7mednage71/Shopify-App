@@ -6,12 +6,10 @@ public struct HomeView: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var sortButtonAnchor: Anchor<CGRect>?
 
-    // Internal init — used by HomeViewFactory (same module)
     init(viewModel: HomeViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
-    // Public no-arg init for backwards compatibility — wires real dependencies via factory
     public init() {
         _viewModel = StateObject(wrappedValue: HomeViewModel(
             getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
@@ -25,98 +23,24 @@ public struct HomeView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
 
-                    // Search Bar — always visible
                     SearchBarSection(searchText: $viewModel.searchText)
                         .padding(.top, 10)
                         .padding(.bottom, 16)
 
-                    // MARK: Sort & Filter Bar — always visible
                     SortAndFilterSearch(
-                        leadingLabel:
-                          viewModel.isSearching
-                            ? viewModel.resultCountLabel
-                            : HomeStrings.Category.sectionTitle,
-                        onSortTap: {
-                            viewModel.showSortSheet = true
-                        },
-                        onFilterTap: {
-                            viewModel.showFilterSheet = true
-                        },
+                        leadingLabel: viewModel.isSearching ? viewModel.resultCountLabel : HomeStrings.Category.sectionTitle,
+                        onSortTap: { viewModel.showSortSheet = true },
+                        onFilterTap: { viewModel.showFilterSheet = true },
                         isSortEnabled: viewModel.isSearching,
                         isFilterEnabled: viewModel.isSearching
                     )
-                    .padding(.top, 8)
-                    .padding(.bottom, 8)
+                    .padding(.vertical, 8)
 
                     if viewModel.isSearching {
-                        // MARK: Search Results
-                        SearchResultsSection(
-                            products: viewModel.searchResults,
-                            onProductTap: { product in
-                                print("Search result tapped: \(product.title)")
-                            }
-                        )
-                        .padding(.bottom, 30)
-
+                        HomeSearchResultsView(viewModel: viewModel)
+                            .padding(.bottom, 30)
                     } else {
-
-                        if viewModel.isLoading {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 20)
-                        } else if let error = viewModel.error {
-                            Text(error)
-                                .foregroundColor(.red)
-                                .font(.caption)
-                                .padding(.horizontal, 16)
-                        } else {
-                            CategoriesListSection(
-                                categories: viewModel.collections,
-                                onCategoryTap: { collection in
-                                    print("Tapped: \(collection.title)")
-                                }
-                            )
-                            .padding(.bottom, 16)
-                        }
-
-                        // MARK: Remaining sections — mock data
-                        HeroBannerSection(banners: MockShopifyData.heroBanners)
-                            .padding(.bottom, 20)
-
-                        DealOfTheDaySection(
-                            deal: MockShopifyData.dealOfDay,
-                            onViewAll: { print("View all deals") }
-                        )
-                        .padding(.bottom, 4)
-
-                        // MARK: Remaining sections — mock data
-                        ProductCardsSection(
-                            products: MockShopifyData.featuredProducts,
-                            onProductTap: { product in
-                                print("Product: \(product.title)")
-                            }
-                        )
-                        .padding(.bottom, 8)
-
-                        SpecialOffersSection(
-                            onTap: { print("Special offers tapped") }
-                        )
-                        .padding(.vertical, 8)
-
-                        // MARK: Remaining sections — mock data
-                        FlatHeeelsBannerSection(
-                            product: MockShopifyData.featuredProducts[2],
-                            onVisitTap: { print("Visit heels collection") }
-                        )
-                        .padding(.vertical, 16)
-
-                        TrendingProductsSection(
-                            products: viewModel.trendingProducts,
-                            onProductTap: { product in
-                                print("Trending: \(product.title)")
-                            }
-                        )
-                        .padding(.bottom, 30)
+                        HomeMainContentView(viewModel: viewModel)
                     }
                 }
             }
@@ -133,7 +57,6 @@ public struct HomeView: View {
                             .font(.system(size: 18))
                     }
                 }
-
                 ToolbarItem(placement: .principal) {
                     HStack(spacing: 6) {
                         Image(systemName: "sparkles")
@@ -144,7 +67,6 @@ public struct HomeView: View {
                             .foregroundColor(.appPrimaryOrange)
                     }
                 }
-
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {}) {
                         AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
@@ -172,9 +94,7 @@ public struct HomeView: View {
                 selected: $viewModel.selectedSortOption,
                 title: { $0.displayName },
                 icon: { sortIcon(for: $0) },
-                onPick: {
-                    viewModel.applySort()
-                }
+                onPick: { viewModel.applySort() }
             )
         )
         .sheet(isPresented: $viewModel.showFilterSheet) {
@@ -184,12 +104,8 @@ public struct HomeView: View {
                 availableProductTypes: viewModel.availableProductTypes,
                 availableTags: viewModel.availableTags,
                 priceBounds: viewModel.priceBounds,
-                onApply: {
-                    viewModel.applyFilter()
-                },
-                onReset: {
-                    viewModel.resetFilters()
-                }
+                onApply: { viewModel.applyFilter() },
+                onReset: { viewModel.resetFilters() }
             )
         }
     }
@@ -202,5 +118,4 @@ public struct HomeView: View {
         case .newest: return "sparkles"
         }
     }
-    
 }

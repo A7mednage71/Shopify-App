@@ -126,6 +126,14 @@ final class HomeViewModel: ObservableObject {
         isTrendingLoading = false
     }
 
+    func retry() {
+        Task {
+            error = nil
+            await loadCollections()
+            await loadTrendingProducts()
+        }
+    }
+
 
     var resultCountLabel: String {
         "\(searchResults.count) results"
