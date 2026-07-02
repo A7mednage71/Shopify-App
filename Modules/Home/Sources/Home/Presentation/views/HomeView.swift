@@ -41,7 +41,9 @@ public struct HomeView: View {
                         },
                         onFilterTap: {
                             viewModel.showFilterSheet = true
-                        }, isSortEnabled: viewModel.isSearching
+                        },
+                        isSortEnabled: viewModel.isSearching,
+                        isFilterEnabled: viewModel.isSearching
                     )
                     .padding(.top, 8)
                     .padding(.bottom, 8)
@@ -181,9 +183,9 @@ public struct HomeView: View {
                 availableVendors: viewModel.availableVendors,
                 availableProductTypes: viewModel.availableProductTypes,
                 availableTags: viewModel.availableTags,
+                priceBounds: viewModel.priceBounds,
                 onApply: {
                     viewModel.applyFilter()
-                    viewModel.showFilterSheet = false
                 },
                 onReset: {
                     viewModel.resetFilters()

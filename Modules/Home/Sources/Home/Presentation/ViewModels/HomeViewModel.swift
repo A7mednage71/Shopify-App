@@ -81,6 +81,7 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var availableVendors: [String] = []
     @Published private(set) var availableProductTypes: [String] = []
     @Published private(set) var availableTags: [String] = []
+    @Published var priceBounds: ClosedRange<Double> = 0...2000
 
     // MARK: - Use Cases
 
@@ -160,6 +161,16 @@ final class HomeViewModel: ObservableObject {
         // Extract tags
         let allTags = Set(products.flatMap { $0.tags })
         availableTags = Array(allTags).sorted()
+        
+        // Extract prices
+        let prices = products.compactMap { Double($0.price.filter { "0123456789.".contains($0) }) }
+        if let minP = prices.min(), let maxP = prices.max(), minP < maxP {
+            priceBounds = minP...maxP
+        } else if let singlePrice = prices.first {
+            priceBounds = 0...(singlePrice * 2)
+        } else {
+            priceBounds = 0...2000
+        }
     }
 
     private func bindSearch() {

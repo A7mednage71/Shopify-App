@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import Common
 
 struct FilterSheet: View {
@@ -6,245 +7,417 @@ struct FilterSheet: View {
     let availableVendors: [String]
     let availableProductTypes: [String]
     let availableTags: [String]
-    let onApply: () -> Void
-    let onReset: () -> Void
-    
-    @Environment(\.presentationMode) private var presentationMode
-    
-    @State private var currentMaxPrice: Double = 2000
-    private let maxLimit: Double = 5000
-    
-    private let availableSizes = ["S", "M", "L", "XL", "XXL"]
-    
+    let priceBounds: ClosedRange<Double>
+    var onApply: () -> Void
+    var onReset: () -> Void
+
+    @Environment(\.dismiss) var dismiss
+    @State private var currentRange: ClosedRange<Double> = 0...2000
+
+    private var activeFilterCount: Int {
+        var count = 0
+        // Price filter counts as active if it deviates from priceBounds
+        if abs((filterState.minPrice ?? priceBounds.lowerBound) - priceBounds.lowerBound) > 0.01 ||
+           abs((filterState.maxPrice ?? priceBounds.upperBound) - priceBounds.upperBound) > 0.01 {
+            count += 1
+        }
+        if filterState.inStockOnly { count += 1 }
+        count += filterState.selectedVendors.count
+        count += filterState.selectedProductTypes.count
+        count += filterState.selectedTags.count
+        return count
+    }
+
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
                 Color.appBackgroundGray
                     .ignoresSafeArea()
-                
+
                 ScrollView {
-                    VStack(spacing: 24) {
-                        
-                        // 1. Price slider section
-                        VStack(alignment: .leading, spacing: 14) {
-                            HStack {
-                                Text("Max Price")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.appTextPrimary)
-                                Spacer()
-                                Text("$\(Int(currentMaxPrice))")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.appPrimaryOrange)
-                            }
-                            
-                            Slider(value: $currentMaxPrice, in: 0...maxLimit, step: 10)
-                                .accentColor(.appPrimaryOrange)
-                            
-                            HStack {
-                                Text("$0").font(.caption).foregroundColor(.appTextTertiary)
-                                Spacer()
-                                Text("$\(Int(maxLimit))").font(.caption).foregroundColor(.appTextTertiary)
-                            }
-                        }
-                        .padding()
-                        .background(Color.appBackgroundWhite)
-                        .cornerRadius(16)
-                        
-                        // 2. Brands section
+                    VStack(alignment: .leading, spacing: 28) {
+                        priceSection
+                        inStockSection
+
                         if !availableVendors.isEmpty {
-                            VStack(alignment: .leading, spacing: 14) {
-                                Text("Brands")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.appTextPrimary)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 10) {
-                                        ForEach(availableVendors, id: \.self) { vendor in
-                                            let isSelected = filterState.selectedVendors.contains(vendor)
-                                            Text(vendor)
-                                                .font(.system(size: 13, weight: .medium))
-                                                .foregroundColor(isSelected ? .white : .appTextPrimary)
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 10)
-                                                .background(isSelected ? Color.appPrimaryOrange : Color.appBackgroundGray.opacity(0.6))
-                                                .cornerRadius(10)
-                                                .onTapGesture {
-                                                    if isSelected {
-                                                        filterState.selectedVendors.remove(vendor)
-                                                    } else {
-                                                        filterState.selectedVendors.insert(vendor)
-                                                    }
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                            .padding()
-                            .background(Color.appBackgroundWhite)
-                            .cornerRadius(16)
+                            FilterSection(
+                                title: "Brands",
+                                systemImage: "tag",
+                                options: availableVendors,
+                                selectedOptions: $filterState.selectedVendors
+                            )
                         }
-                        
-                        // 3. Product Types section
+
                         if !availableProductTypes.isEmpty {
-                            VStack(alignment: .leading, spacing: 14) {
-                                Text("Product Types")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.appTextPrimary)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 10) {
-                                        ForEach(availableProductTypes, id: \.self) { type in
-                                            let isSelected = filterState.selectedProductTypes.contains(type)
-                                            Text(type)
-                                                .font(.system(size: 13, weight: .medium))
-                                                .foregroundColor(isSelected ? .white : .appTextPrimary)
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 10)
-                                                .background(isSelected ? Color.appPrimaryOrange : Color.appBackgroundGray.opacity(0.6))
-                                                .cornerRadius(10)
-                                                .onTapGesture {
-                                                    if isSelected {
-                                                        filterState.selectedProductTypes.remove(type)
-                                                    } else {
-                                                        filterState.selectedProductTypes.insert(type)
-                                                    }
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                            .padding()
-                            .background(Color.appBackgroundWhite)
-                            .cornerRadius(16)
+                            FilterSection(
+                                title: "Category Types",
+                                systemImage: "square.grid.2x2",
+                                options: availableProductTypes,
+                                selectedOptions: $filterState.selectedProductTypes
+                            )
                         }
-                        
-                        // 4. Tags section
+
                         if !availableTags.isEmpty {
-                            VStack(alignment: .leading, spacing: 14) {
-                                Text("Tags")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.appTextPrimary)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 10) {
-                                        ForEach(availableTags, id: \.self) { tag in
-                                            let isSelected = filterState.selectedTags.contains(tag)
-                                            Text(tag)
-                                                .font(.system(size: 13, weight: .medium))
-                                                .foregroundColor(isSelected ? .white : .appTextPrimary)
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 10)
-                                                .background(isSelected ? Color.appPrimaryOrange : Color.appBackgroundGray.opacity(0.6))
-                                                .cornerRadius(10)
-                                                .onTapGesture {
-                                                    if isSelected {
-                                                        filterState.selectedTags.remove(tag)
-                                                    } else {
-                                                        filterState.selectedTags.insert(tag)
-                                                    }
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                            .padding()
-                            .background(Color.appBackgroundWhite)
-                            .cornerRadius(16)
+                            FilterSection(
+                                title: "Tags",
+                                systemImage: "number",
+                                options: availableTags,
+                                selectedOptions: $filterState.selectedTags
+                            )
                         }
-                        
-                        // 5. Sizes section
-                        VStack(alignment: .leading, spacing: 14) {
-                            Text("Sizes")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.appTextPrimary)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 10) {
-                                    ForEach(availableSizes, id: \.self) { size in
-                                        let isSelected = filterState.selectedSizes.contains(size)
-                                        Text(size)
-                                            .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(isSelected ? .white : .appTextPrimary)
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 10)
-                                            .background(isSelected ? Color.appPrimaryOrange : Color.appBackgroundGray.opacity(0.6))
-                                            .cornerRadius(10)
-                                            .onTapGesture {
-                                                if isSelected {
-                                                    filterState.selectedSizes.remove(size)
-                                                } else {
-                                                    filterState.selectedSizes.insert(size)
-                                                }
-                                            }
-                                    }
-                                }
-                            }
-                        }
-                        .padding()
-                        .background(Color.appBackgroundWhite)
-                        .cornerRadius(16)
-                        
-                        Color.clear.frame(height: 100)
-                    }
-                    .padding()
-                }
-                
-                // 6. Bottom action buttons
-                VStack(spacing: 0) {
-                    Divider()
-                    HStack(spacing: 16) {
-                        Button(action: {
-                            onReset()
-                            currentMaxPrice = maxLimit
-                        }) {
-                            Text("Reset All")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundColor(.appTextSecondary)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(Color.appBackgroundGray)
-                                .cornerRadius(12)
-                        }
-                        
-                        Button(action: {
-                            filterState.minPrice = 0
-                            filterState.maxPrice = currentMaxPrice
-                            onApply()
-                            presentationMode.wrappedValue.dismiss()
-                        }) {
-                            Text("Apply Filters")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(Color.appPrimaryOrange)
-                                .cornerRadius(12)
-                                .shadow(color: Color.appPrimaryOrange.opacity(0.3), radius: 8, x: 0, y: 4)
-                        }
+
+                        // Reserve space so content doesn't sit under the sticky footer
+                        Color.clear.frame(height: 84)
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 16)
-                    .padding(.bottom, 16)
-                    .background(Color.appBackgroundWhite)
+                    .padding(.top, 12)
                 }
+
+                footer
             }
-            .navigationTitle("Filter Options")
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { presentationMode.wrappedValue.dismiss() }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .medium))
+                    Button {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            currentRange = priceBounds
+                            onReset()
+                        }
+                    } label: {
+                        Text("Reset")
+                            .fontWeight(.medium)
+                    }
+                    .foregroundStyle(activeFilterCount > 0 ? Color.appPrimaryPink : Color.appTextTertiary)
+                    .disabled(activeFilterCount == 0)
+                }
+
+                ToolbarItem(placement: .principal) {
+                    VStack(spacing: 2) {
+                        Text("Filters")
+                            .font(.headline)
                             .foregroundColor(.appTextPrimary)
-                            .padding(8)
-                            .background(Color.appBackgroundWhite)
-                            .clipShape(Circle())
+                        if activeFilterCount > 0 {
+                            Text("\(activeFilterCount) active")
+                                .font(.caption2)
+                                .foregroundColor(.appPrimaryOrange)
+                        }
+                    }
+                }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.secondary)
+                            .font(.title3)
+                    }
+                }
+            }
+            .onAppear {
+                let defaultMin = priceBounds.lowerBound
+                let defaultMax = priceBounds.upperBound
+                let currentMin = filterState.minPrice ?? defaultMin
+                let currentMax = filterState.maxPrice ?? defaultMax
+                
+                // Ensure initial range is within the bounds limits
+                let clampedMin = max(defaultMin, min(currentMin, defaultMax))
+                let clampedMax = min(defaultMax, max(currentMax, defaultMin))
+                
+                currentRange = clampedMin...clampedMax
+            }
+        }
+    }
+
+    // MARK: - Price Range
+
+    private var priceSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                sectionHeader(title: "Price Range", systemImage: "dollarsign.circle")
+                Spacer()
+                Text("$\(Int(currentRange.lowerBound)) - $\(Int(currentRange.upperBound))")
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.appPrimaryOrange)
+            }
+
+            RangeSlider(
+                range: $currentRange,
+                bounds: priceBounds
+            )
+            .padding(.horizontal, 8)
+            .padding(.vertical, 8)
+        }
+    }
+
+    // MARK: - In Stock
+
+    private var inStockSection: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "checkmark.seal")
+                .foregroundColor(.appPrimaryOrange)
+                .font(.title3)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("In Stock Only")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.appTextPrimary)
+                Text("Hide items that are sold out")
+                    .font(.caption)
+                    .foregroundColor(.appTextSecondary)
+            }
+
+            Spacer()
+
+            Toggle("", isOn: $filterState.inStockOnly.animation(.spring(response: 0.3, dampingFraction: 0.8)))
+                .labelsHidden()
+                .tint(Color.appPrimaryOrange)
+        }
+        .padding(14)
+        .background(Color.appBackgroundWhite)
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(Color.appBorderLight, lineWidth: 1)
+        )
+    }
+
+    // MARK: - Sticky Footer
+
+    private var footer: some View {
+        VStack(spacing: 0) {
+            Divider()
+                .background(Color.appBorderLight)
+            Button {
+                filterState.minPrice = currentRange.lowerBound
+                filterState.maxPrice = currentRange.upperBound
+                onApply()
+                dismiss()
+            } label: {
+                HStack(spacing: 8) {
+                    Text("Apply Filters")
+                        .fontWeight(.semibold)
+                        .font(.buttonPrimary)
+                    if activeFilterCount > 0 {
+                        Text("\(activeFilterCount)")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Color.appTextWhite.opacity(0.25))
+                            .clipShape(Capsule())
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .foregroundColor(.appTextWhite)
+                .background(Color.appPrimaryOrange)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 12)
+            .padding(.bottom, 8)
+        }
+        .background(Color.appBackgroundWhite)
+    }
+
+    // MARK: - Helpers
+
+    private func sectionHeader(title: String, systemImage: String) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: systemImage)
+                .foregroundColor(.appPrimaryOrange)
+                .font(.subheadline)
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.appTextPrimary)
+        }
+    }
+}
+
+// MARK: - Range Slider Component
+
+struct RangeSlider: View {
+    @Binding var range: ClosedRange<Double>
+    let bounds: ClosedRange<Double>
+
+    var body: some View {
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            let boundsRange = max(1.0, bounds.upperBound - bounds.lowerBound)
+            
+            // Map bounds to offsets (0 to width)
+            let leftOffset = CGFloat((range.lowerBound - bounds.lowerBound) / boundsRange) * width
+            let rightOffset = CGFloat((range.upperBound - bounds.lowerBound) / boundsRange) * width
+
+            ZStack(alignment: .leading) {
+                // Background Track
+                Capsule()
+                    .fill(Color.appBorderLight)
+                    .frame(height: 4)
+
+                // Active Track
+                Capsule()
+                    .fill(Color.appPrimaryOrange)
+                    .frame(width: max(0.0, rightOffset - leftOffset), height: 6)
+                    .offset(x: leftOffset)
+
+                // Left Thumb
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 24, height: 24)
+                    .shadow(color: Color.black.opacity(0.15), radius: 3, x: 0, y: 2)
+                    .overlay(
+                        Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5)
+                    )
+                    .offset(x: leftOffset - 12)
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                let proposedOffset = value.location.x
+                                let proposedValue = Double(proposedOffset / width) * boundsRange + bounds.lowerBound
+                                // Make sure left thumb is clamped and doesn't cross right thumb minus small step
+                                let step = boundsRange * 0.05
+                                let clampedValue = min(max(proposedValue, bounds.lowerBound), range.upperBound - step)
+                                range = clampedValue...range.upperBound
+                            }
+                    )
+
+                // Right Thumb
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 24, height: 24)
+                    .shadow(color: Color.black.opacity(0.15), radius: 3, x: 0, y: 2)
+                    .overlay(
+                        Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5)
+                    )
+                    .offset(x: rightOffset - 12)
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                let proposedOffset = value.location.x
+                                let proposedValue = Double(proposedOffset / width) * boundsRange + bounds.lowerBound
+                                // Make sure right thumb is clamped and doesn't cross left thumb plus small step
+                                let step = boundsRange * 0.05
+                                let clampedValue = max(min(proposedValue, bounds.upperBound), range.lowerBound + step)
+                                range = range.lowerBound...clampedValue
+                            }
+                    )
+            }
+        }
+        .frame(height: 24)
+    }
+}
+
+// MARK: - Filter Section
+
+struct FilterSection: View {
+    let title: String
+    let systemImage: String
+    let options: [String]
+    @Binding var selectedOptions: Set<String>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                HStack(spacing: 6) {
+                    Image(systemName: systemImage)
+                        .foregroundColor(.appPrimaryOrange)
+                        .font(.subheadline)
+                    Text(title)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.appTextPrimary)
+
+                    if !selectedOptions.isEmpty {
+                        Text("\(selectedOptions.count)")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.appPrimaryOrange)
+                            .foregroundColor(.appTextWhite)
+                            .clipShape(Capsule())
+                    }
+                }
+
+                Spacer()
+
+                if !selectedOptions.isEmpty {
+                    Button("Clear") {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                            selectedOptions.removeAll()
+                        }
+                    }
+                    .font(.caption)
+                    .foregroundColor(.appPrimaryOrange)
+                }
+            }
+
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 92), spacing: 8)], alignment: .leading, spacing: 8) {
+                ForEach(options, id: \.self) { option in
+                    FilterChip(title: option, isSelected: selectedOptions.contains(option)) {
+                        toggle(option)
                     }
                 }
             }
         }
-        .onAppear {
-            currentMaxPrice = filterState.maxPrice ?? maxLimit
+    }
+
+    private func toggle(_ option: String) {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            if selectedOptions.contains(option) {
+                selectedOptions.remove(option)
+            } else {
+                selectedOptions.insert(option)
+            }
         }
+    }
+}
+
+// MARK: - Chip
+
+private struct FilterChip: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 11, weight: .bold))
+                        .transition(.scale.combined(with: .opacity))
+                }
+                Text(title)
+                    .font(.buttonSmall)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(isSelected ? Color.appPrimaryOrange : Color.appBackgroundWhite)
+            .foregroundColor(isSelected ? .white : .appTextSecondary)
+            .clipShape(Capsule())
+            .overlay(
+                Capsule()
+                    .stroke(isSelected ? Color.appPrimaryOrange : Color.appBorderLight, lineWidth: 1)
+            )
+        }
+        .buttonStyle(ChipButtonStyle())
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+    }
+}
+
+private struct ChipButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.94 : 1)
+            .animation(.spring(response: 0.25, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }

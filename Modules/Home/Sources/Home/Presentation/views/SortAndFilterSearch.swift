@@ -8,6 +8,7 @@ struct SortAndFilterSearch: View {
     var onSortTap: (() -> Void)? = nil
     var onFilterTap: (() -> Void)? = nil
     var isSortEnabled: Bool = true
+    var isFilterEnabled: Bool = true
 
     var body: some View {
         HStack {
@@ -55,6 +56,8 @@ struct SortAndFilterSearch: View {
                 .cornerRadius(6)
                 .shadow(color: Color.appCardShadow, radius: 4, x: 0, y: 1)
             }
+            .disabled(!isFilterEnabled)
+            .opacity(isFilterEnabled ? 1.0 : 0.5)
         }
         .padding(.horizontal, 16)
     }
