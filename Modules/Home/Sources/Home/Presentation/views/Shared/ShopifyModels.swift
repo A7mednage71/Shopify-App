@@ -99,6 +99,7 @@ struct HeroBanner: Identifiable {
     let ctaHandle: String
     let imageURL: String
     let gradientColors: [Color]
+    var couponCode: String?
 }
 
 // MARK: - Mock Data
@@ -117,28 +118,31 @@ struct MockShopifyData {
             id: "1",
             title: "50-40% OFF",
             subtitle: "Now in all products\nAll colours",
-            ctaText: "Shop Now",
+            ctaText: "Copy Code",
             ctaHandle: "sale",
             imageURL: "https://picsum.photos/seed/banner1/400/200",
-            gradientColors: [Color(red: 1.0, green: 0.45, blue: 0.0), Color(red: 1.0, green: 0.65, blue: 0.1)]
+            gradientColors: [Color(red: 1.0, green: 0.45, blue: 0.0), Color(red: 1.0, green: 0.65, blue: 0.1)],
+            couponCode: "FIRST50"
         ),
         HeroBanner(
             id: "2",
-            title: "New Arrivals",
-            subtitle: "Fresh styles just landed",
-            ctaText: "Explore",
+            title: "Special Gift",
+            subtitle: "Get $30 off on your order",
+            ctaText: "Copy Code",
             ctaHandle: "new-arrivals",
             imageURL: "https://picsum.photos/seed/banner2/400/200",
-            gradientColors: [Color(red: 0.05, green: 0.35, blue: 0.50), Color(red: 0.1, green: 0.55, blue: 0.65)]
+            gradientColors: [Color(red: 0.05, green: 0.35, blue: 0.50), Color(red: 0.1, green: 0.55, blue: 0.65)],
+            couponCode: "GIFT30"
         ),
         HeroBanner(
             id: "3",
-            title: "Top Brands",
-            subtitle: "Exclusive deals on premium brands",
-            ctaText: "Discover",
+            title: "Free Shipping",
+            subtitle: "On all orders above $100",
+            ctaText: "Copy Code",
             ctaHandle: "brands",
             imageURL: "https://picsum.photos/seed/banner3/400/200",
-            gradientColors: [Color(red: 0.30, green: 0.15, blue: 0.65), Color(red: 0.55, green: 0.25, blue: 0.85)]
+            gradientColors: [Color(red: 0.30, green: 0.15, blue: 0.65), Color(red: 0.55, green: 0.25, blue: 0.85)],
+            couponCode: "FREESHIPPING2026"
         )
     ]
     
