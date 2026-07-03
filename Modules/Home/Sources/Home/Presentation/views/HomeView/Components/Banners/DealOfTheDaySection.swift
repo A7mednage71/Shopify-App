@@ -119,11 +119,4 @@ private struct TimeBlock: View {
     }
 }
 
-// MARK: - Preview
-#Preview {
-    ZStack {
-        Color.appBackgroundGray.ignoresSafeArea()
-        DealOfTheDaySection(deal: MockShopifyData.dealOfDay)
-            .padding(.vertical)
-    }
-}
+

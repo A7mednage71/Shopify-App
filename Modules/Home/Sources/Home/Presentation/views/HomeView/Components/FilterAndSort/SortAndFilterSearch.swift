@@ -63,11 +63,3 @@ struct SortAndFilterSearch: View {
     }
 }
 
-// MARK: - Preview
-#Preview {
-    VStack(spacing: 20) {
-        SortAndFilterSearch()
-        SortAndFilterSearch(leadingLabel: "12 results")
-    }
-    .padding(.vertical)
-}

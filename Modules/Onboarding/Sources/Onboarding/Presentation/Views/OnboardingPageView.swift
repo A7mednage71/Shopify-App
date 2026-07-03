@@ -70,13 +70,4 @@ struct OnboardingPageView: View {
     }
 }
 
-#Preview {
-    OnboardingPageView(
-        item: OnboardingItem.defaults[0],
-        isActive: true,
-        isFloating: false,
-        reduceMotion: false
-    )
-    .padding(24)
-    .background(OnboardingPalette.pageBackground)
-}
+

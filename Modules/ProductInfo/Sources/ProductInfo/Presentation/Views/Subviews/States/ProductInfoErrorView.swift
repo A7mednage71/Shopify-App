@@ -24,7 +24,7 @@ struct ProductInfoErrorView: View {
                     }
 
                     VStack(spacing: 9) {
-                        Text("Product could not load")
+                        Text(ProductInfoText.productLoadFailureTitle)
                             .font(.system(size: 22, weight: .bold, design: .rounded))
                             .foregroundColor(ProductPalette.textPrimary)
                             .multilineTextAlignment(.center)
@@ -37,16 +37,16 @@ struct ProductInfoErrorView: View {
                     }
 
                     Button(action: onRetry) {
-                        Label("Try Again", systemImage: "arrow.clockwise")
+                        Label(ProductInfoText.retryButtonTitle, systemImage: "arrow.clockwise")
                             .font(.system(size: 16, weight: .bold, design: .rounded))
-                            .foregroundColor(.white)
+                            .foregroundColor(ProductPalette.textWhite)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
                             .background(ProductPalette.primary)
                             .clipShape(Capsule())
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Try loading the product again")
+                    .accessibilityLabel(ProductInfoText.retryAccessibilityLabel)
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 28)
@@ -56,7 +56,7 @@ struct ProductInfoErrorView: View {
                 .shadow(color: ProductPalette.shadow, radius: 22, x: 0, y: 12)
                 .padding(.horizontal, 24)
 
-                Text("Check your connection and try again in a moment.")
+                Text(ProductInfoText.failureHelpMessage)
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .foregroundColor(ProductPalette.textTertiary)
                     .multilineTextAlignment(.center)
@@ -69,6 +69,6 @@ struct ProductInfoErrorView: View {
 
     private var cleanMessage: String {
         let trimmedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmedMessage.isEmpty ? "Something went wrong while fetching this product." : trimmedMessage
+        return trimmedMessage.isEmpty ? ProductInfoText.failureFallbackMessage : trimmedMessage
     }
 }

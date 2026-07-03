@@ -21,6 +21,9 @@ public enum AppColors {
     public static let textWhite = Color.appTextWhite
     public static let border = Color.appBorderLight
     public static let shadow = Color.appCardShadow
+    public static let success = Color.appSuccessGreen
+    public static let error = Color.appErrorRed
+    public static let disabled = Color.appDisabled
 }
 
 public enum AppFonts {
@@ -69,6 +72,10 @@ public extension Color {
     static let appWhiteOverlayMedium = AppColorAsset.color("AppWhiteOverlayMedium")
     static let appCardShadow = AppColorAsset.color("AppCardShadow")
     static let appOrangeShadow = AppColorAsset.color("AppOrangeShadow")
+
+    static let appSuccessGreen = AppColorAsset.color("AppSuccessGreen")
+    static let appErrorRed = AppColorAsset.color("AppErrorRed")
+    static let appDisabled = AppColorAsset.color("AppDisabled")
 }
 
 public extension Font {

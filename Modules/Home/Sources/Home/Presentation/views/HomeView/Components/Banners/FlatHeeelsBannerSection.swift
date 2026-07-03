@@ -81,8 +81,4 @@ struct FlatHeeelsBannerSection: View {
     }
 }
 
-// MARK: - Preview
-#Preview {
-    FlatHeeelsBannerSection(product: MockShopifyData.featuredProducts[2])
-        .padding(.vertical)
-}
+

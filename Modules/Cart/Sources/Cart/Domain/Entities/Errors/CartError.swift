@@ -13,17 +13,17 @@ extension CartError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .missingCartID:
-            "No cart id is saved."
+            return "No cart id is saved."
         case .staleCart:
-            "The saved cart no longer exists."
+            return "The saved cart no longer exists."
         case let .invalidQuantity(quantity):
-            "Cart item quantity must be greater than zero. Received \(quantity)."
+            return "Cart item quantity must be greater than zero. Received \(quantity)."
         case let .quantityLimitExceeded(quantity, maximumQuantity):
-            "Cart item quantity cannot exceed \(maximumQuantity). Received \(quantity)."
+            return "Cart item quantity cannot exceed \(maximumQuantity). Received \(quantity)."
         case let .userErrors(errors):
-            errors.map(\.message).joined(separator: "\n")
+            return errors.map(\.message).joined(separator: "\n")
         case let .malformedResponse(message):
-            message
+            return message
         }
     }
 }

@@ -17,7 +17,12 @@ struct ShimmerRoundedBlock: View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
             .fill(ProductPalette.skeletonBase)
             .overlay {
-                shimmer
+                ShimmerOverlay(
+                    phase: phase,
+                    widthRatio: 0.55,
+                    heightRatio: 2.4,
+                    yOffsetRatio: -0.7
+                )
                     .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             }
             .frame(width: width, height: height)
@@ -28,22 +33,6 @@ struct ShimmerRoundedBlock: View {
             }
     }
 
-    private var shimmer: some View {
-        GeometryReader { proxy in
-            LinearGradient(
-                colors: [
-                    .clear,
-                    ProductPalette.skeletonHighlight.opacity(0.85),
-                    .clear,
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(width: proxy.size.width * 0.55, height: proxy.size.height * 2.4)
-            .rotationEffect(.degrees(18))
-            .offset(x: proxy.size.width * phase, y: -proxy.size.height * 0.7)
-        }
-    }
 }
 
 struct ShimmerCircle: View {
@@ -55,7 +44,12 @@ struct ShimmerCircle: View {
         Circle()
             .fill(ProductPalette.skeletonBase)
             .overlay {
-                shimmer
+                ShimmerOverlay(
+                    phase: phase,
+                    widthRatio: 0.72,
+                    heightRatio: 2.2,
+                    yOffsetRatio: -0.6
+                )
                     .clipShape(Circle())
             }
             .frame(width: diameter, height: diameter)
@@ -66,20 +60,4 @@ struct ShimmerCircle: View {
             }
     }
 
-    private var shimmer: some View {
-        GeometryReader { proxy in
-            LinearGradient(
-                colors: [
-                    .clear,
-                    ProductPalette.skeletonHighlight.opacity(0.85),
-                    .clear,
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(width: proxy.size.width * 0.72, height: proxy.size.height * 2.2)
-            .rotationEffect(.degrees(18))
-            .offset(x: proxy.size.width * phase, y: -proxy.size.height * 0.6)
-        }
-    }
 }

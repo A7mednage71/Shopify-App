@@ -7,7 +7,6 @@
 
 import FirebaseCore
 import GoogleSignIn
-import Home
 import Persistence
 import SwiftUI
 
@@ -27,8 +26,7 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            AppFlowView()
         }
     }
 }
-

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,19 @@
 		08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D800B2FF335C50090C2CF /* ApolloAPI */; };
 		08B93C902FF3246100AAA4F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */; };
 		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
+		0B0000012FF5000000000001 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0000022FF5000000000002 /* ProductInfo */; };
+		0B0000032FF5000000000003 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000042FF5000000000004 /* AppDIContainer.swift */; };
+		0C0000012FF6000000000001 /* Checkout in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0000022FF6000000000002 /* Checkout */; };
+		0D1000132FF7000000000003 /* MainFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000032FF7000000000003 /* MainFlowView.swift */; };
+		0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D10000D2FF700000000000D /* MainFlowRoute.swift */; };
+		0D10001E2FF700000000000E /* MainFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D10000E2FF700000000000E /* MainFlowCoordinator.swift */; };
+		0D1000242FF7000000000013 /* MainFlowViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000132FF7000000000013 /* MainFlowViewFactory.swift */; };
+		0D2000122FF8000000000002 /* AppFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000022FF8000000000002 /* AppFlowCoordinator.swift */; };
+		0D2000132FF8000000000003 /* AppFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000032FF8000000000003 /* AppFlowView.swift */; };
+		0D2000152FF8000000000005 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000052FF8000000000005 /* AuthFlowCoordinator.swift */; };
+		0D2000162FF8000000000006 /* AuthFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000062FF8000000000006 /* AuthFlowRoute.swift */; };
+		0D2000172FF8000000000007 /* AuthFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000072FF8000000000007 /* AuthFlowView.swift */; };
+		0D2000182FF8000000000008 /* AuthFlowViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000082FF8000000000008 /* AuthFlowViewFactory.swift */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
@@ -49,6 +62,17 @@
 /* Begin PBXFileReference section */
 		083555A02FF3A07D00083148 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0B0000042FF5000000000004 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
+		0D1000032FF7000000000003 /* MainFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowView.swift; sourceTree = "<group>"; };
+		0D10000D2FF700000000000D /* MainFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowRoute.swift; sourceTree = "<group>"; };
+		0D10000E2FF700000000000E /* MainFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinator.swift; sourceTree = "<group>"; };
+		0D1000132FF7000000000013 /* MainFlowViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowViewFactory.swift; sourceTree = "<group>"; };
+		0D2000022FF8000000000002 /* AppFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowCoordinator.swift; sourceTree = "<group>"; };
+		0D2000032FF8000000000003 /* AppFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowView.swift; sourceTree = "<group>"; };
+		0D2000052FF8000000000005 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
+		0D2000062FF8000000000006 /* AuthFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowRoute.swift; sourceTree = "<group>"; };
+		0D2000072FF8000000000007 /* AuthFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowView.swift; sourceTree = "<group>"; };
+		0D2000082FF8000000000008 /* AuthFlowViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowViewFactory.swift; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		610825582FF1882D002433CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +86,11 @@
 		CADE619D2FF47D6600290B13 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		08B42AA32FF6F4DF00BDC71B /* Tabs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tabs; sourceTree = "<group>"; };
+		08B42AC02FF707B400BDC71B /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		616653892FEFCE9F00C605D3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -74,6 +103,8 @@
 				CACE9CC82FF4956A00461ED1 /* Persistence in Frameworks */,
 				CACE9CC62FF4955900461ED1 /* Home in Frameworks */,
 				08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */,
+				0C0000012FF6000000000001 /* Checkout in Frameworks */,
+				0B0000012FF5000000000001 /* ProductInfo in Frameworks */,
 				CACE9CC42FF4953B00461ED1 /* Onboarding in Frameworks */,
 				0860648A2FF126690010B267 /* Swinject in Frameworks */,
 				086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */,
@@ -100,6 +131,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D1000202FF7000000000020 /* Coordination */ = {
+			isa = PBXGroup;
+			children = (
+				0D2000202FF8000000000020 /* App */,
+				0D2000212FF8000000000021 /* Auth */,
+				0D1000302FF7000000000030 /* Main */,
+			);
+			path = Coordination;
+			sourceTree = "<group>";
+		};
+		0D1000302FF7000000000030 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				08B42AC02FF707B400BDC71B /* Shared */,
+				08B42AA32FF6F4DF00BDC71B /* Tabs */,
+				0D10000D2FF700000000000D /* MainFlowRoute.swift */,
+				0D10000E2FF700000000000E /* MainFlowCoordinator.swift */,
+				0D1000132FF7000000000013 /* MainFlowViewFactory.swift */,
+				0D1000032FF7000000000003 /* MainFlowView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		0D2000202FF8000000000020 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				0D2000022FF8000000000002 /* AppFlowCoordinator.swift */,
+				0D2000032FF8000000000003 /* AppFlowView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0D2000212FF8000000000021 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0D2000062FF8000000000006 /* AuthFlowRoute.swift */,
+				0D2000052FF8000000000005 /* AuthFlowCoordinator.swift */,
+				0D2000082FF8000000000008 /* AuthFlowViewFactory.swift */,
+				0D2000072FF8000000000007 /* AuthFlowView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		2C74F8D02FEFFF460073F428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +193,8 @@
 			isa = PBXGroup;
 			children = (
 				6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */,
+				0B0000042FF5000000000004 /* AppDIContainer.swift */,
+				0D1000202FF7000000000020 /* Coordination */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -207,6 +283,10 @@
 			dependencies = (
 				0835559F2FF3A01600083148 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				08B42AA32FF6F4DF00BDC71B /* Tabs */,
+				08B42AC02FF707B400BDC71B /* Shared */,
+			);
 			name = Marktek;
 			packageProductDependencies = (
 				617276C62FF01B7C001CC25D /* FirebaseAuth */,
@@ -218,6 +298,8 @@
 				CACE9CC32FF4953B00461ED1 /* Onboarding */,
 				CACE9CC52FF4955900461ED1 /* Home */,
 				CACE9CC72FF4956A00461ED1 /* Persistence */,
+				0B0000022FF5000000000002 /* ProductInfo */,
+				0C0000022FF6000000000002 /* Checkout */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -293,10 +375,10 @@
 			mainGroup = 616653832FEFCE9F00C605D3;
 			packageReferences = (
 				086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */,
-				086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */,
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				61627E592FF515F0009EDBA6 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -342,6 +424,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
+				0B0000032FF5000000000003 /* AppDIContainer.swift in Sources */,
+				0D2000122FF8000000000002 /* AppFlowCoordinator.swift in Sources */,
+				0D2000132FF8000000000003 /* AppFlowView.swift in Sources */,
+				0D2000152FF8000000000005 /* AuthFlowCoordinator.swift in Sources */,
+				0D2000162FF8000000000006 /* AuthFlowRoute.swift in Sources */,
+				0D2000172FF8000000000007 /* AuthFlowView.swift in Sources */,
+				0D2000182FF8000000000008 /* AuthFlowViewFactory.swift in Sources */,
+				0D1000132FF7000000000003 /* MainFlowView.swift in Sources */,
+				0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */,
+				0D10001E2FF700000000000E /* MainFlowCoordinator.swift in Sources */,
+				0D1000242FF7000000000013 /* MainFlowViewFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +593,7 @@
 		};
 		616653B62FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -536,6 +630,7 @@
 		};
 		616653B72FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -688,8 +783,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/SwiftLint";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.65.0;
+				kind = exactVersion;
+				version = 0.51.0;
 			};
 		};
 		086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */ = {
@@ -697,7 +792,7 @@
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
 			requirement = {
 				kind = exactVersion;
-				version = 2.9.1;
+				version = 2.8.4;
 			};
 		};
 		086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
@@ -705,7 +800,15 @@
 			repositoryURL = "https://github.com/apollographql/apollo-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 1.9.3;
+				version = 1.5.0;
+			};
+		};
+		61627E592FF515F0009EDBA6 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.8.3;
 			};
 		};
 		616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
@@ -749,6 +852,14 @@
 		08EA15A92FF2B32E0056ECA5 /* Cart */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Cart;
+		};
+		0B0000022FF5000000000002 /* ProductInfo */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductInfo;
+		};
+		0C0000022FF6000000000002 /* Checkout */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Checkout;
 		};
 		616851E12FF1A35200F29AA5 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
