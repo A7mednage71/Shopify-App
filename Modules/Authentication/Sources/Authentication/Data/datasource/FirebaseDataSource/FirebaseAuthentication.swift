@@ -63,6 +63,23 @@ class FirebaseAuthenitcation : AuthenticationServiceViaPlatform{
     func signInUsingApple() throws {
         
     }
+    func signOut() async throws {
+                
+                guard Auth.auth().currentUser != nil else {
+                  
+                    return
+                }
+                
+                do {
+                    GIDSignIn.sharedInstance.signOut()
+                    
+                    try Auth.auth().signOut()
+                    
+                } catch {
+                    try mapFirebaseError(error)
+                }
+            
+    }
     
     
     private func mapFirebaseError(_ error: Error) throws {

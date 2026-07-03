@@ -33,8 +33,9 @@ class AuthenticationRepositarory: AuthRepoInterface {
         )
     }
 
-    func signOut() throws {
+    func signOut() async throws {
         tokenStore.delete()
+        try await firebaseAuth.signOut()
     }
 
     private func loginToShopifyAndSaveToken(email: String, password: String) async throws {

@@ -32,7 +32,6 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-            
             Group {
                 if authState.isLoggedIn || isGuest {
                     HomeView()

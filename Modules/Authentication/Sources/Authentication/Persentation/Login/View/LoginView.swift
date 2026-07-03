@@ -92,7 +92,7 @@ public struct LoginView: View {
                         .font(.system(size: 12))
                         .foregroundColor(AppColors.primary)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .trailing).padding(.horizontal , 30)
                 Spacer().frame(height: 52)
                 CustomBtn(label: "Login", action: {
                     Task {
