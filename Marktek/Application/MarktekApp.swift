@@ -9,6 +9,7 @@ import FirebaseCore
 import GoogleSignIn
 import Persistence
 import SwiftUI
+import Common
 
 @available(iOS 14.0, *)
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -30,6 +31,9 @@ struct MarktekApp: App {
         WindowGroup {
             appDIContainer.makeRootView()
                 .preferredColorScheme(isDarkMode ? .dark : .light)
+                .task {
+                                await CurrencyService.shared.fetchLatestRates()
+                            }
         }
     }
 }
