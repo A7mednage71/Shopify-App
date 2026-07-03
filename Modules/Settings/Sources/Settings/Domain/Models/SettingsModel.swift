@@ -18,21 +18,3 @@ public struct UserProfile {
         self.profileImageURL = profileImageURL
     }
 }
-
-public enum AppCurrency: String, CaseIterable, Identifiable {
-    case usd = "USD ($)"
-    case eur = "Euro (€)"
-    case egp = "EGP (E£)"
-    case gbp = "GBP (£)"
-    
-    public var id: String { self.rawValue }
-    
-    public var exchangeRateFromUSD: Double {
-        switch self {
-        case .usd: return 1.0
-        case .eur: return 0.92
-        case .egp: return 48.50
-        case .gbp: return 0.79
-        }
-    }
-}

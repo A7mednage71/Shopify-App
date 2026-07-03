@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct ProductInfoHeaderSection: View {
     let title: String
@@ -29,21 +30,26 @@ struct ProductInfoHeaderSection: View {
 
             Spacer(minLength: 12)
 
-            VStack(alignment: .trailing, spacing: 4) {
-                Text(displayMoney.formatted())
-                    .font(.system(size: 22, weight: .bold, design: .rounded))
-                    .foregroundColor(ProductPalette.primary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.65)
+                        VStack(alignment: .trailing, spacing: 4) {
+                            
+                            PriceView(
+                                priceInUSD: Double(displayMoney.amount) ?? 0.0,
+                                font: .system(size: 22, weight: .bold, design: .rounded),
+                                color: ProductPalette.primary
+                            )
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.65)
 
-                if let compareAtMoney {
-                    Text(compareAtMoney.formatted())
-                        .font(.system(size: 13, weight: .semibold, design: .rounded))
-                        .foregroundColor(ProductPalette.textTertiary)
-                        .strikethrough()
-                        .lineLimit(1)
-                }
-            }
+                            if let compareAtMoney {
+                                PriceView(
+                                    priceInUSD: Double(compareAtMoney.amount) ?? 0.0,
+                                    font: .system(size: 13, weight: .semibold, design: .rounded),
+                                    color: ProductPalette.textTertiary,
+                                    isStrikethrough: true
+                                )
+                                .lineLimit(1)
+                            }
+                        }
             .frame(width: 96, alignment: .trailing)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
