@@ -4,17 +4,18 @@ import Common
 // MARK: - Horizontal Categories List
 
 struct CategoriesListSection: View {
-    let categories: [ShopifyCollection]
-    var onCategoryTap: ((ShopifyCollection) -> Void)? = nil
+    let viewModel: HomeViewModel
+    let categories: [Collection]
+    var onCategoryTap: ((Collection) -> Void)? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
                 ForEach(categories) { category in
-                    CategoryItem(category: category)
-                        .onTapGesture {
-                            onCategoryTap?(category)
-                        }
+                    NavigationLink(destination: VendorProductsView(vendorName: category.title, viewModel: viewModel)) {
+                        CategoryItem(category: category)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 16)
@@ -29,7 +30,7 @@ struct CategoriesListSection: View {
 // MARK: - Single Category Item
 
 struct CategoryItem: View {
-    let category: ShopifyCollection
+    let category: Collection
 
     var body: some View {
         VStack(spacing: 6) {
@@ -61,4 +62,15 @@ struct CategoryItem: View {
     }
 }
 
-
+// MARK: - Preview
+#Preview {
+    CategoriesListSection(
+        viewModel: HomeAssembler.resolveHomeViewModel(),
+        categories: [
+            Collection(id: "1", title: "Beauty",  handle: "beauty",  imageURL: "https://picsum.photos/seed/beauty/80/80"),
+            Collection(id: "2", title: "Fashion", handle: "fashion", imageURL: "https://picsum.photos/seed/fashion/80/80"),
+            Collection(id: "3", title: "Kids",    handle: "kids",    imageURL: "https://picsum.photos/seed/kids/80/80"),
+        ]
+    )
+    .padding(.vertical)
+}

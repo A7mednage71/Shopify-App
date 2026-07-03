@@ -35,7 +35,6 @@ struct MainFlowView: View {
         switch tab {
         case .home:
             HomeFlowView(
-                productID: temporaryProductID,
                 onProductDetailsTap: homeCoordinator.showProductInfo(productID:)
             )
 

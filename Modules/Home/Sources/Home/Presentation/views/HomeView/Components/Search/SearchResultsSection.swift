@@ -4,25 +4,24 @@ import Common
 // MARK: - Search Results Grid
 
 struct SearchResultsSection: View {
-    let products: [ShopifyProduct]
-    var onProductTap: ((ShopifyProduct) -> Void)? = nil
+    let products: [ShopProduct]
+    var onProductTap: ((ShopProduct) -> Void)? = nil
 
     private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-
+        VStack(alignment: .leading, spacing: 0) {
             if products.isEmpty {
                 SearchEmptyStateView()
                     .padding(.top, 60)
                     .frame(maxWidth: .infinity)
             } else {
-                LazyVGrid(columns: columns, spacing: 12) {
+                LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(products) { product in
-                        ProductCard(product: product, fixedWidth: nil)
+                        ShopProductCard(product: product)
                             .onTapGesture { onProductTap?(product) }
                     }
                 }

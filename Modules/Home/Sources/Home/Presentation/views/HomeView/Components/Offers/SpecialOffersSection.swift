@@ -2,8 +2,6 @@ import SwiftUI
 import Common
 
 // MARK: - Special Offers Section
-// Shopify API: Collection tagged "special-offers" OR metafield badge on products
-// Products with compare_at_price set automatically qualify as "on sale"
 
 struct SpecialOffersSection: View {
     var onTap: (() -> Void)? = nil
@@ -48,15 +46,7 @@ struct SpecialOffersSection: View {
                 }
                 
                 Spacer()
-                
-                // Chevron
-                Image(systemName: "chevron.right")
-                    .font(.sectionAction)
-                    .foregroundColor(.appPrimaryOrange)
-                    .frame(width: 28, height: 28)
-                    .background(Color.appBackgroundWhite)
-                    .clipShape(Circle())
-                    .shadow(color: Color.appPrimaryOrange.opacity(0.15), radius: 4, x: 0, y: 2)
+            
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 14)

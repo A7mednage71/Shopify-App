@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -181,6 +181,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2C78E1F02FF4E7CB00B71508 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				CADE619D2FF47D6600290B13 /* Secrets.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		2C90D2152FEFD85300FADB94 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,8 +210,8 @@
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
+				2C78E1F02FF4E7CB00B71508 /* Config */,
 				083555A02FF3A07D00083148 /* .swiftlint.yml */,
-				CADE619D2FF47D6600290B13 /* Secrets.xcconfig */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
 				616653AE2FEFCEA200C605D3 /* MarktekUITests */,
@@ -370,7 +378,7 @@
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */,
-				61627E592FF515F0009EDBA6 /* XCRemoteSwiftPackageReference "Swinject" */,
+				086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -469,6 +477,7 @@
 /* Begin XCBuildConfiguration section */
 		616653B32FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -529,6 +538,7 @@
 		};
 		616653B42FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -782,7 +792,7 @@
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
 			requirement = {
 				kind = exactVersion;
-				version = 2.8.4;
+				version = 2.9.1;
 			};
 		};
 		086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
@@ -791,14 +801,6 @@
 			requirement = {
 				kind = exactVersion;
 				version = 1.5.0;
-			};
-		};
-		61627E592FF515F0009EDBA6 /* XCRemoteSwiftPackageReference "Swinject" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Swinject/Swinject.git";
-			requirement = {
-				kind = exactVersion;
-				version = 2.8.3;
 			};
 		};
 		616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {

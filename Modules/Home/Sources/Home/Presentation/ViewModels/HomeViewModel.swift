@@ -1,63 +1,117 @@
 import Foundation
-import SwiftUI
 import Combine
 
-// MARK: - HomeViewModel
 
 @MainActor
 final class HomeViewModel: ObservableObject {
 
     // MARK: - Published State
+
+    @Published private(set) var collections: [Collection] = []
+    @Published private(set) var isLoading: Bool = false
+    @Published var error: String? = nil
+
+    // MARK: - Search
+
     @Published var searchText: String = ""
-    @Published private(set) var searchResults: [ShopifyProduct] = []
-    @Published private(set) var isSearching: Bool = false
+    @Published var isSearching: Bool = false
+    @Published var searchResults: [ShopProduct] = []
+    @Published var isSearchLoading: Bool = false
+    var originalSearchResults: [ShopProduct] = []
 
-    // MARK: - Data (replace with real repository calls)
-    let allProducts: [ShopifyProduct] = MockShopifyData.allProducts
-    let totalItemCount: Int = MockShopifyData.allProducts.count
+    @Published private(set) var trendingProducts: [HomeProduct] = []
+    @Published private(set) var isTrendingLoading: Bool = false
 
-    private var cancellables = Set<AnyCancellable>()
+    // MARK: - Special Offers
 
-    init() {
-        // Debounce search so it doesn't fire on every keystroke
-        $searchText
-            .debounce(for: .milliseconds(250), scheduler: RunLoop.main)
-            .removeDuplicates()
-            .sink { [weak self] query in
-                self?.performSearch(query: query)
-            }
-            .store(in: &cancellables)
+    @Published private(set) var specialOffers: [HomeProduct] = []
+    @Published private(set) var isSpecialOffersLoading: Bool = false
+    
+    // MARK: - Vendor Products
+
+    @Published var vendorProducts: [ShopProduct] = []
+    @Published var isVendorProductsLoading: Bool = false
+    @Published var vendorProductsError: String? = nil
+
+    // MARK: - Sorting
+
+    @Published var selectedSortOption: SortOption = .featured
+    @Published var showSortSheet: Bool = false
+
+    // MARK: - Filtering
+
+    @Published var filterState = FilterState()
+    @Published var showFilterSheet: Bool = false
+    @Published var availableVendors: [String] = []
+    @Published var availableProductTypes: [String] = []
+    @Published var availableTags: [String] = []
+    @Published var priceBounds: ClosedRange<Double> = 0...2000
+
+    // MARK: - Use Cases
+
+    let getCollectionsUseCase: any GetCollectionsUseCaseProtocol
+    let searchProductsUseCase: any SearchProductsUseCaseProtocol
+    let getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
+    let getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol
+    let getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol
+
+    // MARK: - Combine
+
+    var cancellables = Set<AnyCancellable>()
+
+    init(
+        getCollectionsUseCase: any GetCollectionsUseCaseProtocol,
+        searchProductsUseCase: any SearchProductsUseCaseProtocol,
+        getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol,
+        getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol,
+        getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol
+    ) {
+        self.getCollectionsUseCase = getCollectionsUseCase
+        self.searchProductsUseCase = searchProductsUseCase
+        self.getTrendingProductsUseCase = getTrendingProductsUseCase
+        self.getSpecialOffersUseCase = getSpecialOffersUseCase
+        self.getProductsByVendorUseCase = getProductsByVendorUseCase
+        bindSearch()
     }
 
-    // MARK: - Search Logic
-    private func performSearch(query: String) {
-        let trimmed = query.trimmingCharacters(in: .whitespaces)
-        isSearching = !trimmed.isEmpty
 
-        guard !trimmed.isEmpty else {
-            searchResults = []
-            return
+    func loadCollections() async {
+        isLoading = true
+        error = nil
+        do {
+            collections = try await getCollectionsUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
         }
-
-        let lower = trimmed.lowercased()
-        searchResults = allProducts.filter {
-            $0.title.lowercased().contains(lower) ||
-            $0.description.lowercased().contains(lower)
-        }
+        isLoading = false
     }
 
-    // MARK: - Formatted Count Label
-    var resultCountLabel: String {
-        let count = isSearching ? searchResults.count : totalItemCount
-        return formatCount(count) + "+ Items"
+    func loadTrendingProducts() async {
+        isTrendingLoading = true
+        do {
+            trendingProducts = try await getTrendingProductsUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
+        }
+        isTrendingLoading = false
     }
 
-    private func formatCount(_ n: Int) -> String {
-        if n >= 1_000_000 {
-            return String(format: "%.1fM", Double(n) / 1_000_000)
-        } else if n >= 1_000 {
-            return String(format: "%.0fK", Double(n) / 1_000)
+    func loadSpecialOffers() async {
+        isSpecialOffersLoading = true
+        do {
+            specialOffers = try await getSpecialOffersUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
         }
-        return "\(n)"
+        isSpecialOffersLoading = false
+    }
+
+    func retry() {
+        Task {
+            error = nil
+            await loadCollections()
+            await loadTrendingProducts()
+            await loadSpecialOffers()
+        }
     }
 }

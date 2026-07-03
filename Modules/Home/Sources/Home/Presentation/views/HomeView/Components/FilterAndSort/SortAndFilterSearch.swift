@@ -1,25 +1,25 @@
 import SwiftUI
 import Common
 
-// MARK: - Sort, Filter & Search Header Bar
-// Always visible on the Home screen.
-// Leading label shows "All Featured" by default, or a search-result count when searching.
 
 struct SortAndFilterSearch: View {
-    /// The label displayed on the leading side.
-    /// Pass a custom string (e.g. "12 results") when searching; defaults to "All Featured".
+    
     var leadingLabel: String = HomeStrings.Category.sectionTitle
+    var onSortTap: (() -> Void)? = nil
+    var onFilterTap: (() -> Void)? = nil
+    var isSortEnabled: Bool = true
+    var isFilterEnabled: Bool = true
 
     var body: some View {
         HStack {
-            // Leading — single text label
+
             Text(leadingLabel)
                 .sectionTitleStyle()
 
             Spacer()
 
             // Sort Button
-            Button(action: {}) {
+            Button(action: { onSortTap?() }) {
                 HStack(spacing: 4) {
                     Text(HomeStrings.Category.sortButton)
                         .font(.buttonSmall)
@@ -35,9 +35,13 @@ struct SortAndFilterSearch: View {
                 .cornerRadius(6)
                 .shadow(color: Color.appCardShadow, radius: 4, x: 0, y: 1)
             }
+            .disabled(!isSortEnabled)
+            .opacity(isSortEnabled ? 1.0 : 0.5)
+            .anchorPreference(key: SortButtonAnchorKey.self, value: .bounds) { $0 }
+
 
             // Filter Button
-            Button(action: {}) {
+            Button(action: { onFilterTap?() }) {
                 HStack(spacing: 4) {
                     Text(HomeStrings.Category.filterButton)
                         .font(.buttonSmall)
@@ -52,6 +56,8 @@ struct SortAndFilterSearch: View {
                 .cornerRadius(6)
                 .shadow(color: Color.appCardShadow, radius: 4, x: 0, y: 1)
             }
+            .disabled(!isFilterEnabled)
+            .opacity(isFilterEnabled ? 1.0 : 0.5)
         }
         .padding(.horizontal, 16)
     }

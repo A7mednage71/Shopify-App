@@ -1,0 +1,24 @@
+query GetTrendingProducts($first: Int = 10) {
+  products(first: $first, sortKey: BEST_SELLING) {
+    nodes {
+      id
+      title
+      handle
+      featuredImage {
+        url
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      compareAtPriceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+}

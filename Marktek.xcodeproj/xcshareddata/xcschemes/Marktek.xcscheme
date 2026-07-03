@@ -74,6 +74,23 @@
             ReferencedContainer = "container:Marktek.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "SHOPIFY_HOST"
+            value = "mad46-ios-team3.myshopify.com"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SHOPIFY_API_VERSION"
+            value = "2024-01"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SHOPIFY_STOREFRONT_ACCESS_TOKEN"
+            value = "2f30f34e02314069529b0ac05e730270"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
