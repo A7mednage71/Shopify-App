@@ -2,6 +2,7 @@ import Cart
 import ProductInfo
 import SwiftUI
 import Swinject
+import Settings
 
 final class AppDIContainer {
     private let assembler = Assembler([
@@ -10,7 +11,8 @@ final class AppDIContainer {
         CartPresentationAssembly(),
         ProductInfoDataAssembly(),
         ProductInfoDomainAssembly(),
-        ProductInfoPresentationAssembly()
+        ProductInfoPresentationAssembly(),
+        SettingsAssembly()
     ])
 
     @MainActor
@@ -29,4 +31,13 @@ final class AppDIContainer {
             )
         )
     }
+    
+    @MainActor
+        func makeSettingsView() -> some View {
+            guard let settingsViewFactory = assembler.resolver.resolve(SettingsViewFactory.self) else {
+                return AnyView(Text("Unable to load settings."))
+            }
+
+            return AnyView(settingsViewFactory.makeSettingsView())
+        }
 }
