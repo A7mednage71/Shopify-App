@@ -4,6 +4,7 @@ import Shimmer
 
 struct HomeSearchResultsView: View {
     @ObservedObject var viewModel: HomeViewModel
+    var onProductTap: ((ShopProduct) -> Void)? = nil
 
     var body: some View {
         Group {
@@ -19,7 +20,7 @@ struct HomeSearchResultsView: View {
                 SearchResultsSection(
                     products: viewModel.searchResults,
                     onProductTap: { product in
-                        print("Search result tapped: \(product.title)")
+                        onProductTap?(product)
                     }
                 )
             }

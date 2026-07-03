@@ -21,6 +21,11 @@ enum HomeAssembler {
         makeAssembler().resolver.resolve(GetProductsByVendorUseCaseProtocol.self)!
     }
 
+    @MainActor
+    static func resolveHomeViewModel() -> HomeViewModel {
+        makeAssembler().resolver.resolve(HomeViewModel.self)!
+    }
+
     private static func makeAssembler() -> Assembler {
         Assembler([
             HomeDataAssembly(),

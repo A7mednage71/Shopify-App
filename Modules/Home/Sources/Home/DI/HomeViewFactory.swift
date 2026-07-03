@@ -2,15 +2,10 @@ import SwiftUI
 
 public enum HomeViewFactory {
     @MainActor
-    public static func makeHomeView() -> some View {
+    public static func makeHomeView(onProductTap: @escaping (String) -> Void) -> some View {
         HomeView(
-            viewModel: HomeViewModel(
-                getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
-                searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
-                getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase(),
-                getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase(),
-                getProductsByVendorUseCase: HomeAssembler.resolveGetProductsByVendorUseCase()
-            )
+            viewModel: HomeAssembler.resolveHomeViewModel(),
+            onProductTap: onProductTap
         )
     }
 }

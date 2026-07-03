@@ -1,23 +1,15 @@
 import SwiftUI
 import Common
 
-public struct HomeView: View {
+struct HomeView: View {
     
     @StateObject private var viewModel: HomeViewModel
     @State private var sortButtonAnchor: Anchor<CGRect>?
+    private let onProductTap: ((String) -> Void)?
 
-    init(viewModel: HomeViewModel) {
+    init(viewModel: HomeViewModel, onProductTap: ((String) -> Void)? = nil) {
         _viewModel = StateObject(wrappedValue: viewModel)
-    }
-
-    public init() {
-        _viewModel = StateObject(wrappedValue: HomeViewModel(
-            getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
-            searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
-            getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase(),
-            getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase(),
-            getProductsByVendorUseCase: HomeAssembler.resolveGetProductsByVendorUseCase()
-        ))
+        self.onProductTap = onProductTap
     }
 
     public var body: some View {
@@ -39,10 +31,14 @@ public struct HomeView: View {
                     .padding(.vertical, 8)
 
                     if viewModel.isSearching {
-                        HomeSearchResultsView(viewModel: viewModel)
-                            .padding(.bottom, 30)
+                        HomeSearchResultsView(viewModel: viewModel, onProductTap: { product in
+                            onProductTap?(product.id)
+                        })
+                        .padding(.bottom, 30)
                     } else {
-                        HomeMainContentView(viewModel: viewModel)
+                        HomeMainContentView(viewModel: viewModel, onProductTap: { product in
+                            onProductTap?(product.id)
+                        })
                     }
                 }
             }

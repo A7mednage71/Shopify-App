@@ -3,6 +3,7 @@ import Common
 
 struct HomeMainContentView: View {
     @ObservedObject var viewModel: HomeViewModel
+    var onProductTap: ((HomeProduct) -> Void)? = nil
 
     var body: some View {
         Group {
@@ -40,7 +41,7 @@ struct HomeMainContentView: View {
             OfferProductCardsSection(
                 products: viewModel.specialOffers,
                 onProductTap: { product in
-                    print("Product: \(product.title)")
+                    onProductTap?(product)
                 }
             )
             .padding(.bottom, 8)
@@ -55,7 +56,7 @@ struct HomeMainContentView: View {
             TrendingProductsSection(
                 products: viewModel.trendingProducts,
                 onProductTap: { product in
-                    print("Trending: \(product.title)")
+                    onProductTap?(product)
                 }
             )
             .padding(.bottom, 30)

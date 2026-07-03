@@ -42,13 +42,7 @@ struct VendorProductsView: View {
     NavigationView {
         VendorProductsView(
             vendorName: "Nike",
-            viewModel: HomeViewModel(
-                getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
-                searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
-                getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase(),
-                getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase(),
-                getProductsByVendorUseCase: HomeAssembler.resolveGetProductsByVendorUseCase()
-            )
+            viewModel: HomeAssembler.resolveHomeViewModel()
         )
     }
 }
