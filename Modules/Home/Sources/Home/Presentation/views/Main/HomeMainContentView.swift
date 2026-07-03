@@ -7,7 +7,7 @@ struct HomeMainContentView: View {
     var body: some View {
         Group {
             if viewModel.isLoading {
-                HomeMainSkeletonView()
+                HomeMainSkeletonView(viewModel: viewModel)
             } else if let error = viewModel.error {
                 CommonErrorView(message: error) {
                     viewModel.retry()
@@ -21,6 +21,7 @@ struct HomeMainContentView: View {
     private var mainContent: some View {
         VStack(spacing: 0) {
             CategoriesListSection(
+                viewModel: viewModel,
                 categories: viewModel.collections,
                 onCategoryTap: { collection in
                     print("Tapped: \(collection.title)")

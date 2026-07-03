@@ -4,6 +4,7 @@ import Common
 // MARK: - Horizontal Categories List
 
 struct CategoriesListSection: View {
+    let viewModel: HomeViewModel
     let categories: [Collection]
     var onCategoryTap: ((Collection) -> Void)? = nil
 
@@ -11,10 +12,10 @@ struct CategoriesListSection: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
                 ForEach(categories) { category in
-                    CategoryItem(category: category)
-                        .onTapGesture {
-                            onCategoryTap?(category)
-                        }
+                    NavigationLink(destination: VendorProductsView(vendorName: category.title, viewModel: viewModel)) {
+                        CategoryItem(category: category)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 16)
@@ -63,10 +64,19 @@ struct CategoryItem: View {
 
 // MARK: - Preview
 #Preview {
-    CategoriesListSection(categories: [
-        Collection(id: "1", title: "Beauty",  handle: "beauty",  imageURL: "https://picsum.photos/seed/beauty/80/80"),
-        Collection(id: "2", title: "Fashion", handle: "fashion", imageURL: "https://picsum.photos/seed/fashion/80/80"),
-        Collection(id: "3", title: "Kids",    handle: "kids",    imageURL: "https://picsum.photos/seed/kids/80/80"),
-    ])
+    CategoriesListSection(
+        viewModel: HomeViewModel(
+            getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
+            searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
+            getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase(),
+            getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase(),
+            getProductsByVendorUseCase: HomeAssembler.resolveGetProductsByVendorUseCase()
+        ),
+        categories: [
+            Collection(id: "1", title: "Beauty",  handle: "beauty",  imageURL: "https://picsum.photos/seed/beauty/80/80"),
+            Collection(id: "2", title: "Fashion", handle: "fashion", imageURL: "https://picsum.photos/seed/fashion/80/80"),
+            Collection(id: "3", title: "Kids",    handle: "kids",    imageURL: "https://picsum.photos/seed/kids/80/80"),
+        ]
+    )
     .padding(.vertical)
 }

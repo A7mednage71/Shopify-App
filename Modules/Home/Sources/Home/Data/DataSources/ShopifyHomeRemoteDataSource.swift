@@ -16,6 +16,13 @@ struct ShopifyHomeRemoteDataSource: HomeRemoteDataSource, Sendable {
         return SearchResponseData(data: response)
     }
 
+    func fetchProductsByVendor(query: String, first: Int) async throws -> [ShopProductNode] {
+        let response = try await ShopifyGraphQLClient.shared.fetch(
+            GetProductsByVendorQuery(query: query, first: first, after: .none)
+        )
+        return response.products.edges.map { ShopProductNode(vendorNode: $0.node) }
+    }
+
     func fetchTrendingProducts(first: Int) async throws -> [HomeProductDataModel] {
         let data = try await ShopifyGraphQLClient.shared.fetch(
             GetTrendingProductsQuery(first: .some(first))

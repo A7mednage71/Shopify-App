@@ -15,7 +15,8 @@ public struct HomeView: View {
             getCollectionsUseCase: HomeAssembler.resolveGetCollectionsUseCase(),
             searchProductsUseCase: HomeAssembler.resolveSearchProductsUseCase(),
             getTrendingProductsUseCase: HomeAssembler.resolveGetTrendingProductsUseCase(),
-            getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase()
+            getSpecialOffersUseCase: HomeAssembler.resolveGetSpecialOffersUseCase(),
+            getProductsByVendorUseCase: HomeAssembler.resolveGetProductsByVendorUseCase()
         ))
     }
 

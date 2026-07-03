@@ -2,51 +2,6 @@ import Foundation
 import Combine
 
 
-enum SortOption: String, CaseIterable {
-    case featured = "Featured"
-    case priceLowToHigh = "Price: Low to High"
-    case priceHighToLow = "Price: High to Low"
-    case newest = "Newest"
-
-    var displayName: String { rawValue }
-}
-
-struct FilterState: Equatable {
-    var minPrice: Double?
-    var maxPrice: Double?
-    var selectedCategories: Set<String> = []
-    var inStockOnly: Bool = false
-    var selectedVendors: Set<String> = []
-    var selectedProductTypes: Set<String> = []
-    var selectedTags: Set<String> = []
-    var selectedSizes: Set<String> = []
-    var selectedColors: Set<String> = []
-
-    var hasActiveFilters: Bool {
-        minPrice != nil ||
-        maxPrice != nil ||
-        !selectedCategories.isEmpty ||
-        inStockOnly ||
-        !selectedVendors.isEmpty ||
-        !selectedProductTypes.isEmpty ||
-        !selectedTags.isEmpty ||
-        !selectedSizes.isEmpty ||
-        !selectedColors.isEmpty
-    }
-
-    mutating func reset() {
-        minPrice = nil
-        maxPrice = nil
-        selectedCategories.removeAll()
-        inStockOnly = false
-        selectedVendors.removeAll()
-        selectedProductTypes.removeAll()
-        selectedTags.removeAll()
-        selectedSizes.removeAll()
-        selectedColors.removeAll()
-    }
-}
-
 @MainActor
 final class HomeViewModel: ObservableObject {
 
@@ -60,9 +15,9 @@ final class HomeViewModel: ObservableObject {
 
     @Published var searchText: String = ""
     @Published var isSearching: Bool = false
-    @Published var searchResults: [SearchProduct] = []
+    @Published var searchResults: [ShopProduct] = []
     @Published var isSearchLoading: Bool = false
-    var originalSearchResults: [SearchProduct] = []
+    var originalSearchResults: [ShopProduct] = []
 
     @Published private(set) var trendingProducts: [HomeProduct] = []
     @Published private(set) var isTrendingLoading: Bool = false
@@ -72,6 +27,12 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var specialOffers: [HomeProduct] = []
     @Published private(set) var isSpecialOffersLoading: Bool = false
     
+    // MARK: - Vendor Products
+
+    @Published var vendorProducts: [ShopProduct] = []
+    @Published var isVendorProductsLoading: Bool = false
+    @Published var vendorProductsError: String? = nil
+
     // MARK: - Sorting
 
     @Published var selectedSortOption: SortOption = .featured
@@ -92,6 +53,7 @@ final class HomeViewModel: ObservableObject {
     let searchProductsUseCase: any SearchProductsUseCaseProtocol
     let getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
     let getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol
+    let getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol
 
     // MARK: - Combine
 
@@ -101,12 +63,14 @@ final class HomeViewModel: ObservableObject {
         getCollectionsUseCase: any GetCollectionsUseCaseProtocol,
         searchProductsUseCase: any SearchProductsUseCaseProtocol,
         getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol,
-        getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol
+        getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol,
+        getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol
     ) {
         self.getCollectionsUseCase = getCollectionsUseCase
         self.searchProductsUseCase = searchProductsUseCase
         self.getTrendingProductsUseCase = getTrendingProductsUseCase
         self.getSpecialOffersUseCase = getSpecialOffersUseCase
+        self.getProductsByVendorUseCase = getProductsByVendorUseCase
         bindSearch()
     }
 

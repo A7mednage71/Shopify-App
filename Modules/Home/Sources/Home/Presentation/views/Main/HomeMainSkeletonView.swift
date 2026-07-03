@@ -3,9 +3,12 @@ import Common
 import Shimmer
 
 struct HomeMainSkeletonView: View {
+    let viewModel: HomeViewModel
+
     var body: some View {
         VStack(spacing: 0) {
             CategoriesListSection(
+                viewModel: viewModel,
                 categories: [
                     Collection(id: "1", title: "Beauty", handle: "beauty", imageURL: nil),
                     Collection(id: "2", title: "Fashion", handle: "fashion", imageURL: nil),

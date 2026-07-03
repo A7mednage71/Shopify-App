@@ -1,5 +1,45 @@
 import Foundation
 
+
+
+
+struct FilterState: Equatable {
+    var minPrice: Double?
+    var maxPrice: Double?
+    var selectedCategories: Set<String> = []
+    var inStockOnly: Bool = false
+    var selectedVendors: Set<String> = []
+    var selectedProductTypes: Set<String> = []
+    var selectedTags: Set<String> = []
+    var selectedSizes: Set<String> = []
+    var selectedColors: Set<String> = []
+
+    var hasActiveFilters: Bool {
+        minPrice != nil ||
+        maxPrice != nil ||
+        !selectedCategories.isEmpty ||
+        inStockOnly ||
+        !selectedVendors.isEmpty ||
+        !selectedProductTypes.isEmpty ||
+        !selectedTags.isEmpty ||
+        !selectedSizes.isEmpty ||
+        !selectedColors.isEmpty
+    }
+
+    mutating func reset() {
+        minPrice = nil
+        maxPrice = nil
+        selectedCategories.removeAll()
+        inStockOnly = false
+        selectedVendors.removeAll()
+        selectedProductTypes.removeAll()
+        selectedTags.removeAll()
+        selectedSizes.removeAll()
+        selectedColors.removeAll()
+    }
+}
+
+
 extension HomeViewModel {
 
     func applyFilter() {
@@ -73,7 +113,7 @@ extension HomeViewModel {
         searchResults = originalSearchResults
     }
 
-    func extractFilterOptions(from products: [SearchProduct]) {
+    func extractFilterOptions(from products: [ShopProduct]) {
         // Extract vendors
         let vendors = Set(products.compactMap { $0.vendor })
         availableVendors = Array(vendors).sorted()
