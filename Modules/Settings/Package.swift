@@ -24,7 +24,11 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "Settings",
-            dependencies: ["Common","Swinject"]),
+            dependencies: ["Common","Swinject"],
+            resources: [
+                    .process("Resources")
+                ]
+        ),
         .testTarget(
             name: "SettingsTests",
             dependencies: ["Settings"]),
