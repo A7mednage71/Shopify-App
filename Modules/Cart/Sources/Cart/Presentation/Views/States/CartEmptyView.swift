@@ -2,6 +2,8 @@ import Common
 import SwiftUI
 
 struct CartEmptyView: View {
+    let onStartShoppingTap: () -> Void
+
     var body: some View {
         VStack(spacing: 24) {
             Spacer(minLength: 22)
@@ -26,7 +28,10 @@ struct CartEmptyView: View {
             }
             .padding(.horizontal, 30)
 
-            CartPrimaryButton(title: CartText.startShoppingButtonTitle, action: {})
+            CartPrimaryButton(
+                title: CartText.startShoppingButtonTitle,
+                action: onStartShoppingTap
+            )
                 .padding(.horizontal, 22)
                 .padding(.top, 8)
 

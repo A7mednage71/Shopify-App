@@ -17,6 +17,9 @@
       location = "group:Modules/Common">
    </FileRef>
    <FileRef
+      location = "group:Modules/Checkout">
+   </FileRef>
+   <FileRef
       location = "group:Modules/Cart">
    </FileRef>
    <FileRef
@@ -27,6 +30,12 @@
    </FileRef>
    <FileRef
       location = "group:Modules/Authentication">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Home">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Onboarding">
    </FileRef>
    <FileRef
       location = "container:Marktek.xcodeproj">

@@ -1,0 +1,48 @@
+import SwiftUI
+import Common
+
+struct VendorProductsView: View {
+    let vendorName: String
+    @ObservedObject var viewModel: HomeViewModel
+    
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            
+            VStack(alignment: .leading, spacing: 0) {
+                
+                VendorHeaderView(vendorName: vendorName)
+                
+                if viewModel.isVendorProductsLoading {
+                    VendorProductsSkeletonView()
+                } else if let message = viewModel.vendorProductsError {
+                    CommonErrorView(message: message) {
+                        Task { await viewModel.loadProducts(for: vendorName) }
+                    }
+                    .padding(.top, 40)
+                } else if viewModel.vendorProducts.isEmpty {
+                    VendorEmptyStateView()
+                } else {
+                    ProductsGridSection(products: viewModel.vendorProducts)
+                }
+            }
+        }
+        .background(Color.appBackgroundGray)
+        .navigationTitle(vendorName)
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                await viewModel.loadProducts(for: vendorName)
+            }
+        }
+    }
+}
+
+// MARK: - Previews
+#Preview {
+    NavigationView {
+        VendorProductsView(
+            vendorName: "Nike",
+            viewModel: HomeAssembler.resolveHomeViewModel()
+        )
+    }
+}

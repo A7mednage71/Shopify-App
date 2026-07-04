@@ -29,11 +29,11 @@ struct MarktekApp: App {
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     var body: some Scene {
         WindowGroup {
-            appDIContainer.makeRootView()
-                .preferredColorScheme(isDarkMode ? .dark : .light)
+            AppFlowView()
+            .preferredColorScheme(isDarkMode ? .dark : .light)
                 .task {
-                                await CurrencyService.shared.fetchLatestRates()
-                            }
+                    await CurrencyService.shared.fetchLatestRates()
+                }
         }
     }
 }

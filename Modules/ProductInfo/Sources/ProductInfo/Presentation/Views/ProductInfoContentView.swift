@@ -3,7 +3,7 @@ import SwiftUI
 struct ProductInfoContentView: View {
     let product: ProductDetails
     let addToCartState: ProductInfoAddToCartState
-    let cartDestination: () -> AnyView
+    let onCartTap: () -> Void
     let onAddToCart: (ProductVariant?, Int) -> Void
 
     @State private var selectedImageURL: String?
@@ -21,12 +21,12 @@ struct ProductInfoContentView: View {
     init(
         product: ProductDetails,
         addToCartState: ProductInfoAddToCartState,
-        cartDestination: @escaping () -> AnyView,
+        onCartTap: @escaping () -> Void,
         onAddToCart: @escaping (ProductVariant?, Int) -> Void
     ) {
         self.product = product
         self.addToCartState = addToCartState
-        self.cartDestination = cartDestination
+        self.onCartTap = onCartTap
         self.onAddToCart = onAddToCart
 
         let initialOptions = product.initialSelectedOptions
@@ -100,7 +100,7 @@ struct ProductInfoContentView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 ProductInfoCartToolbarButton(
-                    cartDestination: cartDestination,
+                    onCartTap: onCartTap,
                     cartQuantity: cartQuantity,
                     cartBadgeScale: cartBadgeScale,
                     onFrameChange: { cartButtonFrame = $0 }

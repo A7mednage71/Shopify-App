@@ -1,0 +1,13 @@
+query GetCollections($first: Int!) {
+  collections(first: $first) {
+    nodes {
+      id
+      title
+      handle
+      image {
+        url
+        altText
+      }
+    }
+  }
+}
