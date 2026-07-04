@@ -2,6 +2,7 @@ import Foundation
 
 extension DraftOrderDataModel {
     public func toDomain() -> DraftOrder {
+        
         let domainLineItems = lineItems.map { item -> DraftOrder.LineItem in
             let domainVariant: DraftOrder.LineItem.Variant?
             if let variant = item.variant {
@@ -26,6 +27,20 @@ extension DraftOrderDataModel {
             )
         }
 
+        let domainDiscount: AppliedDiscount?
+
+        if let discount = appliedDiscount {
+            domainDiscount = AppliedDiscount(
+                title: discount.title,
+                value: discount.value,
+                valueType: discount.valueType,
+                amount: discount.amount,
+                currencyCode: discount.currencyCode
+            )
+        } else {
+            domainDiscount = nil
+        }
+
         return DraftOrder(
             id: id,
             name: name,
@@ -34,7 +49,8 @@ extension DraftOrderDataModel {
             totalPrice: totalPrice,
             totalTax: totalTax,
             currencyCode: currencyCode,
-            lineItems: domainLineItems
+            lineItems: domainLineItems,
+            appliedDiscount: domainDiscount
         )
     }
 }

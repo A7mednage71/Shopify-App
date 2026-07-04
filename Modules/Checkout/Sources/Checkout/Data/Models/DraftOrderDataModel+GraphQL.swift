@@ -1,32 +1,8 @@
 @preconcurrency import MarktekNetworking
 
 extension DraftOrderDataModel {
+    
     init(gqlDraftOrder: CreateDraftOrderMutation.Data.DraftOrderCreate.DraftOrder) {
-        let items = gqlDraftOrder.lineItems.edges.map { edge -> DraftOrderLineItemDataModel in
-            let node = edge.node
-            let variant: DraftOrderVariantDataModel?
-            if let gqlVariant = node.variant {
-                variant = DraftOrderVariantDataModel(
-                    id: gqlVariant.id,
-                    title: gqlVariant.title,
-                    price: gqlVariant.price,
-                    inventoryQuantity: gqlVariant.inventoryQuantity ?? 0,
-                    availableForSale: gqlVariant.availableForSale
-                )
-            } else {
-                variant = nil
-            }
-
-            return DraftOrderLineItemDataModel(
-                id: node.id,
-                title: node.title,
-                quantity: node.quantity,
-                originalUnitPrice: node.originalUnitPrice,
-                discountedUnitPrice: node.discountedUnitPrice,
-                variant: variant
-            )
-        }
-
         self.id = gqlDraftOrder.id
         self.name = gqlDraftOrder.name
         self.status = gqlDraftOrder.status.rawValue
@@ -34,6 +10,28 @@ extension DraftOrderDataModel {
         self.totalPrice = gqlDraftOrder.totalPrice
         self.totalTax = gqlDraftOrder.totalTax
         self.currencyCode = gqlDraftOrder.currencyCode.rawValue
-        self.lineItems = items
+        self.lineItems = gqlDraftOrder.lineItems.edges.map { DraftOrderLineItemDataModel(gqlLineItem: $0.node) }
+        self.appliedDiscount = nil
+    }
+
+    init(gqlDraftOrder: ApplyDiscountMutation.Data.DraftOrderUpdate.DraftOrder) {
+        self.id = gqlDraftOrder.id
+        self.name = ""
+        self.status = ""
+        self.subtotalPrice = gqlDraftOrder.subtotalPrice
+        self.totalPrice = gqlDraftOrder.totalPrice
+        self.totalTax = nil
+        self.currencyCode = gqlDraftOrder.appliedDiscount?.amountV2.currencyCode.rawValue ?? ""
+        self.lineItems = []
+        
+        self.appliedDiscount = gqlDraftOrder.appliedDiscount.map { gqlDiscount in
+            AppliedDiscountDataModel(
+                title: gqlDiscount.title,
+                value: gqlDiscount.value,
+                valueType: gqlDiscount.valueType.rawValue,
+                amount: gqlDiscount.amountV2.amount,
+                currencyCode: gqlDiscount.amountV2.currencyCode.rawValue
+            )
+        }
     }
 }

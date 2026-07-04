@@ -70,6 +70,7 @@ public struct DraftOrder: Equatable, Sendable {
     public let totalTax: String?
     public let currencyCode: String
     public let lineItems: [LineItem]
+    public let appliedDiscount: AppliedDiscount?
 
     public init(
         id: String,
@@ -79,7 +80,8 @@ public struct DraftOrder: Equatable, Sendable {
         totalPrice: String?,
         totalTax: String?,
         currencyCode: String,
-        lineItems: [LineItem]
+        lineItems: [LineItem],
+        appliedDiscount: AppliedDiscount? = nil
     ) {
         self.id = id
         self.name = name
@@ -89,5 +91,6 @@ public struct DraftOrder: Equatable, Sendable {
         self.totalTax = totalTax
         self.currencyCode = currencyCode
         self.lineItems = lineItems
+        self.appliedDiscount = appliedDiscount
     }
 }

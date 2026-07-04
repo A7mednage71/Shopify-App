@@ -1,5 +1,6 @@
 import Foundation
 
+
 public struct DraftOrderDataModel: Equatable, Sendable {
     public let id: String
     public let name: String
@@ -9,6 +10,7 @@ public struct DraftOrderDataModel: Equatable, Sendable {
     public let totalTax: String?
     public let currencyCode: String
     public let lineItems: [DraftOrderLineItemDataModel]
+    public let appliedDiscount: AppliedDiscountDataModel?
 
     public init(
         id: String,
@@ -18,7 +20,8 @@ public struct DraftOrderDataModel: Equatable, Sendable {
         totalPrice: String?,
         totalTax: String?,
         currencyCode: String,
-        lineItems: [DraftOrderLineItemDataModel]
+        lineItems: [DraftOrderLineItemDataModel],
+        appliedDiscount: AppliedDiscountDataModel? = nil
     ) {
         self.id = id
         self.name = name
@@ -28,5 +31,6 @@ public struct DraftOrderDataModel: Equatable, Sendable {
         self.totalTax = totalTax
         self.currencyCode = currencyCode
         self.lineItems = lineItems
+        self.appliedDiscount = appliedDiscount
     }
 }

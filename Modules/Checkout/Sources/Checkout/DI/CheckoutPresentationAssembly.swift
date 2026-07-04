@@ -31,6 +31,12 @@ public struct CheckoutPresentationAssembly: Assembly {
             )
         }
 
+        container.register(ApplyDraftOrderDiscountUseCaseProtocol.self) { resolver in
+            ApplyDraftOrderDiscountUseCase(
+                repository: resolver.resolve(CheckoutRepository.self)!
+            )
+        }
+
         container.register(CheckoutViewModelFactory.self) { resolver in
             CheckoutViewModelFactory(
                 getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
