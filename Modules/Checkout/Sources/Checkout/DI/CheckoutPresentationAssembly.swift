@@ -15,6 +15,22 @@ public struct CheckoutPresentationAssembly: Assembly {
             )
         }
 
+        container.register(CheckoutRemoteDataSource.self) { _ in
+            ShopifyCheckoutRemoteDataSource()
+        }
+
+        container.register(CheckoutRepository.self) { resolver in
+            CheckoutRepositoryImpl(
+                remoteDataSource: resolver.resolve(CheckoutRemoteDataSource.self)!
+            )
+        }
+
+        container.register(CreateDraftOrderUseCaseProtocol.self) { resolver in
+            CreateDraftOrderUseCase(
+                repository: resolver.resolve(CheckoutRepository.self)!
+            )
+        }
+
         container.register(CheckoutViewModelFactory.self) { resolver in
             CheckoutViewModelFactory(
                 getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,

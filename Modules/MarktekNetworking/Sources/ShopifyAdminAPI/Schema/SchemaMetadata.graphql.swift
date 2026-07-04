@@ -22,8 +22,9 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
 
   public static func objectType(forTypename typename: String) -> Object? {
     switch typename {
-    case "Mutation": return ShopifyAdminAPI.Objects.Mutation
-    case "DraftOrderCreatePayload": return ShopifyAdminAPI.Objects.DraftOrderCreatePayload
+    case "QueryRoot": return ShopifyAdminAPI.Objects.QueryRoot
+    case "DraftOrderConnection": return ShopifyAdminAPI.Objects.DraftOrderConnection
+    case "DraftOrderEdge": return ShopifyAdminAPI.Objects.DraftOrderEdge
     case "DraftOrder": return ShopifyAdminAPI.Objects.DraftOrder
     case "Company": return ShopifyAdminAPI.Objects.Company
     case "Article": return ShopifyAdminAPI.Objects.Article
@@ -224,6 +225,10 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "WebPixel": return ShopifyAdminAPI.Objects.WebPixel
     case "CustomerSegmentMember": return ShopifyAdminAPI.Objects.CustomerSegmentMember
     case "Image": return ShopifyAdminAPI.Objects.Image
+    case "Mutation": return ShopifyAdminAPI.Objects.Mutation
+    case "DraftOrderCreatePayload": return ShopifyAdminAPI.Objects.DraftOrderCreatePayload
+    case "DraftOrderLineItemConnection": return ShopifyAdminAPI.Objects.DraftOrderLineItemConnection
+    case "DraftOrderLineItemEdge": return ShopifyAdminAPI.Objects.DraftOrderLineItemEdge
     case "UserError": return ShopifyAdminAPI.Objects.UserError
     case "AbandonmentEmailStateUpdateUserError": return ShopifyAdminAPI.Objects.AbandonmentEmailStateUpdateUserError
     case "AbandonmentUpdateActivitiesDeliveryStatusesUserError": return ShopifyAdminAPI.Objects.AbandonmentUpdateActivitiesDeliveryStatusesUserError
@@ -413,9 +418,6 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "UrlRedirectImportUserError": return ShopifyAdminAPI.Objects.UrlRedirectImportUserError
     case "UrlRedirectUserError": return ShopifyAdminAPI.Objects.UrlRedirectUserError
     case "ValidationUserError": return ShopifyAdminAPI.Objects.ValidationUserError
-    case "QueryRoot": return ShopifyAdminAPI.Objects.QueryRoot
-    case "DraftOrderConnection": return ShopifyAdminAPI.Objects.DraftOrderConnection
-    case "DraftOrderEdge": return ShopifyAdminAPI.Objects.DraftOrderEdge
     default: return nil
     }
   }

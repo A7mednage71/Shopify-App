@@ -1,16 +1,3 @@
-mutation CreateDraftOrder($input: DraftOrderInput!) {
-  draftOrderCreate(input: $input) {
-    draftOrder {
-      id
-      name
-      totalPrice
-    }
-    userErrors {
-      field
-      message
-    }
-  }
-}
 
 query GetDraftOrders($first: Int) {
   draftOrders(first: $first) {

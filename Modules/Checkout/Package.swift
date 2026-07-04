@@ -16,6 +16,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Common"),
+        .package(path: "../MarktekNetworking"),
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3"),
     ],
     targets: [
@@ -24,6 +25,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Common", package: "Common"),
                 .product(name: "Swinject", package: "Swinject"),
+                "MarktekNetworking"
             ]
         ),
     ]
