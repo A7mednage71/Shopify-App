@@ -26,6 +26,19 @@
 		0D2000162FF8000000000006 /* AuthFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000062FF8000000000006 /* AuthFlowRoute.swift */; };
 		0D2000172FF8000000000007 /* AuthFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000072FF8000000000007 /* AuthFlowView.swift */; };
 		0D2000182FF8000000000008 /* AuthFlowViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000082FF8000000000008 /* AuthFlowViewFactory.swift */; };
+		0E1000012FF9000000000001 /* SharedFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000012FF9000000000001 /* SharedFlowRoute.swift */; };
+		0E1000022FF9000000000002 /* CartFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000022FF9000000000002 /* CartFlowCoordinator.swift */; };
+		0E1000032FF9000000000003 /* CartFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000032FF9000000000003 /* CartFlowRoute.swift */; };
+		0E1000042FF9000000000004 /* CartFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000042FF9000000000004 /* CartFlowView.swift */; };
+		0E1000052FF9000000000005 /* FavoritesFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000052FF9000000000005 /* FavoritesFlowCoordinator.swift */; };
+		0E1000062FF9000000000006 /* FavoritesFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000062FF9000000000006 /* FavoritesFlowRoute.swift */; };
+		0E1000072FF9000000000007 /* FavoritesFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000072FF9000000000007 /* FavoritesFlowView.swift */; };
+		0E1000082FF9000000000008 /* HomeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000082FF9000000000008 /* HomeFlowCoordinator.swift */; };
+		0E1000092FF9000000000009 /* HomeFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000092FF9000000000009 /* HomeFlowRoute.swift */; };
+		0E10000A2FF900000000000A /* HomeFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000A2FF900000000000A /* HomeFlowView.swift */; };
+		0E10000B2FF900000000000B /* ProfileFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000B2FF900000000000B /* ProfileFlowCoordinator.swift */; };
+		0E10000C2FF900000000000C /* ProfileFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000C2FF900000000000C /* ProfileFlowRoute.swift */; };
+		0E10000D2FF900000000000D /* ProfileFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000D2FF900000000000D /* ProfileFlowView.swift */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
@@ -74,6 +87,19 @@
 		0D2000062FF8000000000006 /* AuthFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowRoute.swift; sourceTree = "<group>"; };
 		0D2000072FF8000000000007 /* AuthFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowView.swift; sourceTree = "<group>"; };
 		0D2000082FF8000000000008 /* AuthFlowViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowViewFactory.swift; sourceTree = "<group>"; };
+		0E2000012FF9000000000001 /* SharedFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFlowRoute.swift; sourceTree = "<group>"; };
+		0E2000022FF9000000000002 /* CartFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E2000032FF9000000000003 /* CartFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFlowRoute.swift; sourceTree = "<group>"; };
+		0E2000042FF9000000000004 /* CartFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFlowView.swift; sourceTree = "<group>"; };
+		0E2000052FF9000000000005 /* FavoritesFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E2000062FF9000000000006 /* FavoritesFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFlowRoute.swift; sourceTree = "<group>"; };
+		0E2000072FF9000000000007 /* FavoritesFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFlowView.swift; sourceTree = "<group>"; };
+		0E2000082FF9000000000008 /* HomeFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E2000092FF9000000000009 /* HomeFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowRoute.swift; sourceTree = "<group>"; };
+		0E20000A2FF900000000000A /* HomeFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowView.swift; sourceTree = "<group>"; };
+		0E20000B2FF900000000000B /* ProfileFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E20000C2FF900000000000C /* ProfileFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowRoute.swift; sourceTree = "<group>"; };
+		0E20000D2FF900000000000D /* ProfileFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowView.swift; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		610825582FF1882D002433CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,11 +112,6 @@
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CADE619D2FF47D6600290B13 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		08B42AA32FF6F4DF00BDC71B /* Tabs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tabs; sourceTree = "<group>"; };
-		08B42AC02FF707B400BDC71B /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		616653892FEFCE9F00C605D3 /* Frameworks */ = {
@@ -156,6 +177,25 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		08B42AA32FF6F4DF00BDC71B /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				0E3000012FF9000000000001 /* Cart */,
+				0E3000022FF9000000000002 /* Favorites */,
+				0E3000032FF9000000000003 /* Home */,
+				0E3000042FF9000000000004 /* Profile */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		08B42AC02FF707B400BDC71B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000012FF9000000000001 /* SharedFlowRoute.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		0D2000202FF8000000000020 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +214,46 @@
 				0D2000072FF8000000000007 /* AuthFlowView.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		0E3000012FF9000000000001 /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000022FF9000000000002 /* CartFlowCoordinator.swift */,
+				0E2000032FF9000000000003 /* CartFlowRoute.swift */,
+				0E2000042FF9000000000004 /* CartFlowView.swift */,
+			);
+			path = Cart;
+			sourceTree = "<group>";
+		};
+		0E3000022FF9000000000002 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000052FF9000000000005 /* FavoritesFlowCoordinator.swift */,
+				0E2000062FF9000000000006 /* FavoritesFlowRoute.swift */,
+				0E2000072FF9000000000007 /* FavoritesFlowView.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		0E3000032FF9000000000003 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000082FF9000000000008 /* HomeFlowCoordinator.swift */,
+				0E2000092FF9000000000009 /* HomeFlowRoute.swift */,
+				0E20000A2FF900000000000A /* HomeFlowView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0E3000042FF9000000000004 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				0E20000B2FF900000000000B /* ProfileFlowCoordinator.swift */,
+				0E20000C2FF900000000000C /* ProfileFlowRoute.swift */,
+				0E20000D2FF900000000000D /* ProfileFlowView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		2C74F8D02FEFFF460073F428 /* Frameworks */ = {
@@ -284,10 +364,6 @@
 			);
 			dependencies = (
 				0835559F2FF3A01600083148 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				08B42AA32FF6F4DF00BDC71B /* Tabs */,
-				08B42AC02FF707B400BDC71B /* Shared */,
 			);
 			name = Marktek;
 			packageProductDependencies = (
@@ -438,6 +514,19 @@
 				0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */,
 				0D10001E2FF700000000000E /* MainFlowCoordinator.swift in Sources */,
 				0D1000242FF7000000000013 /* MainFlowViewFactory.swift in Sources */,
+				0E1000012FF9000000000001 /* SharedFlowRoute.swift in Sources */,
+				0E1000022FF9000000000002 /* CartFlowCoordinator.swift in Sources */,
+				0E1000032FF9000000000003 /* CartFlowRoute.swift in Sources */,
+				0E1000042FF9000000000004 /* CartFlowView.swift in Sources */,
+				0E1000052FF9000000000005 /* FavoritesFlowCoordinator.swift in Sources */,
+				0E1000062FF9000000000006 /* FavoritesFlowRoute.swift in Sources */,
+				0E1000072FF9000000000007 /* FavoritesFlowView.swift in Sources */,
+				0E1000082FF9000000000008 /* HomeFlowCoordinator.swift in Sources */,
+				0E1000092FF9000000000009 /* HomeFlowRoute.swift in Sources */,
+				0E10000A2FF900000000000A /* HomeFlowView.swift in Sources */,
+				0E10000B2FF900000000000B /* ProfileFlowCoordinator.swift in Sources */,
+				0E10000C2FF900000000000C /* ProfileFlowRoute.swift in Sources */,
+				0E10000D2FF900000000000D /* ProfileFlowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
