@@ -1,0 +1,16 @@
+// @generated
+// This file was automatically generated and should not be edited.
+
+import ApolloAPI
+
+public extension Objects {
+  /// Represents a video hosted outside of Shopify.
+  static let ExternalVideo = Object(
+    typename: "ExternalVideo",
+    implementedInterfaces: [
+      Interfaces.File.self,
+      Interfaces.Media.self,
+      Interfaces.Node.self
+    ]
+  )
+}

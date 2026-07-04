@@ -2,7 +2,7 @@
   "schemaNamespace": "ShopifyAPI",
   "input": {
     "schemaSearchPaths": ["schema.graphqls"],
-    "operationSearchPaths": ["GraphQL/**/*.graphql"]
+    "operationSearchPaths": ["GraphQL/Queries/*.graphql"]
   },
   "output": {
     "schemaTypes": {

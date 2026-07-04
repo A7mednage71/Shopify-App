@@ -1,0 +1,40 @@
+{
+  "schemaNamespace": "ShopifyAdminAPI",
+  "input": {
+    "schemaSearchPaths": ["GraphQL/Admin/schema.graphqls"],
+    "operationSearchPaths": ["GraphQL/Admin/**/*.graphql"]
+  },
+  "output": {
+    "schemaTypes": {
+      "path": "./Sources/ShopifyAdminAPI",
+      "moduleType": {
+        "other": {}
+      }
+    },
+    "operations": {
+      "inSchemaModule": {}
+    },
+    "testMocks": {
+      "none": {}
+    }
+  },
+  "schemaDownloadConfiguration": {
+    "downloadMethod": {
+      "introspection": {
+        "endpointURL": "https://mad46-ios-team3.myshopify.com/admin/api/2024-01/graphql.json",
+        "httpMethod": {
+          "POST": {}
+        },
+        "outputFormat": "SDL",
+        "includeDeprecatedInputValues": false
+      }
+    },
+    "headers": [
+      {
+        "key": "X-Shopify-Access-Token",
+        "value": "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"
+      }
+    ],
+    "outputPath": "GraphQL/Admin/schema.graphqls"
+  }
+}

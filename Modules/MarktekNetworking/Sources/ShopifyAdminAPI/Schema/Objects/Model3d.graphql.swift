@@ -1,0 +1,16 @@
+// @generated
+// This file was automatically generated and should not be edited.
+
+import ApolloAPI
+
+public extension Objects {
+  /// Represents a Shopify hosted 3D model.
+  static let Model3d = Object(
+    typename: "Model3d",
+    implementedInterfaces: [
+      Interfaces.File.self,
+      Interfaces.Media.self,
+      Interfaces.Node.self
+    ]
+  )
+}

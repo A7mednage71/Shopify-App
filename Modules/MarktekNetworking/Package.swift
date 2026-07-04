@@ -22,6 +22,7 @@ let package = Package(
             name: "MarktekNetworking",
             dependencies: [
                 "ShopifyAPI",
+                "ShopifyAdminAPI",
                 .product(name: "Apollo", package: "apollo-ios")
             ]
         ),
@@ -32,6 +33,14 @@ let package = Package(
                 .product(name: "ApolloAPI", package: "apollo-ios")
             ],
             path: "Sources/ShopifyAPI"
+        ),
+
+        .target(
+            name: "ShopifyAdminAPI",
+            dependencies: [
+                .product(name: "ApolloAPI", package: "apollo-ios")
+            ],
+            path: "Sources/ShopifyAdminAPI"
         ),
 
         .testTarget(
