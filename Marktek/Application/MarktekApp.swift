@@ -24,7 +24,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MarktekApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     private let persistenceController = PersistenceController.shared
-    private let appDIContainer = AppDIContainer()
     
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     var body: some Scene {
