@@ -418,6 +418,8 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "QueryRoot": return ShopifyAdminAPI.Objects.QueryRoot
     case "DraftOrderConnection": return ShopifyAdminAPI.Objects.DraftOrderConnection
     case "DraftOrderEdge": return ShopifyAdminAPI.Objects.DraftOrderEdge
+    case "DraftOrderCompletePayload": return ShopifyAdminAPI.Objects.DraftOrderCompletePayload
+    case "MoneyBag": return ShopifyAdminAPI.Objects.MoneyBag
     case "DraftOrderCreatePayload": return ShopifyAdminAPI.Objects.DraftOrderCreatePayload
     case "DraftOrderLineItemConnection": return ShopifyAdminAPI.Objects.DraftOrderLineItemConnection
     case "DraftOrderLineItemEdge": return ShopifyAdminAPI.Objects.DraftOrderLineItemEdge

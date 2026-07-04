@@ -16,4 +16,9 @@ public struct CheckoutRepositoryImpl: CheckoutRepository, Sendable {
         let dataModel = try await remoteDataSource.applyDraftOrderDiscount(draftOrderId: draftOrderId, discount: discount)
         return dataModel.toDomain()
     }
+
+    public func completeDraftOrder(draftOrderId: String, paymentPending: Bool) async throws -> CompletedOrder {
+        let dataModel = try await remoteDataSource.completeDraftOrder(draftOrderId: draftOrderId, paymentPending: paymentPending)
+        return dataModel.toDomain()
+    }
 }

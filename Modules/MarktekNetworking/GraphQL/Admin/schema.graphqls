@@ -45027,6 +45027,8 @@ type Mutation {
     """The draft order to complete."""
     id: ID!
 
+    paymentPending: Boolean
+
     """The gateway for the completed draft order."""
     paymentGatewayId: ID
 

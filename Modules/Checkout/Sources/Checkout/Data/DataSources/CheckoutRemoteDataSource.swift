@@ -4,6 +4,7 @@ import MarktekNetworking
 public protocol CheckoutRemoteDataSource: Sendable {
     func createDraftOrder(input: DraftOrderCreateInput) async throws -> DraftOrderDataModel
     func applyDraftOrderDiscount(draftOrderId: String, discount: DiscountInput) async throws -> DraftOrderDataModel
+    func completeDraftOrder(draftOrderId: String, paymentPending: Bool) async throws -> CompletedOrderDataModel
 }
 
 public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendable {
@@ -87,5 +88,21 @@ public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendabl
         }
         
         return DraftOrderDataModel(gqlDraftOrder: gqlDraftOrder)
+    }
+
+    public func completeDraftOrder(draftOrderId: String, paymentPending: Bool) async throws -> CompletedOrderDataModel {
+        let mutation = CompleteDraftOrderMutation(id: draftOrderId, paymentPending: .some(paymentPending))
+        let data = try await ShopifyAdminGraphQLClient.shared.perform(mutation)
+        
+        if let userErrors = data.draftOrderComplete?.userErrors, !userErrors.isEmpty {
+            let errorMessages = userErrors.map { $0.message }
+            throw DraftOrderError.userError(errorMessages)
+        }
+        
+        guard let gqlDraftOrder = data.draftOrderComplete?.draftOrder else {
+            throw DraftOrderError.unknown
+        }
+        
+        return CompletedOrderDataModel(gqlDraftOrder: gqlDraftOrder)
     }
 }
