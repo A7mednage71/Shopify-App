@@ -3,11 +3,11 @@
 
 @_exported import ApolloAPI
 
-public class GetCollectionsQuery: GraphQLQuery {
-  public static let operationName: String = "GetCollections"
+public class GetCustomCollectionsQuery: GraphQLQuery {
+  public static let operationName: String = "GetCustomCollections"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetCollections($first: Int!) { collections(first: $first) { __typename nodes { __typename id title handle image { __typename url altText } } } }"#
+      #"query GetCustomCollections($first: Int!) { collections(first: $first, query: "collection_type:custom") { __typename nodes { __typename id title handle image { __typename url altText } } } }"#
     ))
 
   public var first: Int
@@ -24,7 +24,10 @@ public class GetCollectionsQuery: GraphQLQuery {
 
     public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.QueryRoot }
     public static var __selections: [ApolloAPI.Selection] { [
-      .field("collections", Collections.self, arguments: ["first": .variable("first")]),
+      .field("collections", Collections.self, arguments: [
+        "first": .variable("first"),
+        "query": "collection_type:custom"
+      ]),
     ] }
 
     /// Returns a paginated list of the shop's [collections](https://shopify.dev/docs/api/storefront/current/objects/Collection). Each `Collection` object includes a nested connection to its [products](https://shopify.dev/docs/api/storefront/current/objects/Collection#field-Collection.fields.products).

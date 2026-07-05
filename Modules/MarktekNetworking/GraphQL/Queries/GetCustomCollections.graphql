@@ -1,5 +1,5 @@
-query GetCollections($first: Int!) {
-  collections(first: $first) {
+query GetCustomCollections($first: Int!) {
+  collections(first: $first, query: "collection_type:custom") {
     nodes {
       id
       title

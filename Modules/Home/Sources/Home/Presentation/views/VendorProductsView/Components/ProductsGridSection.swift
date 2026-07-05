@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProductsGridSection: View {
     let products: [ShopProduct]
+    var onProductTap: ((String) -> Void)? = nil
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -13,7 +14,7 @@ struct ProductsGridSection: View {
             ForEach(products) { product in
                 ShopProductCard(product: product)
                     .onTapGesture {
-                        print("Tapped product: \(product.title)")
+                        onProductTap?(product.id)
                     }
             }
         }
