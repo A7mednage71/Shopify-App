@@ -139,10 +139,12 @@ final class CheckoutViewModelPaymentPendingTests: XCTestCase {
     func testCreateOrderUseCaseSetsFinancialStatusFromPaymentType() async throws {
         for paymentType in CheckoutPaymentMethodType.allCases {
             let repository = CheckoutRepositoryMock()
+            let createCartUseCase = CreateCartUseCaseMock()
             let useCase = CreateOrderUseCase(
                 repository: repository,
                 paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
-                checkoutPricingUseCase: CheckoutPricingUseCase(repository: repository)
+                checkoutPricingUseCase: CheckoutPricingUseCase(repository: repository),
+                createCartUseCase: createCartUseCase
             )
 
             _ = try await useCase.execute(
@@ -154,7 +156,74 @@ final class CheckoutViewModelPaymentPendingTests: XCTestCase {
 
             let expectedStatus: OrderFinancialStatus = paymentType == .cashOnDelivery ? .pending : .paid
             XCTAssertEqual(repository.capturedInput?.financialStatus, expectedStatus)
+            XCTAssertEqual(createCartUseCase.executeCallCount, 1)
         }
+    }
+
+    func testCreateOrderUseCaseResetsCartAfterOrderCreationSucceeds() async throws {
+        let repository = CheckoutRepositoryMock()
+        let createCartUseCase = CreateCartUseCaseMock()
+        let useCase = CreateOrderUseCase(
+            repository: repository,
+            paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
+            checkoutPricingUseCase: CheckoutPricingUseCase(repository: repository),
+            createCartUseCase: createCartUseCase
+        )
+
+        _ = try await useCase.execute(
+            cart: Self.makeCart(),
+            customerDetails: Self.makeCustomerDetails(),
+            paymentMethodType: .cashOnDelivery,
+            shippingMethod: .standard
+        )
+
+        XCTAssertEqual(createCartUseCase.executeCallCount, 1)
+    }
+
+    func testCreateOrderUseCaseDoesNotResetCartWhenOrderCreationFails() async {
+        let repository = CheckoutRepositoryMock(createOrderResult: .failure(TestError.expected))
+        let createCartUseCase = CreateCartUseCaseMock()
+        let useCase = CreateOrderUseCase(
+            repository: repository,
+            paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
+            checkoutPricingUseCase: CheckoutPricingUseCase(repository: repository),
+            createCartUseCase: createCartUseCase
+        )
+
+        do {
+            _ = try await useCase.execute(
+                cart: Self.makeCart(),
+                customerDetails: Self.makeCustomerDetails(),
+                paymentMethodType: .cashOnDelivery,
+                shippingMethod: .standard
+            )
+            XCTFail("Expected order creation to fail")
+        } catch {
+            XCTAssertEqual(error as? TestError, .expected)
+        }
+
+        XCTAssertEqual(createCartUseCase.executeCallCount, 0)
+    }
+
+    func testCreateOrderUseCaseKeepsOrderSuccessWhenCartResetFails() async throws {
+        let repository = CheckoutRepositoryMock()
+        let createCartUseCase = CreateCartUseCaseMock(result: .failure(TestError.expected))
+        let useCase = CreateOrderUseCase(
+            repository: repository,
+            paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
+            checkoutPricingUseCase: CheckoutPricingUseCase(repository: repository),
+            createCartUseCase: createCartUseCase
+        )
+
+        let order = try await useCase.execute(
+            cart: Self.makeCart(),
+            customerDetails: Self.makeCustomerDetails(),
+            paymentMethodType: .cashOnDelivery,
+            shippingMethod: .standard
+        )
+
+        XCTAssertEqual(order.id, "order-1")
+        XCTAssertEqual(createCartUseCase.executeCallCount, 1)
     }
 
     func testPaymentStrategyProviderExposesAvailablePaymentMethods() {
@@ -307,20 +376,32 @@ private final class CheckoutPaymentAuthorizerMock: CheckoutPaymentAuthorizing {
     }
 }
 
+private final class CreateCartUseCaseMock: CreateCartUseCaseProtocol, @unchecked Sendable {
+    private let result: Result<CartDetails, Error>
+    private(set) var executeCallCount = 0
+
+    init(result: Result<CartDetails, Error> = .success(.empty)) {
+        self.result = result
+    }
+
+    func execute() async throws -> CartDetails {
+        executeCallCount += 1
+        return try result.get()
+    }
+}
+
 private final class CheckoutRepositoryMock: CheckoutRepository, @unchecked Sendable {
+    private let createOrderResult: Result<Order, Error>
     private(set) var capturedInput: OrderCreateInput?
     private(set) var didGetCustomerDetails = false
 
+    init(createOrderResult: Result<Order, Error>? = nil) {
+        self.createOrderResult = createOrderResult ?? .success(Self.defaultOrder())
+    }
+
     func createOrder(input: OrderCreateInput) async throws -> Order {
         capturedInput = input
-        return Order(
-            id: "order-1",
-            name: "#1001",
-            financialStatus: input.financialStatus.rawValue,
-            fulfillmentStatus: "UNFULFILLED",
-            totalPrice: "100.00",
-            currencyCode: "USD"
-        )
+        return try createOrderResult.get()
     }
 
     func getCustomerDetails() async throws -> CustomerDetails {
@@ -331,6 +412,21 @@ private final class CheckoutRepositoryMock: CheckoutRepository, @unchecked Senda
     func validateDiscountCode(code: String) async throws -> ValidatedDiscountCode? {
         nil
     }
+
+    private static func defaultOrder() -> Order {
+        Order(
+            id: "order-1",
+            name: "#1001",
+            financialStatus: "PAID",
+            fulfillmentStatus: "UNFULFILLED",
+            totalPrice: "100.00",
+            currencyCode: "USD"
+        )
+    }
+}
+
+private enum TestError: Error, Equatable {
+    case expected
 }
 
 private struct CheckoutPricingUseCaseMock: CheckoutPricingUseCaseProtocol {

@@ -39,7 +39,8 @@ public struct CheckoutPresentationAssembly: Assembly {
             CreateOrderUseCase(
                 repository: resolver.resolve(CheckoutRepository.self)!,
                 paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
-                checkoutPricingUseCase: resolver.resolve(CheckoutPricingUseCaseProtocol.self)!
+                checkoutPricingUseCase: resolver.resolve(CheckoutPricingUseCaseProtocol.self)!,
+                createCartUseCase: resolver.resolve(CreateCartUseCaseProtocol.self)!
             )
         }
 

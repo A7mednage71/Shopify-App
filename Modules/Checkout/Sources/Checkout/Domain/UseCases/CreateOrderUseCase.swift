@@ -37,15 +37,18 @@ struct CreateOrderUseCase: CreateOrderUseCaseProtocol, Sendable {
     private let repository: CheckoutRepository
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
     private let checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol
+    private let createCartUseCase: any CreateCartUseCaseProtocol
 
     init(
         repository: CheckoutRepository,
         paymentStrategyProvider: CheckoutPaymentStrategyProvider,
-        checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol
+        checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol,
+        createCartUseCase: any CreateCartUseCaseProtocol
     ) {
         self.repository = repository
         self.paymentStrategyProvider = paymentStrategyProvider
         self.checkoutPricingUseCase = checkoutPricingUseCase
+        self.createCartUseCase = createCartUseCase
     }
 
     func execute(
@@ -66,7 +69,18 @@ struct CreateOrderUseCase: CreateOrderUseCaseProtocol, Sendable {
             pricing: pricing
         )
 
-        return try await repository.createOrder(input: input)
+        let order = try await repository.createOrder(input: input)
+        await resetCartAfterOrderCreation()
+
+        return order
+    }
+
+    private func resetCartAfterOrderCreation() async {
+        do {
+            _ = try await createCartUseCase.execute()
+        } catch {
+            print("[Checkout] Order created but failed to reset cart: \(error.localizedDescription)")
+        }
     }
 
     private func makeOrderCreateInput(
