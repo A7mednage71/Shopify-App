@@ -9,7 +9,9 @@ final class CheckoutViewModelPaymentPendingTests: XCTestCase {
         let viewModel = CheckoutViewModel(
             getCurrentCartUseCase: GetCurrentCartUseCaseMock(cart: CartDetails.empty),
             createOrderUseCase: CreateOrderUseCaseMock(),
-            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: customerDetails)
+            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: customerDetails),
+            checkoutPricingUseCase: CheckoutPricingUseCaseMock(),
+            paymentAuthorizer: CheckoutPaymentAuthorizerMock()
         )
 
         await viewModel.load()
@@ -30,7 +32,9 @@ final class CheckoutViewModelPaymentPendingTests: XCTestCase {
         let viewModel = CheckoutViewModel(
             getCurrentCartUseCase: GetCurrentCartUseCaseMock(cart: cart),
             createOrderUseCase: createOrderMock,
-            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: customerDetails)
+            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: customerDetails),
+            checkoutPricingUseCase: CheckoutPricingUseCaseMock(),
+            paymentAuthorizer: CheckoutPaymentAuthorizerMock()
         )
 
         await viewModel.load()
@@ -43,23 +47,93 @@ final class CheckoutViewModelPaymentPendingTests: XCTestCase {
     }
 
     @MainActor
-    func testCheckoutNowDelegatesApplePayOrderCreationToUseCase() async {
+    func testCheckoutNowAuthorizesApplePayBeforeOrderCreation() async {
         let cart = Self.makeCart()
         let customerDetails = Self.makeCustomerDetails()
         let createOrderMock = CreateOrderUseCaseMock()
+        let paymentAuthorizer = CheckoutPaymentAuthorizerMock()
+        paymentAuthorizer.onAuthorize = {
+            XCTAssertNil(createOrderMock.capturedPaymentMethodType)
+        }
         let viewModel = CheckoutViewModel(
             getCurrentCartUseCase: GetCurrentCartUseCaseMock(cart: cart),
             createOrderUseCase: createOrderMock,
-            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: customerDetails)
+            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: customerDetails),
+            checkoutPricingUseCase: CheckoutPricingUseCaseMock(),
+            paymentAuthorizer: paymentAuthorizer
         )
 
         await viewModel.load()
         viewModel.selectPaymentMethod(.applePay)
         await viewModel.checkoutNow()
 
+        XCTAssertTrue(paymentAuthorizer.didAuthorizeApplePay)
         XCTAssertEqual(createOrderMock.capturedPaymentMethodType, .applePay)
         XCTAssertEqual(createOrderMock.capturedCart, cart)
         XCTAssertEqual(createOrderMock.capturedCustomerDetails, customerDetails)
+    }
+
+    @MainActor
+    func testCheckoutNowCancellingApplePayDoesNotCreateOrderOrShowError() async {
+        let createOrderMock = CreateOrderUseCaseMock()
+        let paymentAuthorizer = CheckoutPaymentAuthorizerMock(result: .failure(CheckoutPaymentAuthorizationError.userCancelled))
+        let viewModel = CheckoutViewModel(
+            getCurrentCartUseCase: GetCurrentCartUseCaseMock(cart: Self.makeCart()),
+            createOrderUseCase: createOrderMock,
+            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: Self.makeCustomerDetails()),
+            checkoutPricingUseCase: CheckoutPricingUseCaseMock(),
+            paymentAuthorizer: paymentAuthorizer
+        )
+
+        await viewModel.load()
+        viewModel.selectPaymentMethod(.applePay)
+        await viewModel.checkoutNow()
+
+        XCTAssertTrue(paymentAuthorizer.didAuthorizeApplePay)
+        XCTAssertNil(createOrderMock.capturedPaymentMethodType)
+        XCTAssertNil(viewModel.orderPlacement.errorMessage)
+        XCTAssertFalse(viewModel.orderPlacement.isPlacingOrder)
+    }
+
+    @MainActor
+    func testCheckoutNowApplePayFailureShowsError() async {
+        let createOrderMock = CreateOrderUseCaseMock()
+        let paymentAuthorizer = CheckoutPaymentAuthorizerMock(result: .failure(CheckoutPaymentAuthorizationError.applePayUnavailable))
+        let viewModel = CheckoutViewModel(
+            getCurrentCartUseCase: GetCurrentCartUseCaseMock(cart: Self.makeCart()),
+            createOrderUseCase: createOrderMock,
+            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: Self.makeCustomerDetails()),
+            checkoutPricingUseCase: CheckoutPricingUseCaseMock(),
+            paymentAuthorizer: paymentAuthorizer
+        )
+
+        await viewModel.load()
+        viewModel.selectPaymentMethod(.applePay)
+        await viewModel.checkoutNow()
+
+        XCTAssertNil(createOrderMock.capturedPaymentMethodType)
+        XCTAssertEqual(viewModel.orderPlacement.errorMessage, "Apple Pay is not available on this device.")
+        XCTAssertFalse(viewModel.orderPlacement.isPlacingOrder)
+    }
+
+    @MainActor
+    func testCheckoutNowCashOnDeliverySkipsPaymentAuthorizer() async {
+        let createOrderMock = CreateOrderUseCaseMock()
+        let paymentAuthorizer = CheckoutPaymentAuthorizerMock()
+        let viewModel = CheckoutViewModel(
+            getCurrentCartUseCase: GetCurrentCartUseCaseMock(cart: Self.makeCart()),
+            createOrderUseCase: createOrderMock,
+            getCustomerDetailsUseCase: GetCustomerDetailsUseCaseMock(result: Self.makeCustomerDetails()),
+            checkoutPricingUseCase: CheckoutPricingUseCaseMock(),
+            paymentAuthorizer: paymentAuthorizer
+        )
+
+        await viewModel.load()
+        viewModel.selectPaymentMethod(.cashOnDelivery)
+        await viewModel.checkoutNow()
+
+        XCTAssertFalse(paymentAuthorizer.didAuthorizeApplePay)
+        XCTAssertEqual(createOrderMock.capturedPaymentMethodType, .cashOnDelivery)
     }
 
     func testCreateOrderUseCaseSetsFinancialStatusFromPaymentType() async throws {
@@ -67,13 +141,15 @@ final class CheckoutViewModelPaymentPendingTests: XCTestCase {
             let repository = CheckoutRepositoryMock()
             let useCase = CreateOrderUseCase(
                 repository: repository,
-                paymentStrategyProvider: CheckoutPaymentStrategyProvider()
+                paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
+                checkoutPricingUseCase: CheckoutPricingUseCase(repository: repository)
             )
 
             _ = try await useCase.execute(
                 cart: Self.makeCart(),
                 customerDetails: Self.makeCustomerDetails(),
-                paymentMethodType: paymentType
+                paymentMethodType: paymentType,
+                shippingMethod: .standard
             )
 
             let expectedStatus: OrderFinancialStatus = paymentType == .cashOnDelivery ? .pending : .paid
@@ -188,15 +264,18 @@ private final class CreateOrderUseCaseMock: CreateOrderUseCaseProtocol, @uncheck
     private(set) var capturedCart: CartDetails?
     private(set) var capturedCustomerDetails: CustomerDetails?
     private(set) var capturedPaymentMethodType: CheckoutPaymentMethodType?
+    private(set) var capturedShippingMethod: CheckoutShippingMethod?
 
     func execute(
         cart: CartDetails,
         customerDetails: CustomerDetails,
-        paymentMethodType: CheckoutPaymentMethodType
+        paymentMethodType: CheckoutPaymentMethodType,
+        shippingMethod: CheckoutShippingMethod
     ) async throws -> Order {
         capturedCart = cart
         capturedCustomerDetails = customerDetails
         capturedPaymentMethodType = paymentMethodType
+        capturedShippingMethod = shippingMethod
         return Order(
             id: "order-1",
             name: "#1001",
@@ -205,6 +284,26 @@ private final class CreateOrderUseCaseMock: CreateOrderUseCaseProtocol, @uncheck
             totalPrice: "100.00",
             currencyCode: "USD"
         )
+    }
+}
+
+private final class CheckoutPaymentAuthorizerMock: CheckoutPaymentAuthorizing {
+    private let result: Result<Void, Error>
+    private(set) var didAuthorizeApplePay = false
+    var onAuthorize: (() -> Void)?
+
+    init(result: Result<Void, Error> = .success(())) {
+        self.result = result
+    }
+
+    func authorizeApplePay(
+        cart: CartDetails,
+        customerDetails: CustomerDetails,
+        pricing: CheckoutPricing
+    ) async throws {
+        didAuthorizeApplePay = true
+        onAuthorize?()
+        try result.get()
     }
 }
 
@@ -227,5 +326,39 @@ private final class CheckoutRepositoryMock: CheckoutRepository, @unchecked Senda
     func getCustomerDetails() async throws -> CustomerDetails {
         didGetCustomerDetails = true
         return CheckoutViewModelPaymentPendingTests.makeCustomerDetails()
+    }
+
+    func validateDiscountCode(code: String) async throws -> ValidatedDiscountCode? {
+        nil
+    }
+}
+
+private struct CheckoutPricingUseCaseMock: CheckoutPricingUseCaseProtocol {
+    func execute(
+        cart: CartDetails,
+        shippingMethod: CheckoutShippingMethod
+    ) async -> CheckoutPricing {
+        pricing(cart: cart, shippingMethod: shippingMethod)
+    }
+
+    func executeForOrder(
+        cart: CartDetails,
+        shippingMethod: CheckoutShippingMethod
+    ) async throws -> CheckoutPricing {
+        pricing(cart: cart, shippingMethod: shippingMethod)
+    }
+
+    private func pricing(
+        cart: CartDetails,
+        shippingMethod: CheckoutShippingMethod
+    ) -> CheckoutPricing {
+        CheckoutPricing(
+            currencyCode: cart.cost.subtotalAmount.currencyCode,
+            subtotal: cart.cost.subtotalAmount.checkoutDecimalValue,
+            shippingMethod: shippingMethod,
+            discountState: .none,
+            discountAmount: 0,
+            orderDiscount: nil
+        )
     }
 }
