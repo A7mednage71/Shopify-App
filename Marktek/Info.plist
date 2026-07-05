@@ -31,6 +31,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>APPLE_PAY_COUNTRY_CODE</key>
+	<string>$(APPLE_PAY_COUNTRY_CODE)</string>
+	<key>APPLE_PAY_MERCHANT_IDENTIFIER</key>
+	<string>$(APPLE_PAY_MERCHANT_IDENTIFIER)</string>
 	<key>SHOPIFY_API_VERSION</key>
 	<string>$(SHOPIFY_API_VERSION)</string>
 	<key>SHOPIFY_HOST</key>
