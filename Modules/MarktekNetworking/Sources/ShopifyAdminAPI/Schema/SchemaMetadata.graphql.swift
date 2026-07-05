@@ -421,6 +421,19 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "QueryRoot": return ShopifyAdminAPI.Objects.QueryRoot
     case "DraftOrderConnection": return ShopifyAdminAPI.Objects.DraftOrderConnection
     case "DraftOrderEdge": return ShopifyAdminAPI.Objects.DraftOrderEdge
+    case "DiscountCodeApp": return ShopifyAdminAPI.Objects.DiscountCodeApp
+    case "DiscountCodeBasic": return ShopifyAdminAPI.Objects.DiscountCodeBasic
+    case "DiscountCodeBxgy": return ShopifyAdminAPI.Objects.DiscountCodeBxgy
+    case "DiscountCodeFreeShipping": return ShopifyAdminAPI.Objects.DiscountCodeFreeShipping
+    case "DiscountCustomerGets": return ShopifyAdminAPI.Objects.DiscountCustomerGets
+    case "DiscountAmount": return ShopifyAdminAPI.Objects.DiscountAmount
+    case "DiscountOnQuantity": return ShopifyAdminAPI.Objects.DiscountOnQuantity
+    case "DiscountPercentage": return ShopifyAdminAPI.Objects.DiscountPercentage
+    case "AllDiscountItems": return ShopifyAdminAPI.Objects.AllDiscountItems
+    case "DiscountCollections": return ShopifyAdminAPI.Objects.DiscountCollections
+    case "DiscountProducts": return ShopifyAdminAPI.Objects.DiscountProducts
+    case "DiscountMinimumQuantity": return ShopifyAdminAPI.Objects.DiscountMinimumQuantity
+    case "DiscountMinimumSubtotal": return ShopifyAdminAPI.Objects.DiscountMinimumSubtotal
     default: return nil
     }
   }
