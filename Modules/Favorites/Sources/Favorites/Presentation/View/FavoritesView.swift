@@ -10,9 +10,11 @@ import Common
 
 public struct FavoritesView: View {
     @StateObject private var viewModel: FavoritesViewModel
+    let onProductTap: (String) -> Void
     
-    public init(viewModel: FavoritesViewModel) {
+    public init(viewModel: FavoritesViewModel, onProductTap: @escaping (String) -> Void) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.onProductTap = onProductTap
     }
     
     public var body: some View {
@@ -43,6 +45,8 @@ public struct FavoritesView: View {
                         ForEach(viewModel.favoriteProducts) { product in
                             FavoriteProductCard(product: product) {
                                 viewModel.removeFavorite(product: product)
+                            }.onTapGesture {
+                                onProductTap(product.id) 
                             }
                         }
                     }

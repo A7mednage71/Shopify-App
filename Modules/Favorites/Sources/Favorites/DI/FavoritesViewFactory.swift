@@ -15,7 +15,7 @@ public struct FavoritesViewFactory {
     }
     
     @MainActor
-    public func makeFavoritesView() -> some View {
-        FavoritesView(viewModel: viewModel)
-    }
+    public func makeFavoritesDestinationView(onProductTap: @escaping (String) -> Void) -> some View {
+            FavoritesView(viewModel: viewModel, onProductTap: onProductTap)
+        }
 }
