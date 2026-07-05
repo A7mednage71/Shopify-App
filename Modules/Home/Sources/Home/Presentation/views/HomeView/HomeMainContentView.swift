@@ -23,11 +23,26 @@ struct HomeMainContentView: View {
         VStack(spacing: 0) {
             CategoriesListSection(
                 viewModel: viewModel,
-                categories: viewModel.collections,
+                categories: viewModel.categories,
                 onCategoryTap: { collection in
-                    print("Tapped: \(collection.title)")
+                    print("Tapped Category: \(collection.title)")
                 }
             )
+            .padding(.bottom, 16)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(HomeStrings.Category.brandsTitle)
+                    .sectionTitleStyle()
+                    .padding(.horizontal, 20)
+                
+                BrandsListSection(
+                    viewModel: viewModel,
+                    brands: viewModel.brands,
+                    onBrandTap: { collection in
+                        print("Tapped Brand: \(collection.title)")
+                    }
+                )
+            }
             .padding(.bottom, 16)
 
             HeroBannerSection(banners: MockShopifyData.heroBanners)

@@ -5,8 +5,17 @@ struct HomeRepositoryImpl: HomeRepository, Sendable {
         self.remoteDataSource = remoteDataSource
     }
 
-    func getCollections(first: Int) async throws -> [Collection] {
-        try await remoteDataSource.fetchCollections(first: first).map { $0.toDomain() }
+    func getCategories(first: Int) async throws -> [Collection] {
+        try await remoteDataSource.fetchCategories(first: first).map { $0.toDomain() }
+    }
+
+    func getBrands(first: Int) async throws -> [Collection] {
+        try await remoteDataSource.fetchBrands(first: first).map { $0.toDomain() }
+    }
+
+    func getProductsByCategory(handle: String) async throws -> [ShopProduct] {
+        let response = try await remoteDataSource.fetchProductsByCategory(handle: handle, first: 20)
+        return response.map { $0.toDomain() }
     }
 
     func searchProducts(query: String) async throws -> [ShopProduct] {

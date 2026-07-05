@@ -1,8 +1,8 @@
-protocol GetCollectionsUseCaseProtocol: Sendable {
+protocol GetCategoriesUseCaseProtocol: Sendable {
     func execute(first: Int) async throws -> [Collection]
 }
 
-struct GetCollectionsUseCase: GetCollectionsUseCaseProtocol, Sendable {
+struct GetCategoriesUseCase: GetCategoriesUseCaseProtocol, Sendable {
     private let repository: any HomeRepository
 
     init(repository: any HomeRepository) {
@@ -10,6 +10,6 @@ struct GetCollectionsUseCase: GetCollectionsUseCaseProtocol, Sendable {
     }
 
     func execute(first: Int = 20) async throws -> [Collection] {
-        try await repository.getCollections(first: first)
+        try await repository.getCategories(first: first)
     }
 }
