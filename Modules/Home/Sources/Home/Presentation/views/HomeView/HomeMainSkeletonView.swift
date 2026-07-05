@@ -39,6 +39,8 @@ struct HomeMainSkeletonView: View {
                         compareAtCurrencyCode: $0.compareAtCurrencyCode
                     )
                 },
+                favoriteProductIDs: [],
+                onFavoriteTap: { _ in },
                 onProductTap: { _ in }
             )
             .padding(.bottom, 8)
