@@ -37,7 +37,8 @@ public final class FavoritesViewModel: ObservableObject {
         Task {
             do {
                 try await useCase.toggleFavorite(product: product)
-                loadFavorites()
+                self.favoriteProducts.removeAll { $0.id == product.id }
+                //loadFavorites()
             } catch {
                 print("Error removing favorite: \(error.localizedDescription)")
             }

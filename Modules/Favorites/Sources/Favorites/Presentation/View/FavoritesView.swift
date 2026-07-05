@@ -10,6 +10,8 @@ import Common
 
 public struct FavoritesView: View {
     @ObservedObject private var viewModel: FavoritesViewModel
+    @State private var showDeleteAlert = false
+    @State private var productToDelete: FavoriteProduct?
     let onProductTap: (String) -> Void
     
     public init(viewModel: FavoritesViewModel, onProductTap: @escaping (String) -> Void) {
@@ -44,14 +46,17 @@ public struct FavoritesView: View {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                         ForEach(viewModel.favoriteProducts) { product in
                             FavoriteProductCard(product: product) {
-                                viewModel.removeFavorite(product: product)
+                                productToDelete = product
+                                showDeleteAlert = true
                             }
                             .onTapGesture {
                                 onProductTap(product.id)
                             }
+                            .transition(.scale.combined(with: .opacity))
                         }
                     }
                     .padding()
+                    .animation(.spring(response: 0.35, dampingFraction: 0.8), value: viewModel.favoriteProducts)
                 }
             }
         }
@@ -59,6 +64,16 @@ public struct FavoritesView: View {
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
             viewModel.loadFavorites()
+        }
+        .alert("Remove from Favorites", isPresented: $showDeleteAlert, presenting: productToDelete) { product in
+            Button("Cancel", role: .cancel) {
+                productToDelete = nil
+            }
+            Button("Remove", role: .destructive) {
+                viewModel.removeFavorite(product: product)
+            }
+        } message: { product in
+            Text("Are you sure you want to remove '\(product.title)' from your favorites?")
         }
     }
 }
