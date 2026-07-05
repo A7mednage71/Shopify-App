@@ -1,29 +1,34 @@
 import Common
 
 struct CheckoutViewModelFactory {
-    private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
     private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
+    private let createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol
+    private let applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol
     private let completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
 
     init(
-        getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
         paymentStrategyProvider: CheckoutPaymentStrategyProvider,
         performCheckoutUseCase: any PerformCheckoutUseCaseProtocol,
+        createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol,
+        applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol,
         completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
     ) {
-        self.getCurrentCartUseCase = getCurrentCartUseCase
         self.paymentStrategyProvider = paymentStrategyProvider
         self.performCheckoutUseCase = performCheckoutUseCase
+        self.createDraftOrderUseCase = createDraftOrderUseCase
+        self.applyDraftOrderDiscountUseCase = applyDraftOrderDiscountUseCase
         self.completeDraftOrderUseCase = completeDraftOrderUseCase
     }
 
     @MainActor
-    func makeViewModel() -> CheckoutViewModel {
+    func makeViewModel(cart: CartDetails) -> CheckoutViewModel {
         CheckoutViewModel(
-            getCurrentCartUseCase: getCurrentCartUseCase,
+            cart: cart,
             paymentStrategyProvider: paymentStrategyProvider,
             performCheckoutUseCase: performCheckoutUseCase,
+            createDraftOrderUseCase: createDraftOrderUseCase,
+            applyDraftOrderDiscountUseCase: applyDraftOrderDiscountUseCase,
             completeDraftOrderUseCase: completeDraftOrderUseCase
         )
     }

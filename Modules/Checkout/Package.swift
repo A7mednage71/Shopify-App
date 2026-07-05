@@ -24,8 +24,8 @@ let package = Package(
             name: "Checkout",
             dependencies: [
                 .product(name: "Common", package: "Common"),
+                .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                 .product(name: "Swinject", package: "Swinject"),
-                "MarktekNetworking"
             ]
         ),
     ]

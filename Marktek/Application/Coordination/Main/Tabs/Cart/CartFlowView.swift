@@ -2,7 +2,7 @@ import Cart
 import SwiftUI
 
 struct CartFlowView: View {
-    let onCheckoutTap: () -> Void
+    let onCheckoutTap: (CartDetails) -> Void
     let onStartShoppingTap: () -> Void
     let onProductTap: (String) -> Void
 

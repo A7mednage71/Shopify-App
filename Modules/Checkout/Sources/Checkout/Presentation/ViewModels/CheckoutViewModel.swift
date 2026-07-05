@@ -11,32 +11,32 @@ public final class CheckoutViewModel: ObservableObject {
     @Published public var checkoutErrorMessage: String?
     @Published var orderConfirmationRoute: CheckoutOrderConfirmationRoute?
 
-    // Draft Order completion properties
-    public enum SelectedPaymentMethod: String, Sendable {
-        case applePaySimulated = "Apple Pay (Simulated)"
-        case cashOnDelivery = "Cash on Delivery"
-    }
-    @Published public var selectedPaymentMethod: SelectedPaymentMethod = .applePaySimulated
     @Published public var isLoading = false
     @Published public var completedOrder: CompletedOrder?
     @Published public var error: String?
     @Published public var draftOrderId: String?
 
     private var isCompletingCheckout = false
-    private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
+    private let cart: CartDetails
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
     private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
+    private let createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol
+    private let applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol
     private let completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
 
     init(
-        getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
+        cart: CartDetails,
         paymentStrategyProvider: CheckoutPaymentStrategyProvider,
         performCheckoutUseCase: any PerformCheckoutUseCaseProtocol,
+        createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol,
+        applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol,
         completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
     ) {
-        self.getCurrentCartUseCase = getCurrentCartUseCase
+        self.cart = cart
         self.paymentStrategyProvider = paymentStrategyProvider
         self.performCheckoutUseCase = performCheckoutUseCase
+        self.createDraftOrderUseCase = createDraftOrderUseCase
+        self.applyDraftOrderDiscountUseCase = applyDraftOrderDiscountUseCase
         self.completeDraftOrderUseCase = completeDraftOrderUseCase
         self.paymentMethods = paymentStrategyProvider.methods
         self.selectedPaymentMethodType = paymentStrategyProvider.methods.first?.type ?? .card
@@ -47,16 +47,32 @@ public final class CheckoutViewModel: ObservableObject {
     }
 
     public func load() async {
-        state = .loading
-        addressState = .loading
+        state = .success(cart)
+        
+        let mockAddress = CheckoutAddress(
+            title: "Home Address",
+            street: "90 El-Tahrir Street",
+            city: "Cairo",
+            region: "Cairo Governorate",
+            postalCode: "11511"
+        )
+        addressState = .success(mockAddress)
 
+        // Automatically create draft order and apply active discount codes in background
         do {
-            let cart = try await getCurrentCartUseCase.execute()
-            addressState = .empty
-            state = .success(cart)
+            let draftOrderInput = cart.toDraftOrderInput(shippingAddress: mockAddress)
+            let draftOrder = try await createDraftOrderUseCase.execute(input: draftOrderInput)
+            self.draftOrderId = draftOrder.id
+            
+            // Map storefront discount to draft order discount if present
+            if let discountInput = cart.toDraftOrderDiscountInput() {
+                _ = try await applyDraftOrderDiscountUseCase.execute(
+                    draftOrderId: draftOrder.id,
+                    discount: discountInput
+                )
+            }
         } catch {
-            addressState = .empty
-            state = .failure(error.localizedDescription)
+            self.checkoutErrorMessage = error.localizedDescription
         }
     }
 
@@ -72,20 +88,25 @@ public final class CheckoutViewModel: ObservableObject {
         orderConfirmationRoute = nil
         isCompletingCheckout = false
 
-        do {
-            let action = try await performCheckoutUseCase.execute(
-                paymentMethodType: selectedPaymentMethodType,
-                cart: cart
-            )
+        if selectedPaymentMethodType == .applePay || selectedPaymentMethodType == .cashOnDelivery {
+            await completeOrder()
+        } else {
+            // Standard Card payment strategy (web checkout redirect)
+            do {
+                let action = try await performCheckoutUseCase.execute(
+                    paymentMethodType: selectedPaymentMethodType,
+                    cart: cart
+                )
 
-            switch action {
-            case .none:
-                break
-            case .presentWebCheckout(let url):
-                webCheckoutRoute = CheckoutWebCheckoutRoute(url: url)
+                switch action {
+                case .none:
+                    break
+                case .presentWebCheckout(let url):
+                    webCheckoutRoute = CheckoutWebCheckoutRoute(url: url)
+                }
+            } catch {
+                checkoutErrorMessage = error.localizedDescription
             }
-        } catch {
-            checkoutErrorMessage = error.localizedDescription
         }
     }
 
@@ -99,8 +120,16 @@ public final class CheckoutViewModel: ObservableObject {
         error = nil
         completedOrder = nil
         checkoutErrorMessage = nil
-        
-        let paymentPending = selectedPaymentMethod == .cashOnDelivery
+
+        let paymentPending: Bool
+        switch selectedPaymentMethodType {
+        case .card, .applePay:
+            // Card & Apple Pay are simulated as instantly paid in this educational POC (no real payment gateway).
+            paymentPending = false
+        case .cashOnDelivery:
+            // Cash on Delivery marks the order as unpaid until payment is collected on delivery.
+            paymentPending = true
+        }
         
         do {
             let completed = try await completeDraftOrderUseCase.execute(
@@ -113,7 +142,7 @@ public final class CheckoutViewModel: ObservableObject {
                 let route = CheckoutOrderConfirmationRoute(
                     completionURL: URL(string: "https://marktek.com/order-complete")!,
                     cart: cart,
-                    paymentMethodTitle: selectedPaymentMethod.rawValue
+                    paymentMethodTitle: selectedPaymentMethodModel?.title
                 )
                 self.orderConfirmationRoute = route
             }

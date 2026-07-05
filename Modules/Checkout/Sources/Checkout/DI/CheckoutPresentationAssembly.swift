@@ -45,9 +45,10 @@ public struct CheckoutPresentationAssembly: Assembly {
 
         container.register(CheckoutViewModelFactory.self) { resolver in
             CheckoutViewModelFactory(
-                getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
                 paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
                 performCheckoutUseCase: resolver.resolve(PerformCheckoutUseCaseProtocol.self)!,
+                createDraftOrderUseCase: resolver.resolve(CreateDraftOrderUseCaseProtocol.self)!,
+                applyDraftOrderDiscountUseCase: resolver.resolve(ApplyDraftOrderDiscountUseCaseProtocol.self)!,
                 completeDraftOrderUseCase: resolver.resolve(CompleteDraftOrderUseCaseProtocol.self)!
             )
         }

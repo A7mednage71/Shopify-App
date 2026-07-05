@@ -14,7 +14,7 @@ struct CartLoadedView: View {
     let onDiscountCodeChange: (String) -> Void
     let onApplyDiscountCode: () -> Void
     let onRemoveDiscountCode: () -> Void
-    let onCheckoutTap: () -> Void
+    let onCheckoutTap: (CartDetails) -> Void
     let onProductTap: (String) -> Void
 
     @State private var deletionConfirmation: CartDeletionConfirmation?
@@ -78,7 +78,7 @@ struct CartLoadedView: View {
                     CartOrderSummaryView(cart: cart)
                         .padding(.horizontal, 22)
 
-                    Button(action: onCheckoutTap, label: checkoutButtonLabel)
+                    Button(action: { onCheckoutTap(cart) }, label: checkoutButtonLabel)
                     .buttonStyle(.plain)
                     .accessibilityLabel(CartText.checkoutButtonTitle)
                         .padding(.horizontal, 22)
