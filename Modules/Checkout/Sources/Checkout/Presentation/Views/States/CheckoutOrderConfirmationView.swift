@@ -16,7 +16,11 @@ struct CheckoutOrderConfirmationView: View {
 
                 CheckoutProductsSection(lines: confirmation.cart.lines)
 
-                CheckoutOrderSummarySection(cart: confirmation.cart)
+                CheckoutOrderSummarySection(
+                    cart: confirmation.cart,
+                    selectedShippingMethod: confirmation.pricing.shippingMethod,
+                    pricing: confirmation.pricing
+                )
 
                 CheckoutPrimaryButton(title: CheckoutText.orderConfirmationDoneTitle) {
                     dismiss()
@@ -85,7 +89,9 @@ struct CheckoutOrderConfirmationView: View {
 
                 confirmationRow(
                     title: CheckoutText.totalTitle,
-                    value: confirmation.cart.cost.totalAmount.checkoutFormattedCurrency(),
+                    value: confirmation.pricing.total.checkoutFormattedCurrency(
+                        currencyCode: confirmation.pricing.currencyCode
+                    ),
                     isEmphasized: true
                 )
             }

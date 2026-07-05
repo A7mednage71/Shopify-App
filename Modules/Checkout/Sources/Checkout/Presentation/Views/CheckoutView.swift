@@ -21,6 +21,11 @@ struct CheckoutView: View {
 
             content
                 .transition(.opacity.combined(with: .scale(scale: 0.98)))
+
+            if let loadingMessage = viewModel.orderPlacement.loadingMessage {
+                CheckoutProcessingOverlay(message: loadingMessage)
+                    .zIndex(1)
+            }
         }
         .navigationTitle(CheckoutText.navigationTitle)
         .checkoutNavigationTitleStyle()
@@ -29,6 +34,7 @@ struct CheckoutView: View {
         }
         .animation(.easeInOut(duration: 0.22), value: viewModel.state)
         .animation(.easeInOut(duration: 0.22), value: viewModel.addressState)
+        .animation(.easeInOut(duration: 0.18), value: viewModel.orderPlacement.isPlacingOrder)
         .onChange(of: viewModel.state) { state in
             guard case .success = state else {
                 hasLoadedContentAppeared = false
@@ -89,17 +95,28 @@ struct CheckoutView: View {
 
                 CheckoutProductsSection(lines: cart.lines)
 
+                CheckoutShippingMethodSection(
+                    methods: viewModel.shippingSelection.methods,
+                    selectedMethod: viewModel.shippingSelection.selectedMethod,
+                    currencyCode: cart.cost.subtotalAmount.currencyCode,
+                    onSelect: viewModel.selectShippingMethod(_:)
+                )
+
                 CheckoutPaymentMethodSection(
                     methods: viewModel.paymentSelection.methods,
                     selectedType: viewModel.paymentSelection.selectedMethodType,
                     onSelect: viewModel.selectPaymentMethod(_:)
                 )
 
-                CheckoutOrderSummarySection(cart: cart)
+                CheckoutOrderSummarySection(
+                    cart: cart,
+                    selectedShippingMethod: viewModel.shippingSelection.selectedMethod,
+                    pricing: viewModel.shippingSelection.pricing
+                )
 
                 CheckoutPrimaryButton(
                     title: CheckoutText.checkoutButtonTitle,
-                    isDisabled: viewModel.orderPlacement.isCheckoutButtonDisabled,
+                    isDisabled: viewModel.orderPlacement.isCheckoutButtonDisabled || viewModel.shippingSelection.pricing == nil,
                     action: {
                         Task {
                             await viewModel.checkoutNow()

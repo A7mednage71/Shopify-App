@@ -25,10 +25,21 @@ public struct CheckoutPresentationAssembly: Assembly {
             CheckoutPaymentStrategyProvider()
         }
 
+        container.register(CheckoutPricingUseCaseProtocol.self) { resolver in
+            CheckoutPricingUseCase(
+                repository: resolver.resolve(CheckoutRepository.self)!
+            )
+        }
+
+        container.register(CheckoutPaymentAuthorizing.self) { _ in
+            ApplePayPaymentAuthorizer()
+        }
+
         container.register(CreateOrderUseCaseProtocol.self) { resolver in
             CreateOrderUseCase(
                 repository: resolver.resolve(CheckoutRepository.self)!,
-                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!
+                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
+                checkoutPricingUseCase: resolver.resolve(CheckoutPricingUseCaseProtocol.self)!
             )
         }
 
@@ -42,7 +53,9 @@ public struct CheckoutPresentationAssembly: Assembly {
             CheckoutViewModelFactory(
                 getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
                 createOrderUseCase: resolver.resolve(CreateOrderUseCaseProtocol.self)!,
-                getCustomerDetailsUseCase: resolver.resolve(GetCustomerDetailsUseCaseProtocol.self)!
+                getCustomerDetailsUseCase: resolver.resolve(GetCustomerDetailsUseCaseProtocol.self)!,
+                checkoutPricingUseCase: resolver.resolve(CheckoutPricingUseCaseProtocol.self)!,
+                paymentAuthorizer: resolver.resolve(CheckoutPaymentAuthorizing.self)!
             )
         }
 

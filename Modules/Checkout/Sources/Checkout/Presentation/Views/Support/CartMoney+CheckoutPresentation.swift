@@ -43,3 +43,18 @@ extension CartMoney {
         return formatter.string(from: NSDecimalNumber(decimal: checkoutDecimalValue)) ?? amount
     }
 }
+
+extension Decimal {
+    func checkoutFormattedCurrency(
+        currencyCode: String,
+        fractionDigits: Int = 0
+    ) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode.isEmpty ? "USD" : currencyCode
+        formatter.minimumFractionDigits = fractionDigits
+        formatter.maximumFractionDigits = fractionDigits
+
+        return formatter.string(from: NSDecimalNumber(decimal: self)) ?? "\(currencyCode) \(self)"
+    }
+}
