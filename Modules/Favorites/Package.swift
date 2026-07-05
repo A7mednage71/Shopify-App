@@ -28,7 +28,8 @@ let package = Package(
                             "Persistence",
                             "Common",
                             "Swinject"
-                        ]
+                        ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "FavoritesTests",
