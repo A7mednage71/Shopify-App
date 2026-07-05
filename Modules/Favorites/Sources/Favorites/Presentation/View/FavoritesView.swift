@@ -9,25 +9,25 @@ import SwiftUI
 import Common
 
 public struct FavoritesView: View {
-    @StateObject private var viewModel: FavoritesViewModel
+    @ObservedObject private var viewModel: FavoritesViewModel
     let onProductTap: (String) -> Void
     
     public init(viewModel: FavoritesViewModel, onProductTap: @escaping (String) -> Void) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+        self.viewModel = viewModel 
         self.onProductTap = onProductTap
     }
     
     public var body: some View {
-        Group {
+        ZStack {
             if viewModel.isLoading && viewModel.favoriteProducts.isEmpty {
                 ProgressView()
                     .scaleEffect(1.5)
             } else if viewModel.favoriteProducts.isEmpty {
                 VStack(spacing: 16) {
-                    Image("no_favorites")
+                    Image("no_favorites", bundle: .module)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 80, height: 80)
+                        .frame(width: 200, height: 200)
                         .foregroundColor(.gray.opacity(0.5))
                     
                     Text("No Favorites Yet")
@@ -45,8 +45,9 @@ public struct FavoritesView: View {
                         ForEach(viewModel.favoriteProducts) { product in
                             FavoriteProductCard(product: product) {
                                 viewModel.removeFavorite(product: product)
-                            }.onTapGesture {
-                                onProductTap(product.id) 
+                            }
+                            .onTapGesture {
+                                onProductTap(product.id)
                             }
                         }
                     }

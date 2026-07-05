@@ -46,7 +46,9 @@ struct MainFlowView: View {
             )
 
         case .favorites:
-            FavoritesFlowView()
+            FavoritesFlowView(
+                    onProductDetailsTap: favoritesCoordinator.showProductInfo(productID:)
+                )
 
         case .profile:
             ProfileFlowView()
