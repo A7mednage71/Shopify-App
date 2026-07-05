@@ -2,8 +2,20 @@ import Swinject
 
 struct HomeDomainAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(GetCollectionsUseCaseProtocol.self) { resolver in
-            GetCollectionsUseCase(
+        container.register(GetCategoriesUseCaseProtocol.self) { resolver in
+            GetCategoriesUseCase(
+                repository: resolver.resolve(HomeRepository.self)!
+            )
+        }
+
+        container.register(GetBrandsUseCaseProtocol.self) { resolver in
+            GetBrandsUseCase(
+                repository: resolver.resolve(HomeRepository.self)!
+            )
+        }
+
+        container.register(GetProductsByCategoryUseCaseProtocol.self) { resolver in
+            GetProductsByCategoryUseCase(
                 repository: resolver.resolve(HomeRepository.self)!
             )
         }

@@ -3,9 +3,10 @@ import SwiftUI
 struct VendorEmptyStateView: View {
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: "cart.badge.questionmark")
-                .font(.system(size: 50, weight: .light))
-                .foregroundColor(.appBorderMedium)
+            Image("no_products")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 120, height: 120)
                 .padding(.top, 60)
             
             Text("No products found")

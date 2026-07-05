@@ -2,11 +2,25 @@
 
 struct ShopifyHomeRemoteDataSource: HomeRemoteDataSource, Sendable {
     
-    func fetchCollections(first: Int) async throws -> [CollectionDataModel] {
+    func fetchCategories(first: Int) async throws -> [CollectionDataModel] {
         let data = try await ShopifyGraphQLClient.shared.fetch(
-            GetCollectionsQuery(first: first)
+            GetCustomCollectionsQuery(first: first)
         )
-        return data.collections.nodes.map { CollectionDataModel(node: $0) }
+        return data.collections.nodes.map { CollectionDataModel(customNode: $0) }
+    }
+
+    func fetchBrands(first: Int) async throws -> [CollectionDataModel] {
+        let data = try await ShopifyGraphQLClient.shared.fetch(
+            GetSmartCollectionsQuery(first: first)
+        )
+        return data.collections.nodes.map { CollectionDataModel(smartNode: $0) }
+    }
+
+    func fetchProductsByCategory(handle: String, first: Int) async throws -> [ShopProductNode] {
+        let response = try await ShopifyGraphQLClient.shared.fetch(
+            GetProductsByCollectionQuery(handle: handle, first: first, after: .none)
+        )
+        return response.collection?.products.edges.map { ShopProductNode(collectionNode: $0.node) } ?? []
     }
 
     func searchProducts(query: String, first: Int) async throws -> SearchResponseData {

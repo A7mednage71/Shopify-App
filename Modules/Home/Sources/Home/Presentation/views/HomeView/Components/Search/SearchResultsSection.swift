@@ -37,9 +37,10 @@ struct SearchResultsSection: View {
 private struct SearchEmptyStateView: View {
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: "magnifyingglass")
-                .font(.system(size: 50, weight: .light))
-                .foregroundColor(.appBorderMedium)
+            Image("no_products")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 120, height: 120)
 
             Text("No results found")
                 .font(.sectionTitle)

@@ -1,0 +1,13 @@
+query GetSmartCollections($first: Int!) {
+  collections(first: $first, query: "collection_type:smart") {
+    nodes {
+      id
+      title
+      handle
+      image {
+        url
+        altText
+      }
+    }
+  }
+}

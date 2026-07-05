@@ -1,20 +1,20 @@
 import SwiftUI
 import Common
 
-// MARK: - Horizontal Categories List
+// MARK: - Horizontal Brands List
 
-struct CategoriesListSection: View {
+struct BrandsListSection: View {
     let viewModel: HomeViewModel
-    let categories: [Collection]
+    let brands: [Collection]
     var onProductTap: ((String) -> Void)? = nil
-    var onCategoryTap: ((Collection) -> Void)? = nil
+    var onBrandTap: ((Collection) -> Void)? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
-                ForEach(categories) { category in
-                    NavigationLink(destination: CategoryProductsView(category: category, viewModel: viewModel, onProductTap: onProductTap)) {
-                        CategoryItem(category: category)
+                ForEach(brands) { brand in
+                    NavigationLink(destination: VendorProductsView(vendorName: brand.title, viewModel: viewModel, onProductTap: onProductTap)) {
+                        BrandItem(brand: brand)
                     }
                     .buttonStyle(.plain)
                 }
@@ -28,14 +28,14 @@ struct CategoriesListSection: View {
     }
 }
 
-// MARK: - Single Category Item
+// MARK: - Single Brand Item
 
-struct CategoryItem: View {
-    let category: Collection
+struct BrandItem: View {
+    let brand: Collection
 
     var body: some View {
         VStack(spacing: 6) {
-            if let imageURL = category.imageURL, let url = URL(string: imageURL) {
+            if let imageURL = brand.imageURL, let url = URL(string: imageURL) {
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .success(let image):
@@ -75,23 +75,10 @@ struct CategoryItem: View {
                     )
             }
 
-            Text(category.title)
+            Text(brand.title)
                 .categoryLabelStyle()
                 .lineLimit(1)
         }
         .frame(width: 65)
     }
-}
-
-// MARK: - Preview
-#Preview {
-    CategoriesListSection(
-        viewModel: HomeAssembler.resolveHomeViewModel(),
-        categories: [
-            Collection(id: "1", title: "Beauty",  handle: "beauty",  imageURL: "https://picsum.photos/seed/beauty/80/80"),
-            Collection(id: "2", title: "Fashion", handle: "fashion", imageURL: "https://picsum.photos/seed/fashion/80/80"),
-            Collection(id: "3", title: "Kids",    handle: "kids",    imageURL: "https://picsum.photos/seed/kids/80/80"),
-        ]
-    )
-    .padding(.vertical)
 }

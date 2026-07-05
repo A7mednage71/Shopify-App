@@ -11,4 +11,15 @@ extension HomeViewModel {
         }
         isVendorProductsLoading = false
     }
+
+    func loadProductsForCategory(handle: String) async {
+        isVendorProductsLoading = true
+        vendorProductsError = nil
+        do {
+            self.vendorProducts = try await getProductsByCategoryUseCase.execute(handle: handle)
+        } catch {
+            self.vendorProductsError = error.localizedDescription
+        }
+        isVendorProductsLoading = false
+    }
 }
