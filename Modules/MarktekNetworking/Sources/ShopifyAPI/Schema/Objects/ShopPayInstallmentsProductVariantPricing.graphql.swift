@@ -5,7 +5,7 @@ import ApolloAPI
 
 public extension Objects {
   /// The shop pay installments pricing information for a product variant.
-  static let ShopPayInstallmentsProductVariantPricing = ApolloAPI.Object(
+  static let ShopPayInstallmentsProductVariantPricing = Object(
     typename: "ShopPayInstallmentsProductVariantPricing",
     implementedInterfaces: [Interfaces.Node.self]
   )

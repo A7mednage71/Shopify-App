@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// Articles can be organized with tags and include [`SEO`](https://shopify.dev/docs/api/storefront/current/objects/SEO) metadata. You can manage [comments](https://shopify.dev/docs/api/storefront/current/objects/Comment) when the blog's comment policy enables them.
   ///
-  static let Article = ApolloAPI.Object(
+  static let Article = Object(
     typename: "Article",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,

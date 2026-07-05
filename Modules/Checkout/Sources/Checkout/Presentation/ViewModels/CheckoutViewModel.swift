@@ -7,191 +7,183 @@ public final class CheckoutViewModel: ObservableObject {
     @Published public private(set) var addressState: CheckoutAddressViewState = .loading
     @Published public private(set) var paymentMethods: [CheckoutPaymentMethod]
     @Published public private(set) var selectedPaymentMethodType: CheckoutPaymentMethodType
-    @Published public var webCheckoutRoute: CheckoutWebCheckoutRoute?
     @Published public var checkoutErrorMessage: String?
     @Published var orderConfirmationRoute: CheckoutOrderConfirmationRoute?
 
+    // Loading indicator
     @Published public var isLoading = false
-    @Published public var completedOrder: CompletedOrder?
-    @Published public var error: String?
-    @Published public var draftOrderId: String?
 
-    private var isCompletingCheckout = false
+    // Payment Method binding enum
+    public enum PaymentMethod: Sendable {
+        case card
+        case applePay
+        case cashOnDelivery
+    }
+    @Published public var selectedPaymentMethod: PaymentMethod = .card
+
     private let cart: CartDetails
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
-    private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
-    private let createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol
-    private let applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol
-    private let completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
+    
+    // New Use Cases
+    private let createOrderUseCase: any CreateOrderUseCaseProtocol
+    private let getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol
+
+    private var selectedAddress: CheckoutAddress?
+    private var customerId: String?
+    private var customerEmail: String?
+    private var customerPhone: String?
 
     init(
         cart: CartDetails,
         paymentStrategyProvider: CheckoutPaymentStrategyProvider,
-        performCheckoutUseCase: any PerformCheckoutUseCaseProtocol,
-        createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol,
-        applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol,
-        completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
+        createOrderUseCase: any CreateOrderUseCaseProtocol,
+        getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol
     ) {
         self.cart = cart
         self.paymentStrategyProvider = paymentStrategyProvider
-        self.performCheckoutUseCase = performCheckoutUseCase
-        self.createDraftOrderUseCase = createDraftOrderUseCase
-        self.applyDraftOrderDiscountUseCase = applyDraftOrderDiscountUseCase
-        self.completeDraftOrderUseCase = completeDraftOrderUseCase
+        self.createOrderUseCase = createOrderUseCase
+        self.getCustomerDetailsUseCase = getCustomerDetailsUseCase
         self.paymentMethods = paymentStrategyProvider.methods
         self.selectedPaymentMethodType = paymentStrategyProvider.methods.first?.type ?? .card
+        
+        // Initial binding setup
+        self.bindPaymentMethodType(self.selectedPaymentMethodType)
     }
 
     public var selectedPaymentMethodModel: CheckoutPaymentMethod? {
         paymentMethods.first { $0.type == selectedPaymentMethodType }
     }
 
+    public var isCheckoutButtonDisabled: Bool {
+        selectedAddress == nil || isLoading
+    }
+
     public func load() async {
         state = .success(cart)
-        
-        let mockAddress = CheckoutAddress(
-            title: "Home Address",
-            street: "90 El-Tahrir Street",
-            city: "Cairo",
-            region: "Cairo Governorate",
-            postalCode: "11511"
-        )
-        addressState = .success(mockAddress)
+        addressState = .loading
+        checkoutErrorMessage = nil
 
-        // Automatically create draft order and apply active discount codes in background
         do {
-            let draftOrderInput = cart.toDraftOrderInput(shippingAddress: mockAddress)
-            let draftOrder = try await createDraftOrderUseCase.execute(input: draftOrderInput)
-            self.draftOrderId = draftOrder.id
+            let customerDetails = try await getCustomerDetailsUseCase.execute()
+            self.customerId = customerDetails.id
+            self.customerEmail = customerDetails.email
+            self.customerPhone = customerDetails.phone
             
-            // Map storefront discount to draft order discount if present
-            if let discountInput = cart.toDraftOrderDiscountInput() {
-                _ = try await applyDraftOrderDiscountUseCase.execute(
-                    draftOrderId: draftOrder.id,
-                    discount: discountInput
-                )
+            if let defaultAddress = customerDetails.defaultAddress {
+                self.selectedAddress = defaultAddress
+                self.addressState = .success(defaultAddress)
+            } else {
+                self.selectedAddress = nil
+                self.addressState = .empty
             }
         } catch {
+            self.selectedAddress = nil
+            self.addressState = .empty
             self.checkoutErrorMessage = error.localizedDescription
         }
     }
 
     public func selectPaymentMethod(_ type: CheckoutPaymentMethodType) {
         selectedPaymentMethodType = type
+        bindPaymentMethodType(type)
         checkoutErrorMessage = nil
+    }
+
+    private func bindPaymentMethodType(_ type: CheckoutPaymentMethodType) {
+        switch type {
+        case .card:
+            selectedPaymentMethod = .card
+        case .applePay:
+            selectedPaymentMethod = .applePay
+        case .cashOnDelivery:
+            selectedPaymentMethod = .cashOnDelivery
+        }
     }
 
     public func checkoutNow() async {
-        guard case let .success(cart) = state else { return }
+        guard case let .success(cart) = state, let address = selectedAddress else {
+            if selectedAddress == nil {
+                self.checkoutErrorMessage = CheckoutText.addressEmptyTitle
+            }
+            return
+        }
 
+        isLoading = true
         checkoutErrorMessage = nil
         orderConfirmationRoute = nil
-        isCompletingCheckout = false
 
-        if selectedPaymentMethodType == .applePay || selectedPaymentMethodType == .cashOnDelivery {
-            await completeOrder()
-        } else {
-            // Standard Card payment strategy (web checkout redirect)
-            do {
-                let action = try await performCheckoutUseCase.execute(
-                    paymentMethodType: selectedPaymentMethodType,
-                    cart: cart
-                )
+        let financialStatus: OrderFinancialStatus = (selectedPaymentMethod == .cashOnDelivery) ? .pending : .paid
 
-                switch action {
-                case .none:
-                    break
-                case .presentWebCheckout(let url):
-                    webCheckoutRoute = CheckoutWebCheckoutRoute(url: url)
-                }
-            } catch {
-                checkoutErrorMessage = error.localizedDescription
+        // Cart Discount mapping rules
+        var discountAmount: Decimal? = nil
+        var discountCode: String? = nil
+        if let activeDiscount = cart.discountCodes.first(where: { $0.applicable }) {
+            let subtotal = Decimal(string: cart.cost.subtotalAmount.amount.replacingOccurrences(of: ",", with: "")) ?? 0
+            let total = Decimal(string: cart.cost.totalAmount.amount.replacingOccurrences(of: ",", with: "")) ?? 0
+            let difference = subtotal - total
+            if difference > 0 {
+                discountAmount = difference
+                discountCode = activeDiscount.code
             }
         }
-    }
 
-    public func completeOrder() async {
-        guard let id = draftOrderId else { return }
-        await completeOrder(draftOrderId: id)
-    }
+        let shippingAddress = ShippingAddressInput(
+            firstName: address.firstName,
+            lastName: address.lastName ?? "Customer",
+            company: address.company,
+            address1: address.street,
+            address2: address.street2,
+            city: address.city,
+            provinceCode: address.region,
+            // Defaulting to "EG" (Egypt) since the application primarily targets local customers and address countryCode might be empty.
+            countryCode: address.countryCode ?? "EG",
+            zip: address.postalCode,
+            phone: address.phone
+        )
 
-    public func completeOrder(draftOrderId: String) async {
-        isLoading = true
-        error = nil
-        completedOrder = nil
-        checkoutErrorMessage = nil
-
-        let paymentPending: Bool
-        switch selectedPaymentMethodType {
-        case .card, .applePay:
-            // Card & Apple Pay are simulated as instantly paid in this educational POC (no real payment gateway).
-            paymentPending = false
-        case .cashOnDelivery:
-            // Cash on Delivery marks the order as unpaid until payment is collected on delivery.
-            paymentPending = true
+        let lineItems = cart.lines.compactMap { line -> LineItemInput? in
+            guard let variantId = line.variant?.id else { return nil }
+            return LineItemInput(variantId: variantId, quantity: line.quantity)
         }
-        
+
+        let totalAmount = Decimal(string: cart.cost.totalAmount.amount.replacingOccurrences(of: ",", with: "")) ?? 0
+
+        let input = OrderCreateInput(
+            currency: cart.cost.subtotalAmount.currencyCode.isEmpty ? "USD" : cart.cost.subtotalAmount.currencyCode,
+            email: customerEmail,
+            phone: customerPhone,
+            customerId: customerId,
+            lineItems: lineItems,
+            shippingAddress: shippingAddress,
+            shippingLine: nil,
+            discountAmount: discountAmount,
+            discountCode: discountCode,
+            financialStatus: financialStatus,
+            totalAmount: totalAmount
+        )
+
         do {
-            let completed = try await completeDraftOrderUseCase.execute(
-                draftOrderId: draftOrderId,
-                paymentPending: paymentPending
-            )
-            self.completedOrder = completed
+            _ = try await createOrderUseCase.execute(input: input)
             
-            if case let .success(cart) = state {
-                let route = CheckoutOrderConfirmationRoute(
-                    completionURL: URL(string: "https://marktek.com/order-complete")!,
-                    cart: cart,
-                    paymentMethodTitle: selectedPaymentMethodModel?.title
-                )
-                self.orderConfirmationRoute = route
-            }
+            let confirmationRoute = CheckoutOrderConfirmationRoute(
+                cart: cart,
+                paymentMethodTitle: selectedPaymentMethodModel?.title
+            )
+            
+            self.orderConfirmationRoute = confirmationRoute
         } catch {
-            self.error = error.localizedDescription
             self.checkoutErrorMessage = error.localizedDescription
         }
         isLoading = false
     }
 
-    func checkoutCompleted(url: URL) {
-        guard !isCompletingCheckout,
-              case let .success(cart) = state else {
-            webCheckoutRoute = nil
-            return
-        }
-
-        isCompletingCheckout = true
-        webCheckoutRoute = nil
-
-        let confirmationRoute = CheckoutOrderConfirmationRoute(
-            completionURL: url,
-            cart: cart,
-            paymentMethodTitle: selectedPaymentMethodModel?.title
-        )
-
-        Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 350_000_000)
-            orderConfirmationRoute = confirmationRoute
-        }
-    }
-
     func dismissOrderConfirmation() {
         orderConfirmationRoute = nil
-        isCompletingCheckout = false
-    }
-}
-
-public struct CheckoutWebCheckoutRoute: Identifiable, Equatable {
-    public let url: URL
-
-    public var id: String {
-        url.absoluteString
     }
 }
 
 public struct CheckoutOrderConfirmationRoute: Identifiable {
     public let id = UUID()
-    let completionURL: URL
     let cart: CartDetails
     let paymentMethodTitle: String?
 }

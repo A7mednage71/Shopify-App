@@ -5,7 +5,7 @@ import ApolloAPI
 
 public extension Objects {
   /// Represents an error that happens during execution of a cart mutation.
-  static let CartUserError = ApolloAPI.Object(
+  static let CartUserError = Object(
     typename: "CartUserError",
     implementedInterfaces: [Interfaces.DisplayableError.self]
   )

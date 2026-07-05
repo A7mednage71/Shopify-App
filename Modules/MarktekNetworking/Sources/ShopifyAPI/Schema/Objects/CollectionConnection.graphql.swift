@@ -6,7 +6,7 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type for paginating through multiple Collections.
   ///
-  static let CollectionConnection = ApolloAPI.Object(
+  static let CollectionConnection = Object(
     typename: "CollectionConnection",
     implementedInterfaces: []
   )

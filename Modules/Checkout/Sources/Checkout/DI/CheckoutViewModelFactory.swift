@@ -2,23 +2,19 @@ import Common
 
 struct CheckoutViewModelFactory {
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
-    private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
-    private let createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol
-    private let applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol
-    private let completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
+    
+    // Use cases
+    private let createOrderUseCase: any CreateOrderUseCaseProtocol
+    private let getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol
 
     init(
         paymentStrategyProvider: CheckoutPaymentStrategyProvider,
-        performCheckoutUseCase: any PerformCheckoutUseCaseProtocol,
-        createDraftOrderUseCase: any CreateDraftOrderUseCaseProtocol,
-        applyDraftOrderDiscountUseCase: any ApplyDraftOrderDiscountUseCaseProtocol,
-        completeDraftOrderUseCase: any CompleteDraftOrderUseCaseProtocol
+        createOrderUseCase: any CreateOrderUseCaseProtocol,
+        getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol
     ) {
         self.paymentStrategyProvider = paymentStrategyProvider
-        self.performCheckoutUseCase = performCheckoutUseCase
-        self.createDraftOrderUseCase = createDraftOrderUseCase
-        self.applyDraftOrderDiscountUseCase = applyDraftOrderDiscountUseCase
-        self.completeDraftOrderUseCase = completeDraftOrderUseCase
+        self.createOrderUseCase = createOrderUseCase
+        self.getCustomerDetailsUseCase = getCustomerDetailsUseCase
     }
 
     @MainActor
@@ -26,10 +22,8 @@ struct CheckoutViewModelFactory {
         CheckoutViewModel(
             cart: cart,
             paymentStrategyProvider: paymentStrategyProvider,
-            performCheckoutUseCase: performCheckoutUseCase,
-            createDraftOrderUseCase: createDraftOrderUseCase,
-            applyDraftOrderDiscountUseCase: applyDraftOrderDiscountUseCase,
-            completeDraftOrderUseCase: completeDraftOrderUseCase
+            createOrderUseCase: createOrderUseCase,
+            getCustomerDetailsUseCase: getCustomerDetailsUseCase
         )
     }
 }

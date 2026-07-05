@@ -3,92 +3,147 @@ import XCTest
 import Common
 
 final class CheckoutViewModelPaymentPendingTests: XCTestCase {
-    func testCompleteOrderSetsPaymentPendingTrueForCashOnDelivery() async {
-        let recorder = CompleteDraftOrderUseCaseMock()
-        let viewModel = makeViewModel(completeDraftOrderUseCase: recorder)
+    @MainActor
+    func testLoadFetchesCustomerDetailsAndSetsAddress() async {
+        let defaultAddress = CheckoutAddress(
+            title: "Default",
+            street: "Street 1",
+            city: "Cairo",
+            region: "Cairo",
+            postalCode: "12345",
+            firstName: "John",
+            lastName: "Doe"
+        )
+        let customerDetails = CustomerDetails(
+            id: "customer-1",
+            email: "john@doe.com",
+            phone: "+123456",
+            firstName: "John",
+            lastName: "Doe",
+            defaultAddress: defaultAddress
+        )
 
-        viewModel.selectPaymentMethod(.cashOnDelivery)
-        await viewModel.completeOrder(draftOrderId: "draft-order-1")
+        let getDetailsMock = GetCustomerDetailsUseCaseMock(result: customerDetails)
+        let createOrderMock = CreateOrderUseCaseMock()
+        
+        let viewModel = CheckoutViewModel(
+            cart: CartDetails.empty,
+            paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
+            createOrderUseCase: createOrderMock,
+            getCustomerDetailsUseCase: getDetailsMock
+        )
 
-        XCTAssertEqual(recorder.capturedPaymentPending, true)
-    }
+        await viewModel.load()
 
-    func testCompleteOrderSetsPaymentPendingFalseForCardAndApplePay() async {
-        for method in [CheckoutPaymentMethodType.card, .applePay] {
-            let recorder = CompleteDraftOrderUseCaseMock()
-            let viewModel = makeViewModel(completeDraftOrderUseCase: recorder)
-
-            viewModel.selectPaymentMethod(method)
-            await viewModel.completeOrder(draftOrderId: "draft-order-\(method.rawValue)")
-
-            XCTAssertEqual(recorder.capturedPaymentPending, false)
+        if case let .success(loadedAddress) = viewModel.addressState {
+            XCTAssertEqual(loadedAddress.street, "Street 1")
+            XCTAssertEqual(loadedAddress.city, "Cairo")
+        } else {
+            XCTFail("Expected addressState to be success")
         }
     }
 
-    private func makeViewModel(
-        completeDraftOrderUseCase: CompleteDraftOrderUseCaseMock
-    ) -> CheckoutViewModel {
-        CheckoutViewModel(
+    @MainActor
+    func testCheckoutNowSetsFinancialStatusPendingForCashOnDelivery() async {
+        let defaultAddress = CheckoutAddress(
+            title: "Default",
+            street: "Street 1",
+            city: "Cairo",
+            region: "Cairo",
+            postalCode: "12345",
+            firstName: "John",
+            lastName: "Doe"
+        )
+        let customerDetails = CustomerDetails(
+            id: "customer-1",
+            email: "john@doe.com",
+            phone: "+123456",
+            firstName: "John",
+            lastName: "Doe",
+            defaultAddress: defaultAddress
+        )
+
+        let getDetailsMock = GetCustomerDetailsUseCaseMock(result: customerDetails)
+        let createOrderMock = CreateOrderUseCaseMock()
+        
+        let viewModel = CheckoutViewModel(
             cart: CartDetails.empty,
             paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
-            performCheckoutUseCase: PerformCheckoutUseCaseMock(),
-            createDraftOrderUseCase: CreateDraftOrderUseCaseMock(),
-            applyDraftOrderDiscountUseCase: ApplyDraftOrderDiscountUseCaseMock(),
-            completeDraftOrderUseCase: completeDraftOrderUseCase
+            createOrderUseCase: createOrderMock,
+            getCustomerDetailsUseCase: getDetailsMock
         )
+
+        await viewModel.load()
+        viewModel.selectPaymentMethod(.cashOnDelivery)
+        await viewModel.checkoutNow()
+
+        XCTAssertEqual(createOrderMock.capturedInput?.financialStatus, .pending)
     }
-}
 
-private final class CompleteDraftOrderUseCaseMock: CompleteDraftOrderUseCaseProtocol, @unchecked Sendable {
-    private(set) var capturedPaymentPending: Bool?
-
-    func execute(draftOrderId: String, paymentPending: Bool) async throws -> CompletedOrder {
-        capturedPaymentPending = paymentPending
-        return CompletedOrder(
-            id: draftOrderId,
-            status: paymentPending ? "pending" : "paid",
-            orderId: nil,
-            orderName: nil,
-            createdAt: nil,
-            totalAmount: nil,
-            currencyCode: nil,
-            email: nil
+    @MainActor
+    func testCheckoutNowSetsFinancialStatusPaidForApplePayAndCard() async {
+        let defaultAddress = CheckoutAddress(
+            title: "Default",
+            street: "Street 1",
+            city: "Cairo",
+            region: "Cairo",
+            postalCode: "12345",
+            firstName: "John",
+            lastName: "Doe"
         )
-    }
-}
-
-private final class PerformCheckoutUseCaseMock: PerformCheckoutUseCaseProtocol, @unchecked Sendable {
-    func execute(paymentMethodType: CheckoutPaymentMethodType, cart: CartDetails) async throws -> CheckoutPaymentAction {
-        .none
-    }
-}
-
-private final class CreateDraftOrderUseCaseMock: CreateDraftOrderUseCaseProtocol, @unchecked Sendable {
-    func execute(input: DraftOrderCreateInput) async throws -> DraftOrder {
-        DraftOrder(
-            id: "draft-1",
-            name: "Draft Order",
-            status: "open",
-            subtotalPrice: nil,
-            totalPrice: nil,
-            totalTax: nil,
-            currencyCode: "USD",
-            lineItems: []
+        let customerDetails = CustomerDetails(
+            id: "customer-1",
+            email: "john@doe.com",
+            phone: "+123456",
+            firstName: "John",
+            lastName: "Doe",
+            defaultAddress: defaultAddress
         )
+
+        for paymentType in [CheckoutPaymentMethodType.card, .applePay] {
+            let getDetailsMock = GetCustomerDetailsUseCaseMock(result: customerDetails)
+            let createOrderMock = CreateOrderUseCaseMock()
+            
+            let viewModel = CheckoutViewModel(
+                cart: CartDetails.empty,
+                paymentStrategyProvider: CheckoutPaymentStrategyProvider(),
+                createOrderUseCase: createOrderMock,
+                getCustomerDetailsUseCase: getDetailsMock
+            )
+
+            await viewModel.load()
+            viewModel.selectPaymentMethod(paymentType)
+            await viewModel.checkoutNow()
+
+            XCTAssertEqual(createOrderMock.capturedInput?.financialStatus, .paid)
+        }
     }
 }
 
-private final class ApplyDraftOrderDiscountUseCaseMock: ApplyDraftOrderDiscountUseCaseProtocol, @unchecked Sendable {
-    func execute(draftOrderId: String, discount: DiscountInput) async throws -> DraftOrder {
-        DraftOrder(
-            id: draftOrderId,
-            name: "Draft Order",
-            status: "open",
-            subtotalPrice: nil,
-            totalPrice: nil,
-            totalTax: nil,
-            currencyCode: "USD",
-            lineItems: []
+private final class GetCustomerDetailsUseCaseMock: GetCustomerDetailsUseCaseProtocol, @unchecked Sendable {
+    let result: CustomerDetails
+
+    init(result: CustomerDetails) {
+        self.result = result
+    }
+
+    func execute() async throws -> CustomerDetails {
+        return result
+    }
+}
+
+private final class CreateOrderUseCaseMock: CreateOrderUseCaseProtocol, @unchecked Sendable {
+    private(set) var capturedInput: OrderCreateInput?
+
+    func execute(input: OrderCreateInput) async throws -> Order {
+        capturedInput = input
+        return Order(
+            id: "order-1",
+            name: "#1001",
+            financialStatus: input.financialStatus.rawValue,
+            fulfillmentStatus: "UNFULFILLED",
+            totalPrice: "0.0",
+            currencyCode: "USD"
         )
     }
 }

@@ -1,6 +1,17 @@
 import Common
 import Foundation
 
+public enum CheckoutPaymentError: LocalizedError {
+    case missingCheckoutURL
+
+    public var errorDescription: String? {
+        switch self {
+        case .missingCheckoutURL:
+            return "The checkout URL is missing from the cart."
+        }
+    }
+}
+
 public protocol CheckoutPaymentStrategy: Sendable {
     var method: CheckoutPaymentMethod { get }
     func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction

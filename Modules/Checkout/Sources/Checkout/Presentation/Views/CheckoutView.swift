@@ -41,15 +41,6 @@ struct CheckoutView: View {
                 hasLoadedContentAppeared = true
             }
         }
-        .sheet(item: $viewModel.webCheckoutRoute) { route in
-            NavigationStack {
-                CheckoutWebView(url: route.url) { url in
-                    viewModel.checkoutCompleted(url: url)
-                }
-                    .navigationTitle(CheckoutText.checkoutWebTitle)
-                    .checkoutNavigationTitleStyle()
-            }
-        }
         .onChange(of: viewModel.orderConfirmationRoute?.id) { _ in
             guard let route = viewModel.orderConfirmationRoute else { return }
             onOrderConfirmed(route)
@@ -108,6 +99,7 @@ struct CheckoutView: View {
 
                 CheckoutPrimaryButton(
                     title: CheckoutText.checkoutButtonTitle,
+                    isDisabled: viewModel.isCheckoutButtonDisabled,
                     action: {
                         Task {
                             await viewModel.checkoutNow()

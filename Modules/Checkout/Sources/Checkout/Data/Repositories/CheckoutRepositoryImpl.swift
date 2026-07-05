@@ -7,18 +7,13 @@ public struct CheckoutRepositoryImpl: CheckoutRepository, Sendable {
         self.remoteDataSource = remoteDataSource
     }
 
-    public func createDraftOrder(input: DraftOrderCreateInput) async throws -> DraftOrder {
-        let dataModel = try await remoteDataSource.createDraftOrder(input: input)
+    public func createOrder(input: OrderCreateInput) async throws -> Order {
+        let dataModel = try await remoteDataSource.createOrder(input: input)
         return dataModel.toDomain()
     }
 
-    public func applyDraftOrderDiscount(draftOrderId: String, discount: DiscountInput) async throws -> DraftOrder {
-        let dataModel = try await remoteDataSource.applyDraftOrderDiscount(draftOrderId: draftOrderId, discount: discount)
-        return dataModel.toDomain()
-    }
-
-    public func completeDraftOrder(draftOrderId: String, paymentPending: Bool) async throws -> CompletedOrder {
-        let dataModel = try await remoteDataSource.completeDraftOrder(draftOrderId: draftOrderId, paymentPending: paymentPending)
+    public func getCustomerDetails(customerAccessToken: String) async throws -> CustomerDetails {
+        let dataModel = try await remoteDataSource.getCustomerDetails(customerAccessToken: customerAccessToken)
         return dataModel.toDomain()
     }
 }

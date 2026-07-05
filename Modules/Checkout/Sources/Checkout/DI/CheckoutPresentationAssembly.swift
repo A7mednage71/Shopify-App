@@ -9,12 +9,6 @@ public struct CheckoutPresentationAssembly: Assembly {
             CheckoutPaymentStrategyProvider()
         }
 
-        container.register(PerformCheckoutUseCaseProtocol.self) { resolver in
-            PerformCheckoutUseCase(
-                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!
-            )
-        }
-
         container.register(CheckoutRemoteDataSource.self) { _ in
             ShopifyCheckoutRemoteDataSource()
         }
@@ -24,21 +18,15 @@ public struct CheckoutPresentationAssembly: Assembly {
                 remoteDataSource: resolver.resolve(CheckoutRemoteDataSource.self)!
             )
         }
-
-        container.register(CreateDraftOrderUseCaseProtocol.self) { resolver in
-            CreateDraftOrderUseCase(
+        
+        container.register(CreateOrderUseCaseProtocol.self) { resolver in
+            CreateOrderUseCase(
                 repository: resolver.resolve(CheckoutRepository.self)!
             )
         }
 
-        container.register(ApplyDraftOrderDiscountUseCaseProtocol.self) { resolver in
-            ApplyDraftOrderDiscountUseCase(
-                repository: resolver.resolve(CheckoutRepository.self)!
-            )
-        }
-
-        container.register(CompleteDraftOrderUseCaseProtocol.self) { resolver in
-            CompleteDraftOrderUseCase(
+        container.register(GetCustomerDetailsUseCaseProtocol.self) { resolver in
+            GetCustomerDetailsUseCase(
                 repository: resolver.resolve(CheckoutRepository.self)!
             )
         }
@@ -46,10 +34,8 @@ public struct CheckoutPresentationAssembly: Assembly {
         container.register(CheckoutViewModelFactory.self) { resolver in
             CheckoutViewModelFactory(
                 paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
-                performCheckoutUseCase: resolver.resolve(PerformCheckoutUseCaseProtocol.self)!,
-                createDraftOrderUseCase: resolver.resolve(CreateDraftOrderUseCaseProtocol.self)!,
-                applyDraftOrderDiscountUseCase: resolver.resolve(ApplyDraftOrderDiscountUseCaseProtocol.self)!,
-                completeDraftOrderUseCase: resolver.resolve(CompleteDraftOrderUseCaseProtocol.self)!
+                createOrderUseCase: resolver.resolve(CreateOrderUseCaseProtocol.self)!,
+                getCustomerDetailsUseCase: resolver.resolve(GetCustomerDetailsUseCaseProtocol.self)!
             )
         }
 

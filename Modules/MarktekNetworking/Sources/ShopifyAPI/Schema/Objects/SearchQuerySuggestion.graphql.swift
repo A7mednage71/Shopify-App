@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// The [`text`](https://shopify.dev/docs/api/storefront/current/objects/SearchQuerySuggestion#field-SearchQuerySuggestion.fields.text) field provides the plain suggestion, while [`styledText`](https://shopify.dev/docs/api/storefront/current/objects/SearchQuerySuggestion#field-SearchQuerySuggestion.fields.styledText) includes HTML tags to highlight matching portions. Implements [`Trackable`](https://shopify.dev/docs/api/storefront/current/interfaces/Trackable) for analytics reporting on search traffic origins.
   ///
-  static let SearchQuerySuggestion = ApolloAPI.Object(
+  static let SearchQuerySuggestion = Object(
     typename: "SearchQuerySuggestion",
     implementedInterfaces: [Interfaces.Trackable.self]
   )

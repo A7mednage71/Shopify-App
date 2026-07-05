@@ -415,14 +415,12 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "UrlRedirectImportUserError": return ShopifyAdminAPI.Objects.UrlRedirectImportUserError
     case "UrlRedirectUserError": return ShopifyAdminAPI.Objects.UrlRedirectUserError
     case "ValidationUserError": return ShopifyAdminAPI.Objects.ValidationUserError
+    case "OrderCreatePayload": return ShopifyAdminAPI.Objects.OrderCreatePayload
+    case "MoneyBag": return ShopifyAdminAPI.Objects.MoneyBag
+    case "LineItemConnection": return ShopifyAdminAPI.Objects.LineItemConnection
     case "QueryRoot": return ShopifyAdminAPI.Objects.QueryRoot
     case "DraftOrderConnection": return ShopifyAdminAPI.Objects.DraftOrderConnection
     case "DraftOrderEdge": return ShopifyAdminAPI.Objects.DraftOrderEdge
-    case "DraftOrderCompletePayload": return ShopifyAdminAPI.Objects.DraftOrderCompletePayload
-    case "MoneyBag": return ShopifyAdminAPI.Objects.MoneyBag
-    case "DraftOrderCreatePayload": return ShopifyAdminAPI.Objects.DraftOrderCreatePayload
-    case "DraftOrderLineItemConnection": return ShopifyAdminAPI.Objects.DraftOrderLineItemConnection
-    case "DraftOrderLineItemEdge": return ShopifyAdminAPI.Objects.DraftOrderLineItemEdge
     default: return nil
     }
   }
