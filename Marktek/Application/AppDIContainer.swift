@@ -8,6 +8,7 @@ final class AppDIContainer {
     static let shared = AppDIContainer()
 
     private let assembler = Assembler([
+        NetworkingAssembly(),
         CartDataAssembly(),
         CartDomainAssembly(),
         CartPresentationAssembly(),

@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// Learn more about [supporting local pickup on storefronts](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/products-collections/local-pickup).
   ///
-  static let Location = ApolloAPI.Object(
+  static let Location = Object(
     typename: "Location",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,

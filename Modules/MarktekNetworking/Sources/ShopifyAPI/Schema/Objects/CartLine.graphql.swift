@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// Cart lines can include custom attributes for additional information like gift wrapping requests, and can be associated with a [`SellingPlanAllocation`](https://shopify.dev/docs/api/storefront/current/objects/SellingPlanAllocation) for purchase options like subscriptions, pre-orders, or try-before-you-buy. The [`instructions`](https://shopify.dev/docs/api/storefront/current/objects/CartLine#field-CartLine.fields.instructions) field indicates whether the line can be removed or have its quantity updated.
   ///
-  static let CartLine = ApolloAPI.Object(
+  static let CartLine = Object(
     typename: "CartLine",
     implementedInterfaces: [
       Interfaces.BaseCartLine.self,

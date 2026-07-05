@@ -25,7 +25,7 @@ private enum FeatureViewFactoryResolver {
 extension CartViewFactory {
     @MainActor
     static func makeView(
-        onCheckoutTap: @escaping () -> Void,
+        onCheckoutTap: @escaping (CartDetails) -> Void,
         onStartShoppingTap: @escaping () -> Void,
         onProductTap: @escaping (String) -> Void
     ) -> some View {
@@ -42,11 +42,12 @@ extension CartViewFactory {
 extension CheckoutViewFactory {
     @MainActor
     static func makeView(
+        cart: CartDetails,
         onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeCheckoutDestinationView(onOrderConfirmed: onOrderConfirmed)
+            .makeCheckoutDestinationView(cart: cart, onOrderConfirmed: onOrderConfirmed)
     }
 
     @MainActor

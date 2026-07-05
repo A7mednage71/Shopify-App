@@ -1,3 +1,4 @@
+import Common
 import SwiftUI
 
 public struct CheckoutViewFactory {
@@ -9,11 +10,12 @@ public struct CheckoutViewFactory {
 
     @MainActor
     public func makeCheckoutDestinationView(
+        cart: CartDetails,
         onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void = { _ in }
     ) -> some View {
         // Checkout is a destination screen; completion is reported back to the flow coordinator.
         CheckoutView(
-            viewModel: viewModelFactory.makeViewModel(),
+            viewModel: viewModelFactory.makeViewModel(cart: cart),
             onOrderConfirmed: onOrderConfirmed
         )
     }

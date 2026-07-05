@@ -1,0 +1,32 @@
+mutation CreateOrder($order: OrderCreateOrderInput!, $options: OrderCreateOptionsInput) {
+  orderCreate(order: $order, options: $options) {
+    order {
+      id
+      name
+      displayFinancialStatus
+      displayFulfillmentStatus
+      subtotalPriceSet { presentmentMoney { amount currencyCode } }
+      totalDiscountsSet { presentmentMoney { amount currencyCode } }
+      totalShippingPriceSet { presentmentMoney { amount currencyCode } }
+      totalTaxSet { presentmentMoney { amount currencyCode } }
+      totalPriceSet { presentmentMoney { amount currencyCode } }
+      customer { id }
+      shippingAddress {
+        city
+        provinceCode
+        countryCodeV2
+        formattedArea
+      }
+      discountCodes
+      lineItems(first: 20) {
+        nodes {
+          id
+          title
+          quantity
+          variant { id inventoryQuantity availableForSale }
+        }
+      }
+    }
+    userErrors { field message }
+  }
+}

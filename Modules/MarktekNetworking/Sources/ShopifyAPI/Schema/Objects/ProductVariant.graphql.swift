@@ -10,7 +10,7 @@ public extension Objects {
   ///
   /// Variants also support subscriptions and pre-orders through [selling plan allocations](https://shopify.dev/docs/api/storefront/current/objects/SellingPlanAllocation) objects, bundle configurations through [product variant components](https://shopify.dev/docs/api/storefront/current/objects/ProductVariantComponent) objects, and [shop pay installments pricing](https://shopify.dev/docs/api/storefront/current/objects/ShopPayInstallmentsPricing) for flexible payment options.
   ///
-  static let ProductVariant = ApolloAPI.Object(
+  static let ProductVariant = Object(
     typename: "ProductVariant",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,

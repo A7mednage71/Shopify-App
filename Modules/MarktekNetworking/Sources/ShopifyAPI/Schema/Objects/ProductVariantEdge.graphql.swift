@@ -6,7 +6,7 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type which holds one ProductVariant and a cursor during pagination.
   ///
-  static let ProductVariantEdge = ApolloAPI.Object(
+  static let ProductVariantEdge = Object(
     typename: "ProductVariantEdge",
     implementedInterfaces: []
   )

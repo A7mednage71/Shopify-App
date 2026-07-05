@@ -6,7 +6,7 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type for paginating through multiple SearchResultItems.
   ///
-  static let SearchResultItemConnection = ApolloAPI.Object(
+  static let SearchResultItemConnection = Object(
     typename: "SearchResultItemConnection",
     implementedInterfaces: []
   )

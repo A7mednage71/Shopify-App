@@ -10,7 +10,7 @@ public extension Objects {
   ///
   /// Includes the file's URL, MIME type, size in bytes, and an optional preview image.
   ///
-  static let GenericFile = ApolloAPI.Object(
+  static let GenericFile = Object(
     typename: "GenericFile",
     implementedInterfaces: [Interfaces.Node.self]
   )

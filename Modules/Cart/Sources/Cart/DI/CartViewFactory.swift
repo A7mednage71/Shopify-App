@@ -9,7 +9,7 @@ public struct CartViewFactory {
 
     @MainActor
     public func makeCartDestinationView(
-        onCheckoutTap: @escaping () -> Void,
+        onCheckoutTap: @escaping (CartDetails) -> Void,
         onStartShoppingTap: @escaping () -> Void,
         onProductTap: @escaping (String) -> Void
     ) -> some View {

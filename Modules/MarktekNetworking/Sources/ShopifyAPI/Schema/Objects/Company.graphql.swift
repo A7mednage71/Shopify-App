@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// You can store custom data using [metafields](https://shopify.dev/docs/apps/build/metafields).
   ///
-  static let Company = ApolloAPI.Object(
+  static let Company = Object(
     typename: "Company",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,

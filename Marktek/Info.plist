@@ -37,6 +37,8 @@
 	<string>$(SHOPIFY_HOST)</string>
 	<key>SHOPIFY_STOREFRONT_ACCESS_TOKEN</key>
 	<string>$(SHOPIFY_STOREFRONT_ACCESS_TOKEN)</string>
+	<key>SHOPIFY_ADMIN_ACCESS_TOKEN</key>
+	<string>$(SHOPIFY_ADMIN_ACCESS_TOKEN)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

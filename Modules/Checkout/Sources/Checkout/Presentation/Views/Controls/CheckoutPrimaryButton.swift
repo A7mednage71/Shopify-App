@@ -3,7 +3,14 @@ import SwiftUI
 
 struct CheckoutPrimaryButton: View {
     let title: String
+    let isDisabled: Bool
     let action: () -> Void
+
+    init(title: String, isDisabled: Bool = false, action: @escaping () -> Void) {
+        self.title = title
+        self.isDisabled = isDisabled
+        self.action = action
+    }
 
     var body: some View {
         Button(action: action) {
@@ -12,10 +19,11 @@ struct CheckoutPrimaryButton: View {
                 .foregroundColor(AppColors.textWhite)
                 .frame(maxWidth: .infinity)
                 .frame(height: 58)
-                .background(AppColors.primary)
+                .background(isDisabled ? AppColors.textSecondary : AppColors.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .shadow(color: AppColors.primary.opacity(0.28), radius: 16, x: 0, y: 10)
+                .shadow(color: (isDisabled ? Color.clear : AppColors.primary.opacity(0.28)), radius: 16, x: 0, y: 10)
         }
+        .disabled(isDisabled)
         .buttonStyle(CheckoutPrimaryButtonStyle())
         .accessibilityLabel(title)
     }

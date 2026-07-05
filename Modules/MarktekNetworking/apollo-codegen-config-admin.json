@@ -1,0 +1,21 @@
+{
+  "schemaNamespace": "ShopifyAdminAPI",
+  "input": {
+    "schemaSearchPaths": ["GraphQL/Admin/schema.graphqls"],
+    "operationSearchPaths": ["GraphQL/Admin/**/*.graphql"]
+  },
+  "output": {
+    "schemaTypes": {
+      "path": "./Sources/ShopifyAdminAPI",
+      "moduleType": {
+        "other": {}
+      }
+    },
+    "operations": {
+      "inSchemaModule": {}
+    },
+    "testMocks": {
+      "none": {}
+    }
+  }
+}

@@ -6,6 +6,10 @@ public final class ShopifyGraphQLClient {
     public static let shared = ShopifyGraphQLClient()
  
     private let apollo: ApolloClient
+
+    public var underlyingClient: ApolloClient {
+        apollo
+    }
  
     private init() {
         let store = ApolloStore(cache: InMemoryNormalizedCache())
