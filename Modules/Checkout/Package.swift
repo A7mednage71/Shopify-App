@@ -7,6 +7,7 @@ let package = Package(
     name: "Checkout",
     platforms: [
         .iOS(.v16),
+        .macOS(.v13),
     ],
     products: [
         .library(
@@ -26,6 +27,13 @@ let package = Package(
                 .product(name: "Common", package: "Common"),
                 .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                 .product(name: "Swinject", package: "Swinject"),
+            ]
+        ),
+        .testTarget(
+            name: "CheckoutTests",
+            dependencies: [
+                "Checkout",
+                .product(name: "Common", package: "Common"),
             ]
         ),
     ]

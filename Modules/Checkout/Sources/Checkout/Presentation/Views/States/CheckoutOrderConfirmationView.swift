@@ -5,7 +5,7 @@ struct CheckoutOrderConfirmationView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var hasAppeared = false
 
-    let route: CheckoutOrderConfirmationRoute
+    let confirmation: CheckoutOrderConfirmation
 
     var body: some View {
         ScrollView {
@@ -14,9 +14,9 @@ struct CheckoutOrderConfirmationView: View {
 
                 paymentCard
 
-                CheckoutProductsSection(lines: route.cart.lines)
+                CheckoutProductsSection(lines: confirmation.cart.lines)
 
-                CheckoutOrderSummarySection(cart: route.cart)
+                CheckoutOrderSummarySection(cart: confirmation.cart)
 
                 CheckoutPrimaryButton(title: CheckoutText.orderConfirmationDoneTitle) {
                     dismiss()
@@ -80,12 +80,12 @@ struct CheckoutOrderConfirmationView: View {
             VStack(spacing: 12) {
                 confirmationRow(
                     title: CheckoutText.paymentMethodTitle,
-                    value: route.paymentMethodTitle ?? CheckoutText.paymentMethodFallbackTitle
+                    value: confirmation.paymentMethodTitle
                 )
 
                 confirmationRow(
                     title: CheckoutText.totalTitle,
-                    value: route.cart.cost.totalAmount.checkoutFormattedCurrency(),
+                    value: confirmation.cart.cost.totalAmount.checkoutFormattedCurrency(),
                     isEmphasized: true
                 )
             }

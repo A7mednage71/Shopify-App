@@ -17,14 +17,18 @@ public enum CheckoutError: LocalizedError {
 
 public protocol CheckoutRemoteDataSource: Sendable {
     func createOrder(input: OrderCreateInput) async throws -> OrderDataModel
-    func getCustomerDetails(customerAccessToken: String) async throws -> CustomerDetailsDataModel
+    func getCustomerDetails() async throws -> CustomerDetailsDataModel
 }
 
 public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendable {
+    private let customerAccessTokenDataSource: CustomerAccessTokenDataSource
     
-    public init() {}
+    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource) {
+        self.customerAccessTokenDataSource = customerAccessTokenDataSource
+    }
 
-    public func getCustomerDetails(customerAccessToken: String) async throws -> CustomerDetailsDataModel {
+    public func getCustomerDetails() async throws -> CustomerDetailsDataModel {
+        let customerAccessToken = try await customerAccessTokenDataSource.customerAccessToken()
         let query = GetCustomerDetailsQuery(customerAccessToken: customerAccessToken)
         let data = try await ShopifyGraphQLClient.shared.fetch(query)
         

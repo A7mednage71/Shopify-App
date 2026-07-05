@@ -4,11 +4,11 @@ import SwiftUI
 struct CheckoutView: View {
     @StateObject private var viewModel: CheckoutViewModel
     @State private var hasLoadedContentAppeared = false
-    private let onOrderConfirmed: (CheckoutOrderConfirmationRoute) -> Void
+    private let onOrderConfirmed: (CheckoutOrderConfirmation) -> Void
 
     init(
         viewModel: CheckoutViewModel,
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void = { _ in }
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void = { _ in }
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.onOrderConfirmed = onOrderConfirmed
@@ -41,26 +41,26 @@ struct CheckoutView: View {
                 hasLoadedContentAppeared = true
             }
         }
-        .onChange(of: viewModel.orderConfirmationRoute?.id) { _ in
-            guard let route = viewModel.orderConfirmationRoute else { return }
-            onOrderConfirmed(route)
+        .onChange(of: viewModel.orderPlacement.confirmation?.id) { _ in
+            guard let confirmation = viewModel.orderPlacement.confirmation else { return }
+            onOrderConfirmed(confirmation)
         }
         .alert(
             CheckoutText.checkoutErrorTitle,
             isPresented: Binding(
-                get: { viewModel.checkoutErrorMessage != nil },
+                get: { viewModel.orderPlacement.errorMessage != nil },
                 set: { isPresented in
                     if !isPresented {
-                        viewModel.checkoutErrorMessage = nil
+                        viewModel.dismissCheckoutError()
                     }
                 }
             )
         ) {
             Button(CheckoutText.checkoutErrorDismissTitle, role: .cancel) {
-                viewModel.checkoutErrorMessage = nil
+                viewModel.dismissCheckoutError()
             }
         } message: {
-            Text(viewModel.checkoutErrorMessage ?? "")
+            Text(viewModel.orderPlacement.errorMessage ?? "")
         }
     }
 
@@ -70,8 +70,8 @@ struct CheckoutView: View {
         case .idle, .loading:
             CheckoutLoadingView()
 
-        case .success(let cart):
-            checkoutContent(cart: cart)
+        case .success(let loadedState):
+            checkoutContent(cart: loadedState.cart)
 
         case .failure(let message):
             CheckoutFailureView(message: message) {
@@ -90,8 +90,8 @@ struct CheckoutView: View {
                 CheckoutProductsSection(lines: cart.lines)
 
                 CheckoutPaymentMethodSection(
-                    methods: viewModel.paymentMethods,
-                    selectedType: viewModel.selectedPaymentMethodType,
+                    methods: viewModel.paymentSelection.methods,
+                    selectedType: viewModel.paymentSelection.selectedMethodType,
                     onSelect: viewModel.selectPaymentMethod(_:)
                 )
 
@@ -99,7 +99,7 @@ struct CheckoutView: View {
 
                 CheckoutPrimaryButton(
                     title: CheckoutText.checkoutButtonTitle,
-                    isDisabled: viewModel.isCheckoutButtonDisabled,
+                    isDisabled: viewModel.orderPlacement.isCheckoutButtonDisabled,
                     action: {
                         Task {
                             await viewModel.checkoutNow()

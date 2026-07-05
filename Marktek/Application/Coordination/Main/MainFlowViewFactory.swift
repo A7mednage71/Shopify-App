@@ -42,21 +42,20 @@ extension CartViewFactory {
 extension CheckoutViewFactory {
     @MainActor
     static func makeView(
-        cart: CartDetails,
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeCheckoutDestinationView(cart: cart, onOrderConfirmed: onOrderConfirmed)
+            .makeCheckoutDestinationView(onOrderConfirmed: onOrderConfirmed)
     }
 
     @MainActor
     static func makeOrderConfirmationView(
-        route: CheckoutOrderConfirmationRoute
+        confirmation: CheckoutOrderConfirmation
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeOrderConfirmationDestinationView(route: route)
+            .makeOrderConfirmationDestinationView(confirmation: confirmation)
     }
 }
 
