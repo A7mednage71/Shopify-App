@@ -1,4 +1,5 @@
 import Swinject
+import Favorites
 @MainActor
 enum HomeAssembler {
     static func resolveGetCollectionsUseCase() -> any GetCollectionsUseCaseProtocol {
@@ -30,6 +31,8 @@ enum HomeAssembler {
             HomeDataAssembly(),
             HomeDomainAssembly(),
             HomePresentationAssembly(),
+            FavoritesDataAssembly(),  
+            FavoritesDomainAssembly(),
         ])
     }
 }

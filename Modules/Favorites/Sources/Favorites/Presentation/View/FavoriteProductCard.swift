@@ -13,7 +13,7 @@ struct FavoriteProductCard: View {
     let onRemove: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 0) { 
             ZStack(alignment: .topTrailing) {
                 AsyncImage(url: URL(string: product.imageURL)) { image in
                     image.resizable().scaledToFill()
@@ -22,23 +22,33 @@ struct FavoriteProductCard: View {
                 }
                 .frame(height: 160)
                 .clipped()
-                .cornerRadius(12)
                 
                 Button(action: onRemove) {
                     Image(systemName: "heart.fill")
-                        .foregroundColor(.red)
+                        .foregroundColor(AppColors.error)
                         .padding(8)
-                        .background(Circle().fill(Color.white).shadow(radius: 2))
+                        .background(Circle().fill(AppColors.textWhite).shadow(radius: 2))
                 }
                 .padding(8)
             }
             
-            Text(product.title)
-                .font(.subheadline)
-                .lineLimit(2)
-            
-            PriceView(priceInUSD: product.price)
-                .font(.headline)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(product.title)
+                    .font(.subheadline)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                PriceView(priceInUSD: product.price) 
+                    .font(.headline)
+            }
+            .padding(12) 
         }
+        .background(Color(UIColor.systemBackground))
+        .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 2)
     }
 }

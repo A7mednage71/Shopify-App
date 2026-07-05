@@ -84,6 +84,7 @@ struct HomeView: View {
             await viewModel.loadCollections()
             await viewModel.loadTrendingProducts()
             await viewModel.loadSpecialOffers()
+            await viewModel.loadFavorites()
         }
         .overlay(
             SortMenuOverlay(

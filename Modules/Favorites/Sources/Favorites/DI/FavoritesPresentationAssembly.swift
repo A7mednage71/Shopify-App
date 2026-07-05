@@ -14,7 +14,7 @@ public final class FavoritesPresentationAssembly: Assembly {
         container.register(FavoritesViewModel.self) { resolver in
             let useCase = resolver.resolve(ManageFavoritesUseCase.self)!
             return FavoritesViewModel(useCase: useCase)
-        }
+        }.inObjectScope(.container)
         
         container.register(FavoritesViewFactory.self) { resolver in
             let viewModel = resolver.resolve(FavoritesViewModel.self)!

@@ -18,6 +18,7 @@ let package = Package(
     dependencies: [
         .package(path: "../MarktekNetworking"),
         .package(path: "../Common"),
+        .package(path: "../Favorites"),
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.9.1"),
         .package(url: "https://github.com/markiv/SwiftUI-Shimmer.git", from: "1.4.0")
     ],
@@ -30,7 +31,8 @@ let package = Package(
                 .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                 .product(name: "Common", package: "Common"),
                 .product(name: "Swinject", package: "Swinject"),
-                .product(name: "Shimmer", package: "SwiftUI-Shimmer")
+                .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
+                .product(name: "Favorites", package: "Favorites")
             ]
         ),
         

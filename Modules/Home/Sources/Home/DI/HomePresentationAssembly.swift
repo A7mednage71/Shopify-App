@@ -1,5 +1,5 @@
 import Swinject
-
+import Favorites
 @MainActor
 struct HomePresentationAssembly: Assembly {
     func assemble(container: Container) {
@@ -10,7 +10,8 @@ struct HomePresentationAssembly: Assembly {
                     searchProductsUseCase: r.resolve(SearchProductsUseCaseProtocol.self)!,
                     getTrendingProductsUseCase: r.resolve(GetTrendingProductsUseCaseProtocol.self)!,
                     getSpecialOffersUseCase: r.resolve(GetSpecialOffersUseCaseProtocol.self)!,
-                    getProductsByVendorUseCase: r.resolve(GetProductsByVendorUseCaseProtocol.self)!
+                    getProductsByVendorUseCase: r.resolve(GetProductsByVendorUseCaseProtocol.self)!,
+                    manageFavoritesUseCase: r.resolve(ManageFavoritesUseCase.self)!
                 )
             
         }

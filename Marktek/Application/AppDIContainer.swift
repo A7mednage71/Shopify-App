@@ -4,6 +4,7 @@ import ProductInfo
 import SwiftUI
 import Swinject
 import Settings
+import Favorites
 
 final class AppDIContainer {
     static let shared = AppDIContainer()
@@ -16,7 +17,10 @@ final class AppDIContainer {
         ProductInfoDataAssembly(),
         ProductInfoDomainAssembly(),
         ProductInfoPresentationAssembly(),
-        SettingsAssembly()
+        SettingsAssembly(),
+        FavoritesDataAssembly(),
+        FavoritesDomainAssembly(),
+        FavoritesPresentationAssembly()
     ])
 
     private init() {}

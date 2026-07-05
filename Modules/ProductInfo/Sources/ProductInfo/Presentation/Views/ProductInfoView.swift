@@ -26,6 +26,12 @@ struct ProductInfoView: View {
         ProductInfoStateContentView(
             state: viewModel.state,
             addToCartState: viewModel.addToCartState,
+            isFavorite: viewModel.isFavorite,
+                onFavoriteTap: { product in
+                    Task {
+                        await viewModel.toggleFavorite(product: product)
+                    }
+                },
             onCartTap: onCartTap,
             onAddToCart: { variant, quantity in
                 Task {

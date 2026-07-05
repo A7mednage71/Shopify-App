@@ -4,7 +4,8 @@ import Common
 struct OfferProductCard: View {
     
     let product: HomeProduct
-    @State private var isWishlisted = false
+    let isWishlisted: Bool
+    let onFavoriteTap: () -> Void
 
     var body: some View {
         
@@ -40,7 +41,7 @@ struct OfferProductCard: View {
                 }
 
                 // Wishlist
-                Button(action: { isWishlisted.toggle() }) {
+                Button(action: onFavoriteTap) {
                     Image(systemName: isWishlisted ? "heart.fill" : "heart")
                         .foregroundColor(isWishlisted ? .appPrimaryOrange : .appTextSecondary)
                         .font(.system(size: 14))

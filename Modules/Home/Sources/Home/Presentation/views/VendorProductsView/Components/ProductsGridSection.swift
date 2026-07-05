@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ProductsGridSection: View {
     let products: [ShopProduct]
+    let favoriteProductIDs: Set<String>
+    let onFavoriteTap: (ShopProduct) -> Void
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -11,10 +13,14 @@ struct ProductsGridSection: View {
     var body: some View {
         LazyVGrid(columns: columns, spacing: 20) {
             ForEach(products) { product in
-                ShopProductCard(product: product)
-                    .onTapGesture {
-                        print("Tapped product: \(product.title)")
-                    }
+                ShopProductCard(product: product,
+                                isWishlisted: favoriteProductIDs.contains(product.id),
+                                onFavoriteTap: {
+                    onFavoriteTap(product)
+                })
+                .onTapGesture {
+                    print("Tapped product: \(product.title)")
+                }
             }
         }
         .padding(.horizontal, 16)
