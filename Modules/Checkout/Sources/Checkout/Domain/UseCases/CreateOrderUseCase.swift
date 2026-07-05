@@ -5,7 +5,8 @@ protocol CreateOrderUseCaseProtocol: Sendable {
     func execute(
         cart: CartDetails,
         customerDetails: CustomerDetails,
-        paymentMethodType: CheckoutPaymentMethodType
+        paymentMethodType: CheckoutPaymentMethodType,
+        shippingMethod: CheckoutShippingMethod
     ) async throws -> Order
 }
 
@@ -35,25 +36,34 @@ enum CreateOrderUseCaseError: LocalizedError, Equatable {
 struct CreateOrderUseCase: CreateOrderUseCaseProtocol, Sendable {
     private let repository: CheckoutRepository
     private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
+    private let checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol
 
     init(
         repository: CheckoutRepository,
-        paymentStrategyProvider: CheckoutPaymentStrategyProvider
+        paymentStrategyProvider: CheckoutPaymentStrategyProvider,
+        checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol
     ) {
         self.repository = repository
         self.paymentStrategyProvider = paymentStrategyProvider
+        self.checkoutPricingUseCase = checkoutPricingUseCase
     }
 
     func execute(
         cart: CartDetails,
         customerDetails: CustomerDetails,
-        paymentMethodType: CheckoutPaymentMethodType
+        paymentMethodType: CheckoutPaymentMethodType,
+        shippingMethod: CheckoutShippingMethod
     ) async throws -> Order {
         let paymentStrategy = try paymentStrategyProvider.strategy(for: paymentMethodType)
+        let pricing = try await checkoutPricingUseCase.executeForOrder(
+            cart: cart,
+            shippingMethod: shippingMethod
+        )
         let input = try makeOrderCreateInput(
             cart: cart,
             customerDetails: customerDetails,
-            paymentStrategy: paymentStrategy
+            paymentStrategy: paymentStrategy,
+            pricing: pricing
         )
 
         return try await repository.createOrder(input: input)
@@ -62,7 +72,8 @@ struct CreateOrderUseCase: CreateOrderUseCaseProtocol, Sendable {
     private func makeOrderCreateInput(
         cart: CartDetails,
         customerDetails: CustomerDetails,
-        paymentStrategy: any CheckoutPaymentStrategy
+        paymentStrategy: any CheckoutPaymentStrategy,
+        pricing: CheckoutPricing
     ) throws -> OrderCreateInput {
         guard !cart.isEmpty else {
             throw CreateOrderUseCaseError.emptyCart
@@ -87,8 +98,6 @@ struct CreateOrderUseCase: CreateOrderUseCaseProtocol, Sendable {
         }
 
         let currency = try orderCurrency(from: cart)
-        let totalAmount = try decimalAmount(from: cart.cost.totalAmount)
-        let discount = try discountDetails(from: cart)
 
         return OrderCreateInput(
             currency: currency,
@@ -97,11 +106,17 @@ struct CreateOrderUseCase: CreateOrderUseCaseProtocol, Sendable {
             customerId: customerDetails.id,
             lineItems: lineItems,
             shippingAddress: shippingAddress(from: address),
-            shippingLine: nil,
-            discountAmount: discount.amount,
-            discountCode: discount.code,
+            shippingLines: [
+                shippingLine(
+                    from: pricing.shippingMethod,
+                    currencyCode: currency
+                )
+            ],
+            discountCode: pricing.orderDiscount,
             financialStatus: paymentStrategy.financialStatus,
-            totalAmount: totalAmount
+            transactionStatus: paymentStrategy.transactionStatus,
+            transactionGateway: paymentStrategy.gateway,
+            totalAmount: pricing.total
         )
     }
 
@@ -132,20 +147,17 @@ struct CreateOrderUseCase: CreateOrderUseCaseProtocol, Sendable {
         )
     }
 
-    private func discountDetails(from cart: CartDetails) throws -> (amount: Decimal?, code: String?) {
-        guard let activeDiscount = cart.discountCodes.first(where: \.applicable) else {
-            return (nil, nil)
-        }
-
-        let subtotal = try decimalAmount(from: cart.cost.subtotalAmount)
-        let total = try decimalAmount(from: cart.cost.totalAmount)
-        let discountAmount = subtotal - total
-
-        guard discountAmount > 0 else {
-            return (nil, nil)
-        }
-
-        return (discountAmount, activeDiscount.code)
+    private func shippingLine(
+        from method: CheckoutShippingMethod,
+        currencyCode: String
+    ) -> ShippingLineInput {
+        ShippingLineInput(
+            title: method.title,
+            code: method.code,
+            source: method.source,
+            amount: method.amount,
+            currencyCode: currencyCode
+        )
     }
 
     private func decimalAmount(from money: CartMoney) throws -> Decimal {

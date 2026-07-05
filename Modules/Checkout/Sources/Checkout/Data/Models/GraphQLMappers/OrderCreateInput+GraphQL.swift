@@ -37,52 +37,89 @@ extension OrderCreateInput {
             ))
         }
 
-        var discountInput: GraphQLNullable<ShopifyAdminAPI.OrderCreateDiscountCodeInput> = .none
-        if let discountCode = discountCode, let discountAmount = discountAmount, discountAmount > 0 {
-            let money = ShopifyAdminAPI.MoneyInput(
-                amount: discountAmount.description,
-                currencyCode: GraphQLEnum<ShopifyAdminAPI.CurrencyCode>(rawValue: currency)
+        let gqlShippingLines = shippingLines.map { shippingLine in
+            ShopifyAdminAPI.OrderCreateShippingLineInput(
+                code: .some(shippingLine.code),
+                priceSet: moneyBag(amount: shippingLine.amount, currencyCode: shippingLine.currencyCode),
+                source: .some(shippingLine.source),
+                title: shippingLine.title
             )
-            let moneyBag = ShopifyAdminAPI.MoneyBagInput(shopMoney: money)
-            let fixedDiscount = ShopifyAdminAPI.OrderCreateFixedDiscountCodeAttributesInput(
-                code: discountCode,
-                amountSet: .some(moneyBag)
-            )
-            discountInput = .some(ShopifyAdminAPI.OrderCreateDiscountCodeInput(
-                itemFixedDiscountCode: .some(fixedDiscount)
-            ))
         }
 
-        var transactionsInput: GraphQLNullable<[ShopifyAdminAPI.OrderCreateOrderTransactionInput]> = .none
-        if financialStatus == .paid {
-            let money = ShopifyAdminAPI.MoneyInput(
-                amount: totalAmount.description,
-                currencyCode: GraphQLEnum<ShopifyAdminAPI.CurrencyCode>(rawValue: currency)
-            )
-            let moneyBag = ShopifyAdminAPI.MoneyBagInput(shopMoney: money)
-            let tx = ShopifyAdminAPI.OrderCreateOrderTransactionInput(
-                amountSet: moneyBag,
-                gateway: .some("manual"),
-                kind: .some(GraphQLEnum<ShopifyAdminAPI.OrderTransactionKind>(.sale)),
-                status: .some(GraphQLEnum<ShopifyAdminAPI.OrderTransactionStatus>(.success)),
-                test: .none
-            )
-            transactionsInput = .some([tx])
+        let discountInput = discountCode.map { discountCode in
+            switch discountCode {
+            case .itemFixed(let code, let amount, let currencyCode):
+                let fixedDiscount = ShopifyAdminAPI.OrderCreateFixedDiscountCodeAttributesInput(
+                    code: code,
+                    amountSet: .some(moneyBag(amount: amount, currencyCode: currencyCode))
+                )
+
+                return ShopifyAdminAPI.OrderCreateDiscountCodeInput(
+                    itemFixedDiscountCode: .some(fixedDiscount)
+                )
+
+            case .itemPercentage(let code, let percentage):
+                let percentageDiscount = ShopifyAdminAPI.OrderCreatePercentageDiscountCodeAttributesInput(
+                    code: code,
+                    percentage: .some(percentage)
+                )
+
+                return ShopifyAdminAPI.OrderCreateDiscountCodeInput(
+                    itemPercentageDiscountCode: .some(percentageDiscount)
+                )
+
+            case .freeShipping(let code):
+                let freeShippingDiscount = ShopifyAdminAPI.OrderCreateFreeShippingDiscountCodeAttributesInput(
+                    code: code
+                )
+
+                return ShopifyAdminAPI.OrderCreateDiscountCodeInput(
+                    freeShippingDiscountCode: .some(freeShippingDiscount)
+                )
+            }
         }
+
+        let transaction = ShopifyAdminAPI.OrderCreateOrderTransactionInput(
+            amountSet: moneyBag(amount: totalAmount, currencyCode: currency),
+            gateway: .some(transactionGateway),
+            kind: .some(GraphQLEnum<ShopifyAdminAPI.OrderTransactionKind>(.sale)),
+            status: .some(GraphQLEnum<ShopifyAdminAPI.OrderTransactionStatus>(rawValue: transactionStatus.rawValue)),
+            test: .none
+        )
 
         return OrderCreateOrderInput(
             buyerAcceptsMarketing: .none,
             currency: .some(GraphQLEnum<ShopifyAdminAPI.CurrencyCode>(rawValue: currency)),
             customer: customerInput,
-            discountCode: discountInput,
+            discountCode: discountInput.map { GraphQLNullable.some($0) } ?? .none,
             email: email.map { .some($0) } ?? .none,
             financialStatus: .some(GraphQLEnum<ShopifyAdminAPI.OrderCreateFinancialStatus>(rawValue: financialStatus.rawValue)),
             lineItems: .some(gqlLineItems),
             phone: phone.map { .some($0) } ?? .none,
             shippingAddress: shippingAddressInput,
+            shippingLines: gqlShippingLines.isEmpty ? .none : .some(gqlShippingLines),
             taxesIncluded: .none,
             test: .none,
-            transactions: transactionsInput
+            transactions: .some([transaction])
         )
+    }
+
+    public func toGraphQLOptionsInput() -> GraphQLNullable<ShopifyAdminAPI.OrderCreateOptionsInput> {
+        .some(
+            ShopifyAdminAPI.OrderCreateOptionsInput(
+                inventoryBehaviour: .none,
+                sendReceipt: .some(sendReceipt),
+                sendFulfillmentReceipt: .some(sendFulfillmentReceipt)
+            )
+        )
+    }
+
+    private func moneyBag(amount: Foundation.Decimal, currencyCode: String) -> ShopifyAdminAPI.MoneyBagInput {
+        let money = ShopifyAdminAPI.MoneyInput(
+            amount: amount.description,
+            currencyCode: GraphQLEnum<ShopifyAdminAPI.CurrencyCode>(rawValue: currencyCode)
+        )
+
+        return ShopifyAdminAPI.MoneyBagInput(shopMoney: money)
     }
 }

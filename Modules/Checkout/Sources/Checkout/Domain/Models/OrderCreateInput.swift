@@ -7,11 +7,14 @@ public struct OrderCreateInput: Sendable {
     public let customerId: String?             
     public let lineItems: [LineItemInput]
     public let shippingAddress: ShippingAddressInput?
-    public let shippingLine: ShippingLineInput?
-    public let discountAmount: Decimal?         
-    public let discountCode: String?
+    public let shippingLines: [ShippingLineInput]
+    public let discountCode: OrderDiscountCodeInput?
     public let financialStatus: OrderFinancialStatus
-    public let totalAmount: Decimal         
+    public let transactionStatus: OrderTransactionStatus
+    public let transactionGateway: String
+    public let totalAmount: Decimal
+    public let sendReceipt: Bool
+    public let sendFulfillmentReceipt: Bool
 
     public init(
         currency: String,
@@ -20,11 +23,14 @@ public struct OrderCreateInput: Sendable {
         customerId: String?,
         lineItems: [LineItemInput],
         shippingAddress: ShippingAddressInput?,
-        shippingLine: ShippingLineInput?,
-        discountAmount: Decimal?,
-        discountCode: String?,
+        shippingLines: [ShippingLineInput],
+        discountCode: OrderDiscountCodeInput?,
         financialStatus: OrderFinancialStatus,
-        totalAmount: Decimal
+        transactionStatus: OrderTransactionStatus,
+        transactionGateway: String,
+        totalAmount: Decimal,
+        sendReceipt: Bool = true,
+        sendFulfillmentReceipt: Bool = false
     ) {
         self.currency = currency
         self.email = email
@@ -32,16 +38,24 @@ public struct OrderCreateInput: Sendable {
         self.customerId = customerId
         self.lineItems = lineItems
         self.shippingAddress = shippingAddress
-        self.shippingLine = shippingLine
-        self.discountAmount = discountAmount
+        self.shippingLines = shippingLines
         self.discountCode = discountCode
         self.financialStatus = financialStatus
+        self.transactionStatus = transactionStatus
+        self.transactionGateway = transactionGateway
         self.totalAmount = totalAmount
+        self.sendReceipt = sendReceipt
+        self.sendFulfillmentReceipt = sendFulfillmentReceipt
     }
 }
 
 public enum OrderFinancialStatus: String, Sendable {
     case paid = "PAID"
+    case pending = "PENDING"
+}
+
+public enum OrderTransactionStatus: String, Sendable {
+    case success = "SUCCESS"
     case pending = "PENDING"
 }
 
@@ -85,12 +99,20 @@ public struct ShippingAddressInput: Sendable {
 public struct ShippingLineInput: Sendable {
     public let title: String
     public let code: String
+    public let source: String
     public let amount: Decimal
     public let currencyCode: String
 
-    public init(title: String, code: String, amount: Decimal, currencyCode: String) {
+    public init(
+        title: String,
+        code: String,
+        source: String,
+        amount: Decimal,
+        currencyCode: String
+    ) {
         self.title = title
         self.code = code
+        self.source = source
         self.amount = amount
         self.currencyCode = currencyCode
     }
