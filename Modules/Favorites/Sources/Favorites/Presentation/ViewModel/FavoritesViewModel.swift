@@ -15,7 +15,7 @@ public final class FavoritesViewModel: ObservableObject {
     
     private let useCase: ManageFavoritesUseCase
     
-    public init(useCase: ManageFavoritesUseCase) {
+    nonisolated public init(useCase: ManageFavoritesUseCase) {
         self.useCase = useCase
     }
     
