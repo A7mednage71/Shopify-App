@@ -4,6 +4,7 @@ import Common
 struct VendorProductsView: View {
     let vendorName: String
     @ObservedObject var viewModel: HomeViewModel
+    var onProductTap: ((String) -> Void)? = nil
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -22,7 +23,7 @@ struct VendorProductsView: View {
                 } else if viewModel.vendorProducts.isEmpty {
                     VendorEmptyStateView()
                 } else {
-                    ProductsGridSection(products: viewModel.vendorProducts)
+                    ProductsGridSection(products: viewModel.vendorProducts, onProductTap: onProductTap)
                 }
             }
         }

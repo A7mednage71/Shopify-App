@@ -34,17 +34,15 @@ struct TrendingProductCard: View {
                                 .fill(Color.appBackgroundGray)
                                 .overlay(ProgressView().tint(.appTextTertiary))
                         default:
-                            Rectangle()
-                                .fill(Color.appBackgroundGray)
-                                .overlay(
-                                    Image(systemName: "photo")
-                                        .foregroundColor(.appTextTertiary)
-                                )
+                            Image("product_placeholder")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
                         }
                     }
                 } else {
-                    Rectangle()
-                        .fill(Color.appBackgroundGray)
+                    Image("product_placeholder")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
                 }
             }
             .frame(width: cardWidth, height: cardHeight)

@@ -4,6 +4,7 @@ import Common
 struct HomeMainContentView: View {
     @ObservedObject var viewModel: HomeViewModel
     var onProductTap: ((HomeProduct) -> Void)? = nil
+    var onProductTapByID: ((String) -> Void)? = nil
 
     var body: some View {
         Group {
@@ -24,6 +25,7 @@ struct HomeMainContentView: View {
             CategoriesListSection(
                 viewModel: viewModel,
                 categories: viewModel.categories,
+                onProductTap: onProductTapByID,
                 onCategoryTap: { collection in
                     print("Tapped Category: \(collection.title)")
                 }
@@ -38,6 +40,7 @@ struct HomeMainContentView: View {
                 BrandsListSection(
                     viewModel: viewModel,
                     brands: viewModel.brands,
+                    onProductTap: onProductTapByID,
                     onBrandTap: { collection in
                         print("Tapped Brand: \(collection.title)")
                     }

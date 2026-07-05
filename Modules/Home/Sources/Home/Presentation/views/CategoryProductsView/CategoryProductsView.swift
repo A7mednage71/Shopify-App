@@ -4,6 +4,7 @@ import Common
 struct CategoryProductsView: View {
     let category: Collection
     @ObservedObject var viewModel: HomeViewModel
+    var onProductTap: ((String) -> Void)? = nil
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -20,7 +21,7 @@ struct CategoryProductsView: View {
                 } else if viewModel.vendorProducts.isEmpty {
                     CategoryEmptyStateView(categoryName: category.title)
                 } else {
-                    ProductsGridSection(products: viewModel.vendorProducts)
+                    ProductsGridSection(products: viewModel.vendorProducts, onProductTap: onProductTap)
                 }
             }
         }
@@ -69,9 +70,10 @@ struct CategoryEmptyStateView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: "cart.badge.questionmark")
-                .font(.system(size: 50, weight: .light))
-                .foregroundColor(.appBorderMedium)
+            Image("no_products")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 120, height: 120)
                 .padding(.top, 60)
             
             Text("No products found")

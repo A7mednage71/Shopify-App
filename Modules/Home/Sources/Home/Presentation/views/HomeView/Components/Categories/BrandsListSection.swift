@@ -6,13 +6,14 @@ import Common
 struct BrandsListSection: View {
     let viewModel: HomeViewModel
     let brands: [Collection]
+    var onProductTap: ((String) -> Void)? = nil
     var onBrandTap: ((Collection) -> Void)? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
                 ForEach(brands) { brand in
-                    NavigationLink(destination: VendorProductsView(vendorName: brand.title, viewModel: viewModel)) {
+                    NavigationLink(destination: VendorProductsView(vendorName: brand.title, viewModel: viewModel, onProductTap: onProductTap)) {
                         BrandItem(brand: brand)
                     }
                     .buttonStyle(.plain)
@@ -23,7 +24,7 @@ struct BrandsListSection: View {
         }
         .background(Color.appBackgroundWhite)
         .cornerRadius(12)
-        .padding(.horizontal, 16)
+        .padding(.leading, 16)
     }
 }
 
@@ -34,25 +35,45 @@ struct BrandItem: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            AsyncImage(url: URL(string: brand.imageURL ?? "")) { image in
-                image
+            if let imageURL = brand.imageURL, let url = URL(string: imageURL) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    case .empty:
+                        Circle()
+                            .fill(Color.appBackgroundGray)
+                            .overlay(
+                                ProgressView()
+                                    .tint(.appPrimaryOrange)
+                            )
+                    case .failure:
+                        Image("category_placeholder")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+                .frame(width: 58, height: 58)
+                .clipShape(Circle())
+                .overlay(
+                    Circle()
+                        .stroke(Color.appPrimaryOrange, lineWidth: 1.5)
+                )
+            } else {
+                Image("category_placeholder")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-            } placeholder: {
-                Circle()
-                    .fill(Color.appBackgroundGray)
+                    .frame(width: 58, height: 58)
+                    .clipShape(Circle())
                     .overlay(
-                        Image(systemName: "tag.fill")
-                            .foregroundColor(.appTextTertiary)
-                            .font(.system(size: 22))
+                        Circle()
+                            .stroke(Color.appPrimaryOrange, lineWidth: 1.5)
                     )
             }
-            .frame(width: 58, height: 58)
-            .clipShape(Circle())
-            .overlay(
-                Circle()
-                    .stroke(Color.appBorderLight, lineWidth: 1)
-            )
 
             Text(brand.title)
                 .categoryLabelStyle()
