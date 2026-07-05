@@ -153,3 +153,4 @@ google-services.json
 
 Config/
 Modules/MarktekNetworking/apollo-codegen-config.local.json
+Modules/MarktekNetworking/apollo-codegen-config-admin.local.json
