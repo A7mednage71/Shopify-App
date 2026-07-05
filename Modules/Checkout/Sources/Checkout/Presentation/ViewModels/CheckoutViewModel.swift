@@ -118,7 +118,7 @@ public final class CheckoutViewModel: ObservableObject {
         loadedState: CheckoutLoadedState,
         pricing: CheckoutPricing
     ) async throws {
-        _ = try await createOrderUseCase.execute(
+        let order = try await createOrderUseCase.execute(
             cart: loadedState.cart,
             customerDetails: loadedState.customerDetails,
             paymentMethodType: paymentSelection.selectedMethodType,
@@ -127,6 +127,7 @@ public final class CheckoutViewModel: ObservableObject {
 
         orderPlacement.confirm(
             CheckoutOrderConfirmation(
+                order: order,
                 cart: loadedState.cart,
                 paymentMethodTitle: paymentSelection.selectedMethodTitle,
                 pricing: pricing

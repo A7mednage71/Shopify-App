@@ -89,15 +89,18 @@ struct CheckoutOrderPlacementState {
 
 public struct CheckoutOrderConfirmation: Identifiable {
     public let id = UUID()
+    let order: Order
     let cart: CartDetails
     let paymentMethodTitle: String
     let pricing: CheckoutPricing
 
     init(
+        order: Order,
         cart: CartDetails,
         paymentMethodTitle: String,
         pricing: CheckoutPricing
     ) {
+        self.order = order
         self.cart = cart
         self.paymentMethodTitle = paymentMethodTitle
         self.pricing = pricing

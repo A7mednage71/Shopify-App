@@ -83,15 +83,35 @@ struct CheckoutOrderConfirmationView: View {
 
             VStack(spacing: 12) {
                 confirmationRow(
+                    title: CheckoutText.orderNameTitle,
+                    value: confirmation.order.name
+                )
+
+                confirmationRow(
                     title: CheckoutText.paymentMethodTitle,
                     value: confirmation.paymentMethodTitle
                 )
 
                 confirmationRow(
+                    title: CheckoutText.financialStatusTitle,
+                    value: confirmation.order.financialStatus.checkoutOrderStatusTitle
+                )
+
+                confirmationRow(
+                    title: CheckoutText.fulfillmentStatusTitle,
+                    value: confirmation.order.fulfillmentStatus.checkoutOrderStatusTitle
+                )
+
+                if let email = confirmation.order.email, !email.isEmpty {
+                    confirmationRow(
+                        title: CheckoutText.orderEmailTitle,
+                        value: email
+                    )
+                }
+
+                confirmationRow(
                     title: CheckoutText.totalTitle,
-                    value: confirmation.pricing.total.checkoutFormattedCurrency(
-                        currencyCode: confirmation.pricing.currencyCode
-                    ),
+                    value: orderTotalText,
                     isEmphasized: true
                 )
             }
@@ -121,5 +141,19 @@ struct CheckoutOrderConfirmationView: View {
                 .multilineTextAlignment(.trailing)
                 .monospacedDigit()
         }
+    }
+
+    private var orderTotalText: String {
+        guard let total = Decimal(string: confirmation.order.totalPrice.replacingOccurrences(of: ",", with: "")) else {
+            return confirmation.pricing.total.checkoutFormattedCurrency(
+                currencyCode: confirmation.pricing.currencyCode
+            )
+        }
+
+        return total.checkoutFormattedCurrency(
+            currencyCode: confirmation.order.currencyCode.isEmpty
+                ? confirmation.pricing.currencyCode
+                : confirmation.order.currencyCode
+        )
     }
 }
