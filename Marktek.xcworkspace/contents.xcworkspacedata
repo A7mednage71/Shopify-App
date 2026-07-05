@@ -32,12 +32,6 @@
       location = "group:Modules/Authentication">
    </FileRef>
    <FileRef
-      location = "group:Modules/Home">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Onboarding">
-   </FileRef>
-   <FileRef
       location = "container:Marktek.xcodeproj">
    </FileRef>
 </Workspace>

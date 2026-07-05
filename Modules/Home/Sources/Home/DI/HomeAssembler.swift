@@ -1,5 +1,5 @@
 import Swinject
-
+@MainActor
 enum HomeAssembler {
     static func resolveGetCollectionsUseCase() -> any GetCollectionsUseCaseProtocol {
         makeAssembler().resolver.resolve(GetCollectionsUseCaseProtocol.self)!
@@ -25,7 +25,6 @@ enum HomeAssembler {
     static func resolveHomeViewModel() -> HomeViewModel {
         makeAssembler().resolver.resolve(HomeViewModel.self)!
     }
-
     private static func makeAssembler() -> Assembler {
         Assembler([
             HomeDataAssembly(),
