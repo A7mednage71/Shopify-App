@@ -11,4 +11,5 @@ public typealias CartProductSummary = Common.CartProductSummary
 public typealias CartProductVariant = Common.CartProductVariant
 public typealias CartSelectedOption = Common.CartSelectedOption
 public typealias CartVariantImage = Common.CartVariantImage
+public typealias CreateCartUseCaseProtocol = Common.CreateCartUseCaseProtocol
 public typealias GetCurrentCartUseCaseProtocol = Common.GetCurrentCartUseCaseProtocol

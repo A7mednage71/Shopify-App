@@ -34,6 +34,7 @@ public final class AdminInterceptorProvider: InterceptorProvider {
             CacheReadInterceptor(store: store),
             ShopifyAdminHeaderInterceptor(),
             NetworkFetchInterceptor(client: client),
+            GraphQLResponseLoggingInterceptor(clientName: "Admin"),
             ResponseCodeInterceptor(),
             MultipartResponseParsingInterceptor(),
             JSONResponseParsingInterceptor(),

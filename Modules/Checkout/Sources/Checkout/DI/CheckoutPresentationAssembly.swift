@@ -5,12 +5,14 @@ public struct CheckoutPresentationAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        container.register(CheckoutPaymentStrategyProvider.self) { _ in
-            CheckoutPaymentStrategyProvider()
+        container.register(CustomerAccessTokenDataSource.self) { _ in
+            DummyCustomerAccessTokenDataSource()
         }
 
-        container.register(CheckoutRemoteDataSource.self) { _ in
-            ShopifyCheckoutRemoteDataSource()
+        container.register(CheckoutRemoteDataSource.self) { resolver in
+            ShopifyCheckoutRemoteDataSource(
+                customerAccessTokenDataSource: resolver.resolve(CustomerAccessTokenDataSource.self)!
+            )
         }
 
         container.register(CheckoutRepository.self) { resolver in
@@ -18,10 +20,27 @@ public struct CheckoutPresentationAssembly: Assembly {
                 remoteDataSource: resolver.resolve(CheckoutRemoteDataSource.self)!
             )
         }
-        
+
+        container.register(CheckoutPaymentStrategyProvider.self) { _ in
+            CheckoutPaymentStrategyProvider()
+        }
+
+        container.register(CheckoutPricingUseCaseProtocol.self) { resolver in
+            CheckoutPricingUseCase(
+                repository: resolver.resolve(CheckoutRepository.self)!
+            )
+        }
+
+        container.register(CheckoutPaymentAuthorizing.self) { _ in
+            ApplePayPaymentAuthorizer()
+        }
+
         container.register(CreateOrderUseCaseProtocol.self) { resolver in
             CreateOrderUseCase(
-                repository: resolver.resolve(CheckoutRepository.self)!
+                repository: resolver.resolve(CheckoutRepository.self)!,
+                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
+                checkoutPricingUseCase: resolver.resolve(CheckoutPricingUseCaseProtocol.self)!,
+                createCartUseCase: resolver.resolve(CreateCartUseCaseProtocol.self)!
             )
         }
 
@@ -33,9 +52,11 @@ public struct CheckoutPresentationAssembly: Assembly {
 
         container.register(CheckoutViewModelFactory.self) { resolver in
             CheckoutViewModelFactory(
-                paymentStrategyProvider: resolver.resolve(CheckoutPaymentStrategyProvider.self)!,
+                getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
                 createOrderUseCase: resolver.resolve(CreateOrderUseCaseProtocol.self)!,
-                getCustomerDetailsUseCase: resolver.resolve(GetCustomerDetailsUseCaseProtocol.self)!
+                getCustomerDetailsUseCase: resolver.resolve(GetCustomerDetailsUseCaseProtocol.self)!,
+                checkoutPricingUseCase: resolver.resolve(CheckoutPricingUseCaseProtocol.self)!,
+                paymentAuthorizer: resolver.resolve(CheckoutPaymentAuthorizing.self)!
             )
         }
 

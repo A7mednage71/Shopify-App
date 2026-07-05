@@ -4,11 +4,11 @@ import SwiftUI
 struct CheckoutView: View {
     @StateObject private var viewModel: CheckoutViewModel
     @State private var hasLoadedContentAppeared = false
-    private let onOrderConfirmed: (CheckoutOrderConfirmationRoute) -> Void
+    private let onOrderConfirmed: (CheckoutOrderConfirmation) -> Void
 
     init(
         viewModel: CheckoutViewModel,
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void = { _ in }
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void = { _ in }
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.onOrderConfirmed = onOrderConfirmed
@@ -21,6 +21,11 @@ struct CheckoutView: View {
 
             content
                 .transition(.opacity.combined(with: .scale(scale: 0.98)))
+
+            if let loadingMessage = viewModel.orderPlacement.loadingMessage {
+                CheckoutProcessingOverlay(message: loadingMessage)
+                    .zIndex(1)
+            }
         }
         .navigationTitle(CheckoutText.navigationTitle)
         .checkoutNavigationTitleStyle()
@@ -29,6 +34,7 @@ struct CheckoutView: View {
         }
         .animation(.easeInOut(duration: 0.22), value: viewModel.state)
         .animation(.easeInOut(duration: 0.22), value: viewModel.addressState)
+        .animation(.easeInOut(duration: 0.18), value: viewModel.orderPlacement.isPlacingOrder)
         .onChange(of: viewModel.state) { state in
             guard case .success = state else {
                 hasLoadedContentAppeared = false
@@ -41,26 +47,26 @@ struct CheckoutView: View {
                 hasLoadedContentAppeared = true
             }
         }
-        .onChange(of: viewModel.orderConfirmationRoute?.id) { _ in
-            guard let route = viewModel.orderConfirmationRoute else { return }
-            onOrderConfirmed(route)
+        .onChange(of: viewModel.orderPlacement.confirmation?.id) { _ in
+            guard let confirmation = viewModel.orderPlacement.confirmation else { return }
+            onOrderConfirmed(confirmation)
         }
         .alert(
             CheckoutText.checkoutErrorTitle,
             isPresented: Binding(
-                get: { viewModel.checkoutErrorMessage != nil },
+                get: { viewModel.orderPlacement.errorMessage != nil },
                 set: { isPresented in
                     if !isPresented {
-                        viewModel.checkoutErrorMessage = nil
+                        viewModel.dismissCheckoutError()
                     }
                 }
             )
         ) {
             Button(CheckoutText.checkoutErrorDismissTitle, role: .cancel) {
-                viewModel.checkoutErrorMessage = nil
+                viewModel.dismissCheckoutError()
             }
         } message: {
-            Text(viewModel.checkoutErrorMessage ?? "")
+            Text(viewModel.orderPlacement.errorMessage ?? "")
         }
     }
 
@@ -70,8 +76,8 @@ struct CheckoutView: View {
         case .idle, .loading:
             CheckoutLoadingView()
 
-        case .success(let cart):
-            checkoutContent(cart: cart)
+        case .success(let loadedState):
+            checkoutContent(cart: loadedState.cart)
 
         case .failure(let message):
             CheckoutFailureView(message: message) {
@@ -89,17 +95,28 @@ struct CheckoutView: View {
 
                 CheckoutProductsSection(lines: cart.lines)
 
+                CheckoutShippingMethodSection(
+                    methods: viewModel.shippingSelection.methods,
+                    selectedMethod: viewModel.shippingSelection.selectedMethod,
+                    currencyCode: cart.cost.subtotalAmount.currencyCode,
+                    onSelect: viewModel.selectShippingMethod(_:)
+                )
+
                 CheckoutPaymentMethodSection(
-                    methods: viewModel.paymentMethods,
-                    selectedType: viewModel.selectedPaymentMethodType,
+                    methods: viewModel.paymentSelection.methods,
+                    selectedType: viewModel.paymentSelection.selectedMethodType,
                     onSelect: viewModel.selectPaymentMethod(_:)
                 )
 
-                CheckoutOrderSummarySection(cart: cart)
+                CheckoutOrderSummarySection(
+                    cart: cart,
+                    selectedShippingMethod: viewModel.shippingSelection.selectedMethod,
+                    pricing: viewModel.shippingSelection.pricing
+                )
 
                 CheckoutPrimaryButton(
                     title: CheckoutText.checkoutButtonTitle,
-                    isDisabled: viewModel.isCheckoutButtonDisabled,
+                    isDisabled: viewModel.orderPlacement.isCheckoutButtonDisabled || viewModel.shippingSelection.pricing == nil,
                     action: {
                         Task {
                             await viewModel.checkoutNow()
