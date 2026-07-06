@@ -10,6 +10,7 @@ struct AssistantInputBarView: View {
     var body: some View {
         HStack(spacing: 12) {
             TextField("Type your message... e.g. Black Nike size 42", text: $text)
+                .font(.assistantInput)
                 .padding(12)
                 .background(AppColors.backgroundSecondary)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -21,7 +22,7 @@ struct AssistantInputBarView: View {
 
             Button(action: onSend) {
                 Image(systemName: "paperplane.fill")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.buttonPrimary)
                     .foregroundColor(.white)
                     .padding(12)
                     .background(

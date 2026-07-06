@@ -42,7 +42,7 @@ struct ProductCardView: View {
         VStack(spacing: 8) {
             if let vendor = product.vendor, !vendor.isEmpty {
                 Text(vendor.uppercased())
-                    .font(.system(size: 8, weight: .bold))
+                    .font(.assistantProductBadge)
                     .foregroundColor(AppColors.primary)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
@@ -77,7 +77,7 @@ struct ProductCardView: View {
 
               VStack(spacing: 4) {
                   Text(product.title)
-                      .font(.system(size: 11, weight: .bold))
+                      .font(.assistantProductTitle)
                       .multilineTextAlignment(.center)
                       .foregroundColor(AppColors.textPrimary)
                       .lineLimit(2)
@@ -85,20 +85,20 @@ struct ProductCardView: View {
 
                   if !subtitleLabel.isEmpty {
                       Text(subtitleLabel)
-                          .font(.system(size: 9))
+                          .font(.assistantProductSubtitle)
                           .foregroundColor(AppColors.textSecondary)
                           .lineLimit(1)
                   }
 
                   if !sizesLabel.isEmpty {
                       Text("Sizes: \(sizesLabel)")
-                          .font(.system(size: 8, design: .monospaced))
+                          .font(.assistantProductSizes)
                           .foregroundColor(AppColors.textSecondary)
                           .lineLimit(1)
                   }
 
                   Text("\(priceLabel) \(product.currencyCode)")
-                      .font(.system(size: 12, weight: .black, design: .monospaced))
+                      .font(.assistantProductPrice)
                       .foregroundColor(AppColors.primary)
                       .padding(.top, 2)
               }

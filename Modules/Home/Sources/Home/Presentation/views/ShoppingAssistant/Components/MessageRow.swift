@@ -27,7 +27,7 @@ struct MessageRow: View {
             if message.role == .assistant {
                 // AI Sparkle Avatar
                 Image(systemName: "sparkles")
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.assistantButtonSmall)
                     .foregroundColor(.white)
                     .padding(8)
                     .background(AppColors.primary)
@@ -39,7 +39,7 @@ struct MessageRow: View {
 
             VStack(alignment: message.role == .user ? .trailing : .leading, spacing: 8) {
                 Text(message.text)
-                    .font(.system(size: 14.5, weight: .medium))
+                    .font(.assistantBubble)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
                     .background(message.role == .user ? AppColors.primary : AppColors.background)
@@ -61,9 +61,8 @@ struct MessageRow: View {
                 if !brandCollections.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Brands")
-                            .font(.system(size: 13, weight: .bold))
+                            .font(.assistantSectionTitle)
                             .foregroundColor(AppColors.textPrimary)
-                            .padding(.leading, 4)
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
@@ -85,7 +84,7 @@ struct MessageRow: View {
                 if !categoryCollections.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Categories")
-                            .font(.system(size: 13, weight: .bold))
+                            .font(.assistantSectionTitle)
                             .foregroundColor(AppColors.textPrimary)
                             .padding(.leading, 4)
                         

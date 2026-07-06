@@ -12,14 +12,14 @@ struct AssistantCatalogErrorView: View {
                 .font(.system(size: 44))
                 .foregroundColor(AppColors.error)
             Text(error)
-                .font(.system(size: 14))
+                .font(.assistantBubble)
                 .multilineTextAlignment(.center)
                 .foregroundColor(AppColors.textPrimary)
                 .padding(.horizontal, 24)
             
             Button(action: onRetry) {
                 Text("Retry")
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.buttonPrimary)
                     .foregroundColor(.white)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 10)

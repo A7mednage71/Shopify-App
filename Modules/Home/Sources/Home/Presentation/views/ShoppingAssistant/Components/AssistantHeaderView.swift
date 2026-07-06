@@ -10,27 +10,27 @@ struct AssistantHeaderView: View {
         HStack {
             Button(action: onDismiss) {
                 Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 24))
+                    .font(.assistantHeaderIcon)
                     .foregroundColor(AppColors.textSecondary)
             }
             .padding(.trailing, 8)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("Smart Shopping Assistant")
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.assistantTitle)
                     .foregroundColor(AppColors.textPrimary)
                 
                 if isCatalogLoading {
                     Text("Loading products catalog...")
-                        .font(.system(size: 10))
+                        .font(.assistantSubtitle)
                         .foregroundColor(AppColors.textSecondary.opacity(0.7))
                 } else if hasCatalogError {
                     Text("Failed to load products")
-                        .font(.system(size: 10))
+                        .font(.assistantSubtitle)
                         .foregroundColor(AppColors.error)
                 } else {
                     Text("Active · Shopify Catalog Synced")
-                        .font(.system(size: 10))
+                        .font(.assistantSubtitle)
                         .foregroundColor(AppColors.success)
                 }
             }
@@ -38,7 +38,7 @@ struct AssistantHeaderView: View {
             Spacer()
 
             Text("AI POWERED")
-                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .font(.assistantHeaderBadge)
                 .foregroundColor(AppColors.primary)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 3)

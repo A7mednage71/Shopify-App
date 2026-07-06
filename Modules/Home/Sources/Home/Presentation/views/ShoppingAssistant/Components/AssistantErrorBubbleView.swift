@@ -8,12 +8,12 @@ struct AssistantErrorBubbleView: View {
     var body: some View {
         HStack(spacing: 8) {
             Text(error)
-                .font(.system(size: 13))
+                .font(.assistantErrorText)
                 .foregroundColor(.white)
             
             Button(action: onResend) {
                 Text("Resend")
-                    .font(.system(size: 11, weight: .bold))
+                    .font(.assistantButtonSmall)
                     .foregroundColor(AppColors.textWhite)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)

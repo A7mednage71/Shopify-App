@@ -9,7 +9,7 @@ struct AssistantCatalogLoadingView: View {
                 .tint(AppColors.primary)
                 .scaleEffect(1.2)
             Text("Syncing with Shopify catalog...")
-                .font(.system(size: 14, weight: .medium))
+                .font(.assistantBubble)
                 .foregroundColor(AppColors.textPrimary.opacity(0.8))
             Spacer()
         }
