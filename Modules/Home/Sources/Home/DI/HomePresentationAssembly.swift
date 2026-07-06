@@ -15,5 +15,14 @@ struct HomePresentationAssembly: Assembly {
                 )
             }
         }
+
+        container.register(ShoppingAssistantViewModel.self) { r in
+            MainActor.assumeIsolated {
+                ShoppingAssistantViewModel(
+                    getProductsUseCase: r.resolve(GetProductsUseCaseProtocol.self)!,
+                    getAssistantResponseUseCase: r.resolve(GetAssistantResponseUseCaseProtocol.self)!
+                )
+            }
+        }
     }
 }

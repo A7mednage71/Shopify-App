@@ -43,5 +43,17 @@ struct HomeDomainAssembly: Assembly {
                 repository: resolver.resolve(HomeRepository.self)!
             )
         }
+
+        container.register(GetProductsUseCaseProtocol.self) { resolver in
+            GetProductsUseCase(
+                repository: resolver.resolve(HomeRepository.self)!
+            )
+        }
+
+        container.register(GetAssistantResponseUseCaseProtocol.self) { resolver in
+            GetAssistantResponseUseCase(
+                repository: resolver.resolve(ShoppingAssistantRepository.self)!
+            )
+        }
     }
 }

@@ -12,37 +12,60 @@ struct HomeView: View {
         self.onProductTap = onProductTap
     }
 
+    @State private var showAssistant = false
+
     public var body: some View {
         NavigationView {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
+            ZStack(alignment: .bottomTrailing) {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
 
-                    SearchBarSection(searchText: $viewModel.searchText)
-                        .padding(.top, 10)
-                        .padding(.bottom, 16)
+                        SearchBarSection(searchText: $viewModel.searchText)
+                            .padding(.top, 10)
+                            .padding(.bottom, 16)
 
-                    SortAndFilterSearch(
-                        leadingLabel: viewModel.isSearching ? viewModel.resultCountLabel : HomeStrings.Category.sectionTitle,
-                        onSortTap: { viewModel.showSortSheet = true },
-                        onFilterTap: { viewModel.showFilterSheet = true },
-                        isSortEnabled: viewModel.isSearching,
-                        isFilterEnabled: viewModel.isSearching
-                    )
-                    .padding(.vertical, 8)
+                        SortAndFilterSearch(
+                            leadingLabel: viewModel.isSearching ? viewModel.resultCountLabel : HomeStrings.Category.sectionTitle,
+                            onSortTap: { viewModel.showSortSheet = true },
+                            onFilterTap: { viewModel.showFilterSheet = true },
+                            isSortEnabled: viewModel.isSearching,
+                            isFilterEnabled: viewModel.isSearching
+                        )
+                        .padding(.vertical, 8)
 
-                    if viewModel.isSearching {
-                        HomeSearchResultsView(viewModel: viewModel, onProductTap: { product in
-                            onProductTap?(product.id)
-                        })
-                        .padding(.bottom, 30)
-                    } else {
-                        HomeMainContentView(viewModel: viewModel, onProductTap: { product in
-                            onProductTap?(product.id)
-                        }, onProductTapByID: { productID in
-                            onProductTap?(productID)
-                        })
+                        if viewModel.isSearching {
+                            HomeSearchResultsView(viewModel: viewModel, onProductTap: { product in
+                                onProductTap?(product.id)
+                            })
+                            .padding(.bottom, 30)
+                        } else {
+                            HomeMainContentView(viewModel: viewModel, onProductTap: { product in
+                                onProductTap?(product.id)
+                            }, onProductTapByID: { productID in
+                                onProductTap?(productID)
+                            })
+                        }
                     }
                 }
+
+                // Floating Chatbot Button
+                Button(action: { showAssistant = true }) {
+                    Image(systemName: "bubble.left.and.bubble.right.fill")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundColor(.white)
+                        .padding(16)
+                        .background(
+                            LinearGradient(
+                                colors: [.appPrimaryOrange, .orange],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .clipShape(Circle())
+                        .shadow(color: Color.appPrimaryOrange.opacity(0.4), radius: 8, x: 0, y: 4)
+                }
+                .padding(.trailing, 20)
+                .padding(.bottom, 20)
             }
             .background(Color.appBackgroundGray)
             .navigationBarTitleDisplayMode(.inline)
@@ -108,6 +131,9 @@ struct HomeView: View {
                 onApply: { viewModel.applyFilter() },
                 onReset: { viewModel.resetFilters() }
             )
+        }
+        .sheet(isPresented: $showAssistant) {
+            HomeViewFactory.makeShoppingAssistantView()
         }
     }
 

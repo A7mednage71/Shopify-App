@@ -8,4 +8,11 @@ public enum HomeViewFactory {
             onProductTap: onProductTap
         )
     }
+
+    @MainActor
+    public static func makeShoppingAssistantView() -> some View {
+        ShoppingAssistantView(
+            viewModel: HomeAssembler.resolveShoppingAssistantViewModel()
+        )
+    }
 }

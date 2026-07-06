@@ -11,5 +11,15 @@ struct HomeDataAssembly: Assembly {
                 remoteDataSource: resolver.resolve(HomeRemoteDataSource.self)!
             )
         }
+
+        container.register(ShoppingAssistantRemoteDataSource.self) { _ in
+            GeminiShoppingAssistantRemoteDataSource()
+        }
+
+        container.register(ShoppingAssistantRepository.self) { resolver in
+            ShoppingAssistantRepositoryImpl(
+                remoteDataSource: resolver.resolve(ShoppingAssistantRemoteDataSource.self)!
+            )
+        }
     }
 }

@@ -4,6 +4,7 @@ protocol HomeRemoteDataSource: Sendable {
     func searchProducts(query: String, first: Int) async throws -> SearchResponseData
     func fetchProductsByVendor(query: String, first: Int) async throws -> [ShopProductNode]
     func fetchProductsByCategory(handle: String, first: Int) async throws -> [ShopProductNode]
+    func fetchProducts(first: Int) async throws -> [ShopProductNode]
     func fetchTrendingProducts(first: Int) async throws -> [HomeProductDataModel]
     func fetchSpecialOffers(first: Int) async throws -> [HomeProductDataModel]
 }
