@@ -8,7 +8,8 @@ final class HomeViewModel: ObservableObject {
 
     // MARK: - Published State
 
-    @Published private(set) var collections: [Collection] = []
+    @Published private(set) var categories: [Collection] = []
+    @Published private(set) var brands: [Collection] = []
     @Published private(set) var isLoading: Bool = false
     @Published var error: String? = nil
 
@@ -50,29 +51,35 @@ final class HomeViewModel: ObservableObject {
     @Published var favoriteProductIDs: Set<String> = []
     // MARK: - Use Cases
 
-    let getCollectionsUseCase: any GetCollectionsUseCaseProtocol
+    let getCategoriesUseCase: any GetCategoriesUseCaseProtocol
+    let getBrandsUseCase: any GetBrandsUseCaseProtocol
     let searchProductsUseCase: any SearchProductsUseCaseProtocol
     let getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
     let getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol
     let getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol
+    let getProductsByCategoryUseCase: any GetProductsByCategoryUseCaseProtocol
     let manageFavoritesUseCase: any ManageFavoritesUseCase
     // MARK: - Combine
 
     var cancellables = Set<AnyCancellable>()
 
     init(
-        getCollectionsUseCase: any GetCollectionsUseCaseProtocol,
+        getCategoriesUseCase: any GetCategoriesUseCaseProtocol,
+        getBrandsUseCase: any GetBrandsUseCaseProtocol,
         searchProductsUseCase: any SearchProductsUseCaseProtocol,
         getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol,
         getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol,
         getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol,
+        getProductsByCategoryUseCase: any GetProductsByCategoryUseCaseProtocol,
         manageFavoritesUseCase: any ManageFavoritesUseCase
     ) {
-        self.getCollectionsUseCase = getCollectionsUseCase
+        self.getCategoriesUseCase = getCategoriesUseCase
+        self.getBrandsUseCase = getBrandsUseCase
         self.searchProductsUseCase = searchProductsUseCase
         self.getTrendingProductsUseCase = getTrendingProductsUseCase
         self.getSpecialOffersUseCase = getSpecialOffersUseCase
         self.getProductsByVendorUseCase = getProductsByVendorUseCase
+        self.getProductsByCategoryUseCase = getProductsByCategoryUseCase
         self.manageFavoritesUseCase = manageFavoritesUseCase
         bindSearch()
     }
@@ -82,7 +89,12 @@ final class HomeViewModel: ObservableObject {
         isLoading = true
         error = nil
         do {
-            collections = try await getCollectionsUseCase.execute(first: 20)
+            async let categoriesTask = getCategoriesUseCase.execute(first: 20)
+            async let brandsTask = getBrandsUseCase.execute(first: 20)
+            
+            let (cats, brs) = try await (categoriesTask, brandsTask)
+            self.categories = cats
+            self.brands = brs
         } catch {
             self.error = error.localizedDescription
         }

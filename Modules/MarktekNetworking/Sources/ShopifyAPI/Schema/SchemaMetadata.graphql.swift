@@ -20,7 +20,7 @@ where Schema == ShopifyAPI.SchemaMetadata {}
 public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
   public static let configuration: ApolloAPI.SchemaConfiguration.Type = SchemaConfiguration.self
 
-  public static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
+  public static func objectType(forTypename typename: String) -> Object? {
     switch typename {
     case "Mutation": return ShopifyAPI.Objects.Mutation
     case "CartLinesRemovePayload": return ShopifyAPI.Objects.CartLinesRemovePayload
@@ -80,6 +80,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "CartDiscountCodesUpdatePayload": return ShopifyAPI.Objects.CartDiscountCodesUpdatePayload
     case "CartDiscountCode": return ShopifyAPI.Objects.CartDiscountCode
     case "QueryRoot": return ShopifyAPI.Objects.QueryRoot
+    case "CollectionConnection": return ShopifyAPI.Objects.CollectionConnection
     case "ProductConnection": return ShopifyAPI.Objects.ProductConnection
     case "ProductEdge": return ShopifyAPI.Objects.ProductEdge
     case "SearchResultItemConnection": return ShopifyAPI.Objects.SearchResultItemConnection
@@ -92,7 +93,6 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "PageInfo": return ShopifyAPI.Objects.PageInfo
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
-    case "CollectionConnection": return ShopifyAPI.Objects.CollectionConnection
     case "CartLinesUpdatePayload": return ShopifyAPI.Objects.CartLinesUpdatePayload
     default: return nil
     }

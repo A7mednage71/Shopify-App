@@ -1,18 +1,119 @@
 import Apollo
 import ApolloAPI
 import Foundation
+
+public final class GraphQLResponseLoggingInterceptor: ApolloInterceptor {
+    public var id: String = UUID().uuidString
+
+    private let clientName: String
+
+    public init(clientName: String) {
+        self.clientName = clientName
+    }
+
+    public func interceptAsync<Operation: GraphQLOperation>(
+        chain: RequestChain,
+        request: HTTPRequest<Operation>,
+        response: HTTPResponse<Operation>?,
+        completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void
+    ) {
+        #if DEBUG
+        if let response {
+            print(
+                [
+                    "[GraphQL][\(clientName)] \(Operation.operationName)",
+                    "Status: \(response.httpResponse.statusCode)",
+                    prettyPrintedBody(from: response.rawData)
+                ].joined(separator: "\n")
+            )
+        } else {
+            print("[GraphQL][\(clientName)] \(Operation.operationName)\nNo HTTP response yet.")
+        }
+        #endif
+
+        chain.proceedAsync(
+            request: request,
+            response: response,
+            interceptor: self,
+            completion: completion
+        )
+    }
+
+    private func prettyPrintedBody(from data: Data) -> String {
+        guard !data.isEmpty else {
+            return "Body: <empty>"
+        }
+
+        if let jsonObject = try? JSONSerialization.jsonObject(with: data),
+           let sanitizedObject = sanitizedGraphQLLogObject(jsonObject),
+           let prettyData = try? JSONSerialization.data(
+            withJSONObject: sanitizedObject,
+            options: [.prettyPrinted, .sortedKeys]
+           ),
+           let prettyString = String(data: prettyData, encoding: .utf8) {
+            return "Body:\n\(prettyString)"
+        }
+
+        if let body = String(data: data, encoding: .utf8) {
+            return "Body:\n\(body)"
+        }
+
+        return "Body: <\(data.count) bytes>"
+    }
+
+    private func sanitizedGraphQLLogObject(_ object: Any) -> Any? {
+        if let dictionary = object as? [String: Any] {
+            return dictionary.reduce(into: [String: Any]()) { result, pair in
+                guard pair.key != "__typename" else { return }
+                result[pair.key] = sanitizedGraphQLLogObject(pair.value) ?? pair.value
+            }
+        }
+
+        if let array = object as? [Any] {
+            return array.map { sanitizedGraphQLLogObject($0) ?? $0 }
+        }
+
+        return object
+    }
+}
+
+public final class StorefrontInterceptorProvider: InterceptorProvider {
+    private let store: ApolloStore
+    private let client: URLSessionClient
+
+    public init(store: ApolloStore, client: URLSessionClient = URLSessionClient()) {
+        self.store = store
+        self.client = client
+    }
+
+    public func interceptors<Operation: GraphQLOperation>(for operation: Operation) -> [any ApolloInterceptor] {
+        [
+            MaxRetryInterceptor(),
+            CacheReadInterceptor(store: store),
+            NetworkFetchInterceptor(client: client),
+            GraphQLResponseLoggingInterceptor(clientName: "Storefront"),
+            ResponseCodeInterceptor(),
+            MultipartResponseParsingInterceptor(),
+            JSONResponseParsingInterceptor(),
+            AutomaticPersistedQueryInterceptor(),
+            CacheWriteInterceptor(store: store)
+        ]
+    }
+}
  
 public final class ShopifyGraphQLClient {
     public static let shared = ShopifyGraphQLClient()
  
     private let apollo: ApolloClient
+
+    public var underlyingClient: ApolloClient {
+        apollo
+    }
  
     private init() {
         let store = ApolloStore(cache: InMemoryNormalizedCache())
  
-        let provider = DefaultInterceptorProvider(
-            store: store
-        )
+        let provider = StorefrontInterceptorProvider(store: store)
  
         let transport = RequestChainNetworkTransport(
             interceptorProvider: provider,

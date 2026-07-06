@@ -38,6 +38,8 @@ struct HomeView: View {
                     } else {
                         HomeMainContentView(viewModel: viewModel, onProductTap: { product in
                             onProductTap?(product.id)
+                        }, onProductTapByID: { productID in
+                            onProductTap?(productID)
                         })
                     }
                 }

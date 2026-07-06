@@ -14,29 +14,37 @@ struct ShopProductCard: View {
             ZStack(alignment: .topTrailing) {
                 
                 if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } placeholder: {
-                        Rectangle()
-                            .fill(Color.appBackgroundGray)
-                            .overlay(
-                                Image(systemName: "photo")
-                                    .foregroundColor(.appTextTertiary)
-                            )
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        case .empty:
+                            Rectangle()
+                                .fill(Color.appBackgroundGray)
+                                .overlay(
+                                    ProgressView()
+                                        .tint(.appPrimaryOrange)
+                                )
+                        case .failure(_):
+                            Image("product_placeholder")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                            
+                        @unknown default:
+                            EmptyView()
+                        }
                     }
                     .frame(width: 170, height: 180)
                     .clipped()
                     .cornerRadius(12)
                 } else {
-                    Rectangle()
-                        .fill(Color.appBackgroundGray)
-                        .overlay(
-                            Image(systemName: "photo")
-                                .foregroundColor(.appTextTertiary)
-                        )
+                    Image("product_placeholder")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 170, height: 180)
+                        .clipped()
                         .cornerRadius(12)
                 }
 

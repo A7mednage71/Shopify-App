@@ -3,117 +3,135 @@ import Foundation
 
 @MainActor
 public final class CheckoutViewModel: ObservableObject {
-    @Published public private(set) var state: CheckoutViewState = .idle
-    @Published public private(set) var addressState: CheckoutAddressViewState = .loading
-    @Published public private(set) var paymentMethods: [CheckoutPaymentMethod]
-    @Published public private(set) var selectedPaymentMethodType: CheckoutPaymentMethodType
-    @Published public var webCheckoutRoute: CheckoutWebCheckoutRoute?
-    @Published public var checkoutErrorMessage: String?
-    @Published var orderConfirmationRoute: CheckoutOrderConfirmationRoute?
+    @Published private(set) var state: CheckoutViewState = .idle
+    @Published private(set) var addressState: CheckoutAddressViewState = .loading
+    @Published private(set) var paymentSelection = CheckoutPaymentSelectionState()
+    @Published private(set) var shippingSelection = CheckoutShippingSelectionState()
+    @Published private(set) var orderPlacement = CheckoutOrderPlacementState()
 
-    private var isCompletingCheckout = false
     private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
-    private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
-    private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
+    private let createOrderUseCase: any CreateOrderUseCaseProtocol
+    private let getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol
+    private let checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol
+    private let paymentAuthorizer: any CheckoutPaymentAuthorizing
 
     init(
         getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
-        paymentStrategyProvider: CheckoutPaymentStrategyProvider,
-        performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
+        createOrderUseCase: any CreateOrderUseCaseProtocol,
+        getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol,
+        checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol,
+        paymentAuthorizer: any CheckoutPaymentAuthorizing
     ) {
         self.getCurrentCartUseCase = getCurrentCartUseCase
-        self.paymentStrategyProvider = paymentStrategyProvider
-        self.performCheckoutUseCase = performCheckoutUseCase
-        self.paymentMethods = paymentStrategyProvider.methods
-        self.selectedPaymentMethodType = paymentStrategyProvider.methods.first?.type ?? .card
+        self.createOrderUseCase = createOrderUseCase
+        self.getCustomerDetailsUseCase = getCustomerDetailsUseCase
+        self.checkoutPricingUseCase = checkoutPricingUseCase
+        self.paymentAuthorizer = paymentAuthorizer
     }
 
-    public var selectedPaymentMethod: CheckoutPaymentMethod? {
-        paymentMethods.first { $0.type == selectedPaymentMethodType }
-    }
-
-    public func load() async {
+    func load() async {
         state = .loading
         addressState = .loading
+        orderPlacement.dismissError()
+        shippingSelection.clearPricing()
 
         do {
-            let cart = try await getCurrentCartUseCase.execute()
-            addressState = .empty
-            state = .success(cart)
+            async let cart = getCurrentCartUseCase.execute()
+            async let customerDetails = getCustomerDetailsUseCase.execute()
+            let loadedState = try await CheckoutLoadedState(
+                cart: cart,
+                customerDetails: customerDetails
+            )
+
+            state = .success(loadedState)
+            addressState = loadedState.customerDetails.defaultAddress.map(CheckoutAddressViewState.success) ?? .empty
+            await refreshPricing(for: loadedState.cart)
         } catch {
-            addressState = .empty
+            addressState = .failure(error.localizedDescription)
             state = .failure(error.localizedDescription)
         }
     }
 
-    public func selectPaymentMethod(_ type: CheckoutPaymentMethodType) {
-        selectedPaymentMethodType = type
-        checkoutErrorMessage = nil
+    func selectPaymentMethod(_ type: CheckoutPaymentMethodType) {
+        paymentSelection.select(type)
+        orderPlacement.dismissError()
     }
 
-    public func checkoutNow() async {
-        guard case let .success(cart) = state else { return }
+    func selectShippingMethod(_ method: CheckoutShippingMethod) {
+        shippingSelection.select(method)
+        orderPlacement.dismissError()
 
-        checkoutErrorMessage = nil
-        orderConfirmationRoute = nil
-        isCompletingCheckout = false
+        guard let cart = state.loadedState?.cart else { return }
+
+        Task {
+            await refreshPricing(for: cart)
+        }
+    }
+
+    func checkoutNow() async {
+        guard let loadedState = state.loadedState,
+              let pricing = shippingSelection.pricing else { return }
+
+        orderPlacement.start(message: loadingMessage(for: paymentSelection.selectedMethodType))
 
         do {
-            let action = try await performCheckoutUseCase.execute(
-                paymentMethodType: selectedPaymentMethodType,
-                cart: cart
-            )
-
-            switch action {
-            case .none:
-                break
-            case .presentWebCheckout(let url):
-                webCheckoutRoute = CheckoutWebCheckoutRoute(url: url)
+            if paymentSelection.selectedMethodType == .applePay {
+                try await paymentAuthorizer.authorizeApplePay(
+                    cart: loadedState.cart,
+                    customerDetails: loadedState.customerDetails,
+                    pricing: pricing
+                )
+                orderPlacement.updateLoadingMessage(CheckoutText.placingOrderMessage)
             }
+
+            try await placeOrder(loadedState: loadedState, pricing: pricing)
+        } catch CheckoutPaymentAuthorizationError.userCancelled {
+            orderPlacement.cancel()
         } catch {
-            checkoutErrorMessage = error.localizedDescription
+            orderPlacement.fail(with: error.localizedDescription)
         }
     }
 
-    func checkoutCompleted(url: URL) {
-        guard !isCompletingCheckout,
-              case let .success(cart) = state else {
-            webCheckoutRoute = nil
-            return
-        }
+    func dismissCheckoutError() {
+        orderPlacement.dismissError()
+    }
 
-        isCompletingCheckout = true
-        webCheckoutRoute = nil
-
-        let confirmationRoute = CheckoutOrderConfirmationRoute(
-            completionURL: url,
+    private func refreshPricing(for cart: CartDetails) async {
+        let pricing = await checkoutPricingUseCase.execute(
             cart: cart,
-            paymentMethodTitle: selectedPaymentMethod?.title
+            shippingMethod: shippingSelection.selectedMethod
         )
 
-        Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 350_000_000)
-            orderConfirmationRoute = confirmationRoute
+        shippingSelection.updatePricing(pricing)
+    }
+
+    private func loadingMessage(for paymentMethodType: CheckoutPaymentMethodType) -> String {
+        switch paymentMethodType {
+        case .applePay:
+            return CheckoutText.openingApplePayMessage
+        case .cashOnDelivery:
+            return CheckoutText.placingOrderMessage
         }
     }
 
-    func dismissOrderConfirmation() {
-        orderConfirmationRoute = nil
-        isCompletingCheckout = false
+    private func placeOrder(
+        loadedState: CheckoutLoadedState,
+        pricing: CheckoutPricing
+    ) async throws {
+        let order = try await createOrderUseCase.execute(
+            cart: loadedState.cart,
+            customerDetails: loadedState.customerDetails,
+            paymentMethodType: paymentSelection.selectedMethodType,
+            shippingMethod: pricing.shippingMethod
+        )
+
+        orderPlacement.confirm(
+            CheckoutOrderConfirmation(
+                order: order,
+                cart: loadedState.cart,
+                paymentMethodTitle: paymentSelection.selectedMethodTitle,
+                pricing: pricing
+            )
+        )
     }
-}
-
-public struct CheckoutWebCheckoutRoute: Identifiable, Equatable {
-    public let url: URL
-
-    public var id: String {
-        url.absoluteString
-    }
-}
-
-public struct CheckoutOrderConfirmationRoute: Identifiable {
-    public let id = UUID()
-    let completionURL: URL
-    let cart: CartDetails
-    let paymentMethodTitle: String?
 }

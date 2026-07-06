@@ -5,7 +5,7 @@ import ApolloAPI
 
 public extension Objects {
   /// A company's main point of contact.
-  static let CompanyContact = ApolloAPI.Object(
+  static let CompanyContact = Object(
     typename: "CompanyContact",
     implementedInterfaces: [Interfaces.Node.self]
   )

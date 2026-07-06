@@ -15,6 +15,7 @@
 		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
 		0B0000012FF5000000000001 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0000022FF5000000000002 /* ProductInfo */; };
 		0B0000032FF5000000000003 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000042FF5000000000004 /* AppDIContainer.swift */; };
+		0B0000032FF5000000000011 /* NetworkingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000042FF5000000000011 /* NetworkingAssembly.swift */; };
 		0C0000012FF6000000000001 /* Checkout in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0000022FF6000000000002 /* Checkout */; };
 		0D1000132FF7000000000003 /* MainFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000032FF7000000000003 /* MainFlowView.swift */; };
 		0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D10000D2FF700000000000D /* MainFlowRoute.swift */; };
@@ -79,6 +80,7 @@
 		083555A02FF3A07D00083148 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0B0000042FF5000000000004 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
+		0B0000042FF5000000000011 /* NetworkingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingAssembly.swift; sourceTree = "<group>"; };
 		0D1000032FF7000000000003 /* MainFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowView.swift; sourceTree = "<group>"; };
 		0D10000D2FF700000000000D /* MainFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowRoute.swift; sourceTree = "<group>"; };
 		0D10000E2FF700000000000E /* MainFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinator.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		0E20000D2FF900000000000D /* ProfileFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowView.swift; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		610825582FF1882D002433CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		610825592FF1882D002433CB /* Marktek.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marktek.entitlements; sourceTree = "<group>"; };
 		6166538C2FEFCE9F00C605D3 /* Marktek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marktek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekApp.swift; sourceTree = "<group>"; };
 		616653962FEFCEA200C605D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -271,6 +274,7 @@
 			children = (
 				6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */,
 				0B0000042FF5000000000004 /* AppDIContainer.swift */,
+				0B0000042FF5000000000011 /* NetworkingAssembly.swift */,
 				0D1000202FF7000000000020 /* Coordination */,
 			);
 			path = Application;
@@ -311,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				610825582FF1882D002433CB /* Info.plist */,
+				610825592FF1882D002433CB /* Marktek.entitlements */,
 				2C90D2942FEFEEAA00FADB94 /* Resources */,
 				2C90D2152FEFD85300FADB94 /* Application */,
 				616653952FEFCEA200C605D3 /* Preview Content */,
@@ -509,6 +514,7 @@
 			files = (
 				616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */,
 				0B0000032FF5000000000003 /* AppDIContainer.swift in Sources */,
+				0B0000032FF5000000000011 /* NetworkingAssembly.swift in Sources */,
 				0D2000122FF8000000000002 /* AppFlowCoordinator.swift in Sources */,
 				0D2000132FF8000000000003 /* AppFlowView.swift in Sources */,
 				0D2000152FF8000000000005 /* AuthFlowCoordinator.swift in Sources */,
@@ -694,6 +700,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Marktek/Marktek.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -731,6 +738,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Marktek/Marktek.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

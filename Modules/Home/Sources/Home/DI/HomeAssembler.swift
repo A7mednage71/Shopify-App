@@ -2,8 +2,16 @@ import Swinject
 import Favorites
 @MainActor
 enum HomeAssembler {
-    static func resolveGetCollectionsUseCase() -> any GetCollectionsUseCaseProtocol {
-        makeAssembler().resolver.resolve(GetCollectionsUseCaseProtocol.self)!
+    static func resolveGetCategoriesUseCase() -> any GetCategoriesUseCaseProtocol {
+        makeAssembler().resolver.resolve(GetCategoriesUseCaseProtocol.self)!
+    }
+
+    static func resolveGetBrandsUseCase() -> any GetBrandsUseCaseProtocol {
+        makeAssembler().resolver.resolve(GetBrandsUseCaseProtocol.self)!
+    }
+
+    static func resolveGetProductsByCategoryUseCase() -> any GetProductsByCategoryUseCaseProtocol {
+        makeAssembler().resolver.resolve(GetProductsByCategoryUseCaseProtocol.self)!
     }
 
     static func resolveSearchProductsUseCase() -> any SearchProductsUseCaseProtocol {

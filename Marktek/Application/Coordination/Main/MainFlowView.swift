@@ -40,7 +40,7 @@ struct MainFlowView: View {
 
         case .cart:
             CartFlowView(
-                onCheckoutTap: cartCoordinator.showCheckout,
+                onCheckoutTap: { _ in cartCoordinator.showCheckout() },
                 onStartShoppingTap: showHomeRoot,
                 onProductTap: cartCoordinator.showProductDetails
             )
@@ -150,8 +150,8 @@ struct MainFlowView: View {
 
     @ViewBuilder
     private var cartOrderConfirmationDestination: some View {
-        if let route = cartCoordinator.orderConfirmationRoute {
-            CheckoutViewFactory.makeOrderConfirmationView(route: route)
+        if let confirmation = cartCoordinator.orderConfirmation {
+            CheckoutViewFactory.makeOrderConfirmationView(confirmation: confirmation)
         } else {
             EmptyView()
         }

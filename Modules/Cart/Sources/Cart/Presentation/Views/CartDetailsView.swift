@@ -3,13 +3,13 @@ import SwiftUI
 
 struct CartDetailsView: View {
     @StateObject private var viewModel: CartViewModel
-    private let onCheckoutTap: () -> Void
+    private let onCheckoutTap: (CartDetails) -> Void
     private let onStartShoppingTap: () -> Void
     private let onProductTap: (String) -> Void
 
     init(
         viewModel: CartViewModel,
-        onCheckoutTap: @escaping () -> Void,
+        onCheckoutTap: @escaping (CartDetails) -> Void,
         onStartShoppingTap: @escaping () -> Void,
         onProductTap: @escaping (String) -> Void
     ) {

@@ -6,7 +6,7 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type for paginating through multiple BaseCartLines.
   ///
-  static let BaseCartLineConnection = ApolloAPI.Object(
+  static let BaseCartLineConnection = Object(
     typename: "BaseCartLineConnection",
     implementedInterfaces: []
   )

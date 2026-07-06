@@ -6,7 +6,7 @@ import ApolloAPI
 public extension Objects {
   /// The minimum and maximum prices across all variants of a [`Product`](https://shopify.dev/docs/api/storefront/current/objects/Product).
   ///
-  static let ProductPriceRange = ApolloAPI.Object(
+  static let ProductPriceRange = Object(
     typename: "ProductPriceRange",
     implementedInterfaces: []
   )

@@ -2,25 +2,33 @@ import Common
 
 struct CheckoutViewModelFactory {
     private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
-    private let paymentStrategyProvider: CheckoutPaymentStrategyProvider
-    private let performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
+    private let createOrderUseCase: any CreateOrderUseCaseProtocol
+    private let getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol
+    private let checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol
+    private let paymentAuthorizer: any CheckoutPaymentAuthorizing
 
     init(
         getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol,
-        paymentStrategyProvider: CheckoutPaymentStrategyProvider,
-        performCheckoutUseCase: any PerformCheckoutUseCaseProtocol
+        createOrderUseCase: any CreateOrderUseCaseProtocol,
+        getCustomerDetailsUseCase: any GetCustomerDetailsUseCaseProtocol,
+        checkoutPricingUseCase: any CheckoutPricingUseCaseProtocol,
+        paymentAuthorizer: any CheckoutPaymentAuthorizing
     ) {
         self.getCurrentCartUseCase = getCurrentCartUseCase
-        self.paymentStrategyProvider = paymentStrategyProvider
-        self.performCheckoutUseCase = performCheckoutUseCase
+        self.createOrderUseCase = createOrderUseCase
+        self.getCustomerDetailsUseCase = getCustomerDetailsUseCase
+        self.checkoutPricingUseCase = checkoutPricingUseCase
+        self.paymentAuthorizer = paymentAuthorizer
     }
 
     @MainActor
     func makeViewModel() -> CheckoutViewModel {
         CheckoutViewModel(
             getCurrentCartUseCase: getCurrentCartUseCase,
-            paymentStrategyProvider: paymentStrategyProvider,
-            performCheckoutUseCase: performCheckoutUseCase
+            createOrderUseCase: createOrderUseCase,
+            getCustomerDetailsUseCase: getCustomerDetailsUseCase,
+            checkoutPricingUseCase: checkoutPricingUseCase,
+            paymentAuthorizer: paymentAuthorizer
         )
     }
 }

@@ -8,7 +8,7 @@ public extension Objects {
   ///
   /// Each blog provides access to its articles, contributing [`ArticleAuthor`](https://shopify.dev/docs/api/storefront/current/objects/ArticleAuthor) objects, and [`SEO`](https://shopify.dev/docs/api/storefront/current/objects/SEO) information. You can retrieve articles individually [by handle](https://shopify.dev/docs/api/storefront/current/objects/Blog#field-Blog.fields.articleByHandle) or as a [paginated list](https://shopify.dev/docs/api/storefront/current/objects/Blog#field-Blog.fields.articles).
   ///
-  static let Blog = ApolloAPI.Object(
+  static let Blog = Object(
     typename: "Blog",
     implementedInterfaces: [
       Interfaces.HasMetafields.self,

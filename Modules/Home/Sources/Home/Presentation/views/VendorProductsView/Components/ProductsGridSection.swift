@@ -4,6 +4,7 @@ struct ProductsGridSection: View {
     let products: [ShopProduct]
     let favoriteProductIDs: Set<String>
     let onFavoriteTap: (ShopProduct) -> Void
+    var onProductTap: ((String) -> Void)? = nil
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -19,7 +20,7 @@ struct ProductsGridSection: View {
                     onFavoriteTap(product)
                 })
                 .onTapGesture {
-                    print("Tapped product: \(product.title)")
+                        onProductTap?(product.id)
                 }
             }
         }

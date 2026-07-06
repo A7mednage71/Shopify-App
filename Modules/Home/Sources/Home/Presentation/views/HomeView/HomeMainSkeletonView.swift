@@ -20,6 +20,25 @@ struct HomeMainSkeletonView: View {
             )
             .padding(.bottom, 16)
 
+            VStack(alignment: .leading, spacing: 4) {
+                Text(HomeStrings.Category.brandsTitle)
+                    .sectionTitleStyle()
+                    .padding(.horizontal, 20)
+                
+                BrandsListSection(
+                    viewModel: viewModel,
+                    brands: [
+                        Collection(id: "b1", title: "Brand 1", handle: "brand-1", imageURL: nil),
+                        Collection(id: "b2", title: "Brand 2", handle: "brand-2", imageURL: nil),
+                        Collection(id: "b3", title: "Brand 3", handle: "brand-3", imageURL: nil),
+                        Collection(id: "b4", title: "Brand 4", handle: "brand-4", imageURL: nil),
+                        Collection(id: "b5", title: "Brand 5", handle: "brand-5", imageURL: nil)
+                    ],
+                    onBrandTap: { _ in }
+                )
+            }
+            .padding(.bottom, 16)
+
             HeroBannerSection(banners: MockShopifyData.heroBanners)
                 .padding(.bottom, 20)
 

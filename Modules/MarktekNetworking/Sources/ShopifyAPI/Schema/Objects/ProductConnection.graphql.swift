@@ -6,7 +6,7 @@ import ApolloAPI
 public extension Objects {
   /// An auto-generated type for paginating through multiple Products.
   ///
-  static let ProductConnection = ApolloAPI.Object(
+  static let ProductConnection = Object(
     typename: "ProductConnection",
     implementedInterfaces: []
   )

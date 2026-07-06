@@ -246,6 +246,8 @@ public final class CartViewModel: ObservableObject {
 
     private func syncDiscountCodeText(with cart: CartDetails) {
         guard let appliedCode = cart.discountCodes.first(where: \.applicable)?.code else {
+            discountCodeText = ""
+            discountCodeErrorMessage = nil
             return
         }
 
