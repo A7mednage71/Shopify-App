@@ -4,7 +4,7 @@
 //
 //  Created by Eyad waleed on 02/07/2026.
 //
-
+import Address
 import SwiftUI
 enum AuthRoute: Hashable {
     case login
@@ -13,7 +13,7 @@ enum AuthRoute: Hashable {
 
 public struct AuthFlowView: View {
     @State private var currentAuthScreen: AuthRoute = .login
-    
+     
     let onAuthenticated: () -> Void
     let onContinueAsGuest: () -> Void
     
@@ -24,35 +24,36 @@ public struct AuthFlowView: View {
         self.onAuthenticated = onAuthenticated
         self.onContinueAsGuest = onContinueAsGuest}
         
-        public var body: some View {
-            Group {
-                switch currentAuthScreen {
-                case .login:
-                    LoginView(
-                        onNavigateToRegister: {
-                            currentAuthScreen = .register
-                        },
-                        onGuestContinue: {
-                            onContinueAsGuest()
-                        },
-                        onLoginSuccess: {
-                            onAuthenticated()
+    public var body: some View {
+                    Group {
+                        switch currentAuthScreen {
+                        case .login:
+                            LoginView(
+                                onNavigateToRegister: {
+                                    currentAuthScreen = .register
+                                },
+                                onGuestContinue: {
+                                    onContinueAsGuest()
+                                },
+                                onLoginSuccess: {
+                                    onAuthenticated()
+                                }
+                            )
+                        case .register:
+                            RegisterView(
+                                onNavigateToLogin: {
+                                    currentAuthScreen = .login
+                                },
+                                onGuestContinue: {
+                                    onContinueAsGuest()
+                                },
+                                onRegisterSuccess: {
+                                    currentAuthScreen = .login
+                                }
+                            )
                         }
-                    )
-                case .register:
-                    RegisterView(
-                        onNavigateToLogin: {
-                            currentAuthScreen = .login
-                        },
-                        onGuestContinue: {
-                            onContinueAsGuest()
-                        },
-                        onRegisterSuccess: {
-                            currentAuthScreen = .login
-                        }
-                    )
-                }
-            }
-        }
+                    }
+      
+    }
     }
 

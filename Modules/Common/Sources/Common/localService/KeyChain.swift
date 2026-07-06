@@ -6,7 +6,7 @@
 //
 import Foundation
 import Security
-
+import Common
 public struct StoredCustomerToken: Codable {
     public let accessToken: String
     public let expiresAt: String
