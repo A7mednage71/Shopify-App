@@ -30,10 +30,20 @@ enum HomeAssembler {
         makeAssembler().resolver.resolve(GetProductsByVendorUseCaseProtocol.self)!
     }
 
+    static func resolveGetProductsUseCase() -> any GetProductsUseCaseProtocol {
+        makeAssembler().resolver.resolve(GetProductsUseCaseProtocol.self)!
+    }
+
     @MainActor
     static func resolveHomeViewModel() -> HomeViewModel {
         makeAssembler().resolver.resolve(HomeViewModel.self)!
     }
+
+    @MainActor
+    static func resolveShoppingAssistantViewModel() -> ShoppingAssistantViewModel {
+        makeAssembler().resolver.resolve(ShoppingAssistantViewModel.self)!
+    }
+
     private static func makeAssembler() -> Assembler {
         Assembler([
             HomeDataAssembly(),

@@ -1,11 +1,44 @@
-query GetProducts {
-  products(first: 10) {
+query GetProducts($first: Int!, $after: String) {
+  products(first: $first, after: $after) {
     edges {
+      cursor
       node {
         id
         title
+        description
         handle
+        vendor
+        productType
+        tags
+        availableForSale
+        options {
+          name
+          values
+        }
+        priceRange {
+          minVariantPrice { amount currencyCode }
+          maxVariantPrice { amount currencyCode }
+        }
+        images(first: 1) {
+          edges {
+            node {
+              url
+              altText
+            }
+          }
+        }
+        variants(first: 10) {
+          edges {
+            node {
+              id
+              title
+              availableForSale
+              price { amount currencyCode }
+            }
+          }
+        }
       }
     }
+    pageInfo { hasNextPage endCursor }
   }
 }

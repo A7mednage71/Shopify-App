@@ -13,6 +13,10 @@ struct HomeRepositoryImpl: HomeRepository, Sendable {
         try await remoteDataSource.fetchBrands(first: first).map { $0.toDomain() }
     }
 
+    func getProducts(first: Int) async throws -> [ShopProduct] {
+        try await remoteDataSource.fetchProducts(first: first).map { $0.toDomain() }
+    }
+
     func getProductsByCategory(handle: String) async throws -> [ShopProduct] {
         let response = try await remoteDataSource.fetchProductsByCategory(handle: handle, first: 20)
         return response.map { $0.toDomain() }
