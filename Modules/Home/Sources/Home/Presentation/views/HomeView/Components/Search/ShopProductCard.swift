@@ -36,14 +36,14 @@ struct ShopProductCard: View {
                             EmptyView()
                         }
                     }
-                    .frame(width: 170, height: 180)
+                    .frame(width: 170, height: 145)
                     .clipped()
                     .cornerRadius(12)
                 } else {
                     Image("product_placeholder")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 170, height: 180)
+                        .frame(width: 170, height: 145)
                         .clipped()
                         .cornerRadius(12)
                 }
@@ -60,7 +60,7 @@ struct ShopProductCard: View {
                 .padding(8)
             }
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 8) {
                 // Name
                 Text(product.title)
                     .font(.productName)
@@ -77,13 +77,13 @@ struct ShopProductCard: View {
                     .frame(width: 150, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
 
+                // Rating
                 HStack(spacing: 3) {
                     StarRatingView(rating: product.rating ?? 0.0, size: 10)
                     Text("(\(formatCount(product.reviewCount ?? 0)))")
                         .font(.reviewCount)
                         .foregroundColor(.appTextTertiary)
                 }
-                .padding(.top, 2)
 
                 Spacer(minLength: 2)
 
@@ -93,7 +93,6 @@ struct ShopProductCard: View {
                         .font(.productPrice)
                         .foregroundColor(.appTextPrimary)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.8)
 
                     if let compareAtPrice = product.compareAtPrice {
                         Text(compareAtPrice)
@@ -101,20 +100,25 @@ struct ShopProductCard: View {
                             .foregroundColor(.appTextStrikePrice)
                             .strikethrough(true, color: .appTextStrikePrice)
                             .lineLimit(1)
-                            .minimumScaleFactor(0.8)
                     }
 
                     Spacer(minLength: 0)
                 }
                 .frame(width: 150)
+                .padding(.bottom, 4)
+                .layoutPriority(1)
             }
             .padding(.horizontal, 8)
             .padding(.top, 6)
-            .padding(.bottom, 8)
+            .padding(.bottom, 12)
         }
         .frame(width: 170, height: 290)
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
+        )
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)
     }
 

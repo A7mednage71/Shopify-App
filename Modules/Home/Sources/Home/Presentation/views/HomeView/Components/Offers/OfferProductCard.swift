@@ -102,9 +102,13 @@ struct OfferProductCard: View {
             .padding(.top, 6)
             .padding(.bottom, 8)
         }
-        .frame(width: 170, height: 260)
+        .frame(width: 170, height: 280)
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
+        )
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)
     }
 
