@@ -3,9 +3,11 @@ import Common
 
 struct ProductCardView: View {
     let product: ShopProduct
+    let onTap: (String) -> Void
 
-    init(product: ShopProduct) {
+    init(product: ShopProduct, onTap: @escaping (String) -> Void) {
         self.product = product
+        self.onTap = onTap
     }
 
     private var sizesLabel: String {
@@ -110,5 +112,8 @@ struct ProductCardView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(AppColors.border.opacity(0.4), lineWidth: 1)
         )
+        .onTapGesture {
+            onTap(product.id)
+        }
     }
 }

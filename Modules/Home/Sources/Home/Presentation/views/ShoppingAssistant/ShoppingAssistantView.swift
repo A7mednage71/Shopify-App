@@ -4,9 +4,11 @@ import Common
 struct ShoppingAssistantView: View {
     @StateObject private var vm: ShoppingAssistantViewModel
     @Environment(\.presentationMode) var presentationMode
+    private let onProductTap: (String) -> Void
 
-    init(viewModel: ShoppingAssistantViewModel) {
+    init(viewModel: ShoppingAssistantViewModel, onProductTap: @escaping (String) -> Void) {
         _vm = StateObject(wrappedValue: viewModel)
+        self.onProductTap = onProductTap
     }
 
     public var body: some View {
@@ -51,8 +53,12 @@ struct ShoppingAssistantView: View {
             ScrollView {
                 VStack(spacing: 14) {
                     ForEach(vm.messages) { message in
-                        MessageRow(message: message, products: vm.products(for: message.productIds))
-                            .id(message.id)
+                        MessageRow(
+                            message: message,
+                            products: vm.products(for: message.productIds),
+                            onProductTap: onProductTap
+                        )
+                        .id(message.id)
                     }
 
                     if vm.isLoading {

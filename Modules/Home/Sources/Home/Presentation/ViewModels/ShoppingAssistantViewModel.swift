@@ -35,8 +35,8 @@ final class ShoppingAssistantViewModel: ObservableObject {
         isCatalogLoading = true
         catalogError = nil
         do {
-            // Fetch 100 products from Shopify Storefront API
-            let fetchedProducts = try await getProductsUseCase.execute(first: 100)
+            // Fetch 50 products from Shopify Storefront API
+            let fetchedProducts = try await getProductsUseCase.execute(first: 50)
             self.shopProductsCache = fetchedProducts
         } catch {
             print("Failed to load Shopify Catalog for Assistant:", error)

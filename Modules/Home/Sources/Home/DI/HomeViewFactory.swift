@@ -10,9 +10,10 @@ public enum HomeViewFactory {
     }
 
     @MainActor
-    public static func makeShoppingAssistantView() -> some View {
+    public static func makeShoppingAssistantView(onProductTap: @escaping (String) -> Void) -> some View {
         ShoppingAssistantView(
-            viewModel: HomeAssembler.resolveShoppingAssistantViewModel()
+            viewModel: HomeAssembler.resolveShoppingAssistantViewModel(),
+            onProductTap: onProductTap
         )
     }
 }

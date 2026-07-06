@@ -133,7 +133,10 @@ struct HomeView: View {
             )
         }
         .sheet(isPresented: $showAssistant) {
-            HomeViewFactory.makeShoppingAssistantView()
+            HomeViewFactory.makeShoppingAssistantView(onProductTap: { productID in
+                showAssistant = false
+                onProductTap?(productID)
+            })
         }
     }
 

@@ -4,10 +4,12 @@ import Common
 struct MessageRow: View {
     let message: ChatMessage
     let products: [ShopProduct]
+    let onProductTap: (String) -> Void
 
-    init(message: ChatMessage, products: [ShopProduct]) {
+    init(message: ChatMessage, products: [ShopProduct], onProductTap: @escaping (String) -> Void) {
         self.message = message
         self.products = products
+        self.onProductTap = onProductTap
     }
 
     public var body: some View {
@@ -39,7 +41,7 @@ struct MessageRow: View {
                 if !products.isEmpty {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                         ForEach(products) { product in
-                            ProductCardView(product: product)
+                            ProductCardView(product: product, onTap: onProductTap)
                         }
                     }
                     .padding(.top, 4)
