@@ -4,6 +4,7 @@ import Common
 struct ProductInfoHeaderSection: View {
     let title: String
     let vendor: String
+    let reviewSummary: ProductReviewSummary
     let displayMoney: ProductMoney
     let compareAtMoney: ProductMoney?
 
@@ -23,6 +24,17 @@ struct ProductInfoHeaderSection: View {
                         .foregroundColor(ProductPalette.textSecondary)
                         .lineLimit(1)
                         .truncationMode(.tail)
+                }
+
+                HStack(spacing: 6) {
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundColor(ProductPalette.primary)
+
+                    Text(reviewText)
+                        .font(.system(size: 13, weight: .bold, design: .rounded))
+                        .foregroundColor(ProductPalette.textSecondary)
+                        .lineLimit(1)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -53,5 +65,19 @@ struct ProductInfoHeaderSection: View {
             .frame(width: 96, alignment: .trailing)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var reviewText: String {
+        guard reviewSummary.reviewCount > 0 else {
+            return "No reviews yet"
+        }
+
+        return "\(reviewSummary.averageRating.formattedRating) (\(reviewSummary.reviewCount) reviews)"
+    }
+}
+
+private extension Double {
+    var formattedRating: String {
+        String(format: "%.1f", self)
     }
 }
