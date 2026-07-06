@@ -68,14 +68,16 @@ extension ProductInfoViewFactory {
     @MainActor
     static func makeView(
         productID: String,
-        onCartTap: @escaping () -> Void
+        onCartTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void = { _ in }
     ) -> some View {
         // Product ID is screen data; cart tap remains a coordinator-owned navigation action.
         FeatureViewFactoryResolver
             .resolve(ProductInfoViewFactory.self)
             .makeProductInfoView(
                 productID: productID,
-                onCartTap: onCartTap
+                onCartTap: onCartTap,
+                onProductTap: onProductTap
             )
     }
 }

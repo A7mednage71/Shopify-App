@@ -14,6 +14,8 @@ struct ProductInfoDetailsContainer: View {
     let quantity: Int
     let maxSelectableQuantity: Int
     let isSelectedVariantAvailable: Bool
+    let showsComparisonButton: Bool
+    let onCompareTap: () -> Void
     let onImageSelect: (String) -> Void
     let isValueAvailable: (ProductOption, String) -> Bool
     let onOptionSelect: (ProductOption, String) -> Void
@@ -49,6 +51,10 @@ struct ProductInfoDetailsContainer: View {
                 isSelectedVariantAvailable: isSelectedVariantAvailable,
                 quantityAvailable: selectedVariant?.quantityAvailable
             )
+
+            if showsComparisonButton {
+                ProductInfoComparisonSection(onCompareTap: onCompareTap)
+            }
 
             ProductInfoOptionsSection(
                 options: visibleOptions,

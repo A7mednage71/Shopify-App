@@ -132,6 +132,31 @@ enum ProductInfoText {
     static let noDescriptionAvailable = "No description available."
     static let descriptionTitle = "Description"
     static let reviewsTitle = "Reviews"
+    static let compareProductsTitle = "Compare similar products"
+    static let compareProductsSubtitle = "See similar options and get a Marktek recommendation."
+    static let comparisonSheetTitle = "Compare"
+    static let closeButtonTitle = "Close"
+    static let loadingComparableProducts = "Finding similar products..."
+    static let noComparableProductsTitle = "No similar products found"
+    static let noComparableProductsMessage = "There are no matching products available for comparison right now."
+    static let comparisonLoadFailureTitle = "Comparison could not load"
+    static let noSearchResultsTitle = "No matches"
+    static let noSearchResultsMessage = "Try another product name."
+    static let changeComparisonProductTitle = "Choose another product"
+    static let currentProductTitle = "Current"
+    static let selectedProductTitle = "Selected"
+    static let comparisonPreferenceTitle = "Add comparison preferences"
+    static let comparisonPreferencePlaceholder = "e.g. best value, premium feel, daily use"
+    static let getRecommendationButtonTitle = "Get Marktek Recommendation"
+    static let loadingRecommendation = "Building your recommendation..."
+    static let recommendationFailureTitle = "Recommendation unavailable"
+    static let viewRecommendedProductTitle = "View recommended product"
+    static let compareSimilarProductsTitle = "Pick a product to compare"
+    static let comparisonSearchPlaceholder = "Search by product name"
+    static let stockFactTitle = "Stock"
+    static let vendorFactTitle = "Vendor"
+    static let materialFactTitle = "Material"
+    static let notSpecified = "Not specified"
     static let noReviewsYet = "No reviews yet"
     static let reviewEmptyMessage = "No reviews for this product yet."
     static let readLessButtonTitle = "Read Less"
@@ -149,6 +174,15 @@ enum ProductInfoText {
 
     static func stockQuantity(_ quantity: Int) -> String {
         "\(quantity) in stock"
+    }
+
+    static func compareSimilarProductsSubtitle(productType: String) -> String {
+        let trimmedType = productType.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedType.isEmpty else {
+            return "Compare this product with matching catalog items."
+        }
+
+        return "Compare this product with other \(trimmedType) items."
     }
 
     static func addToCartAccessibilityLabel(productTitle: String) -> String {
