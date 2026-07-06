@@ -1,6 +1,10 @@
 import Common
 
 extension CartLine {
+    var checkoutProductID: String? {
+        variant?.product?.id
+    }
+
     var checkoutProductTitle: String {
         variant?.product?.title ?? CheckoutText.cartItemFallbackTitle
     }

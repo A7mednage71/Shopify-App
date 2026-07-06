@@ -4,8 +4,12 @@ import SwiftUI
 struct CheckoutOrderConfirmationView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var hasAppeared = false
+    @State private var reviewLine: CartLine?
+    @State private var reviewedProductIDs: Set<String> = []
 
     let confirmation: CheckoutOrderConfirmation
+    let submitProductReviewUseCase: any SubmitProductReviewUseCaseProtocol
+    let onDone: () -> Void
 
     var body: some View {
         ScrollView {
@@ -14,7 +18,11 @@ struct CheckoutOrderConfirmationView: View {
 
                 paymentCard
 
-                CheckoutProductsSection(lines: confirmation.cart.lines)
+                CheckoutProductsSection(
+                    lines: confirmation.cart.lines,
+                    reviewedProductIDs: reviewedProductIDs,
+                    onReviewTap: { reviewLine = $0 }
+                )
 
                 CheckoutOrderSummarySection(
                     cart: confirmation.cart,
@@ -23,6 +31,7 @@ struct CheckoutOrderConfirmationView: View {
                 )
 
                 CheckoutPrimaryButton(title: CheckoutText.orderConfirmationDoneTitle) {
+                    onDone()
                     dismiss()
                 }
             }
@@ -39,6 +48,22 @@ struct CheckoutOrderConfirmationView: View {
             withAnimation(.spring(response: 0.46, dampingFraction: 0.84)) {
                 hasAppeared = true
             }
+        }
+        .sheet(item: $reviewLine) { line in
+            CheckoutReviewSheet(
+                productTitle: line.checkoutProductTitle,
+                onSubmit: { input in
+                    try await submitProductReviewUseCase.execute(
+                        input: input,
+                        customerDetails: confirmation.customerDetails
+                    )
+
+                    if let productID = line.checkoutProductID {
+                        reviewedProductIDs.insert(productID)
+                    }
+                },
+                productID: line.checkoutProductID
+            )
         }
     }
 

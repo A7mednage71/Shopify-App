@@ -25,12 +25,11 @@ final class CartFlowCoordinator: ObservableObject {
         orderConfirmation = nil
         path = []
     }
-    
+
     func handlePathChange(_ path: [CartFlowRoute]) {
         guard orderConfirmation != nil,
               !path.contains(where: \.isOrderConfirmation) else { return }
 
-        // Leaving confirmation should return the cart tab to its root cart screen.
         orderConfirmation = nil
         self.path = []
     }

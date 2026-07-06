@@ -3,9 +3,14 @@ import SwiftUI
 
 public struct CheckoutViewFactory {
     private let viewModelFactory: CheckoutViewModelFactory
+    private let submitProductReviewUseCase: any SubmitProductReviewUseCaseProtocol
 
-    init(viewModelFactory: CheckoutViewModelFactory) {
+    init(
+        viewModelFactory: CheckoutViewModelFactory,
+        submitProductReviewUseCase: any SubmitProductReviewUseCaseProtocol
+    ) {
         self.viewModelFactory = viewModelFactory
+        self.submitProductReviewUseCase = submitProductReviewUseCase
     }
 
     @MainActor
@@ -21,9 +26,14 @@ public struct CheckoutViewFactory {
 
     @MainActor
     public func makeOrderConfirmationDestinationView(
-        confirmation: CheckoutOrderConfirmation
+        confirmation: CheckoutOrderConfirmation,
+        onDone: @escaping () -> Void = {}
     ) -> some View {
         // Order confirmation stays Checkout-owned, while the app flow decides when to present it.
-        CheckoutOrderConfirmationView(confirmation: confirmation)
+        CheckoutOrderConfirmationView(
+            confirmation: confirmation,
+            submitProductReviewUseCase: submitProductReviewUseCase,
+            onDone: onDone
+        )
     }
 }

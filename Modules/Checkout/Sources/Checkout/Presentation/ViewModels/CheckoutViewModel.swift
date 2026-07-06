@@ -129,6 +129,7 @@ public final class CheckoutViewModel: ObservableObject {
             CheckoutOrderConfirmation(
                 order: order,
                 cart: loadedState.cart,
+                customerDetails: loadedState.customerDetails,
                 paymentMethodTitle: paymentSelection.selectedMethodTitle,
                 pricing: pricing
             )

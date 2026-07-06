@@ -52,11 +52,15 @@ extension CheckoutViewFactory {
 
     @MainActor
     static func makeOrderConfirmationView(
-        confirmation: CheckoutOrderConfirmation
+        confirmation: CheckoutOrderConfirmation,
+        onDone: @escaping () -> Void = {}
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeOrderConfirmationDestinationView(confirmation: confirmation)
+            .makeOrderConfirmationDestinationView(
+                confirmation: confirmation,
+                onDone: onDone
+            )
     }
 }
 

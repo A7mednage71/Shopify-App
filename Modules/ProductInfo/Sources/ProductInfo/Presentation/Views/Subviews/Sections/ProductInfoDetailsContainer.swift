@@ -34,6 +34,7 @@ struct ProductInfoDetailsContainer: View {
             ProductInfoHeaderSection(
                 title: product.title,
                 vendor: product.vendor,
+                reviewSummary: product.reviewSummary,
                 displayMoney: displayMoney,
                 compareAtMoney: compareAtMoney
             )
@@ -62,6 +63,11 @@ struct ProductInfoDetailsContainer: View {
                 isSelectedVariantAvailable: isSelectedVariantAvailable,
                 onDecrement: onQuantityDecrement,
                 onIncrement: onQuantityIncrement
+            )
+
+            ProductInfoReviewsSection(
+                reviews: product.reviews,
+                summary: product.reviewSummary
             )
         }
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -3,6 +3,8 @@ import SwiftUI
 
 struct CheckoutProductsSection: View {
     let lines: [CartLine]
+    var reviewedProductIDs: Set<String> = []
+    var onReviewTap: ((CartLine) -> Void)? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -10,7 +12,11 @@ struct CheckoutProductsSection: View {
 
             VStack(spacing: 14) {
                 ForEach(lines) { line in
-                    CheckoutProductRow(line: line)
+                    CheckoutProductRow(
+                        line: line,
+                        isReviewed: line.checkoutProductID.map { reviewedProductIDs.contains($0) } ?? false,
+                        onReviewTap: onReviewTap
+                    )
                 }
             }
         }
@@ -23,6 +29,8 @@ struct CheckoutProductsSection: View {
 
 private struct CheckoutProductRow: View {
     let line: CartLine
+    let isReviewed: Bool
+    let onReviewTap: ((CartLine) -> Void)?
 
     var body: some View {
         HStack(spacing: 12) {
@@ -51,6 +59,21 @@ private struct CheckoutProductRow: View {
                             .foregroundColor(AppColors.textTertiary)
                             .lineLimit(1)
                     }
+                }
+
+                if onReviewTap != nil, line.checkoutProductID != nil {
+                    Button {
+                        onReviewTap?(line)
+                    } label: {
+                        Label(
+                            isReviewed ? CheckoutText.reviewedButtonTitle : CheckoutText.reviewButtonTitle,
+                            systemImage: isReviewed ? "checkmark.circle.fill" : "star.fill"
+                        )
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(isReviewed ? AppColors.success : AppColors.primary)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(isReviewed)
                 }
             }
 
