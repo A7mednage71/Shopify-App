@@ -14,8 +14,8 @@ public struct ProductDetails: Identifiable, Equatable, Sendable {
     public let images: [ProductImage]
     public let options: [ProductOption]
     public let variants: [ProductVariant]
+    public let reviews: [ProductReview]
     public let reviewSummary: ProductReviewSummary
-    public let metafields: [ProductMetafield]
 
     public init(
         id: String,
@@ -31,8 +31,8 @@ public struct ProductDetails: Identifiable, Equatable, Sendable {
         images: [ProductImage],
         options: [ProductOption],
         variants: [ProductVariant],
-        reviewSummary: ProductReviewSummary,
-        metafields: [ProductMetafield]
+        reviews: [ProductReview],
+        reviewSummary: ProductReviewSummary
     ) {
         self.id = id
         self.title = title
@@ -47,8 +47,8 @@ public struct ProductDetails: Identifiable, Equatable, Sendable {
         self.images = images
         self.options = options
         self.variants = variants
+        self.reviews = reviews
         self.reviewSummary = reviewSummary
-        self.metafields = metafields
     }
 }
 
@@ -151,26 +151,45 @@ public struct ProductVariantImage: Equatable, Sendable {
     }
 }
 
-public struct ProductMetafield: Equatable, Sendable {
-    public let namespace: String
-    public let key: String
-    public let value: String
-    public let type: String
+public struct ProductReviewSummary: Equatable, Sendable {
+    public let averageRating: Double
+    public let reviewCount: Int
+    public let starCounts: [Int: Int]
 
-    public init(namespace: String, key: String, value: String, type: String) {
-        self.namespace = namespace
-        self.key = key
-        self.value = value
-        self.type = type
+    public init(averageRating: Double, reviewCount: Int, starCounts: [Int: Int]) {
+        self.averageRating = averageRating
+        self.reviewCount = reviewCount
+        self.starCounts = starCounts
     }
+
+    public static let empty = ProductReviewSummary(
+        averageRating: 0,
+        reviewCount: 0,
+        starCounts: [5: 0, 4: 0, 3: 0, 2: 0, 1: 0]
+    )
 }
 
-public struct ProductReviewSummary: Equatable, Sendable {
-    public let rating: Double?
-    public let ratingCount: Int?
+public struct ProductReview: Identifiable, Equatable, Sendable {
+    public let id: String
+    public let customerName: String
+    public let rating: Int
+    public let title: String
+    public let body: String
+    public let createdAt: String
 
-    public init(rating: Double?, ratingCount: Int?) {
+    public init(
+        id: String,
+        customerName: String,
+        rating: Int,
+        title: String,
+        body: String,
+        createdAt: String
+    ) {
+        self.id = id
+        self.customerName = customerName
         self.rating = rating
-        self.ratingCount = ratingCount
+        self.title = title
+        self.body = body
+        self.createdAt = createdAt
     }
 }

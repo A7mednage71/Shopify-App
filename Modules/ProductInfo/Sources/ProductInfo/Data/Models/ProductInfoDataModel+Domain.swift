@@ -14,17 +14,25 @@ extension ProductInfoDataModel {
             images: images.map { $0.toDomain() },
             options: options.map { $0.toDomain() },
             variants: variants.map { $0.toDomain() },
-            reviewSummary: reviewSummary,
-            metafields: metafields.map { $0.toDomain() }
+            reviews: reviews.map { $0.toDomain() },
+            reviewSummary: reviewSummary
         )
     }
 
     private var reviewSummary: ProductReviewSummary {
-        ProductReviewSummary(
-            rating: metafields.first { $0.namespace == "reviews" && $0.key == "rating" }
-                .flatMap { Double($0.value) },
-            ratingCount: metafields.first { $0.namespace == "reviews" && $0.key == "rating_count" }
-                .flatMap { Int($0.value) }
+        guard !reviews.isEmpty else {
+            return .empty
+        }
+
+        let starCounts = reviews.reduce(into: ProductReviewSummary.empty.starCounts) { result, review in
+            result[review.rating, default: 0] += 1
+        }
+        let ratingTotal = reviews.reduce(0) { $0 + $1.rating }
+
+        return ProductReviewSummary(
+            averageRating: Double(ratingTotal) / Double(reviews.count),
+            reviewCount: reviews.count,
+            starCounts: starCounts
         )
     }
 }
@@ -89,13 +97,15 @@ private extension ProductVariantImageDataModel {
     }
 }
 
-private extension ProductMetafieldDataModel {
-    func toDomain() -> ProductMetafield {
-        ProductMetafield(
-            namespace: namespace,
-            key: key,
-            value: value,
-            type: type
+private extension ProductReviewDataModel {
+    func toDomain() -> ProductReview {
+        ProductReview(
+            id: id,
+            customerName: customerName,
+            rating: rating,
+            title: title,
+            body: body,
+            createdAt: createdAt
         )
     }
 }
