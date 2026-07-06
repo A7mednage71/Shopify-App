@@ -91,17 +91,20 @@ public struct CheckoutOrderConfirmation: Identifiable {
     public let id = UUID()
     let order: Order
     let cart: CartDetails
+    let customerDetails: CustomerDetails
     let paymentMethodTitle: String
     let pricing: CheckoutPricing
 
     init(
         order: Order,
         cart: CartDetails,
+        customerDetails: CustomerDetails,
         paymentMethodTitle: String,
         pricing: CheckoutPricing
     ) {
         self.order = order
         self.cart = cart
+        self.customerDetails = customerDetails
         self.paymentMethodTitle = paymentMethodTitle
         self.pricing = pricing
     }
