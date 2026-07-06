@@ -39,19 +39,20 @@ struct ProductInfoCartToolbarButton: View {
 }
 
 struct ProductInfoFavoriteToolbarButton: View {
-    @Binding var isFavorite: Bool
+        let isFavorite: Bool
+        let action: () -> Void
 
-    var body: some View {
-        Button(action: { isFavorite.toggle() }) {
-            Image(systemName: isFavorite ? "heart.fill" : "heart")
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(isFavorite ? ProductPalette.favorite : ProductPalette.textPrimary)
+        var body: some View {
+            Button(action: action) { 
+                Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(isFavorite ? ProductPalette.favorite : ProductPalette.textPrimary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(
+                isFavorite
+                    ? ProductInfoText.removeFromFavoritesAccessibilityLabel
+                    : ProductInfoText.addToFavoritesAccessibilityLabel
+            )
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(
-            isFavorite
-                ? ProductInfoText.removeFromFavoritesAccessibilityLabel
-                : ProductInfoText.addToFavoritesAccessibilityLabel
-        )
-    }
 }

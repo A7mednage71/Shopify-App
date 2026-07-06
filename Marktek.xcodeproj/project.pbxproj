@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08010A802FFBAE810051FD01 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 08010A7F2FFBAE810051FD01 /* Secrets.xcconfig */; };
 		0860648A2FF126690010B267 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 086064892FF126690010B267 /* Swinject */; };
 		086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18D2FF0074F005DEA2D /* ApolloAPI */; };
 		086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18F2FF008E4005DEA2D /* MarktekNetworking */; };
@@ -27,6 +28,19 @@
 		0D2000162FF8000000000006 /* AuthFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000062FF8000000000006 /* AuthFlowRoute.swift */; };
 		0D2000172FF8000000000007 /* AuthFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000072FF8000000000007 /* AuthFlowView.swift */; };
 		0D2000182FF8000000000008 /* AuthFlowViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2000082FF8000000000008 /* AuthFlowViewFactory.swift */; };
+		0E1000012FF9000000000001 /* SharedFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000012FF9000000000001 /* SharedFlowRoute.swift */; };
+		0E1000022FF9000000000002 /* CartFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000022FF9000000000002 /* CartFlowCoordinator.swift */; };
+		0E1000032FF9000000000003 /* CartFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000032FF9000000000003 /* CartFlowRoute.swift */; };
+		0E1000042FF9000000000004 /* CartFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000042FF9000000000004 /* CartFlowView.swift */; };
+		0E1000052FF9000000000005 /* FavoritesFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000052FF9000000000005 /* FavoritesFlowCoordinator.swift */; };
+		0E1000062FF9000000000006 /* FavoritesFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000062FF9000000000006 /* FavoritesFlowRoute.swift */; };
+		0E1000072FF9000000000007 /* FavoritesFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000072FF9000000000007 /* FavoritesFlowView.swift */; };
+		0E1000082FF9000000000008 /* HomeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000082FF9000000000008 /* HomeFlowCoordinator.swift */; };
+		0E1000092FF9000000000009 /* HomeFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2000092FF9000000000009 /* HomeFlowRoute.swift */; };
+		0E10000A2FF900000000000A /* HomeFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000A2FF900000000000A /* HomeFlowView.swift */; };
+		0E10000B2FF900000000000B /* ProfileFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000B2FF900000000000B /* ProfileFlowCoordinator.swift */; };
+		0E10000C2FF900000000000C /* ProfileFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000C2FF900000000000C /* ProfileFlowRoute.swift */; };
+		0E10000D2FF900000000000D /* ProfileFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20000D2FF900000000000D /* ProfileFlowView.swift */; };
 		2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */; };
 		616653902FEFCE9F00C605D3 /* MarktekApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166538F2FEFCE9F00C605D3 /* MarktekApp.swift */; };
 		616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 616653962FEFCEA200C605D3 /* Preview Assets.xcassets */; };
@@ -37,7 +51,9 @@
 		616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E32FF1A35200F29AA5 /* GoogleSignInSwift */; };
 		617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C62FF01B7C001CC25D /* FirebaseAuth */; };
 		617276C92FF023F9001CC25D /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C82FF023F9001CC25D /* Authentication */; };
+		CA61CFB32FF5F66700859A89 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = CA61CFB22FF5F66700859A89 /* Settings */; };
 		CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D80092FF335C50090C2CF /* Apollo */; };
+		CA9F9BFA2FFA91C900CD2E30 /* Favorites in Frameworks */ = {isa = PBXBuildFile; productRef = CA9F9BF92FFA91C900CD2E30 /* Favorites */; };
 		CACE9CC42FF4953B00461ED1 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC32FF4953B00461ED1 /* Onboarding */; };
 		CACE9CC62FF4955900461ED1 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC52FF4955900461ED1 /* Home */; };
 		CACE9CC82FF4956A00461ED1 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC72FF4956A00461ED1 /* Persistence */; };
@@ -61,6 +77,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08010A7F2FFBAE810051FD01 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		083555A02FF3A07D00083148 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0B0000042FF5000000000004 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
@@ -75,6 +92,19 @@
 		0D2000062FF8000000000006 /* AuthFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowRoute.swift; sourceTree = "<group>"; };
 		0D2000072FF8000000000007 /* AuthFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowView.swift; sourceTree = "<group>"; };
 		0D2000082FF8000000000008 /* AuthFlowViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowViewFactory.swift; sourceTree = "<group>"; };
+		0E2000012FF9000000000001 /* SharedFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFlowRoute.swift; sourceTree = "<group>"; };
+		0E2000022FF9000000000002 /* CartFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E2000032FF9000000000003 /* CartFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFlowRoute.swift; sourceTree = "<group>"; };
+		0E2000042FF9000000000004 /* CartFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFlowView.swift; sourceTree = "<group>"; };
+		0E2000052FF9000000000005 /* FavoritesFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E2000062FF9000000000006 /* FavoritesFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFlowRoute.swift; sourceTree = "<group>"; };
+		0E2000072FF9000000000007 /* FavoritesFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFlowView.swift; sourceTree = "<group>"; };
+		0E2000082FF9000000000008 /* HomeFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E2000092FF9000000000009 /* HomeFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowRoute.swift; sourceTree = "<group>"; };
+		0E20000A2FF900000000000A /* HomeFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowView.swift; sourceTree = "<group>"; };
+		0E20000B2FF900000000000B /* ProfileFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowCoordinator.swift; sourceTree = "<group>"; };
+		0E20000C2FF900000000000C /* ProfileFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowRoute.swift; sourceTree = "<group>"; };
+		0E20000D2FF900000000000D /* ProfileFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowView.swift; sourceTree = "<group>"; };
 		2C90D2922FEFE9BE00FADB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		610825582FF1882D002433CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		610825592FF1882D002433CB /* Marktek.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marktek.entitlements; sourceTree = "<group>"; };
@@ -86,13 +116,7 @@
 		616653AB2FEFCEA200C605D3 /* MarktekUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarktekUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITests.swift; sourceTree = "<group>"; };
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		CADE619D2FF47D6600290B13 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		08B42AA32FF6F4DF00BDC71B /* Tabs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tabs; sourceTree = "<group>"; };
-		08B42AC02FF707B400BDC71B /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		616653892FEFCE9F00C605D3 /* Frameworks */ = {
@@ -105,6 +129,8 @@
 				086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */,
 				CACE9CC82FF4956A00461ED1 /* Persistence in Frameworks */,
 				CACE9CC62FF4955900461ED1 /* Home in Frameworks */,
+				CA61CFB32FF5F66700859A89 /* Settings in Frameworks */,
+				CA9F9BFA2FFA91C900CD2E30 /* Favorites in Frameworks */,
 				08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */,
 				0C0000012FF6000000000001 /* Checkout in Frameworks */,
 				0B0000012FF5000000000001 /* ProductInfo in Frameworks */,
@@ -134,6 +160,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08B42AA32FF6F4DF00BDC71B /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				0E3000012FF9000000000001 /* Cart */,
+				0E3000022FF9000000000002 /* Favorites */,
+				0E3000032FF9000000000003 /* Home */,
+				0E3000042FF9000000000004 /* Profile */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		08B42AC02FF707B400BDC71B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000012FF9000000000001 /* SharedFlowRoute.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		0D1000202FF7000000000020 /* Coordination */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,19 +222,51 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		0E3000012FF9000000000001 /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000022FF9000000000002 /* CartFlowCoordinator.swift */,
+				0E2000032FF9000000000003 /* CartFlowRoute.swift */,
+				0E2000042FF9000000000004 /* CartFlowView.swift */,
+			);
+			path = Cart;
+			sourceTree = "<group>";
+		};
+		0E3000022FF9000000000002 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000052FF9000000000005 /* FavoritesFlowCoordinator.swift */,
+				0E2000062FF9000000000006 /* FavoritesFlowRoute.swift */,
+				0E2000072FF9000000000007 /* FavoritesFlowView.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		0E3000032FF9000000000003 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0E2000082FF9000000000008 /* HomeFlowCoordinator.swift */,
+				0E2000092FF9000000000009 /* HomeFlowRoute.swift */,
+				0E20000A2FF900000000000A /* HomeFlowView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0E3000042FF9000000000004 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				0E20000B2FF900000000000B /* ProfileFlowCoordinator.swift */,
+				0E20000C2FF900000000000C /* ProfileFlowRoute.swift */,
+				0E20000D2FF900000000000D /* ProfileFlowView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		2C74F8D02FEFFF460073F428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2C78E1F02FF4E7CB00B71508 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				CADE619D2FF47D6600290B13 /* Secrets.xcconfig */,
-			);
-			path = Config;
 			sourceTree = "<group>";
 		};
 		2C90D2152FEFD85300FADB94 /* Application */ = {
@@ -214,7 +291,7 @@
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
-				2C78E1F02FF4E7CB00B71508 /* Config */,
+				CAC44ED52FF9A1C50021CFD1 /* Config */,
 				083555A02FF3A07D00083148 /* .swiftlint.yml */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
@@ -272,6 +349,14 @@
 			path = MarktekUITests;
 			sourceTree = "<group>";
 		};
+		CAC44ED52FF9A1C50021CFD1 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				08010A7F2FFBAE810051FD01 /* Secrets.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -288,10 +373,6 @@
 			dependencies = (
 				0835559F2FF3A01600083148 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				08B42AA32FF6F4DF00BDC71B /* Tabs */,
-				08B42AC02FF707B400BDC71B /* Shared */,
-			);
 			name = Marktek;
 			packageProductDependencies = (
 				617276C62FF01B7C001CC25D /* FirebaseAuth */,
@@ -305,6 +386,8 @@
 				CACE9CC72FF4956A00461ED1 /* Persistence */,
 				0B0000022FF5000000000002 /* ProductInfo */,
 				0C0000022FF6000000000002 /* Checkout */,
+				CA61CFB22FF5F66700859A89 /* Settings */,
+				CA9F9BF92FFA91C900CD2E30 /* Favorites */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -401,6 +484,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08010A802FFBAE810051FD01 /* Secrets.xcconfig in Resources */,
 				2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */,
 				616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */,
 				08B93C902FF3246100AAA4F7 /* GoogleService-Info.plist in Resources */,
@@ -441,6 +525,19 @@
 				0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */,
 				0D10001E2FF700000000000E /* MainFlowCoordinator.swift in Sources */,
 				0D1000242FF7000000000013 /* MainFlowViewFactory.swift in Sources */,
+				0E1000012FF9000000000001 /* SharedFlowRoute.swift in Sources */,
+				0E1000022FF9000000000002 /* CartFlowCoordinator.swift in Sources */,
+				0E1000032FF9000000000003 /* CartFlowRoute.swift in Sources */,
+				0E1000042FF9000000000004 /* CartFlowView.swift in Sources */,
+				0E1000052FF9000000000005 /* FavoritesFlowCoordinator.swift in Sources */,
+				0E1000062FF9000000000006 /* FavoritesFlowRoute.swift in Sources */,
+				0E1000072FF9000000000007 /* FavoritesFlowView.swift in Sources */,
+				0E1000082FF9000000000008 /* HomeFlowCoordinator.swift in Sources */,
+				0E1000092FF9000000000009 /* HomeFlowRoute.swift in Sources */,
+				0E10000A2FF900000000000A /* HomeFlowView.swift in Sources */,
+				0E10000B2FF900000000000B /* ProfileFlowCoordinator.swift in Sources */,
+				0E10000C2FF900000000000C /* ProfileFlowRoute.swift in Sources */,
+				0E10000D2FF900000000000D /* ProfileFlowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,7 +580,7 @@
 /* Begin XCBuildConfiguration section */
 		616653B32FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
+			baseConfigurationReference = 08010A7F2FFBAE810051FD01 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -544,7 +641,7 @@
 		};
 		616653B42FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
+			baseConfigurationReference = 08010A7F2FFBAE810051FD01 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -599,7 +696,7 @@
 		};
 		616653B62FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
+			baseConfigurationReference = 08010A7F2FFBAE810051FD01 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -637,7 +734,7 @@
 		};
 		616653B72FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CADE619D2FF47D6600290B13 /* Secrets.xcconfig */;
+			baseConfigurationReference = 08010A7F2FFBAE810051FD01 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -880,6 +977,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Authentication;
 		};
+		CA61CFB22FF5F66700859A89 /* Settings */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Settings;
+		};
 		CA7D80092FF335C50090C2CF /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Apollo;
@@ -887,6 +988,10 @@
 		CA7D800B2FF335C50090C2CF /* ApolloAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ApolloAPI;
+		};
+		CA9F9BF92FFA91C900CD2E30 /* Favorites */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Favorites;
 		};
 		CACE9CC32FF4953B00461ED1 /* Onboarding */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,5 +1,6 @@
 import Swinject
-
+import Favorites
+@MainActor
 enum HomeAssembler {
     static func resolveGetCategoriesUseCase() -> any GetCategoriesUseCaseProtocol {
         makeAssembler().resolver.resolve(GetCategoriesUseCaseProtocol.self)!
@@ -33,12 +34,13 @@ enum HomeAssembler {
     static func resolveHomeViewModel() -> HomeViewModel {
         makeAssembler().resolver.resolve(HomeViewModel.self)!
     }
-
     private static func makeAssembler() -> Assembler {
         Assembler([
             HomeDataAssembly(),
             HomeDomainAssembly(),
             HomePresentationAssembly(),
+            FavoritesDataAssembly(),  
+            FavoritesDomainAssembly(),
         ])
     }
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct ProductInfoPurchaseBar: View {
     let productTitle: String
@@ -18,13 +19,19 @@ struct ProductInfoPurchaseBar: View {
                         .foregroundColor(ProductPalette.textTertiary)
                         .lineLimit(1)
 
-                    Text(displayMoney.formatted(quantity: quantity))
-                        .font(.system(size: 25, weight: .bold, design: .rounded))
-                        .foregroundColor(ProductPalette.textPrimary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.58)
-                }
-                .frame(width: 108, alignment: .leading)
+                    let amountAsDouble = Double(displayMoney.amount) ?? 0.0
+                    let totalUSD = amountAsDouble * Double(quantity)
+
+                    PriceView(
+                        priceInUSD: totalUSD,
+                        font: .system(size: 25, weight: .bold, design: .rounded),
+                        color: ProductPalette.textPrimary
+                    )
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.58)
+                   
+              }
+               .frame(width: 108, alignment: .leading)
 
                 Button(action: onAddToCart) {
                     ProductInfoAddToCartButtonContent(isAddingToCart: isAddingToCart)

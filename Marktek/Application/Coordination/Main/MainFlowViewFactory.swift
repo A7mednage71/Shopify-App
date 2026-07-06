@@ -1,6 +1,7 @@
 import Cart
 import Checkout
 import ProductInfo
+import Favorites
 import SwiftUI
 
 struct MainFlowViewFactory {
@@ -72,5 +73,16 @@ extension ProductInfoViewFactory {
                 productID: productID,
                 onCartTap: onCartTap
             )
+    }
+}
+
+extension FavoritesViewFactory {
+    @MainActor
+    static func makeFavoritesView(
+        onProductTap: @escaping (String) -> Void
+    ) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(FavoritesViewFactory.self)
+            .makeFavoritesDestinationView(onProductTap: onProductTap)
     }
 }

@@ -3,6 +3,8 @@ import Checkout
 import ProductInfo
 import SwiftUI
 import Swinject
+import Settings
+import Favorites
 
 final class AppDIContainer {
     static let shared = AppDIContainer()
@@ -15,7 +17,11 @@ final class AppDIContainer {
         CheckoutPresentationAssembly(),
         ProductInfoDataAssembly(),
         ProductInfoDomainAssembly(),
-        ProductInfoPresentationAssembly()
+        ProductInfoPresentationAssembly(),
+        SettingsAssembly(),
+        FavoritesDataAssembly(),
+        FavoritesDomainAssembly(),
+        FavoritesPresentationAssembly()
     ])
 
     private init() {}
@@ -23,4 +29,13 @@ final class AppDIContainer {
     func resolve<Service>(_ serviceType: Service.Type) -> Service? {
         assembler.resolver.resolve(serviceType)
     }
+    
+    @MainActor
+        func makeSettingsView() -> some View {
+            guard let settingsViewFactory = assembler.resolver.resolve(SettingsViewFactory.self) else {
+                return AnyView(Text("Unable to load settings."))
+            }
+
+            return AnyView(settingsViewFactory.makeSettingsView())
+        }
 }
