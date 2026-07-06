@@ -7,6 +7,7 @@ public final class ProductInfoViewModel: ObservableObject {
     @Published public private(set) var state: ProductInfoViewState = .idle
     @Published public private(set) var addToCartState: ProductInfoAddToCartState = .idle
     @Published public var isFavorite: Bool = false
+    let comparisonViewModel: ProductComparisonViewModel
     
     private let getProductInfoUseCase: any GetProductInfoUseCaseProtocol
     private let addItemToCartUseCase: any AddItemToCartUseCaseProtocol
@@ -14,10 +15,12 @@ public final class ProductInfoViewModel: ObservableObject {
 
     init(
         getProductInfoUseCase: any GetProductInfoUseCaseProtocol,
+        comparisonViewModel: ProductComparisonViewModel,
         addItemToCartUseCase: any AddItemToCartUseCaseProtocol,
         manageFavoritesUseCase: any ManageFavoritesUseCase
     ) {
         self.getProductInfoUseCase = getProductInfoUseCase
+        self.comparisonViewModel = comparisonViewModel
         self.addItemToCartUseCase = addItemToCartUseCase
         self.manageFavoritesUseCase = manageFavoritesUseCase
     }

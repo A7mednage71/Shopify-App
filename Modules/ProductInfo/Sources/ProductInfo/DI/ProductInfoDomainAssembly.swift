@@ -9,5 +9,17 @@ public struct ProductInfoDomainAssembly: Assembly {
                 repository: resolver.resolve(ProductInfoRepository.self)!
             )
         }
+
+        container.register(GetComparableProductsUseCaseProtocol.self) { resolver in
+            GetComparableProductsUseCase(
+                repository: resolver.resolve(ProductInfoRepository.self)!
+            )
+        }
+
+        container.register(GetProductComparisonRecommendationUseCaseProtocol.self) { resolver in
+            GetProductComparisonRecommendationUseCase(
+                repository: resolver.resolve(ProductComparisonRecommendationRepository.self)!
+            )
+        }
     }
 }

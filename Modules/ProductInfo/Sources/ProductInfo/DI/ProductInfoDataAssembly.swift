@@ -13,5 +13,9 @@ public struct ProductInfoDataAssembly: Assembly {
                 remoteDataSource: resolver.resolve(ProductInfoRemoteDataSource.self)!
             )
         }
+
+        container.register(ProductComparisonRecommendationRepository.self) { _ in
+            ProductComparisonRecommendationRepositoryImpl()
+        }
     }
 }
