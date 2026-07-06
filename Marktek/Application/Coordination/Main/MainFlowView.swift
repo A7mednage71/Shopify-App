@@ -171,9 +171,7 @@ struct MainFlowView: View {
             sharedDestination(for: sharedRoute)
 
         case .checkout:
-            CheckoutViewFactory.makeView { route in
-                cartCoordinator.showOrderConfirmation(route)
-            }
+            CheckoutViewFactory.makeView(onOrderConfirmed: showOrderConfirmation)
 
         case .orderConfirmation:
             cartOrderConfirmationDestination
@@ -199,17 +197,35 @@ struct MainFlowView: View {
         }
     }
 
+    private var temporaryProductID: String {
+        "gid://shopify/Product/7471719088183"
+    }
+
     @ViewBuilder
     private var cartOrderConfirmationDestination: some View {
         if let confirmation = cartCoordinator.orderConfirmation {
-            CheckoutViewFactory.makeOrderConfirmationView(confirmation: confirmation)
+            CheckoutViewFactory.makeOrderConfirmationView(
+                confirmation: confirmation,
+                onDone: resetAllRoutesToHome
+            )
         } else {
             EmptyView()
         }
     }
 
-    private var temporaryProductID: String {
-        "gid://shopify/Product/7471719088183"
+    private func showOrderConfirmation(_ confirmation: CheckoutOrderConfirmation) {
+        homeCoordinator.showRoot()
+        cartCoordinator.showOrderConfirmation(confirmation)
+        favoritesCoordinator.showRoot()
+        profileCoordinator.showRoot()
+    }
+
+    private func resetAllRoutesToHome() {
+        homeCoordinator.showRoot()
+        cartCoordinator.showRoot()
+        favoritesCoordinator.showRoot()
+        profileCoordinator.showRoot()
+        coordinator.showHome()
     }
 
     private func showHomeRoot() {
