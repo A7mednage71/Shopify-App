@@ -13,7 +13,8 @@ public enum HomeStrings {
 
     // MARK: - Category Section
     enum Category {
-        static let sectionTitle = "All Featured"
+        static let sectionTitle = "Categories"
+        static let brandsTitle  = "Brands"
         static let sortButton   = "Sort"
         static let filterButton = "Filter"
     }

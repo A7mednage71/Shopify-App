@@ -23,6 +23,20 @@ enum Secrets {
         return url
     }
 
+    static var shopifyAdminAccessToken: String {
+        value(for: "SHOPIFY_ADMIN_ACCESS_TOKEN")
+    }
+
+    static var shopifyAdminGraphQLEndpoint: Foundation.URL {
+        let urlString = "https://\(shopifyHost)/admin/api/\(shopifyAPIVersion)/graphql.json"
+
+        guard let url = Foundation.URL(string: urlString) else {
+            fatalError("Invalid Shopify Admin GraphQL endpoint.")
+        }
+
+        return url
+    }
+
     private static func value(for key: String) -> String {
         guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String,
               !value.isEmpty,

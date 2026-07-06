@@ -1,6 +1,4 @@
-public protocol AddItemToCartUseCaseProtocol: Sendable {
-    func execute(input: AddCartItemInput) async throws -> CartDetails
-}
+import Common
 
 public struct AddItemToCartUseCase: AddItemToCartUseCaseProtocol, Sendable {
     private let addCartLinesUseCase: any AddCartLinesUseCaseProtocol
@@ -10,11 +8,6 @@ public struct AddItemToCartUseCase: AddItemToCartUseCaseProtocol, Sendable {
     }
 
     public func execute(input: AddCartItemInput) async throws -> CartDetails {
-        try CartQuantityValidator.validate(
-            requestedQuantity: input.quantity,
-            availableQuantity: input.availableQuantity
-        )
-
         return try await addCartLinesUseCase.execute(
             lines: [
                 AddCartLineRequest(

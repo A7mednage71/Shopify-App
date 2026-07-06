@@ -1,13 +1,23 @@
 import SwiftUI
 
-public enum ProductInfoViewFactory {
-    @MainActor
-    public static func makeProductInfoView(productID: String) -> some View {
-        let viewModelFactory = ProductInfoAssembler.resolveViewModelFactory()
+public struct ProductInfoViewFactory {
+    private let viewModelFactory: ProductInfoViewModelFactory
 
-        return ProductInfoView(
+    init(viewModelFactory: ProductInfoViewModelFactory) {
+        self.viewModelFactory = viewModelFactory
+    }
+
+    @MainActor
+    public func makeProductInfoView(
+        productID: String,
+        onCartTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void = { _ in }
+    ) -> some View {
+        ProductInfoView(
             productID: productID,
-            viewModel: viewModelFactory.makeViewModel()
+            viewModel: viewModelFactory.makeViewModel(),
+            onCartTap: onCartTap,
+            onProductTap: onProductTap
         )
     }
 }

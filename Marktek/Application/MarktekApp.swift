@@ -11,6 +11,7 @@ import Persistence
 import SwiftUI
 import Common
 import Authentication
+import Common
 
 @available(iOS 14.0, *)
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -29,28 +30,15 @@ struct MarktekApp: App {
     @State private var isGuest = false
     
     private let persistenceController = PersistenceController.shared
-
+    
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     var body: some Scene {
         WindowGroup {
-            Group {
-                if authState.isLoggedIn || isGuest {
-                    HomeView()
-                } else {
-                    AuthFlowView(
-                        onAuthenticated: {
-                            authState.markLoggedIn()
-                        },
-                        onContinueAsGuest: {
-                            isGuest = true
-                        }
-                    )
+            AppFlowView()
+            .preferredColorScheme(isDarkMode ? .dark : .light)
+                .task {
+                    await CurrencyService.shared.fetchLatestRates()
                 }
-            }
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            .onOpenURL { url in
-                GIDSignIn.sharedInstance.handle(url)
-            }
         }
     }
 }
-

@@ -9,7 +9,7 @@ struct ProductInfoQuantitySection: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            Text("Quantity")
+            Text(ProductInfoText.quantityTitle)
                 .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(ProductPalette.textPrimary)
 

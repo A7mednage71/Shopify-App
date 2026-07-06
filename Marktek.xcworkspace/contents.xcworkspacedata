@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Modules/Favorites">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Settings">
+   </FileRef>
+   <FileRef
       location = "group:Modules/Home">
    </FileRef>
    <FileRef
@@ -12,6 +18,9 @@
    </FileRef>
    <FileRef
       location = "group:Modules/Persistence">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Checkout">
    </FileRef>
    <FileRef
       location = "group:Modules/Cart">

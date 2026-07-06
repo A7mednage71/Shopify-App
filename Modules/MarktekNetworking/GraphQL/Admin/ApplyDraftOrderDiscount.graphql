@@ -1,0 +1,16 @@
+mutation ApplyDiscount($id: ID!, $input: DraftOrderInput!) {
+  draftOrderUpdate(id: $id, input: $input) {
+    draftOrder {
+      id
+      subtotalPrice
+      totalPrice
+      appliedDiscount {
+        title
+        value
+        valueType
+        amountV2 { amount currencyCode }
+      }
+    }
+    userErrors { field message }
+  }
+}

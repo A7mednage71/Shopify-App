@@ -1,63 +1,196 @@
 import Foundation
-import SwiftUI
 import Combine
+import Favorites
 
-// MARK: - HomeViewModel
 
 @MainActor
 final class HomeViewModel: ObservableObject {
 
     // MARK: - Published State
+
+    @Published private(set) var categories: [Collection] = []
+    @Published private(set) var brands: [Collection] = []
+    @Published private(set) var isLoading: Bool = false
+    @Published var error: String? = nil
+
+    // MARK: - Search
+
     @Published var searchText: String = ""
-    @Published private(set) var searchResults: [ShopifyProduct] = []
-    @Published private(set) var isSearching: Bool = false
+    @Published var isSearching: Bool = false
+    @Published var searchResults: [ShopProduct] = []
+    @Published var isSearchLoading: Bool = false
+    var originalSearchResults: [ShopProduct] = []
 
-    // MARK: - Data (replace with real repository calls)
-    let allProducts: [ShopifyProduct] = MockShopifyData.allProducts
-    let totalItemCount: Int = MockShopifyData.allProducts.count
+    @Published private(set) var trendingProducts: [HomeProduct] = []
+    @Published private(set) var isTrendingLoading: Bool = false
 
-    private var cancellables = Set<AnyCancellable>()
+    // MARK: - Special Offers
 
-    init() {
-        // Debounce search so it doesn't fire on every keystroke
-        $searchText
-            .debounce(for: .milliseconds(250), scheduler: RunLoop.main)
-            .removeDuplicates()
-            .sink { [weak self] query in
-                self?.performSearch(query: query)
+    @Published private(set) var specialOffers: [HomeProduct] = []
+    @Published private(set) var isSpecialOffersLoading: Bool = false
+    
+    // MARK: - Vendor Products
+
+    @Published var vendorProducts: [ShopProduct] = []
+    @Published var isVendorProductsLoading: Bool = false
+    @Published var vendorProductsError: String? = nil
+
+    // MARK: - Sorting
+
+    @Published var selectedSortOption: SortOption = .featured
+    @Published var showSortSheet: Bool = false
+
+    // MARK: - Filtering
+
+    @Published var filterState = FilterState()
+    @Published var showFilterSheet: Bool = false
+    @Published var availableVendors: [String] = []
+    @Published var availableProductTypes: [String] = []
+    @Published var availableTags: [String] = []
+    @Published var priceBounds: ClosedRange<Double> = 0...2000
+    @Published var favoriteProductIDs: Set<String> = []
+    // MARK: - Use Cases
+
+    let getCategoriesUseCase: any GetCategoriesUseCaseProtocol
+    let getBrandsUseCase: any GetBrandsUseCaseProtocol
+    let searchProductsUseCase: any SearchProductsUseCaseProtocol
+    let getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol
+    let getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol
+    let getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol
+    let getProductsByCategoryUseCase: any GetProductsByCategoryUseCaseProtocol
+    let manageFavoritesUseCase: any ManageFavoritesUseCase
+    // MARK: - Combine
+
+    var cancellables = Set<AnyCancellable>()
+
+    init(
+        getCategoriesUseCase: any GetCategoriesUseCaseProtocol,
+        getBrandsUseCase: any GetBrandsUseCaseProtocol,
+        searchProductsUseCase: any SearchProductsUseCaseProtocol,
+        getTrendingProductsUseCase: any GetTrendingProductsUseCaseProtocol,
+        getSpecialOffersUseCase: any GetSpecialOffersUseCaseProtocol,
+        getProductsByVendorUseCase: any GetProductsByVendorUseCaseProtocol,
+        getProductsByCategoryUseCase: any GetProductsByCategoryUseCaseProtocol,
+        manageFavoritesUseCase: any ManageFavoritesUseCase
+    ) {
+        self.getCategoriesUseCase = getCategoriesUseCase
+        self.getBrandsUseCase = getBrandsUseCase
+        self.searchProductsUseCase = searchProductsUseCase
+        self.getTrendingProductsUseCase = getTrendingProductsUseCase
+        self.getSpecialOffersUseCase = getSpecialOffersUseCase
+        self.getProductsByVendorUseCase = getProductsByVendorUseCase
+        self.getProductsByCategoryUseCase = getProductsByCategoryUseCase
+        self.manageFavoritesUseCase = manageFavoritesUseCase
+        bindSearch()
+    }
+
+
+    func loadCollections() async {
+        isLoading = true
+        error = nil
+        do {
+            async let categoriesTask = getCategoriesUseCase.execute(first: 20)
+            async let brandsTask = getBrandsUseCase.execute(first: 20)
+            
+            let (cats, brs) = try await (categoriesTask, brandsTask)
+            self.categories = cats
+            self.brands = brs
+        } catch {
+            self.error = error.localizedDescription
+        }
+        isLoading = false
+    }
+
+    func loadTrendingProducts() async {
+        isTrendingLoading = true
+        do {
+            trendingProducts = try await getTrendingProductsUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
+        }
+        isTrendingLoading = false
+    }
+
+    func loadSpecialOffers() async {
+        isSpecialOffersLoading = true
+        do {
+            specialOffers = try await getSpecialOffersUseCase.execute(first: 20)
+        } catch {
+            self.error = error.localizedDescription
+        }
+        isSpecialOffersLoading = false
+    }
+
+    func retry() {
+        Task {
+            error = nil
+            await loadCollections()
+            await loadTrendingProducts()
+            await loadSpecialOffers()
+            await loadFavorites()
+        }
+    }
+    // MARK: - Favorites Logic
+
+        public func loadFavorites() async {
+            do {
+                let favorites = try await manageFavoritesUseCase.fetchFavorites()
+                self.favoriteProductIDs = Set(favorites.map { $0.id })
+            } catch {
+                print("Error loading favorites in Home: \(error.localizedDescription)")
             }
-            .store(in: &cancellables)
-    }
-
-    // MARK: - Search Logic
-    private func performSearch(query: String) {
-        let trimmed = query.trimmingCharacters(in: .whitespaces)
-        isSearching = !trimmed.isEmpty
-
-        guard !trimmed.isEmpty else {
-            searchResults = []
-            return
         }
-
-        let lower = trimmed.lowercased()
-        searchResults = allProducts.filter {
-            $0.title.lowercased().contains(lower) ||
-            $0.description.lowercased().contains(lower)
+        
+        public func toggleFavorite(for product: HomeProduct) async {
+            let price = Double(product.price) ?? 0.0
+            
+            var finalComparePrice: Double? = nil
+            if let compareAtStr = product.compareAtPrice, let compareAtDbl = Double(compareAtStr), compareAtDbl > 0 {
+                finalComparePrice = compareAtDbl
+            }
+            
+            let favoriteItem = FavoriteProduct(
+                id: product.id,
+                title: product.title,
+                imageURL: product.featuredImageURL ?? "", 
+                price: price,
+                currencyCode: product.currencyCode,
+                compareAtPrice: finalComparePrice
+            )
+            
+            await executeToggle(for: favoriteItem)
         }
-    }
-
-    // MARK: - Formatted Count Label
-    var resultCountLabel: String {
-        let count = isSearching ? searchResults.count : totalItemCount
-        return formatCount(count) + "+ Items"
-    }
-
-    private func formatCount(_ n: Int) -> String {
-        if n >= 1_000_000 {
-            return String(format: "%.1fM", Double(n) / 1_000_000)
-        } else if n >= 1_000 {
-            return String(format: "%.0fK", Double(n) / 1_000)
+        
+        public func toggleFavorite(for product: ShopProduct) async {
+            let price = Double(product.price) ?? 0.0
+            
+            var finalComparePrice: Double? = nil
+            if let compareAt = product.compareAtPrice, let compareAtDbl = Double(compareAt), compareAtDbl > 0 {
+                finalComparePrice = compareAtDbl
+            }
+            
+            let favoriteItem = FavoriteProduct(
+                id: product.id,
+                title: product.title,
+                imageURL: product.featuredImageURL ?? "", 
+                price: price,
+                currencyCode: product.currencyCode,
+                compareAtPrice: finalComparePrice
+            )
+            
+            await executeToggle(for: favoriteItem)
         }
-        return "\(n)"
-    }
+        private func executeToggle(for favoriteItem: FavoriteProduct) async {
+            do {
+                try await manageFavoritesUseCase.toggleFavorite(product: favoriteItem)
+                
+                if favoriteProductIDs.contains(favoriteItem.id) {
+                    favoriteProductIDs.remove(favoriteItem.id)
+                } else {
+                    favoriteProductIDs.insert(favoriteItem.id)
+                }
+            } catch {
+                print("Error toggling favorite in Home: \(error.localizedDescription)")
+            }
+        }
 }

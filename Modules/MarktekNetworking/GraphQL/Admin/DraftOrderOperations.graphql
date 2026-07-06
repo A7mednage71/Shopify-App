@@ -1,0 +1,12 @@
+
+query GetDraftOrders($first: Int) {
+  draftOrders(first: $first) {
+    edges {
+      node {
+        id
+        name
+        totalPrice
+      }
+    }
+  }
+}

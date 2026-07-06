@@ -1,41 +1,64 @@
 import SwiftUI
+import Common
 
 struct ProductInfoPurchaseBar: View {
     let productTitle: String
     let displayMoney: ProductMoney
     let quantity: Int
     let isSelectedVariantAvailable: Bool
+    let addToCartState: ProductInfoAddToCartState
+    let onAddButtonFrameChange: (CGRect) -> Void
     let onAddToCart: () -> Void
 
     var body: some View {
-        HStack(spacing: 14) {
-            VStack(alignment: .leading, spacing: 3) {
-                Text("Total")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .foregroundColor(ProductPalette.textTertiary)
-                    .lineLimit(1)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 14) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(ProductInfoText.totalTitle)
+                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                        .foregroundColor(ProductPalette.textTertiary)
+                        .lineLimit(1)
 
-                Text(displayMoney.formatted(quantity: quantity))
-                    .font(.system(size: 25, weight: .bold, design: .rounded))
-                    .foregroundColor(ProductPalette.textPrimary)
+                    let amountAsDouble = Double(displayMoney.amount) ?? 0.0
+                    let totalUSD = amountAsDouble * Double(quantity)
+
+                    PriceView(
+                        priceInUSD: totalUSD,
+                        font: .system(size: 25, weight: .bold, design: .rounded),
+                        color: ProductPalette.textPrimary
+                    )
                     .lineLimit(1)
                     .minimumScaleFactor(0.58)
-            }
-            .frame(width: 108, alignment: .leading)
+                   
+              }
+               .frame(width: 108, alignment: .leading)
 
-            Button(action: onAddToCart) {
-                Label("Add to Cart", systemImage: "bag")
-                    .font(.system(size: 17, weight: .bold, design: .rounded))
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 58)
-                    .foregroundColor(.white)
-                    .background(isSelectedVariantAvailable ? ProductPalette.primary : ProductPalette.disabled)
-                    .clipShape(Capsule())
+                Button(action: onAddToCart) {
+                    ProductInfoAddToCartButtonContent(isAddingToCart: isAddingToCart)
+                        .font(.system(size: 17, weight: .bold, design: .rounded))
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 58)
+                        .foregroundColor(ProductPalette.textWhite)
+                        .background(buttonBackgroundColor)
+                        .clipShape(Capsule())
+                }
+                .disabled(!isSelectedVariantAvailable || isAddingToCart)
+                .buttonStyle(.plain)
+                .accessibilityLabel(ProductInfoText.addToCartAccessibilityLabel(productTitle: productTitle))
+                .layoutPriority(1)
+                .background(
+                    ProductInfoFrameReader(onChange: onAddButtonFrameChange)
+                )
             }
-            .disabled(!isSelectedVariantAvailable)
-            .buttonStyle(.plain)
-            .accessibilityLabel("Add \(productTitle) to cart")
-            .layoutPriority(1)
+
+            if let message = statusMessage {
+                Text(message.text)
+                    .font(.system(size: 12, weight: .semibold, design: .rounded))
+                    .foregroundColor(message.color)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 18)
@@ -43,5 +66,30 @@ struct ProductInfoPurchaseBar: View {
         .padding(.bottom, 16)
         .background(ProductPalette.cardBackground)
         .shadow(color: ProductPalette.shadow, radius: 18, x: 0, y: -8)
+    }
+
+    private var isAddingToCart: Bool {
+        if case .loading = addToCartState {
+            return true
+        }
+
+        return false
+    }
+
+    private var buttonBackgroundColor: Color {
+        isSelectedVariantAvailable && !isAddingToCart ? ProductPalette.primary : ProductPalette.disabled
+    }
+
+    private var statusMessage: (text: String, color: Color)? {
+        switch addToCartState {
+        case .idle, .loading:
+            return nil
+
+        case .success:
+            return nil
+
+        case .failure(let message):
+            return (message, ProductPalette.error)
+        }
     }
 }

@@ -1,7 +1,9 @@
 import Swinject
 
-struct ProductInfoDataAssembly: Assembly {
-    func assemble(container: Container) {
+public struct ProductInfoDataAssembly: Assembly {
+    public init() {}
+
+    public func assemble(container: Container) {
         container.register(ProductInfoRemoteDataSource.self) { _ in
             ShopifyProductInfoRemoteDataSource()
         }
@@ -10,6 +12,10 @@ struct ProductInfoDataAssembly: Assembly {
             ProductInfoRepositoryImpl(
                 remoteDataSource: resolver.resolve(ProductInfoRemoteDataSource.self)!
             )
+        }
+
+        container.register(ProductComparisonRecommendationRepository.self) { _ in
+            ProductComparisonRecommendationRepositoryImpl()
         }
     }
 }

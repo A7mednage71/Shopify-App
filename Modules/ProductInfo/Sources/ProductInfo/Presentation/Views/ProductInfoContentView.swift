@@ -2,15 +2,46 @@ import SwiftUI
 
 struct ProductInfoContentView: View {
     let product: ProductDetails
+    let addToCartState: ProductInfoAddToCartState
+    @ObservedObject var comparisonViewModel: ProductComparisonViewModel
+    let onCartTap: () -> Void
+    let onAddToCart: (ProductVariant?, Int) -> Void
 
+    let isFavorite: Bool
+    let onFavoriteTap: () -> Void
+    let onProductTap: (String) -> Void
+    
     @State private var selectedImageURL: String?
     @State private var selectedOptions: [String: String]
     @State private var quantity = 1
-    @State private var isFavorite = false
+    //@State private var isFavorite = false
     @State private var isDescriptionExpanded = false
+    @State private var addButtonFrame: CGRect = .zero
+    @State private var cartButtonFrame: CGRect = .zero
+    @State private var flyProgress: CGFloat = 1
+    @State private var isFlyDotVisible = false
+    @State private var flyAnimationID = 0
+    @State private var cartBadgeScale: CGFloat = 1
+    @State private var isComparisonSheetPresented = false
 
-    init(product: ProductDetails) {
+    init(
+        product: ProductDetails,
+        addToCartState: ProductInfoAddToCartState,
+        comparisonViewModel: ProductComparisonViewModel,
+        isFavorite: Bool,
+        onCartTap: @escaping () -> Void,
+        onAddToCart: @escaping (ProductVariant?, Int) -> Void,
+        onFavoriteTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void
+    ) {
         self.product = product
+        self.addToCartState = addToCartState
+        self._comparisonViewModel = ObservedObject(wrappedValue: comparisonViewModel)
+        self.isFavorite = isFavorite
+        self.onCartTap = onCartTap
+        self.onAddToCart = onAddToCart
+        self.onFavoriteTap = onFavoriteTap
+        self.onProductTap = onProductTap
 
         let initialOptions = product.initialSelectedOptions
         _selectedOptions = State(initialValue: initialOptions)
@@ -46,6 +77,8 @@ struct ProductInfoContentView: View {
                             quantity: quantity,
                             maxSelectableQuantity: maxSelectableQuantity,
                             isSelectedVariantAvailable: isSelectedVariantAvailable,
+                            showsComparisonButton: product.normalizedProductType.isComparable,
+                            onCompareTap: { isComparisonSheetPresented = true },
                             onImageSelect: { selectedImageURL = $0 },
                             isValueAvailable: isValueAvailable(option:value:),
                             onOptionSelect: selectOption(_:value:),
@@ -65,26 +98,132 @@ struct ProductInfoContentView: View {
                         displayMoney: displayMoney,
                         quantity: quantity,
                         isSelectedVariantAvailable: isSelectedVariantAvailable,
-                        onAddToCart: {}
+                        addToCartState: addToCartState,
+                        onAddButtonFrameChange: { addButtonFrame = $0 },
+                        onAddToCart: {
+                            onAddToCart(selectedVariant, quantity)
+                        }
                     )
                     .frame(width: geometry.size.width)
                 }
+
+                flyToCartDot(rootFrame: geometry.frame(in: .global))
             }
+        }
+        .onChange(of: addToCartState) { newValue in
+            handleAddToCartStateChange(newValue)
+        }
+        .sheet(isPresented: $isComparisonSheetPresented) {
+            ProductComparisonSheet(
+                viewModel: comparisonViewModel,
+                currentProduct: product,
+                onProductTap: onProductTap
+            )
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                favoriteToolbarButton
+                ProductInfoCartToolbarButton(
+                    onCartTap: onCartTap,
+                    cartQuantity: cartQuantity,
+                    cartBadgeScale: cartBadgeScale,
+                    onFrameChange: { cartButtonFrame = $0 }
+                )
+            }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
+                ProductInfoFavoriteToolbarButton(
+                            isFavorite: isFavorite, 
+                            action: onFavoriteTap
+                        )
             }
         }
     }
 
-    private var favoriteToolbarButton: some View {
-        Button(action: { isFavorite.toggle() }) {
-            Image(systemName: isFavorite ? "heart.fill" : "heart")
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(isFavorite ? ProductPalette.favorite : ProductPalette.textPrimary)
+    @ViewBuilder
+    private func flyToCartDot(rootFrame: CGRect) -> some View {
+        if isFlyDotVisible {
+            Circle()
+                .fill(ProductPalette.primary)
+                .frame(width: flyDotSize, height: flyDotSize)
+                .opacity(1.0 - (Double(flyProgress) * 0.35))
+                .scaleEffect(1 - (flyProgress * 0.45))
+                .position(flyDotPosition(rootFrame: rootFrame))
+                .allowsHitTesting(false)
+                .zIndex(4)
         }
-        .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
+    }
+
+    private var cartQuantity: Int? {
+        if case .success(let cart) = addToCartState {
+            return cart.totalQuantity
+        }
+
+        return nil
+    }
+
+    private var flyDotSize: CGFloat {
+        18
+    }
+
+    private func handleAddToCartStateChange(_ state: ProductInfoAddToCartState) {
+        guard case .success = state else { return }
+        startFlyToCartAnimation()
+    }
+
+    private func startFlyToCartAnimation() {
+        guard !addButtonFrame.isEmpty,
+              !cartButtonFrame.isEmpty else {
+            bumpCartBadge()
+            return
+        }
+
+        flyAnimationID += 1
+        let animationID = flyAnimationID
+
+        flyProgress = 0
+        isFlyDotVisible = true
+
+        withAnimation(.easeInOut(duration: 0.72)) {
+            flyProgress = 1
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.72) {
+            guard animationID == flyAnimationID else { return }
+            isFlyDotVisible = false
+            bumpCartBadge()
+        }
+    }
+
+    private func bumpCartBadge() {
+        withAnimation(.spring(response: 0.24, dampingFraction: 0.45)) {
+            cartBadgeScale = 1.22
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+            withAnimation(.spring(response: 0.28, dampingFraction: 0.7)) {
+                cartBadgeScale = 1
+            }
+        }
+    }
+
+    private func flyDotPosition(rootFrame: CGRect) -> CGPoint {
+        let start = CGPoint(
+            x: addButtonFrame.midX - rootFrame.minX,
+            y: addButtonFrame.midY - rootFrame.minY
+        )
+        let end = CGPoint(
+            x: cartButtonFrame.midX - rootFrame.minX,
+            y: cartButtonFrame.midY - rootFrame.minY
+        )
+        let progress = max(0, min(flyProgress, 1))
+        let arcLift = -120 * sin(progress * .pi)
+
+        return CGPoint(
+            x: start.x + ((end.x - start.x) * progress),
+            y: start.y + ((end.y - start.y) * progress) + arcLift
+        )
     }
 
     private var galleryImages: [ProductGalleryImage] {
@@ -125,7 +264,7 @@ struct ProductInfoContentView: View {
     }
 
     private var descriptionText: String {
-        product.description.isEmpty ? "No description available." : product.description
+        product.description.isEmpty ? ProductInfoText.noDescriptionAvailable : product.description
     }
 
     private var isSelectedVariantAvailable: Bool {

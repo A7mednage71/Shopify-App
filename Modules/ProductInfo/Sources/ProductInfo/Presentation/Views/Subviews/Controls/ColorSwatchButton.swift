@@ -25,7 +25,7 @@ struct ColorSwatchButton: View {
 
                 if !isAvailable {
                     Circle()
-                        .fill(Color.white.opacity(0.58))
+                        .fill(ProductPalette.textWhite.opacity(0.58))
 
                     DiagonalSlash()
                         .stroke(ProductPalette.textTertiary, lineWidth: 1.5)
@@ -35,7 +35,7 @@ struct ColorSwatchButton: View {
             .frame(width: 52, height: 52)
             .background {
                 Circle()
-                    .stroke(isSelected ? ProductPalette.primary : Color.clear, lineWidth: 2.5)
+                    .stroke(isSelected ? ProductPalette.primary : .clear, lineWidth: 2.5)
             }
         }
         .buttonStyle(.plain)

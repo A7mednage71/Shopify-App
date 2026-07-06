@@ -14,6 +14,8 @@ struct ProductInfoDetailsContainer: View {
     let quantity: Int
     let maxSelectableQuantity: Int
     let isSelectedVariantAvailable: Bool
+    let showsComparisonButton: Bool
+    let onCompareTap: () -> Void
     let onImageSelect: (String) -> Void
     let isValueAvailable: (ProductOption, String) -> Bool
     let onOptionSelect: (ProductOption, String) -> Void
@@ -34,6 +36,7 @@ struct ProductInfoDetailsContainer: View {
             ProductInfoHeaderSection(
                 title: product.title,
                 vendor: product.vendor,
+                reviewSummary: product.reviewSummary,
                 displayMoney: displayMoney,
                 compareAtMoney: compareAtMoney
             )
@@ -49,6 +52,10 @@ struct ProductInfoDetailsContainer: View {
                 quantityAvailable: selectedVariant?.quantityAvailable
             )
 
+            if showsComparisonButton {
+                ProductInfoComparisonSection(onCompareTap: onCompareTap)
+            }
+
             ProductInfoOptionsSection(
                 options: visibleOptions,
                 selectedOptions: selectedOptions,
@@ -62,6 +69,11 @@ struct ProductInfoDetailsContainer: View {
                 isSelectedVariantAvailable: isSelectedVariantAvailable,
                 onDecrement: onQuantityDecrement,
                 onIncrement: onQuantityIncrement
+            )
+
+            ProductInfoReviewsSection(
+                reviews: product.reviews,
+                summary: product.reviewSummary
             )
         }
         .frame(maxWidth: .infinity, alignment: .leading)

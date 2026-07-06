@@ -31,12 +31,20 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>APPLE_PAY_COUNTRY_CODE</key>
+	<string>$(APPLE_PAY_COUNTRY_CODE)</string>
+	<key>APPLE_PAY_MERCHANT_IDENTIFIER</key>
+	<string>$(APPLE_PAY_MERCHANT_IDENTIFIER)</string>
 	<key>SHOPIFY_API_VERSION</key>
 	<string>$(SHOPIFY_API_VERSION)</string>
 	<key>SHOPIFY_HOST</key>
 	<string>$(SHOPIFY_HOST)</string>
 	<key>SHOPIFY_STOREFRONT_ACCESS_TOKEN</key>
 	<string>$(SHOPIFY_STOREFRONT_ACCESS_TOKEN)</string>
+	<key>SHOPIFY_ADMIN_ACCESS_TOKEN</key>
+	<string>$(SHOPIFY_ADMIN_ACCESS_TOKEN)</string>
+	<key>GEMINI_API_KEY</key>
+	<string>$(GEMINI_API_KEY)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

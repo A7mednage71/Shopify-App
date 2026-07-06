@@ -21,6 +21,9 @@ public enum AppColors {
     public static let textWhite = Color.appTextWhite
     public static let border = Color.appBorderLight
     public static let shadow = Color.appCardShadow
+    public static let success = Color.appSuccessGreen
+    public static let error = Color.appErrorRed
+    public static let disabled = Color.appDisabled
 }
 
 public enum AppFonts {
@@ -69,6 +72,10 @@ public extension Color {
     static let appWhiteOverlayMedium = AppColorAsset.color("AppWhiteOverlayMedium")
     static let appCardShadow = AppColorAsset.color("AppCardShadow")
     static let appOrangeShadow = AppColorAsset.color("AppOrangeShadow")
+
+    static let appSuccessGreen = AppColorAsset.color("AppSuccessGreen")
+    static let appErrorRed = AppColorAsset.color("AppErrorRed")
+    static let appDisabled = AppColorAsset.color("AppDisabled")
 }
 
 public extension Font {
@@ -101,6 +108,22 @@ public extension Font {
     static let dealUnitLabel = Font.system(size: 10, weight: .medium)
 
     static let searchPlaceholder = Font.system(size: 15, weight: .regular)
+
+    // Shopping Assistant Fonts
+    static let assistantBubble = Font.system(size: 14.5, weight: .medium)
+    static let assistantTitle = Font.system(size: 18, weight: .bold)
+    static let assistantSubtitle = Font.system(size: 10, weight: .regular)
+    static let assistantSectionTitle = Font.system(size: 13, weight: .bold)
+    static let assistantHeaderIcon = Font.system(size: 24)
+    static let assistantHeaderBadge = Font.system(size: 10, weight: .bold, design: .monospaced)
+    static let assistantInput = Font.system(size: 15, weight: .regular)
+    static let assistantErrorText = Font.system(size: 13, weight: .regular)
+    static let assistantButtonSmall = Font.system(size: 11, weight: .bold)
+    static let assistantProductTitle = Font.system(size: 11, weight: .bold)
+    static let assistantProductSubtitle = Font.system(size: 9, weight: .regular)
+    static let assistantProductSizes = Font.system(size: 8, design: .monospaced)
+    static let assistantProductPrice = Font.system(size: 12, weight: .black, design: .monospaced)
+    static let assistantProductBadge = Font.system(size: 8, weight: .bold)
 }
 
 public extension View {
