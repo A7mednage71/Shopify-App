@@ -17,7 +17,8 @@ let package = Package(
     dependencies: [
             .package(path: "../Persistence"),
             .package(path: "../Common"),
-            .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3")
+            .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3"),
+            .package(url: "https://github.com/markiv/SwiftUI-Shimmer.git", from: "1.4.0")
         ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,7 +28,8 @@ let package = Package(
             dependencies: [
                             "Persistence",
                             "Common",
-                            "Swinject"
+                            "Swinject",
+                            .product(name: "Shimmer", package: "SwiftUI-Shimmer")
                         ],
             resources: [.process("Resources")]
         ),
