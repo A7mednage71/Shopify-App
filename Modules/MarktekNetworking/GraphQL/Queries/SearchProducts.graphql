@@ -47,6 +47,33 @@ query SearchProducts($query: String!, $first: Int!, $after: String) {
               }
             }
           }
+          metafields(identifiers: [
+            { namespace: "reviews", key: "items" }
+          ]) {
+            key
+            namespace
+            value
+            type
+            references(first: 100) {
+              edges {
+                node {
+                  ... on Metaobject {
+                    id
+                    handle
+                    type
+                    updatedAt
+                    product: field(key: "product") { key type value }
+                    customerName: field(key: "customer_name") { key type value }
+                    rating: field(key: "rating") { key type value }
+                    title: field(key: "title") { key type value }
+                    body: field(key: "body") { key type value }
+                    createdAt: field(key: "created_at") { key type value }
+                    approved: field(key: "approved") { key type value }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

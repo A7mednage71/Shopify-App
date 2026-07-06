@@ -10,4 +10,6 @@ struct HomeProductDataModel: Sendable {
     let currencyCode: String
     let compareAtPrice: String?
     let compareAtCurrencyCode: String?
+    let rating: Double?
+    let reviewCount: Int?
 }

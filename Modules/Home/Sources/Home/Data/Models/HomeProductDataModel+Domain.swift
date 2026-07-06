@@ -10,7 +10,9 @@ extension HomeProductDataModel {
             price: price,
             currencyCode: currencyCode,
             compareAtPrice: compareAtPrice,
-            compareAtCurrencyCode: compareAtCurrencyCode
+            compareAtCurrencyCode: compareAtCurrencyCode,
+            rating: rating,
+            reviewCount: reviewCount
         )
     }
 }
