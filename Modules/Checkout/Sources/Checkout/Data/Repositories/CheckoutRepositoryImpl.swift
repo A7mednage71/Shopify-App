@@ -20,4 +20,8 @@ public struct CheckoutRepositoryImpl: CheckoutRepository, Sendable {
     public func validateDiscountCode(code: String) async throws -> ValidatedDiscountCode? {
         try await remoteDataSource.validateDiscountCode(code: code)
     }
+
+    public func submitProductReview(_ review: ProductReviewSubmission) async throws {
+        try await remoteDataSource.submitProductReview(review)
+    }
 }
