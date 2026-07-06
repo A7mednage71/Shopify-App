@@ -50,6 +50,12 @@ public struct CheckoutPresentationAssembly: Assembly {
             )
         }
 
+        container.register(SubmitProductReviewUseCaseProtocol.self) { resolver in
+            SubmitProductReviewUseCase(
+                repository: resolver.resolve(CheckoutRepository.self)!
+            )
+        }
+
         container.register(CheckoutViewModelFactory.self) { resolver in
             CheckoutViewModelFactory(
                 getCurrentCartUseCase: resolver.resolve(GetCurrentCartUseCaseProtocol.self)!,
@@ -62,7 +68,8 @@ public struct CheckoutPresentationAssembly: Assembly {
 
         container.register(CheckoutViewFactory.self) { resolver in
             CheckoutViewFactory(
-                viewModelFactory: resolver.resolve(CheckoutViewModelFactory.self)!
+                viewModelFactory: resolver.resolve(CheckoutViewModelFactory.self)!,
+                submitProductReviewUseCase: resolver.resolve(SubmitProductReviewUseCaseProtocol.self)!
             )
         }
     }
