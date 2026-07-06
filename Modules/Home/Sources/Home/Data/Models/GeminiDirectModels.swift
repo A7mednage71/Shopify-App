@@ -34,8 +34,24 @@ struct GeminiDirectRequestBody: Encodable {
             }
             let items: Items
         }
+        struct BrandIds: Encodable {
+            let type: String
+            struct Items: Encodable {
+                let type: String
+            }
+            let items: Items
+        }
+        struct CategoryIds: Encodable {
+            let type: String
+            struct Items: Encodable {
+                let type: String
+            }
+            let items: Items
+        }
         let reply: Reply
         let product_ids: ProductIds
+        let brand_ids: BrandIds
+        let category_ids: CategoryIds
     }
     let system_instruction: SystemInstruction
     let contents: [Content]

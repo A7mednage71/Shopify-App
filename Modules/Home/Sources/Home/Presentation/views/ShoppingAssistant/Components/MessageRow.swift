@@ -4,11 +4,21 @@ import Common
 struct MessageRow: View {
     let message: ChatMessage
     let products: [ShopProduct]
+    let brandCollections: [Collection]
+    let categoryCollections: [Collection]
     let onProductTap: (String) -> Void
 
-    init(message: ChatMessage, products: [ShopProduct], onProductTap: @escaping (String) -> Void) {
+    init(
+        message: ChatMessage,
+        products: [ShopProduct],
+        brandCollections: [Collection],
+        categoryCollections: [Collection],
+        onProductTap: @escaping (String) -> Void
+    ) {
         self.message = message
         self.products = products
+        self.brandCollections = brandCollections
+        self.categoryCollections = categoryCollections
         self.onProductTap = onProductTap
     }
 
@@ -42,6 +52,53 @@ struct MessageRow: View {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                         ForEach(products) { product in
                             ProductCardView(product: product, onTap: onProductTap)
+                        }
+                    }
+                    .padding(.top, 4)
+                    .frame(maxWidth: 290)
+                }
+                
+                if !brandCollections.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Brands")
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(AppColors.textPrimary)
+                            .padding(.leading, 4)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(brandCollections) { brand in
+                                    NavigationLink(destination: VendorProductsView(vendorName: brand.title, viewModel: HomeAssembler.resolveHomeViewModel(), onProductTap: onProductTap)) {
+                                        BrandItem(brand: brand)
+                                            .frame(width: 80)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                        }
+                    }
+                    .padding(.top, 4)
+                    .frame(maxWidth: 290)
+                }
+
+                if !categoryCollections.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Categories")
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(AppColors.textPrimary)
+                            .padding(.leading, 4)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 16) {
+                                ForEach(categoryCollections) { category in
+                                    NavigationLink(destination: CategoryProductsView(category: category, viewModel: HomeAssembler.resolveHomeViewModel(), onProductTap: onProductTap)) {
+                                        CategoryItem(category: category)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.vertical, 4)
                         }
                     }
                     .padding(.top, 4)

@@ -12,32 +12,36 @@ struct ShoppingAssistantView: View {
     }
 
     public var body: some View {
-        VStack(spacing: 0) {
-            AssistantHeaderView(
-                isCatalogLoading: vm.isCatalogLoading,
-                hasCatalogError: vm.catalogError != nil,
-                onDismiss: { presentationMode.wrappedValue.dismiss() }
-            )
+        NavigationView {
+            VStack(spacing: 0) {
+                AssistantHeaderView(
+                    isCatalogLoading: vm.isCatalogLoading,
+                    hasCatalogError: vm.catalogError != nil,
+                    onDismiss: { presentationMode.wrappedValue.dismiss() }
+                )
 
-            if vm.isCatalogLoading && vm.messages.count <= 1 {
-                AssistantCatalogLoadingView()
-            } else if let catalogError = vm.catalogError {
-                AssistantCatalogErrorView(error: catalogError, onRetry: {
-                    Task {
-                        await vm.loadCatalog()
-                    }
-                })
-            } else {
-                chatArea
+                if vm.isCatalogLoading && vm.messages.count <= 1 {
+                    AssistantCatalogLoadingView()
+                } else if let catalogError = vm.catalogError {
+                    AssistantCatalogErrorView(error: catalogError, onRetry: {
+                        Task {
+                            await vm.loadCatalog()
+                        }
+                    })
+                } else {
+                    chatArea
+                }
+
+                AssistantInputBarView(
+                    text: $vm.input,
+                    isLoading: vm.isLoading,
+                    isCatalogLoading: vm.isCatalogLoading,
+                    onSend: { vm.send() }
+                )
             }
-
-            AssistantInputBarView(
-                text: $vm.input,
-                isLoading: vm.isLoading,
-                isCatalogLoading: vm.isCatalogLoading,
-                onSend: { vm.send() }
-            )
+            .navigationBarHidden(true)
         }
+        .navigationViewStyle(.stack)
         .environment(\.layoutDirection, .leftToRight)
         .background(AppColors.backgroundSecondary)
         .onAppear {
@@ -56,6 +60,8 @@ struct ShoppingAssistantView: View {
                         MessageRow(
                             message: message,
                             products: vm.products(for: message.productIds),
+                            brandCollections: vm.brands(for: message.brandIds),
+                            categoryCollections: vm.categories(for: message.categoryIds),
                             onProductTap: onProductTap
                         )
                         .id(message.id)

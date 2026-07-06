@@ -7,7 +7,7 @@ public struct ShoppingAssistantRepositoryImpl: ShoppingAssistantRepository {
         self.remoteDataSource = remoteDataSource
     }
 
-    public func getReply(messages: [ChatMessage], catalog: [ShopProduct]) async throws -> AssistantReply {
-        try await remoteDataSource.getReply(messages: messages, catalog: catalog)
+    public func getReply(messages: [ChatMessage], catalog: [ShopProduct], brands: [Collection], categories: [Collection]) async throws -> AssistantReply {
+        try await remoteDataSource.getReply(messages: messages, catalog: catalog, brands: brands, categories: categories)
     }
 }

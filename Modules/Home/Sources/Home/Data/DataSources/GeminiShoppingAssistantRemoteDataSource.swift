@@ -22,8 +22,8 @@ public struct GeminiShoppingAssistantRemoteDataSource: ShoppingAssistantRemoteDa
         self.responseParser = responseParser
     }
     
-    public func getReply(messages: [ChatMessage], catalog: [ShopProduct]) async throws -> AssistantReply {
-        let body = try requestBuilder.buildRequestBody(messages: messages, catalog: catalog)
+    public func getReply(messages: [ChatMessage], catalog: [ShopProduct], brands: [Collection], categories: [Collection]) async throws -> AssistantReply {
+        let body = try requestBuilder.buildRequestBody(messages: messages, catalog: catalog, brands: brands, categories: categories)
         let response = try await client.generateContent(body: body)
         return try responseParser.parse(response: response)
     }

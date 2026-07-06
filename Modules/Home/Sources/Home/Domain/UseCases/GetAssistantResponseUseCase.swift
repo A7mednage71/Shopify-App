@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol GetAssistantResponseUseCaseProtocol: Sendable {
-    func execute(messages: [ChatMessage], catalog: [ShopProduct]) async throws -> AssistantReply
+    func execute(messages: [ChatMessage], catalog: [ShopProduct], brands: [Collection], categories: [Collection]) async throws -> AssistantReply
 }
 
 public struct GetAssistantResponseUseCase: GetAssistantResponseUseCaseProtocol, Sendable {
@@ -11,7 +11,7 @@ public struct GetAssistantResponseUseCase: GetAssistantResponseUseCaseProtocol, 
         self.repository = repository
     }
 
-    public func execute(messages: [ChatMessage], catalog: [ShopProduct]) async throws -> AssistantReply {
-        try await repository.getReply(messages: messages, catalog: catalog)
+    public func execute(messages: [ChatMessage], catalog: [ShopProduct], brands: [Collection], categories: [Collection]) async throws -> AssistantReply {
+        try await repository.getReply(messages: messages, catalog: catalog, brands: brands, categories: categories)
     }
 }

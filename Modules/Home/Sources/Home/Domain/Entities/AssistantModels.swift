@@ -6,28 +6,31 @@ public struct AICatalogProduct: Codable, Identifiable, Sendable {
     public let productId: String
     public let name: String
     public let vendor: String
-    public let category: String   // "men" | "women" | "kid"
     public let colors: [String]
     public let sizes: [String]
     public let price: Double
 
-    public init(productId: String, name: String, vendor: String, category: String, colors: [String], sizes: [String], price: Double) {
+    public init(productId: String, name: String, vendor: String, colors: [String], sizes: [String], price: Double) {
         self.productId = productId
         self.name = name
         self.vendor = vendor
-        self.category = category
         self.colors = colors
         self.sizes = sizes
         self.price = price
     }
+}
 
-    public var categoryLabel: String {
-        switch category {
-        case "men": return "Men"
-        case "women": return "Women"
-        case "kid": return "Kids"
-        default: return category.capitalized
-        }
+// MARK: - AI Catalog Collection
+public struct AICatalogCollection: Codable, Sendable {
+    public let id: String
+    public let title: String
+    public let handle: String
+    public let imageURL: String?
+}
+
+public extension Collection {
+    func toAICatalogCollection() -> AICatalogCollection {
+        AICatalogCollection(id: id, title: title, handle: handle, imageURL: imageURL)
     }
 }
 
@@ -38,12 +41,16 @@ public struct ChatMessage: Identifiable, Sendable {
     public let role: Role
     public let text: String
     public var productIds: [String]
+    public var brandIds: [String]
+    public var categoryIds: [String]
 
-    public init(id: UUID = UUID(), role: Role, text: String, productIds: [String] = []) {
+    public init(id: UUID = UUID(), role: Role, text: String, productIds: [String] = [], brandIds: [String] = [], categoryIds: [String] = []) {
         self.id = id
         self.role = role
         self.text = text
         self.productIds = productIds
+        self.brandIds = brandIds
+        self.categoryIds = categoryIds
     }
 }
 
@@ -71,10 +78,21 @@ public struct GeminiProxyRequest: Codable {
 public struct AssistantReply: Codable, Sendable {
     public let reply: String
     public let product_ids: [String]
+    public let brand_ids: [String]
+    public let category_ids: [String]
     
-    public init(reply: String, product_ids: [String]) {
+    enum CodingKeys: String, CodingKey {
+        case reply
+        case product_ids = "product_ids"
+        case brand_ids = "brand_ids"
+        case category_ids = "category_ids"
+    }
+    
+    public init(reply: String, product_ids: [String], brand_ids: [String] = [], category_ids: [String] = []) {
         self.reply = reply
         self.product_ids = product_ids
+        self.brand_ids = brand_ids
+        self.category_ids = category_ids
     }
 }
 
@@ -96,25 +114,12 @@ public extension ShopProduct {
         }
         let colors = colorOption?.values ?? []
 
-        // Extract category (men, women, kid)
-        var category = "men" // default
-        let lowerTitle = title.lowercased()
-        let lowerType = (productType ?? "").lowercased()
-        let tagsCombined = tags.map { $0.lowercased() }
-
-        if lowerTitle.contains("women") || lowerTitle.contains("حريمي") || lowerType.contains("women") || tagsCombined.contains("women") || tagsCombined.contains("حريمي") {
-            category = "women"
-        } else if lowerTitle.contains("kid") || lowerTitle.contains("أطفال") || lowerTitle.contains("child") || lowerType.contains("kid") || tagsCombined.contains("kid") || tagsCombined.contains("أطفال") {
-            category = "kid"
-        }
-
         let parsedPrice = Double(price) ?? 0.0
 
         return AICatalogProduct(
             productId: id,
             name: title,
             vendor: vendor ?? "",
-            category: category,
             colors: colors,
             sizes: sizes,
             price: parsedPrice
