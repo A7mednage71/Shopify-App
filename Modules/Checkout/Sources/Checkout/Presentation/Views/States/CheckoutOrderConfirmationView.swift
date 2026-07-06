@@ -4,8 +4,12 @@ import SwiftUI
 struct CheckoutOrderConfirmationView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var hasAppeared = false
+    @State private var reviewLine: CartLine?
+    @State private var reviewedProductIDs: Set<String> = []
 
-    let route: CheckoutOrderConfirmationRoute
+    let confirmation: CheckoutOrderConfirmation
+    let submitProductReviewUseCase: any SubmitProductReviewUseCaseProtocol
+    let onDone: () -> Void
 
     var body: some View {
         ScrollView {
@@ -14,11 +18,20 @@ struct CheckoutOrderConfirmationView: View {
 
                 paymentCard
 
-                CheckoutProductsSection(lines: route.cart.lines)
+                CheckoutProductsSection(
+                    lines: confirmation.cart.lines,
+                    reviewedProductIDs: reviewedProductIDs,
+                    onReviewTap: { reviewLine = $0 }
+                )
 
-                CheckoutOrderSummarySection(cart: route.cart)
+                CheckoutOrderSummarySection(
+                    cart: confirmation.cart,
+                    selectedShippingMethod: confirmation.pricing.shippingMethod,
+                    pricing: confirmation.pricing
+                )
 
                 CheckoutPrimaryButton(title: CheckoutText.orderConfirmationDoneTitle) {
+                    onDone()
                     dismiss()
                 }
             }
@@ -35,6 +48,22 @@ struct CheckoutOrderConfirmationView: View {
             withAnimation(.spring(response: 0.46, dampingFraction: 0.84)) {
                 hasAppeared = true
             }
+        }
+        .sheet(item: $reviewLine) { line in
+            CheckoutReviewSheet(
+                productTitle: line.checkoutProductTitle,
+                onSubmit: { input in
+                    try await submitProductReviewUseCase.execute(
+                        input: input,
+                        customerDetails: confirmation.customerDetails
+                    )
+
+                    if let productID = line.checkoutProductID {
+                        reviewedProductIDs.insert(productID)
+                    }
+                },
+                productID: line.checkoutProductID
+            )
         }
     }
 
@@ -79,13 +108,35 @@ struct CheckoutOrderConfirmationView: View {
 
             VStack(spacing: 12) {
                 confirmationRow(
-                    title: CheckoutText.paymentMethodTitle,
-                    value: route.paymentMethodTitle ?? CheckoutText.paymentMethodFallbackTitle
+                    title: CheckoutText.orderNameTitle,
+                    value: confirmation.order.name
                 )
 
                 confirmationRow(
+                    title: CheckoutText.paymentMethodTitle,
+                    value: confirmation.paymentMethodTitle
+                )
+
+                confirmationRow(
+                    title: CheckoutText.financialStatusTitle,
+                    value: confirmation.order.financialStatus.checkoutOrderStatusTitle
+                )
+
+                confirmationRow(
+                    title: CheckoutText.fulfillmentStatusTitle,
+                    value: confirmation.order.fulfillmentStatus.checkoutOrderStatusTitle
+                )
+
+                if let email = confirmation.order.email, !email.isEmpty {
+                    confirmationRow(
+                        title: CheckoutText.orderEmailTitle,
+                        value: email
+                    )
+                }
+
+                confirmationRow(
                     title: CheckoutText.totalTitle,
-                    value: route.cart.cost.totalAmount.checkoutFormattedCurrency(),
+                    value: orderTotalText,
                     isEmphasized: true
                 )
             }
@@ -115,5 +166,19 @@ struct CheckoutOrderConfirmationView: View {
                 .multilineTextAlignment(.trailing)
                 .monospacedDigit()
         }
+    }
+
+    private var orderTotalText: String {
+        guard let total = Decimal(string: confirmation.order.totalPrice.replacingOccurrences(of: ",", with: "")) else {
+            return confirmation.pricing.total.checkoutFormattedCurrency(
+                currencyCode: confirmation.pricing.currencyCode
+            )
+        }
+
+        return total.checkoutFormattedCurrency(
+            currencyCode: confirmation.order.currencyCode.isEmpty
+                ? confirmation.pricing.currencyCode
+                : confirmation.order.currencyCode
+        )
     }
 }

@@ -6,10 +6,13 @@ struct ProductInfoContentView: View {
     let onCartTap: () -> Void
     let onAddToCart: (ProductVariant?, Int) -> Void
 
+    let isFavorite: Bool
+    let onFavoriteTap: () -> Void
+    
     @State private var selectedImageURL: String?
     @State private var selectedOptions: [String: String]
     @State private var quantity = 1
-    @State private var isFavorite = false
+    //@State private var isFavorite = false
     @State private var isDescriptionExpanded = false
     @State private var addButtonFrame: CGRect = .zero
     @State private var cartButtonFrame: CGRect = .zero
@@ -21,13 +24,17 @@ struct ProductInfoContentView: View {
     init(
         product: ProductDetails,
         addToCartState: ProductInfoAddToCartState,
+        isFavorite: Bool,
         onCartTap: @escaping () -> Void,
-        onAddToCart: @escaping (ProductVariant?, Int) -> Void
+        onAddToCart: @escaping (ProductVariant?, Int) -> Void,
+        onFavoriteTap: @escaping () -> Void
     ) {
         self.product = product
         self.addToCartState = addToCartState
+        self.isFavorite = isFavorite
         self.onCartTap = onCartTap
         self.onAddToCart = onAddToCart
+        self.onFavoriteTap = onFavoriteTap
 
         let initialOptions = product.initialSelectedOptions
         _selectedOptions = State(initialValue: initialOptions)
@@ -108,7 +115,10 @@ struct ProductInfoContentView: View {
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
-                ProductInfoFavoriteToolbarButton(isFavorite: $isFavorite)
+                ProductInfoFavoriteToolbarButton(
+                            isFavorite: isFavorite, 
+                            action: onFavoriteTap
+                        )
             }
         }
     }
@@ -119,8 +129,8 @@ struct ProductInfoContentView: View {
             Circle()
                 .fill(ProductPalette.primary)
                 .frame(width: flyDotSize, height: flyDotSize)
-                .opacity(1.0 - (flyProgress * 0.35))
-                .scaleEffect(1.0 - (flyProgress * 0.45))
+                .opacity(1.0 - (Double(flyProgress) * 0.35))
+                .scaleEffect(1 - (flyProgress * 0.45))
                 .position(flyDotPosition(rootFrame: rootFrame))
                 .allowsHitTesting(false)
                 .zIndex(4)

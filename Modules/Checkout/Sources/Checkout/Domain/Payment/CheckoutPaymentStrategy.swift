@@ -1,78 +1,46 @@
-import Common
 import Foundation
 
-public enum CheckoutPaymentError: LocalizedError {
-    case missingCheckoutURL
+enum CheckoutPaymentStrategyError: LocalizedError {
+    case unsupportedPaymentMethod
 
-    public var errorDescription: String? {
+     var errorDescription: String? {
         switch self {
-        case .missingCheckoutURL:
-            return "The checkout URL is missing from the cart."
+        case .unsupportedPaymentMethod:
+            return "This payment method is not available."
         }
     }
 }
 
-public protocol CheckoutPaymentStrategy: Sendable {
-    var method: CheckoutPaymentMethod { get }
-    func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction
+protocol CheckoutPaymentStrategy: Sendable {
+    var paymentMethodType: CheckoutPaymentMethodType { get }
+    var financialStatus: OrderFinancialStatus { get }
+    var transactionStatus: OrderTransactionStatus { get }
+    var gateway: String { get }
 }
 
-public struct CardPaymentStrategy: CheckoutPaymentStrategy {
-    public let method = CheckoutPaymentMethod(
-        type: .card,
-        title: "Card",
-        subtitle: "Pay securely with your saved card",
-        systemImageName: "creditcard.fill"
-    )
+struct ApplePayPaymentStrategy: CheckoutPaymentStrategy {
+    public let paymentMethodType = CheckoutPaymentMethodType.applePay
+    public let financialStatus = OrderFinancialStatus.paid
+    let transactionStatus = OrderTransactionStatus.success
+    let gateway = "apple_pay"
 
-    public init() {}
-
-    public func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction {
-        guard let checkoutUrl = cart.checkoutUrl,
-              let url = URL(string: checkoutUrl) else {
-            throw CheckoutPaymentError.missingCheckoutURL
-        }
-
-        return .presentWebCheckout(url)
-    }
+     init() {}
 }
 
-public struct ApplePayPaymentStrategy: CheckoutPaymentStrategy {
-    public let method = CheckoutPaymentMethod(
-        type: .applePay,
-        title: "Apple Pay",
-        subtitle: "Fast checkout with Apple Pay",
-        systemImageName: "apple.logo"
-    )
+struct CashOnDeliveryPaymentStrategy: CheckoutPaymentStrategy {
+     let paymentMethodType = CheckoutPaymentMethodType.cashOnDelivery
+     let financialStatus = OrderFinancialStatus.pending
+     let transactionStatus = OrderTransactionStatus.pending
+     let gateway = "cash_on_delivery"
 
-    public init() {}
-
-    public func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction {
-        .none
-    }
+     init() {}
 }
 
-public struct CashOnDeliveryPaymentStrategy: CheckoutPaymentStrategy {
-    public let method = CheckoutPaymentMethod(
-        type: .cashOnDelivery,
-        title: "Cash on Delivery",
-        subtitle: "Pay when your order arrives",
-        systemImageName: "banknote.fill"
-    )
-
-    public init() {}
-
-    public func performCheckout(cart: CartDetails) async throws -> CheckoutPaymentAction {
-        .none
-    }
-}
-
-public struct CheckoutPaymentStrategyProvider: Sendable {
+struct CheckoutPaymentStrategyProvider: Sendable {
     private let strategies: [any CheckoutPaymentStrategy]
 
-    public init(
+     init(
         strategies: [any CheckoutPaymentStrategy] = [
-            CardPaymentStrategy(),
             ApplePayPaymentStrategy(),
             CashOnDeliveryPaymentStrategy()
         ]
@@ -80,11 +48,15 @@ public struct CheckoutPaymentStrategyProvider: Sendable {
         self.strategies = strategies
     }
 
-    public var methods: [CheckoutPaymentMethod] {
-        strategies.map(\.method)
+     var paymentMethods: [CheckoutPaymentMethodType] {
+        strategies.map(\.paymentMethodType)
     }
 
-    public func strategy(for type: CheckoutPaymentMethodType) -> (any CheckoutPaymentStrategy)? {
-        strategies.first { $0.method.type == type }
+     func strategy(for paymentMethodType: CheckoutPaymentMethodType) throws -> any CheckoutPaymentStrategy {
+        guard let strategy = strategies.first(where: { $0.paymentMethodType == paymentMethodType }) else {
+            throw CheckoutPaymentStrategyError.unsupportedPaymentMethod
+        }
+
+        return strategy
     }
 }

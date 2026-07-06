@@ -1,5 +1,6 @@
 import Cart
 import Checkout
+import Common
 import ProductInfo
 import SwiftUI
 
@@ -24,6 +25,10 @@ struct MainFlowView: View {
             .navigationDestination(for: MainFlowRoute.self) { route in
                 destination(for: route)
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                homeToolbarItems
+            }
         }
         .onChange(of: cartCoordinator.path) { newPath in
             cartCoordinator.handlePathChange(newPath)
@@ -40,13 +45,15 @@ struct MainFlowView: View {
 
         case .cart:
             CartFlowView(
-                onCheckoutTap: { cart in cartCoordinator.showCheckout(cart: cart) },
+                onCheckoutTap: { _ in cartCoordinator.showCheckout() },
                 onStartShoppingTap: showHomeRoot,
                 onProductTap: cartCoordinator.showProductDetails
             )
 
         case .favorites:
-            FavoritesFlowView()
+            FavoritesFlowView(
+                    onProductDetailsTap: favoritesCoordinator.showProductInfo(productID:)
+                )
 
         case .profile:
             ProfileFlowView()
@@ -55,6 +62,52 @@ struct MainFlowView: View {
 
     private var tabs: [MainTab] {
         [.home, .cart, .favorites, .profile]
+    }
+
+    private var shouldShowHomeToolbar: Bool {
+        coordinator.selectedTab == .home && homeCoordinator.path.isEmpty
+    }
+
+    @ToolbarContentBuilder
+    private var homeToolbarItems: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            if shouldShowHomeToolbar {
+                Button(action: {}) {
+                    Image(systemName: "line.horizontal.3")
+                        .foregroundColor(.appTextPrimary)
+                        .font(.system(size: 18))
+                }
+            }
+        }
+
+        ToolbarItem(placement: .principal) {
+            if shouldShowHomeToolbar {
+                HStack(spacing: 6) {
+                    Image(systemName: "sparkles")
+                        .foregroundColor(.appPrimaryOrange)
+                        .font(.system(size: 20))
+                    Text("Marktek")
+                        .font(.appBarTitle)
+                        .foregroundColor(.appPrimaryOrange)
+                }
+            }
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+            if shouldShowHomeToolbar {
+                Button(action: {}) {
+                    AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
+                        image.resizable().aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .foregroundColor(.appTextTertiary)
+                    }
+                    .frame(width: 34, height: 34)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                }
+            }
+        }
     }
 
     private var activeRouter: Binding<[MainFlowRoute]> {
@@ -118,13 +171,7 @@ struct MainFlowView: View {
             sharedDestination(for: sharedRoute)
 
         case .checkout:
-            if let cart = cartCoordinator.checkoutCart {
-                CheckoutViewFactory.makeView(cart: cart) { route in
-                    cartCoordinator.showOrderConfirmation(route)
-                }
-            } else {
-                EmptyView()
-            }
+            CheckoutViewFactory.makeView(onOrderConfirmed: showOrderConfirmation)
 
         case .orderConfirmation:
             cartOrderConfirmationDestination
@@ -150,17 +197,35 @@ struct MainFlowView: View {
         }
     }
 
+    private var temporaryProductID: String {
+        "gid://shopify/Product/7471719088183"
+    }
+
     @ViewBuilder
     private var cartOrderConfirmationDestination: some View {
-        if let route = cartCoordinator.orderConfirmationRoute {
-            CheckoutViewFactory.makeOrderConfirmationView(route: route)
+        if let confirmation = cartCoordinator.orderConfirmation {
+            CheckoutViewFactory.makeOrderConfirmationView(
+                confirmation: confirmation,
+                onDone: resetAllRoutesToHome
+            )
         } else {
             EmptyView()
         }
     }
 
-    private var temporaryProductID: String {
-        "gid://shopify/Product/7471719088183"
+    private func showOrderConfirmation(_ confirmation: CheckoutOrderConfirmation) {
+        homeCoordinator.showRoot()
+        cartCoordinator.showOrderConfirmation(confirmation)
+        favoritesCoordinator.showRoot()
+        profileCoordinator.showRoot()
+    }
+
+    private func resetAllRoutesToHome() {
+        homeCoordinator.showRoot()
+        cartCoordinator.showRoot()
+        favoritesCoordinator.showRoot()
+        profileCoordinator.showRoot()
+        coordinator.showHome()
     }
 
     private func showHomeRoot() {

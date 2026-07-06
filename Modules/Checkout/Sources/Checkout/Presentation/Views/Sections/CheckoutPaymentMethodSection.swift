@@ -2,7 +2,7 @@ import Common
 import SwiftUI
 
 struct CheckoutPaymentMethodSection: View {
-    let methods: [CheckoutPaymentMethod]
+    let methods: [CheckoutPaymentMethodType]
     let selectedType: CheckoutPaymentMethodType
     let onSelect: (CheckoutPaymentMethodType) -> Void
 
@@ -14,8 +14,8 @@ struct CheckoutPaymentMethodSection: View {
                 ForEach(methods) { method in
                     CheckoutPaymentMethodRow(
                         method: method,
-                        isSelected: method.type == selectedType,
-                        onSelect: { onSelect(method.type) }
+                        isSelected: method == selectedType,
+                        onSelect: { onSelect(method) }
                     )
                 }
             }
@@ -24,7 +24,7 @@ struct CheckoutPaymentMethodSection: View {
 }
 
 private struct CheckoutPaymentMethodRow: View {
-    let method: CheckoutPaymentMethod
+    let method: CheckoutPaymentMethodType
     let isSelected: Bool
     let onSelect: () -> Void
 
@@ -75,9 +75,7 @@ private struct CheckoutPaymentMethodRow: View {
     }
 
     private var iconColor: Color {
-        switch method.type {
-        case .card:
-            return AppColors.primary
+        switch method {
         case .applePay:
             return AppColors.textPrimary
         case .cashOnDelivery:

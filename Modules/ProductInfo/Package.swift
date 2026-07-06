@@ -20,6 +20,7 @@ let package = Package(
         .package(path: "../Common"),
         .package(path: "../MarktekNetworking"),
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3"),
+        .package(path: "../Favorites")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -30,6 +31,7 @@ let package = Package(
                 .product(name: "Common", package: "Common"),
                 .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                 .product(name: "Swinject", package: "Swinject"),
+                .product(name: "Favorites", package: "Favorites")
             ]
         ),
         .testTarget(

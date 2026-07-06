@@ -6,7 +6,8 @@ import Common
 struct SearchResultsSection: View {
     let products: [ShopProduct]
     var onProductTap: ((ShopProduct) -> Void)? = nil
-
+    let favoriteProductIDs: Set<String>
+    let onFavoriteTap: (ShopProduct) -> Void
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
@@ -21,7 +22,10 @@ struct SearchResultsSection: View {
             } else {
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(products) { product in
-                        ShopProductCard(product: product)
+                        ShopProductCard(product: product,       isWishlisted: favoriteProductIDs.contains(product.id),
+                                        onFavoriteTap: {
+                            onFavoriteTap(product)
+                        })
                             .onTapGesture { onProductTap?(product) }
                     }
                 }

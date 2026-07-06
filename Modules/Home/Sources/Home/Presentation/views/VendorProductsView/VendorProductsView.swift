@@ -23,7 +23,16 @@ struct VendorProductsView: View {
                 } else if viewModel.vendorProducts.isEmpty {
                     VendorEmptyStateView()
                 } else {
-                    ProductsGridSection(products: viewModel.vendorProducts, onProductTap: onProductTap)
+                    ProductsGridSection(
+                        products: viewModel.vendorProducts,
+                        favoriteProductIDs: viewModel.favoriteProductIDs,
+                        onFavoriteTap: { product in
+                            Task {
+                                await viewModel.toggleFavorite(for: product)
+                            }
+                        },
+                        onProductTap: onProductTap
+                    )
                 }
             }
         }

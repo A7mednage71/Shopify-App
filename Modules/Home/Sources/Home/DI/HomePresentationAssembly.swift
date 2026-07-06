@@ -1,9 +1,10 @@
 import Swinject
-
+import Favorites
+@MainActor
 struct HomePresentationAssembly: Assembly {
     func assemble(container: Container) {
         container.register(HomeViewModel.self) { r in
-            MainActor.assumeIsolated {
+         
                 HomeViewModel(
                     getCategoriesUseCase: r.resolve(GetCategoriesUseCaseProtocol.self)!,
                     getBrandsUseCase: r.resolve(GetBrandsUseCaseProtocol.self)!,
@@ -11,9 +12,10 @@ struct HomePresentationAssembly: Assembly {
                     getTrendingProductsUseCase: r.resolve(GetTrendingProductsUseCaseProtocol.self)!,
                     getSpecialOffersUseCase: r.resolve(GetSpecialOffersUseCaseProtocol.self)!,
                     getProductsByVendorUseCase: r.resolve(GetProductsByVendorUseCaseProtocol.self)!,
-                    getProductsByCategoryUseCase: r.resolve(GetProductsByCategoryUseCaseProtocol.self)!
+                    getProductsByCategoryUseCase: r.resolve(GetProductsByCategoryUseCaseProtocol.self)!,
+                    manageFavoritesUseCase: r.resolve(ManageFavoritesUseCase.self)!
                 )
-            }
+            
         }
 
         container.register(ShoppingAssistantViewModel.self) { r in

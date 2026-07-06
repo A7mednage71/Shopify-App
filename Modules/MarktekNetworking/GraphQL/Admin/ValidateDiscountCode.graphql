@@ -1,0 +1,77 @@
+query ValidateDiscountCode($code: String!) {
+  codeDiscountNodeByCode(code: $code) {
+    id
+    codeDiscount {
+      ... on DiscountCodeBasic {
+        title
+        status
+        startsAt
+        endsAt
+        usageLimit
+        asyncUsageCount
+
+        customerGets {
+          value {
+            ... on DiscountPercentage {
+              percentage
+            }
+
+            ... on DiscountAmount {
+              amount {
+                amount
+                currencyCode
+              }
+              appliesOnEachItem
+            }
+          }
+
+          items {
+            ... on AllDiscountItems {
+              allItems
+            }
+          }
+        }
+
+        minimumRequirement {
+          ... on DiscountMinimumQuantity {
+            greaterThanOrEqualToQuantity
+          }
+
+          ... on DiscountMinimumSubtotal {
+            greaterThanOrEqualToSubtotal {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+
+      ... on DiscountCodeFreeShipping {
+        title
+        status
+        startsAt
+        endsAt
+        usageLimit
+        asyncUsageCount
+
+        maximumShippingPrice {
+          amount
+          currencyCode
+        }
+
+        minimumRequirement {
+          ... on DiscountMinimumQuantity {
+            greaterThanOrEqualToQuantity
+          }
+
+          ... on DiscountMinimumSubtotal {
+            greaterThanOrEqualToSubtotal {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  }
+}

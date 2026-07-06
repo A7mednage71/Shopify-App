@@ -12,8 +12,16 @@ public struct CheckoutRepositoryImpl: CheckoutRepository, Sendable {
         return dataModel.toDomain()
     }
 
-    public func getCustomerDetails(customerAccessToken: String) async throws -> CustomerDetails {
-        let dataModel = try await remoteDataSource.getCustomerDetails(customerAccessToken: customerAccessToken)
+    public func getCustomerDetails() async throws -> CustomerDetails {
+        let dataModel = try await remoteDataSource.getCustomerDetails()
         return dataModel.toDomain()
+    }
+
+    public func validateDiscountCode(code: String) async throws -> ValidatedDiscountCode? {
+        try await remoteDataSource.validateDiscountCode(code: code)
+    }
+
+    public func submitProductReview(_ review: ProductReviewSubmission) async throws {
+        try await remoteDataSource.submitProductReview(review)
     }
 }

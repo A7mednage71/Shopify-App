@@ -12,8 +12,6 @@ public struct GetCustomerDetailsUseCase: GetCustomerDetailsUseCaseProtocol, Send
     }
 
     public func execute() async throws -> CustomerDetails {
-        // Fetch customer details using the hardcoded default token in the app
-        let defaultToken = "648edf17ddb633d185b256f956cefaf4"
-        return try await repository.getCustomerDetails(customerAccessToken: defaultToken)
+        try await repository.getCustomerDetails()
     }
 }

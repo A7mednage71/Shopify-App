@@ -14,7 +14,7 @@ struct ProductInfoDataModel: Sendable {
     let images: [ProductImageDataModel]
     let options: [ProductOptionDataModel]
     let variants: [ProductVariantDataModel]
-    let metafields: [ProductMetafieldDataModel]
+    let reviews: [ProductReviewDataModel]
 }
 
 struct ProductMoneyDataModel: Sendable {
@@ -62,11 +62,13 @@ struct ProductVariantImageDataModel: Sendable {
     let altText: String?
 }
 
-struct ProductMetafieldDataModel: Sendable {
-    let namespace: String
-    let key: String
-    let value: String
-    let type: String
+struct ProductReviewDataModel: Sendable {
+    let id: String
+    let customerName: String
+    let rating: Int
+    let title: String
+    let body: String
+    let createdAt: String
 }
 
 extension ProductInfoDataModel {
@@ -112,16 +114,39 @@ extension ProductInfoDataModel {
         self.variants = product.variants.edges.map { edge in
             ProductVariantDataModel(variant: edge.node)
         }
-        self.metafields = product.metafields.compactMap { metafield in
-            guard let metafield else { return nil }
+        self.reviews = product.metafields.flatMap { metafield -> [ProductReviewDataModel] in
+            guard let metafield,
+                  metafield.namespace == "reviews",
+                  metafield.key == "items" else { return [] }
 
-            return ProductMetafieldDataModel(
-                namespace: metafield.namespace,
-                key: metafield.key,
-                value: metafield.value,
-                type: metafield.type
-            )
+            return metafield.references?.edges.compactMap { edge in
+                guard let metaobject = edge.node.asMetaobject else { return nil }
+                return ProductReviewDataModel(metaobject: metaobject, productID: product.id)
+            } ?? []
         }
+    }
+}
+
+private typealias ProductReviewMetaobject = GetProductQuery.Data.Product.Metafield.References.Edge.Node.AsMetaobject
+
+private extension ProductReviewDataModel {
+    init?(metaobject: ProductReviewMetaobject, productID: String) {
+        guard metaobject.product?.value == productID,
+              metaobject.approved?.value?.lowercased() == "true",
+              let ratingValue = metaobject.rating?.value,
+              let rating = Int(ratingValue),
+              (1...5).contains(rating),
+              let title = metaobject.title?.value?.trimmedNonEmpty,
+              let body = metaobject.body?.value?.trimmedNonEmpty else {
+            return nil
+        }
+
+        self.id = metaobject.id
+        self.customerName = metaobject.customerName?.value?.trimmedNonEmpty ?? "Customer"
+        self.rating = rating
+        self.title = title
+        self.body = body
+        self.createdAt = metaobject.createdAt?.value?.trimmedNonEmpty ?? metaobject.updatedAt
     }
 }
 
@@ -153,5 +178,12 @@ private extension ProductVariantDataModel {
                 altText: image.altText
             )
         }
+    }
+}
+
+private extension String {
+    var trimmedNonEmpty: String? {
+        let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : trimmed
     }
 }

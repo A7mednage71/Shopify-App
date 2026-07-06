@@ -1,30 +1,35 @@
 import Foundation
 
-public enum CheckoutPaymentMethodType: String, CaseIterable, Identifiable, Sendable {
-    case card
+enum CheckoutPaymentMethodType: String, CaseIterable, Identifiable, Sendable {
     case applePay
     case cashOnDelivery
 
     public var id: String { rawValue }
-}
 
-public struct CheckoutPaymentMethod: Identifiable, Equatable, Sendable {
-    public let type: CheckoutPaymentMethodType
-    public let title: String
-    public let subtitle: String
-    public let systemImageName: String
-
-    public init(
-        type: CheckoutPaymentMethodType,
-        title: String,
-        subtitle: String,
-        systemImageName: String
-    ) {
-        self.type = type
-        self.title = title
-        self.subtitle = subtitle
-        self.systemImageName = systemImageName
+    public var title: String {
+        switch self {
+        case .applePay:
+            return "Apple Pay"
+        case .cashOnDelivery:
+            return "Cash on Delivery"
+        }
     }
 
-    public var id: CheckoutPaymentMethodType { type }
+    public var subtitle: String {
+        switch self {
+        case .applePay:
+            return "Fast checkout with Apple Pay"
+        case .cashOnDelivery:
+            return "Pay when your order arrives"
+        }
+    }
+
+    public var systemImageName: String {
+        switch self {
+        case .applePay:
+            return "apple.logo"
+        case .cashOnDelivery:
+            return "banknote.fill"
+        }
+    }
 }

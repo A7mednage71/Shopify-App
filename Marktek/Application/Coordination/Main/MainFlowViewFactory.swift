@@ -1,6 +1,7 @@
 import Cart
 import Checkout
 import ProductInfo
+import Favorites
 import SwiftUI
 
 struct MainFlowViewFactory {
@@ -42,21 +43,24 @@ extension CartViewFactory {
 extension CheckoutViewFactory {
     @MainActor
     static func makeView(
-        cart: CartDetails,
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmationRoute) -> Void
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeCheckoutDestinationView(cart: cart, onOrderConfirmed: onOrderConfirmed)
+            .makeCheckoutDestinationView(onOrderConfirmed: onOrderConfirmed)
     }
 
     @MainActor
     static func makeOrderConfirmationView(
-        route: CheckoutOrderConfirmationRoute
+        confirmation: CheckoutOrderConfirmation,
+        onDone: @escaping () -> Void = {}
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeOrderConfirmationDestinationView(route: route)
+            .makeOrderConfirmationDestinationView(
+                confirmation: confirmation,
+                onDone: onDone
+            )
     }
 }
 
@@ -73,5 +77,16 @@ extension ProductInfoViewFactory {
                 productID: productID,
                 onCartTap: onCartTap
             )
+    }
+}
+
+extension FavoritesViewFactory {
+    @MainActor
+    static func makeFavoritesView(
+        onProductTap: @escaping (String) -> Void
+    ) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(FavoritesViewFactory.self)
+            .makeFavoritesDestinationView(onProductTap: onProductTap)
     }
 }

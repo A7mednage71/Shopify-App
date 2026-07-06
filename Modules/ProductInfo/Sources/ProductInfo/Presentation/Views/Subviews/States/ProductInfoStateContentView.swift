@@ -3,6 +3,8 @@ import SwiftUI
 struct ProductInfoStateContentView: View {
     let state: ProductInfoViewState
     let addToCartState: ProductInfoAddToCartState
+    let isFavorite: Bool
+    let onFavoriteTap: (ProductDetails) -> Void
     let onCartTap: () -> Void
     let onAddToCart: (ProductVariant?, Int) -> Void
     let onRetry: () -> Void
@@ -16,8 +18,10 @@ struct ProductInfoStateContentView: View {
             ProductInfoContentView(
                 product: product,
                 addToCartState: addToCartState,
+                isFavorite: isFavorite,
                 onCartTap: onCartTap,
-                onAddToCart: onAddToCart
+                onAddToCart: onAddToCart,
+                onFavoriteTap: {onFavoriteTap(product)}
             )
 
         case .failure(let message):
