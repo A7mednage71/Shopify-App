@@ -2,16 +2,16 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Modules/Onboarding">
-   </FileRef>
-   <FileRef
       location = "group:Modules/Home">
    </FileRef>
    <FileRef
-      location = "group:Modules/Persistence">
+      location = "group:Modules/Common">
    </FileRef>
    <FileRef
-      location = "group:Modules/Common">
+      location = "group:Modules/Onboarding">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Persistence">
    </FileRef>
    <FileRef
       location = "group:Modules/Cart">
