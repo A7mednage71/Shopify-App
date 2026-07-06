@@ -61,7 +61,7 @@ struct FavoriteProductCard: View {
                 .padding(8)
             }
             
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 4) {
                 // Name
                 Text(product.title)
                     .font(.productName)
@@ -70,7 +70,7 @@ struct FavoriteProductCard: View {
                     .frame(width: 150, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
                 
-                Spacer(minLength: 2)
+                Spacer(minLength: 4)
                 
                 // Price
                 HStack(alignment: .center, spacing: 4) {
@@ -92,9 +92,13 @@ struct FavoriteProductCard: View {
             .padding(.top, 6)
             .padding(.bottom, 8)
         }
-        .frame(width: 170, height: 290)
+        .frame(width: 170, height: 260)
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
+        )
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)
     }
 }
