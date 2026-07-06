@@ -3,11 +3,13 @@ import SwiftUI
 struct ProductInfoContentView: View {
     let product: ProductDetails
     let addToCartState: ProductInfoAddToCartState
+    @ObservedObject var comparisonViewModel: ProductComparisonViewModel
     let onCartTap: () -> Void
     let onAddToCart: (ProductVariant?, Int) -> Void
 
     let isFavorite: Bool
     let onFavoriteTap: () -> Void
+    let onProductTap: (String) -> Void
     
     @State private var selectedImageURL: String?
     @State private var selectedOptions: [String: String]
@@ -20,21 +22,26 @@ struct ProductInfoContentView: View {
     @State private var isFlyDotVisible = false
     @State private var flyAnimationID = 0
     @State private var cartBadgeScale: CGFloat = 1
+    @State private var isComparisonSheetPresented = false
 
     init(
         product: ProductDetails,
         addToCartState: ProductInfoAddToCartState,
+        comparisonViewModel: ProductComparisonViewModel,
         isFavorite: Bool,
         onCartTap: @escaping () -> Void,
         onAddToCart: @escaping (ProductVariant?, Int) -> Void,
-        onFavoriteTap: @escaping () -> Void
+        onFavoriteTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void
     ) {
         self.product = product
         self.addToCartState = addToCartState
+        self._comparisonViewModel = ObservedObject(wrappedValue: comparisonViewModel)
         self.isFavorite = isFavorite
         self.onCartTap = onCartTap
         self.onAddToCart = onAddToCart
         self.onFavoriteTap = onFavoriteTap
+        self.onProductTap = onProductTap
 
         let initialOptions = product.initialSelectedOptions
         _selectedOptions = State(initialValue: initialOptions)
@@ -70,6 +77,8 @@ struct ProductInfoContentView: View {
                             quantity: quantity,
                             maxSelectableQuantity: maxSelectableQuantity,
                             isSelectedVariantAvailable: isSelectedVariantAvailable,
+                            showsComparisonButton: product.normalizedProductType.isComparable,
+                            onCompareTap: { isComparisonSheetPresented = true },
                             onImageSelect: { selectedImageURL = $0 },
                             isValueAvailable: isValueAvailable(option:value:),
                             onOptionSelect: selectOption(_:value:),
@@ -103,6 +112,15 @@ struct ProductInfoContentView: View {
         }
         .onChange(of: addToCartState) { newValue in
             handleAddToCartStateChange(newValue)
+        }
+        .sheet(isPresented: $isComparisonSheetPresented) {
+            ProductComparisonSheet(
+                viewModel: comparisonViewModel,
+                currentProduct: product,
+                onProductTap: onProductTap
+            )
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

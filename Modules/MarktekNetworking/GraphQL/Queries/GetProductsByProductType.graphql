@@ -1,0 +1,86 @@
+query GetProductsByProductType($productType: String!, $first: Int = 20, $after: String) {
+  products(first: $first, after: $after, query: $productType) {
+    edges {
+      cursor
+      node {
+        id
+        title
+        handle
+        description
+        descriptionHtml
+        vendor
+        productType
+        tags
+        availableForSale
+        priceRange {
+          minVariantPrice { amount currencyCode }
+          maxVariantPrice { amount currencyCode }
+        }
+        compareAtPriceRange {
+          minVariantPrice { amount currencyCode }
+        }
+        images(first: 20) {
+          edges {
+            node {
+              id
+              url
+              altText
+              width
+              height
+            }
+          }
+        }
+        options {
+          id
+          name
+          values
+        }
+        variants(first: 30) {
+          edges {
+            node {
+              id
+              title
+              availableForSale
+              quantityAvailable
+              price { amount currencyCode }
+              compareAtPrice { amount currencyCode }
+              selectedOptions { name value }
+              image { url altText }
+            }
+          }
+        }
+        metafields(identifiers: [
+          { namespace: "reviews", key: "items" }
+        ]) {
+          key
+          namespace
+          value
+          type
+          references(first: 100) {
+            edges {
+              node {
+                ... on Metaobject {
+                  id
+                  handle
+                  type
+                  updatedAt
+                  product: field(key: "product") { key type value }
+                  customerName: field(key: "customer_name") { key type value }
+                  rating: field(key: "rating") { key type value }
+                  title: field(key: "title") { key type value }
+                  body: field(key: "body") { key type value }
+                  createdAt: field(key: "created_at") { key type value }
+                  approved: field(key: "approved") { key type value }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

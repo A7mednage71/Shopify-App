@@ -1,49 +1,49 @@
 import Foundation
 
-struct GeminiDirectRequestBody: Encodable {
-    struct SystemInstruction: Encodable {
-        struct Part: Encodable {
+struct GeminiDirectRequestBody: Encodable, Sendable {
+    struct SystemInstruction: Encodable, Sendable {
+        struct Part: Encodable, Sendable {
             let text: String
         }
         let parts: [Part]
     }
-    struct Content: Encodable {
+    struct Content: Encodable, Sendable {
         let role: String
         let parts: [Part]
     }
-    struct Part: Encodable {
+    struct Part: Encodable, Sendable {
         let text: String
     }
-    struct GenerationConfig: Encodable {
+    struct GenerationConfig: Encodable, Sendable {
         let responseMimeType: String
         let responseSchema: ResponseSchema
     }
-    struct ResponseSchema: Encodable {
+    struct ResponseSchema: Encodable, Sendable {
         let type: String
         let properties: Properties
         let required: [String]
     }
-    struct Properties: Encodable {
-        struct Reply: Encodable {
+    struct Properties: Encodable, Sendable {
+        struct Reply: Encodable, Sendable {
             let type: String
         }
-        struct ProductIds: Encodable {
+        struct ProductIds: Encodable, Sendable {
             let type: String
-            struct Items: Encodable {
+            struct Items: Encodable, Sendable {
                 let type: String
             }
             let items: Items
         }
-        struct BrandIds: Encodable {
+        struct BrandIds: Encodable, Sendable {
             let type: String
-            struct Items: Encodable {
+            struct Items: Encodable, Sendable {
                 let type: String
             }
             let items: Items
         }
-        struct CategoryIds: Encodable {
+        struct CategoryIds: Encodable, Sendable {
             let type: String
-            struct Items: Encodable {
+            struct Items: Encodable, Sendable {
                 let type: String
             }
             let items: Items
@@ -58,10 +58,10 @@ struct GeminiDirectRequestBody: Encodable {
     let generationConfig: GenerationConfig
 }
 
-struct GeminiDirectResponse: Decodable {
-    struct Candidate: Decodable {
-        struct Content: Decodable {
-            struct Part: Decodable {
+struct GeminiDirectResponse: Decodable, Sendable {
+    struct Candidate: Decodable, Sendable {
+        struct Content: Decodable, Sendable {
+            struct Part: Decodable, Sendable {
                 let text: String
             }
             let parts: [Part]

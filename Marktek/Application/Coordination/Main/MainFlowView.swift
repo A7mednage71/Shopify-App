@@ -192,7 +192,8 @@ struct MainFlowView: View {
         case .productInfo(let productID):
             ProductInfoViewFactory.makeView(
                 productID: productID,
-                onCartTap: showCartRoot
+                onCartTap: showCartRoot,
+                onProductTap: showProductInfoOnActiveTab(productID:)
             )
         }
     }
@@ -237,6 +238,19 @@ struct MainFlowView: View {
     private func showCartRoot() {
         cartCoordinator.showRoot()
         coordinator.showCart()
+    }
+
+    private func showProductInfoOnActiveTab(productID: String) {
+        switch coordinator.selectedTab {
+        case .home:
+            homeCoordinator.showProductInfo(productID: productID)
+        case .cart:
+            cartCoordinator.showProductDetails(for: productID)
+        case .favorites:
+            favoritesCoordinator.showProductInfo(productID: productID)
+        case .profile:
+            break
+        }
     }
 }
 

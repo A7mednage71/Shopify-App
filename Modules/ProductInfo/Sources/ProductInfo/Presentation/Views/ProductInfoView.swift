@@ -4,15 +4,18 @@ struct ProductInfoView: View {
     @StateObject private var viewModel: ProductInfoViewModel
     private let productID: String
     private let onCartTap: () -> Void
+    private let onProductTap: (String) -> Void
 
     init(
         productID: String,
         viewModel: ProductInfoViewModel,
-        onCartTap: @escaping () -> Void
+        onCartTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void
     ) {
         self.productID = productID
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.onCartTap = onCartTap
+        self.onProductTap = onProductTap
     }
 
     var body: some View {
@@ -26,6 +29,7 @@ struct ProductInfoView: View {
         ProductInfoStateContentView(
             state: viewModel.state,
             addToCartState: viewModel.addToCartState,
+            comparisonViewModel: viewModel.comparisonViewModel,
             isFavorite: viewModel.isFavorite,
                 onFavoriteTap: { product in
                     Task {
@@ -38,6 +42,7 @@ struct ProductInfoView: View {
                     await viewModel.addToCart(variant: variant, quantity: quantity)
                 }
             },
+            onProductTap: onProductTap,
             onRetry: {
                 Task {
                     await viewModel.loadProduct(id: productID)
