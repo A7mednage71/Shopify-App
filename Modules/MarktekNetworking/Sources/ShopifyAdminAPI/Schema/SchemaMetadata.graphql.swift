@@ -434,6 +434,9 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "DiscountProducts": return ShopifyAdminAPI.Objects.DiscountProducts
     case "DiscountMinimumQuantity": return ShopifyAdminAPI.Objects.DiscountMinimumQuantity
     case "DiscountMinimumSubtotal": return ShopifyAdminAPI.Objects.DiscountMinimumSubtotal
+    case "MetafieldsSetPayload": return ShopifyAdminAPI.Objects.MetafieldsSetPayload
+    case "MetaobjectCreatePayload": return ShopifyAdminAPI.Objects.MetaobjectCreatePayload
+    case "MetaobjectField": return ShopifyAdminAPI.Objects.MetaobjectField
     default: return nil
     }
   }
