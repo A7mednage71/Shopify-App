@@ -12,8 +12,8 @@ struct HomePresentationAssembly: Assembly {
                     getTrendingProductsUseCase: r.resolve(GetTrendingProductsUseCaseProtocol.self)!,
                     getSpecialOffersUseCase: r.resolve(GetSpecialOffersUseCaseProtocol.self)!,
                     getProductsByVendorUseCase: r.resolve(GetProductsByVendorUseCaseProtocol.self)!,
-                    manageFavoritesUseCase: r.resolve(ManageFavoritesUseCase.self)!,
-                    getProductsByCategoryUseCase: r.resolve(GetProductsByCategoryUseCaseProtocol.self)!
+                    getProductsByCategoryUseCase: r.resolve(GetProductsByCategoryUseCaseProtocol.self)!,
+                    manageFavoritesUseCase: r.resolve(ManageFavoritesUseCase.self)!
                 )
             
         }

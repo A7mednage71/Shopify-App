@@ -1,5 +1,6 @@
 import Cart
 import Checkout
+import Common
 import ProductInfo
 import SwiftUI
 
@@ -23,6 +24,10 @@ struct MainFlowView: View {
             }
             .navigationDestination(for: MainFlowRoute.self) { route in
                 destination(for: route)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                homeToolbarItems
             }
         }
         .onChange(of: cartCoordinator.path) { newPath in
@@ -57,6 +62,52 @@ struct MainFlowView: View {
 
     private var tabs: [MainTab] {
         [.home, .cart, .favorites, .profile]
+    }
+
+    private var shouldShowHomeToolbar: Bool {
+        coordinator.selectedTab == .home && homeCoordinator.path.isEmpty
+    }
+
+    @ToolbarContentBuilder
+    private var homeToolbarItems: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            if shouldShowHomeToolbar {
+                Button(action: {}) {
+                    Image(systemName: "line.horizontal.3")
+                        .foregroundColor(.appTextPrimary)
+                        .font(.system(size: 18))
+                }
+            }
+        }
+
+        ToolbarItem(placement: .principal) {
+            if shouldShowHomeToolbar {
+                HStack(spacing: 6) {
+                    Image(systemName: "sparkles")
+                        .foregroundColor(.appPrimaryOrange)
+                        .font(.system(size: 20))
+                    Text("Marktek")
+                        .font(.appBarTitle)
+                        .foregroundColor(.appPrimaryOrange)
+                }
+            }
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+            if shouldShowHomeToolbar {
+                Button(action: {}) {
+                    AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
+                        image.resizable().aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .foregroundColor(.appTextTertiary)
+                    }
+                    .frame(width: 34, height: 34)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                }
+            }
+        }
     }
 
     private var activeRouter: Binding<[MainFlowRoute]> {
