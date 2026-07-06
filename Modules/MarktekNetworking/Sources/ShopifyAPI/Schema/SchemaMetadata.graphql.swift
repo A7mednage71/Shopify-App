@@ -92,6 +92,9 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductVariantEdge": return ShopifyAPI.Objects.ProductVariantEdge
     case "PageInfo": return ShopifyAPI.Objects.PageInfo
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
+    case "MetafieldReferenceConnection": return ShopifyAPI.Objects.MetafieldReferenceConnection
+    case "MetafieldReferenceEdge": return ShopifyAPI.Objects.MetafieldReferenceEdge
+    case "MetaobjectField": return ShopifyAPI.Objects.MetaobjectField
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
     case "CartLinesUpdatePayload": return ShopifyAPI.Objects.CartLinesUpdatePayload
     default: return nil
