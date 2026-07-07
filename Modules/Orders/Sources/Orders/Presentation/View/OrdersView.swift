@@ -27,8 +27,15 @@ public struct OrdersView: View {
     private var content: some View {
         switch viewModel.state {
         case .loading:
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(0..<5, id: \.self) { _ in
+                        OrderRowSkeletonView()
+                    }
+                }
+                .padding(16)
+            }
+            .allowsHitTesting(false)
 
         case .empty:
             OrdersEmptyView()
