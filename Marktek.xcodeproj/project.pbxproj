@@ -39,6 +39,7 @@
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
 		616653B02FEFCEA300C605D3 /* MarktekUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */; };
 		616653B22FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */; };
+		616F54522FFD0A3D00173C0A /* Address in Frameworks */ = {isa = PBXBuildFile; productRef = 616F54512FFD0A3D00173C0A /* Address */; };
 		618A2B6F2FFC86340023A971 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B6E2FFC86340023A971 /* Authentication */; };
 		618A2B712FFC89460023A971 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B702FFC89460023A971 /* Cart */; };
 		618A2B732FFC89460023A971 /* Checkout in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B722FFC89460023A971 /* Checkout */; };
@@ -112,7 +113,7 @@
 		616653AB2FEFCEA200C605D3 /* MarktekUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarktekUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITests.swift; sourceTree = "<group>"; };
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		618A2B6D2FFC79110023A971 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		CADE619D2FF47D6600290B13 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,21 +121,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				618A2B7D2FFC89460023A971 /* ProductInfo in Frameworks */,
-				618A2B792FFC89460023A971 /* MarktekNetworking in Frameworks */,
-				618A2B752FFC89460023A971 /* Favorites in Frameworks */,
-				618A2B7B2FFC89460023A971 /* Persistence in Frameworks */,
-				618A2B712FFC89460023A971 /* Cart in Frameworks */,
-				618A2B8B2FFC8BB30023A971 /* Common in Frameworks */,
-				618A2B8E2FFCA6950023A971 /* Shimmer in Frameworks */,
-				618A2B852FFC89460023A971 /* GoogleSignIn in Frameworks */,
-				618A2B812FFC89460023A971 /* Apollo in Frameworks */,
-				618A2B6F2FFC86340023A971 /* Authentication in Frameworks */,
-				618A2B892FFC89460023A971 /* Swinject in Frameworks */,
-				618A2B832FFC89460023A971 /* FirebaseAuth in Frameworks */,
-				618A2B7F2FFC89460023A971 /* Settings in Frameworks */,
-				618A2B772FFC89460023A971 /* Home in Frameworks */,
-				618A2B732FFC89460023A971 /* Checkout in Frameworks */,
+				08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */,
+				616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */,
+				CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */,
+				086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */,
+				CACE9CC82FF4956A00461ED1 /* Persistence in Frameworks */,
+				CACE9CC62FF4955900461ED1 /* Home in Frameworks */,
+				08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */,
+				CACE9CC42FF4953B00461ED1 /* Onboarding in Frameworks */,
+				0860648A2FF126690010B267 /* Swinject in Frameworks */,
+				086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */,
+				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
+				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
+				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +287,7 @@
 			children = (
 				618A2B6C2FFC79110023A971 /* Config */,
 				083555A02FF3A07D00083148 /* .swiftlint.yml */,
+				CADE619D2FF47D6600290B13 /* Secrets.xcconfig */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
 				616653AE2FEFCEA200C605D3 /* MarktekUITests */,
@@ -344,14 +344,6 @@
 			path = MarktekUITests;
 			sourceTree = "<group>";
 		};
-		618A2B6C2FFC79110023A971 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				618A2B6D2FFC79110023A971 /* Secrets.xcconfig */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -370,21 +362,15 @@
 			);
 			name = Marktek;
 			packageProductDependencies = (
-				618A2B6E2FFC86340023A971 /* Authentication */,
-				618A2B702FFC89460023A971 /* Cart */,
-				618A2B722FFC89460023A971 /* Checkout */,
-				618A2B742FFC89460023A971 /* Favorites */,
-				618A2B762FFC89460023A971 /* Home */,
-				618A2B782FFC89460023A971 /* MarktekNetworking */,
-				618A2B7A2FFC89460023A971 /* Persistence */,
-				618A2B7C2FFC89460023A971 /* ProductInfo */,
-				618A2B7E2FFC89460023A971 /* Settings */,
-				618A2B802FFC89460023A971 /* Apollo */,
-				618A2B822FFC89460023A971 /* FirebaseAuth */,
-				618A2B842FFC89460023A971 /* GoogleSignIn */,
-				618A2B882FFC89460023A971 /* Swinject */,
-				618A2B8A2FFC8BB30023A971 /* Common */,
-				618A2B8D2FFCA6950023A971 /* Shimmer */,
+				617276C62FF01B7C001CC25D /* FirebaseAuth */,
+				617276C82FF023F9001CC25D /* Authentication */,
+				616851E12FF1A35200F29AA5 /* GoogleSignIn */,
+				616851E32FF1A35200F29AA5 /* GoogleSignInSwift */,
+				CA7D80092FF335C50090C2CF /* Apollo */,
+				CA7D800B2FF335C50090C2CF /* ApolloAPI */,
+				CACE9CC32FF4953B00461ED1 /* Onboarding */,
+				CACE9CC52FF4955900461ED1 /* Home */,
+				CACE9CC72FF4956A00461ED1 /* Persistence */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -962,7 +948,7 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MarktekNetworking;
 		};
-		618A2B7A2FFC89460023A971 /* Persistence */ = {
+		617276C62FF01B7C001CC25D /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Persistence;
 		};
