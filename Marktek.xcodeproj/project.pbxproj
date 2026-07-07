@@ -48,6 +48,7 @@
 		618A2B792FFC89460023A971 /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B782FFC89460023A971 /* MarktekNetworking */; };
 		618A2B7B2FFC89460023A971 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7A2FFC89460023A971 /* Persistence */; };
 		618A2B7D2FFC89460023A971 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7C2FFC89460023A971 /* ProductInfo */; };
+		CA3294992FFC841A00E93B26 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CA3294982FFC841A00E93B26 /* Secrets.xcconfig */; };
 		618A2B7F2FFC89460023A971 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7E2FFC89460023A971 /* Settings */; };
 		618A2B812FFC89460023A971 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B802FFC89460023A971 /* Apollo */; };
 		618A2B832FFC89460023A971 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B822FFC89460023A971 /* FirebaseAuth */; };
@@ -113,7 +114,7 @@
 		616653AB2FEFCEA200C605D3 /* MarktekUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarktekUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITests.swift; sourceTree = "<group>"; };
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		618A2B6D2FFC79110023A971 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		CA3294982FFC841A00E93B26 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,7 +289,7 @@
 		616653832FEFCE9F00C605D3 = {
 			isa = PBXGroup;
 			children = (
-				618A2B6C2FFC79110023A971 /* Config */,
+				CA3294972FFC841A00E93B26 /* Config */,
 				083555A02FF3A07D00083148 /* .swiftlint.yml */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
@@ -346,10 +347,10 @@
 			path = MarktekUITests;
 			sourceTree = "<group>";
 		};
-		618A2B6C2FFC79110023A971 /* Config */ = {
+		CA3294972FFC841A00E93B26 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				618A2B6D2FFC79110023A971 /* Secrets.xcconfig */,
+				CA3294982FFC841A00E93B26 /* Secrets.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -484,6 +485,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA3294992FFC841A00E93B26 /* Secrets.xcconfig in Resources */,
 				2C90D2932FEFE9BE00FADB94 /* Assets.xcassets in Resources */,
 				616653972FEFCEA200C605D3 /* Preview Assets.xcassets in Resources */,
 				08B93C902FF3246100AAA4F7 /* GoogleService-Info.plist in Resources */,
@@ -579,6 +581,7 @@
 /* Begin XCBuildConfiguration section */
 		616653B32FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA3294982FFC841A00E93B26 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -640,6 +643,7 @@
 		};
 		616653B42FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA3294982FFC841A00E93B26 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -695,6 +699,7 @@
 		};
 		616653B62FEFCEA300C605D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA3294982FFC841A00E93B26 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -734,6 +739,7 @@
 		};
 		616653B72FEFCEA300C605D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA3294982FFC841A00E93B26 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
