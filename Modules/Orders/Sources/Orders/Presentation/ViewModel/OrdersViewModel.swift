@@ -20,7 +20,7 @@ public final class OrdersViewModel: ObservableObject {
 
     private let getOrdersUseCase: any GetOrdersUseCaseProtocol
 
-    public init(getOrdersUseCase: any GetOrdersUseCaseProtocol) {
+    nonisolated public init(getOrdersUseCase: any GetOrdersUseCaseProtocol) {
         self.getOrdersUseCase = getOrdersUseCase
     }
 
