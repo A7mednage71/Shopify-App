@@ -6,7 +6,8 @@ struct AppFlowView: View {
     var body: some View {
         switch coordinator.selectedFlow {
         case .auth:
-            AuthFlowViewFactory.makeView(onAuthenticated: coordinator.showMain)
+            AuthFlowViewFactory.makeView(onAuthenticated: coordinator.showMain, onContinueAsGuest: coordinator.showMain
+            )
 
         case .main:
             MainFlowViewFactory.makeView()

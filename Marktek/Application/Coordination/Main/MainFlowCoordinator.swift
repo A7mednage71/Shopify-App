@@ -30,6 +30,7 @@ enum MainTab: Hashable {
         case .profile:
             "Profile"
         }
+        return ""
     }
 
     var systemImage: String {
@@ -43,5 +44,6 @@ enum MainTab: Hashable {
         case .profile:
             "person"
         }
+        return ""
     }
 }

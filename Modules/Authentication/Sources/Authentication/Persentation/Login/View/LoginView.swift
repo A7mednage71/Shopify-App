@@ -7,29 +7,29 @@
 
 import SwiftUI
 import Common
-
+import Combine
 @available(iOS 14.0, *)
-public struct LoginView: View {
+ struct LoginView: View {
     @State var emailStateValue = ""
     @State var passwordStatValue = ""
-    @StateObject var viewModel = LoginViewModel(signIn: SignInUseCase(Authrepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation(), apiAuth:ApiAuth.shared)),
-   signInWithGoogle: SignWithGoogleUseCase(authRepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation(), apiAuth: ApiAuth.shared))
-    )
+    @ObservedObject   var viewModel: LoginViewModel
     var onNavigateToRegister: () -> Void
     var onGuestContinue: () -> Void
     var onLoginSuccess: () -> Void
 
-    public init(
+     init(
             onNavigateToRegister: @escaping () -> Void = {},
             onGuestContinue: @escaping () -> Void = {},
-            onLoginSuccess : @escaping () -> Void = {}
+            onLoginSuccess : @escaping () -> Void = {} ,
+            viewModel : LoginViewModel
         ) {
             self.onNavigateToRegister = onNavigateToRegister
             self.onGuestContinue = onGuestContinue
             self.onLoginSuccess = onLoginSuccess
+            self.viewModel = viewModel
             
         }
-    public var body: some View {
+     var body: some View {
         ZStack {
             formContent
             if viewModel.loginState == .loading {

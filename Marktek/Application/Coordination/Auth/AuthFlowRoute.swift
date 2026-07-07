@@ -1,1 +1,4 @@
-enum AuthFlowRoute: Hashable {}
+enum AuthFlowRoute: Hashable {
+    case register
+    
+}

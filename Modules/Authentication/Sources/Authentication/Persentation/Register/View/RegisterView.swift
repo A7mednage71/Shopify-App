@@ -9,33 +9,33 @@ import SwiftUI
 import Common
 
 @available(iOS 14.0, *)
-public struct RegisterView: View {
+ struct RegisterView: View {
     @State var fullNameStateValue = ""
     @State var emailStateValue = ""
     @State var passwordStateValue = ""
     @State var confirmPasswordStateValue = ""
     
-    @StateObject var viewModel = RegisterViewModel(
-        registerUseCase: RegisterUseCase(authRepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation(), apiAuth: ApiAuth.shared)),
-        signInWithGoogle: SignWithGoogleUseCase(authRepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation(), apiAuth: ApiAuth.shared))
-    )
+    @ObservedObject var viewModel : RegisterViewModel
+    
     var onNavigateToLogin: () -> Void
     var onGuestContinue: () -> Void
     var onRegisterSuccess: ()-> Void
 
-    public init(
+     init(
         onNavigateToLogin: @escaping () -> Void = {},
         onGuestContinue: @escaping () -> Void = {}
         , onRegisterSuccess : @escaping() -> Void = {}
+        , registerViewModel : RegisterViewModel
     ) {
         self.onNavigateToLogin = onNavigateToLogin
         self.onGuestContinue = onGuestContinue
         self.onRegisterSuccess  = onRegisterSuccess
-    }
+        self.viewModel = registerViewModel
+     }
 
 
     
-    public var body: some View {
+     var body: some View {
         ZStack {
             formContent
             

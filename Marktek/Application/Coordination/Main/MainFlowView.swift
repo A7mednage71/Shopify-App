@@ -123,6 +123,7 @@ struct MainFlowView: View {
                 case .profile:
                     profileCoordinator.path.map(MainFlowRoute.profile)
                 }
+                return  homeCoordinator.path.map(MainFlowRoute.home)
             },
             set: { routes in
                 switch coordinator.selectedTab {

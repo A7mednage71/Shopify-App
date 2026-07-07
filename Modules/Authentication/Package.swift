@@ -16,6 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.28.0")),
         .package(url: "https://github.com/google/GoogleSignIn-iOS",.upToNextMajor(from: "7.0.0") ),
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3"),
         .package(path: "../MarktekNetworking"),
         .package(path: "../Common"),
         .package(path: "../Home")
@@ -31,6 +32,7 @@ let package = Package(
                 .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                 .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                 .product(name: "Common", package: "Common"),
+                .product(name: "Swinject", package: "Swinject"),
                 .product(name: "Home", package: "Home"),
             ],
             resources: [.process("Assets.xcassets")]),

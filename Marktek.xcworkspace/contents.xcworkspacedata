@@ -2,16 +2,25 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Modules/Favorites">
+      location = "group:Modules/Authentication">
    </FileRef>
    <FileRef
-      location = "group:Modules/Settings">
+      location = "group:Modules/Cart">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Checkout">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Common">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Favorites">
    </FileRef>
    <FileRef
       location = "group:Modules/Home">
    </FileRef>
    <FileRef
-      location = "group:Modules/Common">
+      location = "group:Modules/MarktekNetworking">
    </FileRef>
    <FileRef
       location = "group:Modules/Onboarding">
@@ -20,19 +29,10 @@
       location = "group:Modules/Persistence">
    </FileRef>
    <FileRef
-      location = "group:Modules/Checkout">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Cart">
-   </FileRef>
-   <FileRef
       location = "group:Modules/ProductInfo">
    </FileRef>
    <FileRef
-      location = "group:Modules/MarktekNetworking">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Authentication">
+      location = "group:Modules/Settings">
    </FileRef>
    <FileRef
       location = "container:Marktek.xcodeproj">

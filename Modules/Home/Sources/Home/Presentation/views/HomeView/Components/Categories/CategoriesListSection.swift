@@ -83,15 +83,3 @@ struct CategoryItem: View {
     }
 }
 
-// MARK: - Preview
-#Preview {
-    CategoriesListSection(
-        viewModel: HomeAssembler.resolveHomeViewModel(),
-        categories: [
-            Collection(id: "1", title: "Beauty",  handle: "beauty",  imageURL: "https://picsum.photos/seed/beauty/80/80"),
-            Collection(id: "2", title: "Fashion", handle: "fashion", imageURL: "https://picsum.photos/seed/fashion/80/80"),
-            Collection(id: "3", title: "Kids",    handle: "kids",    imageURL: "https://picsum.photos/seed/kids/80/80"),
-        ]
-    )
-    .padding(.vertical)
-}

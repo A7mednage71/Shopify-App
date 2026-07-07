@@ -106,6 +106,4 @@ public struct PersonalInformationView: View {
     }
 }
 
-#Preview {
-    PersonalInformationView()
-}
+

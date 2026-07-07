@@ -47,12 +47,3 @@ struct VendorProductsView: View {
     }
 }
 
-// MARK: - Previews
-#Preview {
-    NavigationView {
-        VendorProductsView(
-            vendorName: "Nike",
-            viewModel: HomeAssembler.resolveHomeViewModel()
-        )
-    }
-}

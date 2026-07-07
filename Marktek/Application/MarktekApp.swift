@@ -4,6 +4,7 @@
 //
 //  Created by Eyad waleed on 27/06/2026.
 //
+import FirebaseAuth
 import FirebaseCore
 import Home
 import GoogleSignIn

@@ -23,24 +23,3 @@ struct OfferProductCardsSection: View {
         }
     }
 }
-
-#Preview {
-    ScrollView {
-        OfferProductCardsSection(products: MockShopifyData.featuredProducts.map {
-            HomeProduct(
-                id: $0.id,
-                title: $0.title,
-                handle: $0.handle,
-                featuredImageURL: $0.featuredImageURL,
-                price: $0.price,
-                currencyCode: $0.currencyCode,
-                compareAtPrice: $0.compareAtPrice,
-                compareAtCurrencyCode: $0.compareAtCurrencyCode
-            )
-        },
-       favoriteProductIDs: [],
-       onFavoriteTap: { _ in }
-        )
-    }
-    .background(Color.appBackgroundGray)
-}
