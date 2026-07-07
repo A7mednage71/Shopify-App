@@ -39,7 +39,8 @@ final class ShoppingAssistantViewModel: ObservableObject {
     }
 
     // MARK: - Load Live Shopify Catalog
-    func loadCatalog() async {
+    func loadCatalog(force: Bool = false) async {
+        guard force || shopProductsCache.isEmpty else { return }
         isCatalogLoading = true
         catalogError = nil
         do {
