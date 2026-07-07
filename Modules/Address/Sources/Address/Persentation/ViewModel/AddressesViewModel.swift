@@ -64,8 +64,9 @@ public final class AddressesViewModel:  ObservableObject {
     }
     
   
-    public func saveDefaultAddressSelection() async {
-        guard let currentSelection = selectedAddressID else { return }
+    @discardableResult
+    public func saveDefaultAddressSelection() async -> Bool {
+        guard let currentSelection = selectedAddressID else { return false }
         state = .loading
         
         do {
@@ -73,8 +74,10 @@ public final class AddressesViewModel:  ObservableObject {
             self.initialAddressID = currentSelection
             self.selectedAddressID = currentSelection
             state = .addressFetched
+            return true
         } catch {
             handle(error: error)
+            return false
         }
     }
     
@@ -96,7 +99,11 @@ public final class AddressesViewModel:  ObservableObject {
              handle(error: error)
           }
     }
-     func createNewAddress(from selected: SelectedAddress) async {
+     @discardableResult
+     func createNewAddress(
+        from selected: SelectedAddress,
+        setCreatedAsDefault: Bool = false
+     ) async -> Bool {
         let wasEmpty = addressesList.isEmpty
         state = .loading
         do {
@@ -117,15 +124,17 @@ public final class AddressesViewModel:  ObservableObject {
             let created = try await createAddressUseCase.execute(address: newAddress)
             addressesList.append(created)
              print("is it empty check \(wasEmpty)")
-            if wasEmpty {
+            if wasEmpty || setCreatedAsDefault {
                 try await setDefaultAddressUseCase.execute(addressId: created.id)
                 selectedAddressID = created.id
                 initialAddressID = created.id
             }
 
             state = .addressFetched
+            return true
         } catch {
             state = wasEmpty ? .NoAddressProvided : .addressFetched
+            return false
         }
     }
 

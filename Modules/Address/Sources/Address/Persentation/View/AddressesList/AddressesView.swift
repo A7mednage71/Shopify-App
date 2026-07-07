@@ -11,14 +11,20 @@ import Common
 public struct AddressesView: View {
     @ObservedObject private var viewModel: AddressesViewModel
     let onAddAddress: () -> Void
+    let onSelectionApplied: () -> Void
     @State private var showSnackbar = false
     @State private var snackbarMessage = ""
     @State private var showingDeleteAlert = false
     @State private var addressToDelete: AddressDomain? = nil
     
-    public init(viewModel: AddressesViewModel ,onAddAddress: @escaping () -> Void) {
+    public init(
+        viewModel: AddressesViewModel,
+        onAddAddress: @escaping () -> Void,
+        onSelectionApplied: @escaping () -> Void = {}
+    ) {
         self.viewModel = viewModel
         self.onAddAddress = onAddAddress
+        self.onSelectionApplied = onSelectionApplied
     }
     
     public var body: some View {
@@ -71,8 +77,12 @@ public struct AddressesView: View {
                 
                 CustomBtn(label: "Apply", action: {
                     Task {
-                        await viewModel.saveDefaultAddressSelection()
-                        triggerSnackbar(message: "Default address updated successfully!")
+                        let didSaveSelection = await viewModel.saveDefaultAddressSelection()
+
+                        if didSaveSelection {
+                            triggerSnackbar(message: "Default address updated successfully!")
+                            onSelectionApplied()
+                        }
                     }
                 })
                 .disabled(viewModel.isSelectionUnchanged)
