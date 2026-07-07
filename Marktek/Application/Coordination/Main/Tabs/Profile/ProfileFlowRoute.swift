@@ -1,1 +1,3 @@
-enum ProfileFlowRoute: Hashable {}
+enum ProfileFlowRoute: Hashable {
+    case orders
+}

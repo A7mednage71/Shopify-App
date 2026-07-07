@@ -74,12 +74,17 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "MetafieldsSetUserError": return ShopifyAPI.Objects.MetafieldsSetUserError
     case "UserError": return ShopifyAPI.Objects.UserError
     case "UserErrorsShopPayPaymentRequestSessionUserErrors": return ShopifyAPI.Objects.UserErrorsShopPayPaymentRequestSessionUserErrors
+    case "QueryRoot": return ShopifyAPI.Objects.QueryRoot
+    case "OrderConnection": return ShopifyAPI.Objects.OrderConnection
+    case "OrderEdge": return ShopifyAPI.Objects.OrderEdge
+    case "OrderLineItemConnection": return ShopifyAPI.Objects.OrderLineItemConnection
+    case "OrderLineItemEdge": return ShopifyAPI.Objects.OrderLineItemEdge
+    case "OrderLineItem": return ShopifyAPI.Objects.OrderLineItem
+    case "Image": return ShopifyAPI.Objects.Image
     case "CartCreatePayload": return ShopifyAPI.Objects.CartCreatePayload
     case "CartLineCost": return ShopifyAPI.Objects.CartLineCost
-    case "Image": return ShopifyAPI.Objects.Image
     case "CartDiscountCodesUpdatePayload": return ShopifyAPI.Objects.CartDiscountCodesUpdatePayload
     case "CartDiscountCode": return ShopifyAPI.Objects.CartDiscountCode
-    case "QueryRoot": return ShopifyAPI.Objects.QueryRoot
     case "CollectionConnection": return ShopifyAPI.Objects.CollectionConnection
     case "ProductConnection": return ShopifyAPI.Objects.ProductConnection
     case "ProductEdge": return ShopifyAPI.Objects.ProductEdge
