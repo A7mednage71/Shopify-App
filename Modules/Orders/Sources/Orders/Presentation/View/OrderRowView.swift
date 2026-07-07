@@ -11,6 +11,18 @@ import Common
 struct OrderRowView: View {
     let order: Order
 
+    private var isPaid: Bool {
+        order.financialStatus?.uppercased() == "PAID"
+    }
+    
+    private var badgeColor: Color {
+        isPaid ? Color.green : AppColors.primary
+    }
+    
+    private var statusText: String {
+        isPaid ? "Paid" : "Not Paid"
+    }
+
     var body: some View {
         HStack(spacing: 12) {
             thumbnail
@@ -36,7 +48,14 @@ struct OrderRowView: View {
         .padding(12)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(AppColors.background)
+                .fill(AppColors.background) 
+                .overlay(alignment: .leading) {
+                    Rectangle()
+                        .fill(badgeColor.opacity(0.65))
+                        .frame(width: 5)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 2)
         )
     }
 
@@ -62,18 +81,13 @@ struct OrderRowView: View {
     }
 
     private var statusBadge: some View {
-            let isPaid = (order.financialStatus?.uppercased() == "PAID")
-            let statusText = isPaid ? "Paid" : "Not Paid"
-            
-            let badgeColor = isPaid ? Color.green : AppColors.primary
-            
-            return Text(statusText)
-                .font(AppFonts.caption)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .background(
-                    Capsule().fill(badgeColor.opacity(0.12))
-                )
-                .foregroundColor(badgeColor)
-        }
+        Text(statusText)
+            .font(AppFonts.caption)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(
+                Capsule().fill(badgeColor.opacity(0.12))
+            )
+            .foregroundColor(badgeColor)
+    }
 }
