@@ -7,7 +7,7 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
   public static let operationName: String = "GetCustomerOrders"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetCustomerOrders($customerAccessToken: String!, $first: Int!) { customer(customerAccessToken: $customerAccessToken) { __typename orders(first: $first, sortKey: PROCESSED_AT, reverse: true) { __typename edges { __typename node { __typename id name orderNumber processedAt financialStatus fulfillmentStatus currentTotalPrice { __typename amount currencyCode } lineItems(first: 5) { __typename edges { __typename node { __typename title quantity originalTotalPrice { __typename amount currencyCode } variant { __typename id image { __typename url } } } } } } } } } }"#
+      #"query GetCustomerOrders($customerAccessToken: String!, $first: Int!) { customer(customerAccessToken: $customerAccessToken) { __typename orders(first: $first, sortKey: PROCESSED_AT, reverse: true) { __typename edges { __typename node { __typename id name orderNumber processedAt financialStatus fulfillmentStatus currentTotalPrice { __typename amount currencyCode } shippingAddress { __typename address1 address2 city country } lineItems(first: 5) { __typename edges { __typename node { __typename title quantity originalTotalPrice { __typename amount currencyCode } variant { __typename id image { __typename url } } } } } } } } } }"#
     ))
 
   public var customerAccessToken: String
@@ -110,6 +110,7 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
               .field("financialStatus", GraphQLEnum<ShopifyAPI.OrderFinancialStatus>?.self),
               .field("fulfillmentStatus", GraphQLEnum<ShopifyAPI.OrderFulfillmentStatus>.self),
               .field("currentTotalPrice", CurrentTotalPrice.self),
+              .field("shippingAddress", ShippingAddress?.self),
               .field("lineItems", LineItems.self, arguments: ["first": 5]),
             ] }
 
@@ -132,6 +133,8 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
             public var fulfillmentStatus: GraphQLEnum<ShopifyAPI.OrderFulfillmentStatus> { __data["fulfillmentStatus"] }
             /// The total amount of the order, including duties, taxes and discounts, minus amounts for line items that have been removed.
             public var currentTotalPrice: CurrentTotalPrice { __data["currentTotalPrice"] }
+            /// The address to where the order will be shipped.
+            public var shippingAddress: ShippingAddress? { __data["shippingAddress"] }
             /// List of the order’s line items.
             public var lineItems: LineItems { __data["lineItems"] }
 
@@ -153,6 +156,33 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
               public var amount: ShopifyAPI.Decimal { __data["amount"] }
               /// Currency of the money.
               public var currencyCode: GraphQLEnum<ShopifyAPI.CurrencyCode> { __data["currencyCode"] }
+            }
+
+            /// Customer.Orders.Edge.Node.ShippingAddress
+            ///
+            /// Parent Type: `MailingAddress`
+            public struct ShippingAddress: ShopifyAPI.SelectionSet {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.MailingAddress }
+              public static var __selections: [ApolloAPI.Selection] { [
+                .field("__typename", String.self),
+                .field("address1", String?.self),
+                .field("address2", String?.self),
+                .field("city", String?.self),
+                .field("country", String?.self),
+              ] }
+
+              /// The first line of the address. Typically the street address or PO Box number.
+              public var address1: String? { __data["address1"] }
+              /// The second line of the address. Typically the number of the apartment, suite, or unit.
+              ///
+              public var address2: String? { __data["address2"] }
+              /// The name of the city, district, village, or town.
+              public var city: String? { __data["city"] }
+              /// The name of the country.
+              public var country: String? { __data["country"] }
             }
 
             /// Customer.Orders.Edge.Node.LineItems

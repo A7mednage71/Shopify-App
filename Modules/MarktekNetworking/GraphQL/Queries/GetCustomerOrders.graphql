@@ -13,6 +13,12 @@ query GetCustomerOrders($customerAccessToken: String!, $first: Int!) {
             amount
             currencyCode
           }
+          shippingAddress {
+            address1
+            address2
+            city
+            country
+          }
           lineItems(first: 5) {
             edges {
               node {
