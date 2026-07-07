@@ -12,7 +12,7 @@ struct HomeView: View {
         self.onProductTap = onProductTap
     }
 
-    @State private var showAssistant = false
+
 
     public var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -50,24 +50,7 @@ struct HomeView: View {
                 sortButtonAnchor = anchor
             }
 
-            // Floating Chatbot Button
-            Button(action: { showAssistant = true }) {
-                Image(systemName: "bubble.left.and.bubble.right.fill")
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundColor(.white)
-                    .padding(16)
-                    .background(
-                        LinearGradient(
-                            colors: [.appPrimaryOrange, .orange],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .clipShape(Circle())
-                    .shadow(color: Color.appPrimaryOrange.opacity(0.4), radius: 8, x: 0, y: 4)
-            }
-            .padding(.trailing, 20)
-            .padding(.bottom, 20)
+
         }
         .background(Color.appBackgroundGray)
         .task {
@@ -98,12 +81,7 @@ struct HomeView: View {
                 onReset: { viewModel.resetFilters() }
             )
         }
-        .sheet(isPresented: $showAssistant) {
-            HomeViewFactory.makeShoppingAssistantView(onProductTap: { productID in
-                showAssistant = false
-                onProductTap?(productID)
-            })
-        }
+
     }
 
     private func sortIcon(for option: SortOption) -> String {

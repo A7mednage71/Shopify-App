@@ -7,4 +7,9 @@ struct HomeFlowView: View {
     var body: some View {
         HomeViewFactory.makeHomeView(onProductTap: onProductDetailsTap)
     }
+
+    @MainActor
+    static func makeShoppingAssistantView(onProductTap: @escaping (String) -> Void) -> some View {
+        HomeViewFactory.makeShoppingAssistantView(onProductTap: onProductTap)
+    }
 }
