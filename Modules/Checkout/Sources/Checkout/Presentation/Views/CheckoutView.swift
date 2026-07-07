@@ -5,13 +5,19 @@ struct CheckoutView: View {
     @StateObject private var viewModel: CheckoutViewModel
     @State private var hasLoadedContentAppeared = false
     private let onOrderConfirmed: (CheckoutOrderConfirmation) -> Void
+    private let onAddAddressTap: (@escaping () -> Void) -> Void
+    private let onAddressBookTap: (@escaping () -> Void) -> Void
 
     init(
         viewModel: CheckoutViewModel,
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void = { _ in }
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void = { _ in },
+        onAddAddressTap: @escaping (@escaping () -> Void) -> Void = { _ in },
+        onAddressBookTap: @escaping (@escaping () -> Void) -> Void = { _ in }
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.onOrderConfirmed = onOrderConfirmed
+        self.onAddAddressTap = onAddAddressTap
+        self.onAddressBookTap = onAddressBookTap
     }
 
     var body: some View {
@@ -26,15 +32,44 @@ struct CheckoutView: View {
                 CheckoutProcessingOverlay(message: loadingMessage)
                     .zIndex(1)
             }
+
+            if let toast = viewModel.toast {
+                VStack {
+                    CheckoutTopToastView(
+                        message: toast.message,
+                        onDismiss: {
+                            viewModel.dismissToast(id: toast.id)
+                        }
+                    )
+                        .padding(.horizontal, 18)
+                        .padding(.top, 12)
+
+                    Spacer()
+                }
+                .transition(.move(edge: .top).combined(with: .opacity))
+                .zIndex(2)
+            }
         }
         .navigationTitle(CheckoutText.navigationTitle)
         .checkoutNavigationTitleStyle()
         .task {
             await viewModel.load()
         }
+        .task(id: viewModel.toast?.id) {
+            guard let toastID = await MainActor.run(body: { viewModel.toast?.id }) else { return }
+            do {
+                try await Task.sleep(nanoseconds: 2_500_000_000)
+            } catch {
+                return
+            }
+            await MainActor.run {
+                viewModel.dismissToast(id: toastID)
+            }
+        }
         .animation(.easeInOut(duration: 0.22), value: viewModel.state)
         .animation(.easeInOut(duration: 0.22), value: viewModel.addressState)
         .animation(.easeInOut(duration: 0.18), value: viewModel.orderPlacement.isPlacingOrder)
+        .animation(.spring(response: 0.28, dampingFraction: 0.86), value: viewModel.toast)
         .onChange(of: viewModel.state) { state in
             guard case .success = state else {
                 hasLoadedContentAppeared = false
@@ -91,7 +126,11 @@ struct CheckoutView: View {
     private func checkoutContent(cart: CartDetails) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                CheckoutAddressSection(state: viewModel.addressState)
+                CheckoutAddressSection(
+                    state: viewModel.addressState,
+                    onAddAddressTap: requestAddAddress,
+                    onSelectedAddressTap: requestAddressBook
+                )
 
                 CheckoutProductsSection(lines: cart.lines)
 
@@ -138,4 +177,52 @@ struct CheckoutView: View {
         }
     }
 
+    private func requestAddAddress() {
+        onAddAddressTap {
+            Task {
+                await viewModel.refreshCustomerDetails()
+            }
+        }
+    }
+
+    private func requestAddressBook() {
+        onAddressBookTap {
+            Task {
+                await viewModel.refreshCustomerDetails()
+            }
+        }
+    }
+}
+
+private struct CheckoutTopToastView: View {
+    let message: String
+    let onDismiss: () -> Void
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "exclamationmark.circle.fill")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(AppColors.textWhite)
+
+            Text(message)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(AppColors.textWhite)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer(minLength: 0)
+
+            Button(action: onDismiss) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(AppColors.textWhite.opacity(0.9))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Dismiss")
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(AppColors.error.opacity(0.96))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .shadow(color: AppColors.shadow.opacity(0.18), radius: 14, x: 0, y: 8)
+    }
 }

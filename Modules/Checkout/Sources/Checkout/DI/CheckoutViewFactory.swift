@@ -15,12 +15,16 @@ public struct CheckoutViewFactory {
 
     @MainActor
     public func makeCheckoutDestinationView(
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void = { _ in }
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void = { _ in },
+        onAddAddressTap: @escaping (@escaping () -> Void) -> Void = { _ in },
+        onAddressBookTap: @escaping (@escaping () -> Void) -> Void = { _ in }
     ) -> some View {
         // Checkout is a destination screen; completion is reported back to the flow coordinator.
         CheckoutView(
             viewModel: viewModelFactory.makeViewModel(),
-            onOrderConfirmed: onOrderConfirmed
+            onOrderConfirmed: onOrderConfirmed,
+            onAddAddressTap: onAddAddressTap,
+            onAddressBookTap: onAddressBookTap
         )
     }
 

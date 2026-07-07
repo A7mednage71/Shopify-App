@@ -3,6 +3,7 @@ enum CheckoutText {
     static let addressTitle = "Address"
     static let addressEmptyTitle = "No address selected"
     static let addressEmptyMessage = "Add a delivery address before placing your order."
+    static let missingAddressToastMessage = "Add a delivery address before placing your order."
     static let addressFailureTitle = "Address could not load"
     static let addressFailureFallbackMessage = "Try again in a moment."
     static let productsTitle = "Products"
