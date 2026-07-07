@@ -87,18 +87,14 @@ struct OrderRowView: View {
 
     private var cardBackground: some View {
         RoundedRectangle(cornerRadius: 16)
-            .fill(AppColors.background)
+            .fill(Color.appBackgroundWhite)
             .overlay(alignment: .leading) {
                 Rectangle()
                     .fill(orderStatus.color)
                     .frame(width: 4)
             }
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(orderStatus.color, lineWidth: 1)
-            )
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: AppColors.shadow.opacity(0.2), radius: 6, x: 0, y: 3)
+            .shadow(color: AppColors.shadow.opacity(0.08), radius: 6, x: 0, y: 2)
     }
 
     private var imageStack: some View {
@@ -209,7 +205,7 @@ struct OrderRowView: View {
             .clipShape(Circle())
         .overlay(
             Circle()
-                .stroke(AppColors.background, lineWidth: 1.5)
+                .stroke(Color.appBackgroundWhite, lineWidth: 1.5)
         )
         .shadow(color: AppColors.shadow.opacity(0.12), radius: 2, x: 0, y: 1.5)
     }
