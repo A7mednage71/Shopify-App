@@ -29,7 +29,8 @@ let package = Package(
                             .product(name: "Common", package: "Common"),
                             .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                             .product(name: "Swinject", package: "Swinject"),
-                        ]
+                        ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "OrdersTests",

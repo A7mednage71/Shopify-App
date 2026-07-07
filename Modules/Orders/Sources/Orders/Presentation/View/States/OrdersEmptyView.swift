@@ -11,7 +11,10 @@ import Common
 struct OrdersEmptyView: View {
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: "shippingbox")
+            Image("no_orders",bundle: .module)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
                 .font(.system(size: 48))
                 .foregroundColor(AppColors.textTertiary)
 
