@@ -85,7 +85,8 @@ final class HomeViewModel: ObservableObject {
     }
 
 
-    func loadCollections() async {
+    func loadCollections(force: Bool = false) async {
+        guard force || (categories.isEmpty && brands.isEmpty) else { return }
         isLoading = true
         error = nil
         do {
@@ -101,7 +102,8 @@ final class HomeViewModel: ObservableObject {
         isLoading = false
     }
 
-    func loadTrendingProducts() async {
+    func loadTrendingProducts(force: Bool = false) async {
+        guard force || trendingProducts.isEmpty else { return }
         isTrendingLoading = true
         do {
             trendingProducts = try await getTrendingProductsUseCase.execute(first: 20)
@@ -111,7 +113,8 @@ final class HomeViewModel: ObservableObject {
         isTrendingLoading = false
     }
 
-    func loadSpecialOffers() async {
+    func loadSpecialOffers(force: Bool = false) async {
+        guard force || specialOffers.isEmpty else { return }
         isSpecialOffersLoading = true
         do {
             specialOffers = try await getSpecialOffersUseCase.execute(first: 20)
@@ -124,9 +127,9 @@ final class HomeViewModel: ObservableObject {
     func retry() {
         Task {
             error = nil
-            await loadCollections()
-            await loadTrendingProducts()
-            await loadSpecialOffers()
+            await loadCollections(force: true)
+            await loadTrendingProducts(force: true)
+            await loadSpecialOffers(force: true)
             await loadFavorites()
         }
     }
