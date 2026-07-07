@@ -50,7 +50,7 @@ struct BrandItem: View {
                                     .tint(.appPrimaryOrange)
                             )
                     case .failure:
-                        Image("category_placeholder")
+                        Image("brand_placeholder")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     @unknown default:
@@ -64,7 +64,7 @@ struct BrandItem: View {
                         .stroke(Color.appPrimaryOrange, lineWidth: 1.5)
                 )
             } else {
-                Image("category_placeholder")
+                Image("brand_placeholder")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 58, height: 58)

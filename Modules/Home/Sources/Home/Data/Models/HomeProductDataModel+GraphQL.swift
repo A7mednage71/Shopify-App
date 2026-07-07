@@ -10,6 +10,11 @@ extension HomeProductDataModel {
         self.currencyCode = node.priceRange.minVariantPrice.currencyCode.rawValue
         self.compareAtPrice = String(node.compareAtPriceRange.minVariantPrice.amount)
         self.compareAtCurrencyCode = node.compareAtPriceRange.minVariantPrice.currencyCode.rawValue
+        
+        let metafieldsData = node.metafields.compactMap { $0?.__data }
+        let summary = RatingParser.calculateRating(from: metafieldsData, productId: String(node.id))
+        self.rating = summary.rating
+        self.reviewCount = summary.reviewCount
     }
 
     init(specialOfferNode node: GetSpecialOffersQuery.Data.Products.Node) {
@@ -21,5 +26,10 @@ extension HomeProductDataModel {
         self.currencyCode = node.priceRange.minVariantPrice.currencyCode.rawValue
         self.compareAtPrice = String(node.compareAtPriceRange.minVariantPrice.amount)
         self.compareAtCurrencyCode = node.compareAtPriceRange.minVariantPrice.currencyCode.rawValue
+        
+        let metafieldsData = node.metafields.compactMap { $0?.__data }
+        let summary = RatingParser.calculateRating(from: metafieldsData, productId: String(node.id))
+        self.rating = summary.rating
+        self.reviewCount = summary.reviewCount
     }
 }

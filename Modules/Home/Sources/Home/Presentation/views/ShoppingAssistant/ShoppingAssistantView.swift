@@ -15,7 +15,7 @@ struct ShoppingAssistantView: View {
         NavigationView {
             VStack(spacing: 0) {
                 AssistantHeaderView(
-                    isCatalogLoading: vm.isCatalogLoading,
+                    isCatalogLoading: vm.isCatalogLoading,   
                     hasCatalogError: vm.catalogError != nil,
                     onDismiss: { presentationMode.wrappedValue.dismiss() }
                 )
@@ -25,7 +25,7 @@ struct ShoppingAssistantView: View {
                 } else if let catalogError = vm.catalogError {
                     AssistantCatalogErrorView(error: catalogError, onRetry: {
                         Task {
-                            await vm.loadCatalog()
+                            await vm.loadCatalog(force: true)
                         }
                     })
                 } else {
@@ -96,7 +96,7 @@ struct ShoppingAssistantView: View {
 
     // MARK: - Helper Navigation / Scroll
     private func scrollToBottom(proxy: ScrollViewProxy) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { 
             withAnimation {
                 if let last = vm.messages.last {
                     proxy.scrollTo(last.id, anchor: .bottom)

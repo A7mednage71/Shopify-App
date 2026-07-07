@@ -39,6 +39,8 @@ struct ShopProductNode: Codable {
     let priceRange: PriceRange
     let images: ImageConnection
     let variants: VariantConnection
+    let rating: Double?
+    let reviewCount: Int?
 }
 
 struct ProductOptionDataModel: Codable, Sendable {

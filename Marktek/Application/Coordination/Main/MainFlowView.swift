@@ -12,27 +12,38 @@ struct MainFlowView: View {
     @StateObject private var favoritesCoordinator = FavoritesFlowCoordinator()
     @StateObject private var profileCoordinator = ProfileFlowCoordinator()
 
+    @State private var showAssistant = false
+
     var body: some View {
-        NavigationStack(path: activeRouter) {
-            TabView(selection: $coordinator.selectedTab) {
-                ForEach(tabs, id: \.self) { tab in
-                    contentView(for: tab)
-                        .tabItem {
-                            Label(tab.title, systemImage: tab.systemImage)
-                        }
-                        .tag(tab)
+        ZStack(alignment: .bottomTrailing) {
+            NavigationStack(path: activeRouter) {
+                TabView(selection: $coordinator.selectedTab) {
+                    ForEach(tabs, id: \.self) { tab in
+                        contentView(for: tab)
+                            .tabItem {
+                                Label(tab.title, systemImage: tab.systemImage)
+                            }
+                            .tag(tab)
+                    }
+                }
+                .navigationDestination(for: MainFlowRoute.self) { route in
+                    destination(for: route)
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    homeToolbarItems
                 }
             }
-            .navigationDestination(for: MainFlowRoute.self) { route in
-                destination(for: route)
+            .onChange(of: cartCoordinator.path) { newPath in
+                cartCoordinator.handlePathChange(newPath)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                homeToolbarItems
-            }
+
+            GlobalFloatingAssistantButton(onTap: {
+                showAssistant = true
+            })
         }
-        .onChange(of: cartCoordinator.path) { newPath in
-            cartCoordinator.handlePathChange(newPath)
+        .sheet(isPresented: $showAssistant) {
+            HomeFlowView.makeShoppingAssistantView(onProductTap: handleProductTapFromAssistant)
         }
     }
 
@@ -261,6 +272,24 @@ struct MainFlowView: View {
             break
         }
     }
+
+
+    private func handleProductTapFromAssistant(productID: String) {
+        showAssistant = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            switch coordinator.selectedTab {
+            case .home:
+                homeCoordinator.showProductInfo(productID: productID)
+            case .cart:
+                cartCoordinator.showProductDetails(for: productID)
+            case .favorites:
+                favoritesCoordinator.showProductInfo(productID: productID)
+            case .profile:
+                coordinator.showHome()
+                homeCoordinator.showProductInfo(productID: productID)
+            }
+        }
+    }
 }
 
 private extension MainFlowRoute {
@@ -296,3 +325,5 @@ private extension MainFlowRoute {
         return nil
     }
 }
+
+

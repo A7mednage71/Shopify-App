@@ -92,6 +92,11 @@ extension ShopProductNode {
             )
         }
         self.variants = VariantConnection(edges: variantEdges)
+        
+        let metafieldsData = product.metafields.compactMap { $0?.__data }
+        let summary = RatingParser.calculateRating(from: metafieldsData, productId: String(product.id))
+        self.rating = summary.rating
+        self.reviewCount = summary.reviewCount
     }
 
     // MARK: - Vendor Products Node Mapping
@@ -144,6 +149,11 @@ extension ShopProductNode {
             )
         }
         self.variants = VariantConnection(edges: variantEdges)
+        
+        let metafieldsData = product.metafields.compactMap { $0?.__data }
+        let summary = RatingParser.calculateRating(from: metafieldsData, productId: String(product.id))
+        self.rating = summary.rating
+        self.reviewCount = summary.reviewCount
     }
 
     // MARK: - Collection Products Node Mapping
@@ -196,6 +206,11 @@ extension ShopProductNode {
             )
         }
         self.variants = VariantConnection(edges: variantEdges)
+        
+        let metafieldsData = product.metafields.compactMap { $0?.__data }
+        let summary = RatingParser.calculateRating(from: metafieldsData, productId: String(product.id))
+        self.rating = summary.rating
+        self.reviewCount = summary.reviewCount
     }
 
     // MARK: - Products Node Mapping (GetProductsQuery)
@@ -248,6 +263,11 @@ extension ShopProductNode {
             )
         }
         self.variants = VariantConnection(edges: variantEdges)
+        
+        let metafieldsData = product.metafields.compactMap { $0?.__data }
+        let summary = RatingParser.calculateRating(from: metafieldsData, productId: String(product.id))
+        self.rating = summary.rating
+        self.reviewCount = summary.reviewCount
     }
 }
 

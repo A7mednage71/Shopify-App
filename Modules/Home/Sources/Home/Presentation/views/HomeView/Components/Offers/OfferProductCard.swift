@@ -68,6 +68,13 @@ struct OfferProductCard: View {
                     .frame(width: 150, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
 
+                HStack(spacing: 3) {
+                    StarRatingView(rating: product.rating ?? 0.0, size: 10)
+                    Text("(\(formatCount(product.reviewCount ?? 0)))")
+                        .font(.reviewCount)
+                        .foregroundColor(.appTextTertiary)
+                }
+
                 Spacer(minLength: 4)
 
                 // Price
@@ -95,9 +102,17 @@ struct OfferProductCard: View {
             .padding(.top, 6)
             .padding(.bottom, 8)
         }
-        .frame(width: 170, height: 260)
+        .frame(width: 170, height: 280)
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
+        )
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)
+    }
+
+    private func formatCount(_ n: Int) -> String {
+        n >= 1000 ? String(format: "%.0fk", Double(n) / 1000) : "\(n)"
     }
 }

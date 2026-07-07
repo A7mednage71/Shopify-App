@@ -18,6 +18,7 @@
 		0B0000032FF5000000000011 /* NetworkingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000042FF5000000000011 /* NetworkingAssembly.swift */; };
 		0C0000012FF6000000000001 /* Checkout in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0000022FF6000000000002 /* Checkout */; };
 		0D1000132FF7000000000003 /* MainFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000032FF7000000000003 /* MainFlowView.swift */; };
+		0D1000132FF7000000000009 /* GlobalFloatingAssistantButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000032FF7000000000009 /* GlobalFloatingAssistantButton.swift */; };
 		0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D10000D2FF700000000000D /* MainFlowRoute.swift */; };
 		0D10001E2FF700000000000E /* MainFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D10000E2FF700000000000E /* MainFlowCoordinator.swift */; };
 		0D1000242FF7000000000013 /* MainFlowViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000132FF7000000000013 /* MainFlowViewFactory.swift */; };
@@ -83,6 +84,7 @@
 		0B0000042FF5000000000004 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		0B0000042FF5000000000011 /* NetworkingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingAssembly.swift; sourceTree = "<group>"; };
 		0D1000032FF7000000000003 /* MainFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowView.swift; sourceTree = "<group>"; };
+		0D1000032FF7000000000009 /* GlobalFloatingAssistantButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFloatingAssistantButton.swift; sourceTree = "<group>"; };
 		0D10000D2FF700000000000D /* MainFlowRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowRoute.swift; sourceTree = "<group>"; };
 		0D10000E2FF700000000000E /* MainFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinator.swift; sourceTree = "<group>"; };
 		0D1000132FF7000000000013 /* MainFlowViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowViewFactory.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				0D10000E2FF700000000000E /* MainFlowCoordinator.swift */,
 				0D1000132FF7000000000013 /* MainFlowViewFactory.swift */,
 				0D1000032FF7000000000003 /* MainFlowView.swift */,
+				0D1000032FF7000000000009 /* GlobalFloatingAssistantButton.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				0D2000172FF8000000000007 /* AuthFlowView.swift in Sources */,
 				0D2000182FF8000000000008 /* AuthFlowViewFactory.swift in Sources */,
 				0D1000132FF7000000000003 /* MainFlowView.swift in Sources */,
+				0D1000132FF7000000000009 /* GlobalFloatingAssistantButton.swift in Sources */,
 				0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */,
 				0D10001E2FF700000000000E /* MainFlowCoordinator.swift in Sources */,
 				0D1000242FF7000000000013 /* MainFlowViewFactory.swift in Sources */,

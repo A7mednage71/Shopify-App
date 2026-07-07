@@ -110,7 +110,7 @@ struct ProductCardView: View {
         .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2.5)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(AppColors.border.opacity(0.4), lineWidth: 1)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
         )
         .onTapGesture {
             onTap(product.id)

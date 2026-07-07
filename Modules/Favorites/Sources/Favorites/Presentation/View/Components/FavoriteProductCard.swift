@@ -1,19 +1,21 @@
+//
+//  SwiftUIView.swift
+//  
+//
+//  Created by Esraa Ehab on 05/07/2026.
+//
+
 import SwiftUI
 import Common
 
-struct ShopProductCard: View {
+struct FavoriteProductCard: View {
+    let product: FavoriteProduct
+    let onRemove: () -> Void
     
-    let product: ShopProduct
-    let isWishlisted: Bool
-    let onFavoriteTap: () -> Void
-
     var body: some View {
-        
         VStack(alignment: .leading, spacing: 0) {
-            
             ZStack(alignment: .topTrailing) {
-                
-                if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
+                if let url = URL(string: product.imageURL) {
                     AsyncImage(url: url) { phase in
                         switch phase {
                         case .success(let image):
@@ -36,22 +38,21 @@ struct ShopProductCard: View {
                             EmptyView()
                         }
                     }
-                    .frame(width: 170, height: 145)
+                    .frame(width: 170, height: 180)
                     .clipped()
                     .cornerRadius(12)
                 } else {
                     Image("product_placeholder")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 170, height: 145)
+                        .frame(width: 170, height: 180)
                         .clipped()
                         .cornerRadius(12)
                 }
-
-                // Wishlist
-                Button(action: onFavoriteTap) {
-                    Image(systemName: isWishlisted ? "heart.fill" : "heart")
-                        .foregroundColor(isWishlisted ? .appPrimaryOrange : .appTextSecondary)
+                
+                Button(action: onRemove) {
+                    Image(systemName: "heart.fill")
+                        .foregroundColor(.appPrimaryOrange)
                         .font(.system(size: 14))
                         .padding(7)
                         .background(Color.appBackgroundWhite.opacity(0.92))
@@ -59,8 +60,8 @@ struct ShopProductCard: View {
                 }
                 .padding(8)
             }
-
-            VStack(alignment: .leading, spacing: 8) {
+            
+            VStack(alignment: .leading, spacing: 6) {
                 // Name
                 Text(product.title)
                     .font(.productName)
@@ -68,51 +69,33 @@ struct ShopProductCard: View {
                     .lineLimit(2)
                     .frame(width: 150, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
-
-                // Description
-                Text(product.description)
-                    .font(.productDesc)
-                    .foregroundColor(.appTextTertiary)
-                    .lineLimit(2)
-                    .frame(width: 150, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
-
+                
                 // Rating
-                HStack(spacing: 3) {
-                    StarRatingView(rating: product.rating ?? 0.0, size: 10)
-                    Text("(\(formatCount(product.reviewCount ?? 0)))")
-                        .font(.reviewCount)
-                        .foregroundColor(.appTextTertiary)
-                }
-
-                Spacer(minLength: 2)
-
+                StarRatingView(rating: product.rating ?? 0.0, size: 10)
+                
+                Spacer(minLength: 4)
+                
                 // Price
                 HStack(alignment: .center, spacing: 4) {
-                    Text(product.price)
-                        .font(.productPrice)
-                        .foregroundColor(.appTextPrimary)
+                    PriceView(priceInUSD: product.price, font: .productPrice, color: .appTextPrimary)
                         .lineLimit(1)
-
+                        .minimumScaleFactor(0.8)
+                    
                     if let compareAtPrice = product.compareAtPrice {
-                        Text(compareAtPrice)
-                            .font(.productOldPrice)
-                            .foregroundColor(.appTextStrikePrice)
-                            .strikethrough(true, color: .appTextStrikePrice)
+                        PriceView(priceInUSD: compareAtPrice, font: .productOldPrice, color: .appTextStrikePrice, isStrikethrough: true)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.8)
                     }
-
+                    
                     Spacer(minLength: 0)
                 }
                 .frame(width: 150)
-                .padding(.bottom, 4)
-                .layoutPriority(1)
             }
             .padding(.horizontal, 8)
             .padding(.top, 6)
-            .padding(.bottom, 12)
+            .padding(.bottom, 8)
         }
-        .frame(width: 170, height: 290)
+        .frame(width: 170, height: 280)
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
         .overlay(
@@ -120,9 +103,5 @@ struct ShopProductCard: View {
                 .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
         )
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)
-    }
-
-    private func formatCount(_ n: Int) -> String {
-        n >= 1000 ? String(format: "%.0fk", Double(n) / 1000) : "\(n)"
     }
 }

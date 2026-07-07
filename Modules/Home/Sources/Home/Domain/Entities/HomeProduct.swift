@@ -9,6 +9,8 @@ public struct HomeProduct: Identifiable, Sendable {
     public let currencyCode: String
     public let compareAtPrice: String?
     public let compareAtCurrencyCode: String?
+    public let rating: Double?
+    public let reviewCount: Int?
 
     public init(
         id: String,
@@ -18,7 +20,9 @@ public struct HomeProduct: Identifiable, Sendable {
         price: String,
         currencyCode: String,
         compareAtPrice: String?,
-        compareAtCurrencyCode: String?
+        compareAtCurrencyCode: String?,
+        rating: Double? = nil,
+        reviewCount: Int? = nil
     ) {
         self.id = id
         self.title = title
@@ -28,5 +32,7 @@ public struct HomeProduct: Identifiable, Sendable {
         self.currencyCode = currencyCode
         self.compareAtPrice = compareAtPrice
         self.compareAtCurrencyCode = compareAtCurrencyCode
+        self.rating = rating
+        self.reviewCount = reviewCount
     }
 }
