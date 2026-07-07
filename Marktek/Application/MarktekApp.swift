@@ -32,25 +32,9 @@ struct MarktekApp: App {
 
     var body: some Scene {
         WindowGroup {
-//            SwiftUIView(viewModel: AddressesViewModel(getAllAddressesUseCase:GetAllAddressesUseCase(repository: AddressRepositoryImpl(dataSource: AddressApiDataSource.shared)) , getDefaultAddressUseCase:GetDefaultAddressUseCase(repository: AddressRepositoryImpl(dataSource: AddressApiDataSource.shared)), setDefaultAddressUseCase: SetDefaultAddressUseCase(repository: AddressRepositoryImpl(dataSource: AddressApiDataSource.shared)), deleteAddressUseCase:DeleteAddressUseCase(repository: AddressRepositoryImpl(dataSource: AddressApiDataSource.shared))))
-            SwiftUIView(viewModel: viewModel)            //            Group {
-//                if authState.isLoggedIn || isGuest {
-//                    HomeView()
-//                } else {
-//                    AuthFlowView(
-//                        onAuthenticated: {
-//                            authState.markLoggedIn()
-//                        },
-//                        onContinueAsGuest: {
-//                            isGuest = true
-//                        }
-//                    )
-//                }
-//            }
-//            .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//            .onOpenURL { url in
-//                GIDSignIn.sharedInstance.handle(url)
-//            }
+
+
+
         }
     }
 }
