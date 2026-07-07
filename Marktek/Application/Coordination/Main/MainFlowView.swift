@@ -140,19 +140,15 @@ struct MainFlowView: View {
 
         ToolbarItem(placement: .navigationBarTrailing) {
             if shouldShowHomeToolbar {
-                Button(action: {
-                    authState.markLoggedOut()
-                }) {
-                    AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
-                        image.resizable().aspectRatio(contentMode: .fill)
-                    } placeholder: {
-                        Image(systemName: "person.circle.fill")
-                            .foregroundColor(.appTextTertiary)
-                    }
-                    .frame(width: 34, height: 34)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
+                    image.resizable().aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    Image(systemName: "person.circle.fill")
+                        .foregroundColor(.appTextTertiary)
                 }
+                .frame(width: 34, height: 34)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
             }
         }
     }

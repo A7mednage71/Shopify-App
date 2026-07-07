@@ -9,11 +9,14 @@ import Foundation
 import SwiftUI
 
 public struct SettingsViewFactory {
+    private let viewModelFactory: SettingsViewModelFactory
     
-    public init() {}
+    init(viewModelFactory: SettingsViewModelFactory) {
+        self.viewModelFactory = viewModelFactory
+    }
 
     @MainActor
-    public func makeSettingsView() -> some View {
-        SettingsView()
+    public func makeSettingsDestinationView() -> some View {
+        SettingsView(viewModel: viewModelFactory.makeViewModel())
     }
 }

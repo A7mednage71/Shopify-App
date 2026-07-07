@@ -10,9 +10,11 @@ import Common
 
 @available(iOS 14.0, *)
 public struct SettingsView: View {
-    @StateObject private var viewModel = SettingsViewModel()
+    @StateObject private var viewModel: SettingsViewModel
     
-    public init() {}
+    public init(viewModel: SettingsViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     public var body: some View {
         NavigationView {
