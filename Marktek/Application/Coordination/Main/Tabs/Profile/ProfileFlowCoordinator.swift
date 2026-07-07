@@ -4,6 +4,10 @@ import Foundation
 final class ProfileFlowCoordinator: ObservableObject {
     @Published var path: [ProfileFlowRoute] = []
 
+    func showOrders() {
+            path.append(.orders)
+        }
+    
     func showRoot() {
         path = []
     }

@@ -2,6 +2,7 @@ import Cart
 import Checkout
 import Common
 import ProductInfo
+import Orders
 import SwiftUI
 
 struct MainFlowView: View {
@@ -56,7 +57,7 @@ struct MainFlowView: View {
                 )
 
         case .profile:
-            ProfileFlowView()
+            ProfileFlowView(onOrdersTap: profileCoordinator.showOrders)
         }
     }
 
@@ -151,8 +152,8 @@ struct MainFlowView: View {
         case .favorites(let route):
             favoritesDestination(for: route)
 
-        case .profile:
-            EmptyView()
+        case .profile(let route):
+            profileDestination(for: route)
         }
     }
 
@@ -183,6 +184,14 @@ struct MainFlowView: View {
         switch route {
         case .shared(let sharedRoute):
             sharedDestination(for: sharedRoute)
+        }
+    }
+    
+    @ViewBuilder
+    private func profileDestination(for route: ProfileFlowRoute) -> some View {
+        switch route {
+        case .orders:
+            OrdersViewFactory.makeView()
         }
     }
 

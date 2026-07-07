@@ -40,6 +40,6 @@ final class AppDIContainer {
                 return AnyView(Text("Unable to load settings."))
             }
 
-            return AnyView(settingsViewFactory.makeSettingsView())
+            return AnyView(settingsViewFactory.makeSettingsView(onOrdersTap: {}))
         }
 }
