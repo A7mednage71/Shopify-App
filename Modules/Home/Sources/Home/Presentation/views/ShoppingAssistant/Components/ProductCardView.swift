@@ -52,28 +52,13 @@ struct ProductCardView: View {
 
             // Image display container
             ZStack {
-                if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 70)
-                        case .empty, .failure:
-                            Text("👟").font(.system(size: 28))
-                        @unknown default:
-                            EmptyView()
-                          }
-                      }
-                  } else {
-                      Text("👟").font(.system(size: 28))
-                  }
-              }
-              .frame(height: 80)
-              .frame(maxWidth: .infinity)
-              .background(AppColors.backgroundSecondary.opacity(0.5))
-              .cornerRadius(8)
+                CachedImage(urlString: product.featuredImageURL, failureImageName: "product_placeholder", contentMode: .fit)
+                    .frame(height: 70)
+            }
+            .frame(height: 80)
+            .frame(maxWidth: .infinity)
+            .background(AppColors.backgroundSecondary.opacity(0.5))
+            .cornerRadius(8)
 
               VStack(spacing: 4) {
                   Text(product.title)
@@ -110,7 +95,7 @@ struct ProductCardView: View {
         .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2.5)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(AppColors.border.opacity(0.4), lineWidth: 1)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
         )
         .onTapGesture {
             onTap(product.id)

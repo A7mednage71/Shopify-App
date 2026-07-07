@@ -6,19 +6,22 @@ struct HomeView: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var sortButtonAnchor: Anchor<CGRect>?
     private let onProductTap: ((String) -> Void)?
+    private let onAssistantTap: () -> Void
     private let performProtectedAction: (@escaping () -> Void) -> Void
 
     init(
         viewModel: HomeViewModel,
         onProductTap: ((String) -> Void)? = nil,
+        onAssistantTap: @escaping () -> Void = {},
         performProtectedAction: @escaping (@escaping () -> Void) -> Void = { action in action() }
     ) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.onProductTap = onProductTap
+        self.onAssistantTap = onAssistantTap
         self.performProtectedAction = performProtectedAction
     }
 
-    @State private var showAssistant = false
+
 
     public var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -59,7 +62,7 @@ struct HomeView: View {
             // Floating Chatbot Button
             Button(action: {
                 performProtectedAction {
-                    showAssistant = true
+                    onAssistantTap()
                 }
             }) {
                 Image(systemName: "bubble.left.and.bubble.right.fill")
@@ -108,12 +111,7 @@ struct HomeView: View {
                 onReset: { viewModel.resetFilters() }
             )
         }
-        .sheet(isPresented: $showAssistant) {
-            HomeViewFactory.makeShoppingAssistantView(onProductTap: { productID in
-                showAssistant = false
-                onProductTap?(productID)
-            })
-        }
+
     }
 
     private func sortIcon(for option: SortOption) -> String {

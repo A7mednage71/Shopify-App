@@ -19,4 +19,12 @@ public struct SettingsViewFactory {
     public func makeSettingsDestinationView() -> some View {
         SettingsView(viewModel: viewModelFactory.makeViewModel())
     }
+
+    @MainActor
+    public func makeSettingsView(onOrdersTap: @escaping () -> Void) -> some View {
+        SettingsView(
+            viewModel: viewModelFactory.makeViewModel(),
+            onOrdersTap: onOrdersTap
+        )
+    }
 }

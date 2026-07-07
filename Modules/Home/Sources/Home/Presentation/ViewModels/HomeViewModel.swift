@@ -85,7 +85,8 @@ final class HomeViewModel: ObservableObject {
     }
 
 
-    func loadCollections() async {
+    func loadCollections(force: Bool = false) async {
+        guard force || (categories.isEmpty && brands.isEmpty) else { return }
         isLoading = true
         error = nil
         do {
@@ -101,7 +102,8 @@ final class HomeViewModel: ObservableObject {
         isLoading = false
     }
 
-    func loadTrendingProducts() async {
+    func loadTrendingProducts(force: Bool = false) async {
+        guard force || trendingProducts.isEmpty else { return }
         isTrendingLoading = true
         do {
             trendingProducts = try await getTrendingProductsUseCase.execute(first: 20)
@@ -111,7 +113,8 @@ final class HomeViewModel: ObservableObject {
         isTrendingLoading = false
     }
 
-    func loadSpecialOffers() async {
+    func loadSpecialOffers(force: Bool = false) async {
+        guard force || specialOffers.isEmpty else { return }
         isSpecialOffersLoading = true
         do {
             specialOffers = try await getSpecialOffersUseCase.execute(first: 20)
@@ -124,73 +127,11 @@ final class HomeViewModel: ObservableObject {
     func retry() {
         Task {
             error = nil
-            await loadCollections()
-            await loadTrendingProducts()
-            await loadSpecialOffers()
+            await loadCollections(force: true)
+            await loadTrendingProducts(force: true)
+            await loadSpecialOffers(force: true)
             await loadFavorites()
         }
     }
-    // MARK: - Favorites Logic
-
-        public func loadFavorites() async {
-            do {
-                let favorites = try await manageFavoritesUseCase.fetchFavorites()
-                self.favoriteProductIDs = Set(favorites.map { $0.id })
-            } catch {
-                print("Error loading favorites in Home: \(error.localizedDescription)")
-            }
-        }
-        
-        public func toggleFavorite(for product: HomeProduct) async {
-            let price = Double(product.price) ?? 0.0
-            
-            var finalComparePrice: Double? = nil
-            if let compareAtStr = product.compareAtPrice, let compareAtDbl = Double(compareAtStr), compareAtDbl > 0 {
-                finalComparePrice = compareAtDbl
-            }
-            
-            let favoriteItem = FavoriteProduct(
-                id: product.id,
-                title: product.title,
-                imageURL: product.featuredImageURL ?? "", 
-                price: price,
-                currencyCode: product.currencyCode,
-                compareAtPrice: finalComparePrice
-            )
-            
-            await executeToggle(for: favoriteItem)
-        }
-        
-        public func toggleFavorite(for product: ShopProduct) async {
-            let price = Double(product.price) ?? 0.0
-            
-            var finalComparePrice: Double? = nil
-            if let compareAt = product.compareAtPrice, let compareAtDbl = Double(compareAt), compareAtDbl > 0 {
-                finalComparePrice = compareAtDbl
-            }
-            
-            let favoriteItem = FavoriteProduct(
-                id: product.id,
-                title: product.title,
-                imageURL: product.featuredImageURL ?? "", 
-                price: price,
-                currencyCode: product.currencyCode,
-                compareAtPrice: finalComparePrice
-            )
-            
-            await executeToggle(for: favoriteItem)
-        }
-        private func executeToggle(for favoriteItem: FavoriteProduct) async {
-            do {
-                try await manageFavoritesUseCase.toggleFavorite(product: favoriteItem)
-                
-                if favoriteProductIDs.contains(favoriteItem.id) {
-                    favoriteProductIDs.remove(favoriteItem.id)
-                } else {
-                    favoriteProductIDs.insert(favoriteItem.id)
-                }
-            } catch {
-                print("Error toggling favorite in Home: \(error.localizedDescription)")
-            }
-        }
 }
+

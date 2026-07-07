@@ -4,6 +4,7 @@ import ProductInfo
 import Favorites
 import Common
 import Settings
+import Orders
 import SwiftUI
 
 struct MainFlowViewFactory {
@@ -105,9 +106,25 @@ extension FavoritesViewFactory {
 
 extension SettingsViewFactory {
     @MainActor
-    static func makeView() -> some View {
+    static func makeView(onOrdersTap: @escaping () -> Void) -> some View {
         FeatureViewFactoryResolver
             .resolve(SettingsViewFactory.self)
-            .makeSettingsDestinationView()
+            .makeSettingsView(onOrdersTap: onOrdersTap)
+    }
+}
+
+extension OrdersViewFactory {
+    @MainActor
+    static func makeView(onOrderTap: @escaping (String) -> Void) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(OrdersViewFactory.self)
+            .makeOrdersDestinationView(onOrderTap: onOrderTap)
+    }
+
+    @MainActor
+    static func makeDetailsView(orderID: String) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(OrdersViewFactory.self)
+            .makeOrderDetailsView(orderID: orderID)
     }
 }

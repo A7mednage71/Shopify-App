@@ -3,6 +3,7 @@ import Cart
 import Checkout
 import Common
 import ProductInfo
+import Orders
 import SwiftUI
 
 struct MainFlowView: View {
@@ -12,6 +13,8 @@ struct MainFlowView: View {
     @StateObject private var cartCoordinator = CartFlowCoordinator()
     @StateObject private var favoritesCoordinator = FavoritesFlowCoordinator()
     @StateObject private var profileCoordinator = ProfileFlowCoordinator()
+
+    @State private var showAssistant = false
     @State private var isGuestAlertPresented = false
     @State private var checkoutAddressSheet: CheckoutAddressSheet?
     @State private var pendingCheckoutAddressCompletion: (() -> Void)?
@@ -21,26 +24,35 @@ struct MainFlowView: View {
     }
 
     var body: some View {
-        NavigationStack(path: activeRouter) {
-            TabView(selection: $coordinator.selectedTab) {
-                ForEach(tabs, id: \.self) { tab in
-                    contentView(for: tab)
-                        .tabItem {
-                            Label(tab.title, systemImage: tab.systemImage)
-                        }
-                        .tag(tab)
+        ZStack(alignment: .bottomTrailing) {
+            NavigationStack(path: activeRouter) {
+                TabView(selection: $coordinator.selectedTab) {
+                    ForEach(tabs, id: \.self) { tab in
+                        contentView(for: tab)
+                            .tabItem {
+                                Label(tab.title, systemImage: tab.systemImage)
+                            }
+                            .tag(tab)
+                    }
+                }
+                .navigationDestination(for: MainFlowRoute.self) { route in
+                    destination(for: route)
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    homeToolbarItems
                 }
             }
-            .navigationDestination(for: MainFlowRoute.self) { route in
-                destination(for: route)
+            .onChange(of: cartCoordinator.path) { newPath in
+                cartCoordinator.handlePathChange(newPath)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                homeToolbarItems
-            }
+
+            GlobalFloatingAssistantButton(onTap: {
+                showAssistant = true
+            })
         }
-        .onChange(of: cartCoordinator.path) { newPath in
-            cartCoordinator.handlePathChange(newPath)
+        .sheet(isPresented: $showAssistant) {
+            HomeFlowView.makeShoppingAssistantView(onProductTap: handleProductTapFromAssistant)
         }
         .alert("Sign in required", isPresented: $isGuestAlertPresented) {
             Button("Cancel", role: .cancel) {}
@@ -58,6 +70,7 @@ struct MainFlowView: View {
                 checkoutAddressBookSheet
             }
         }
+        
     }
 
     @ViewBuilder
@@ -66,6 +79,9 @@ struct MainFlowView: View {
         case .home:
             HomeFlowView(
                 onProductDetailsTap: homeCoordinator.showProductInfo(productID:),
+                onAssistantTap: {
+                    showAssistant = true
+                },
                 performProtectedAction: performProtectedAction(_:)
             )
 
@@ -90,7 +106,7 @@ struct MainFlowView: View {
             }
 
         case .profile:
-            ProfileFlowView()
+            ProfileFlowView(onOrdersTap: profileCoordinator.showOrders)
         }
     }
 
@@ -140,15 +156,12 @@ struct MainFlowView: View {
 
         ToolbarItem(placement: .navigationBarTrailing) {
             if shouldShowHomeToolbar {
-                AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
-                    image.resizable().aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Image(systemName: "person.circle.fill")
-                        .foregroundColor(.appTextTertiary)
+                Button(action: {}) {
+                    CachedImage(urlString: "https://i.pravatar.cc/40", failureImageName: "product_placeholder")
+                        .frame(width: 34, height: 34)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
                 }
-                .frame(width: 34, height: 34)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
             }
         }
     }
@@ -194,8 +207,8 @@ struct MainFlowView: View {
         case .favorites(let route):
             favoritesDestination(for: route)
 
-        case .profile:
-            EmptyView()
+        case .profile(let route):
+            profileDestination(for: route)
         }
     }
 
@@ -230,6 +243,16 @@ struct MainFlowView: View {
         switch route {
         case .shared(let sharedRoute):
             sharedDestination(for: sharedRoute)
+        }
+    }
+    
+    @ViewBuilder
+    private func profileDestination(for route: ProfileFlowRoute) -> some View {
+        switch route {
+        case .orders:
+            OrdersViewFactory.makeView(onOrderTap: profileCoordinator.showOrderDetails(orderID:))
+        case .orderDetails(let orderID):
+            OrdersViewFactory.makeDetailsView(orderID: orderID)
         }
     }
 
@@ -383,6 +406,23 @@ struct MainFlowView: View {
             favoritesCoordinator.showProductInfo(productID: productID)
         case .profile:
             break
+        }
+    }
+
+    private func handleProductTapFromAssistant(productID: String) {
+        showAssistant = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            switch coordinator.selectedTab {
+            case .home:
+                homeCoordinator.showProductInfo(productID: productID)
+            case .cart:
+                cartCoordinator.showProductDetails(for: productID)
+            case .favorites:
+                favoritesCoordinator.showProductInfo(productID: productID)
+            case .profile:
+                coordinator.showHome()
+                homeCoordinator.showProductInfo(productID: productID)
+            }
         }
     }
 }

@@ -112,6 +112,10 @@ struct TrendingProductCard: View {
         .frame(width: 140)
         .background(Color.appBackgroundWhite)
         .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
+        )
         .shadow(color: Color.appCardShadow, radius: 6, x: 0, y: 2)
     }
 }

@@ -13,39 +13,10 @@ struct OfferProductCard: View {
             
             ZStack(alignment: .topTrailing) {
                 
-                if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        case .empty:
-                            Rectangle()
-                                .fill(Color.appBackgroundGray)
-                                .overlay(
-                                    ProgressView()
-                                        .tint(.appPrimaryOrange)
-                                )
-                        case .failure(_):
-                            Image("product_placeholder")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        @unknown default:
-                            EmptyView()
-                        }
-                    }
+                CachedImage(urlString: product.featuredImageURL, failureImageName: "product_placeholder")
                     .frame(width: 170, height: 180)
                     .clipped()
                     .cornerRadius(12)
-                } else {
-                    Image("product_placeholder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 170, height: 180)
-                        .clipped()
-                        .cornerRadius(12)
-                }
 
                 // Wishlist
                 Button(action: onFavoriteTap) {
@@ -67,6 +38,13 @@ struct OfferProductCard: View {
                     .lineLimit(2)
                     .frame(width: 150, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
+
+                HStack(spacing: 3) {
+                    StarRatingView(rating: product.rating ?? 0.0, size: 10)
+                    Text("(\(formatCount(product.reviewCount ?? 0)))")
+                        .font(.reviewCount)
+                        .foregroundColor(.appTextTertiary)
+                }
 
                 Spacer(minLength: 4)
 
@@ -95,9 +73,17 @@ struct OfferProductCard: View {
             .padding(.top, 6)
             .padding(.bottom, 8)
         }
-        .frame(width: 170, height: 260)
+        .frame(width: 170, height: 280)
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
+        )
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)
+    }
+
+    private func formatCount(_ n: Int) -> String {
+        n >= 1000 ? String(format: "%.0fk", Double(n) / 1000) : "\(n)"
     }
 }

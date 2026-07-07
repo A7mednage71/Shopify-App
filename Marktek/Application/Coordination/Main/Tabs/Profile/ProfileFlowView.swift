@@ -1,8 +1,10 @@
-import Settings
 import SwiftUI
+import Settings
 
 struct ProfileFlowView: View {
-    var body: some View {
-        SettingsViewFactory.makeView()
-    }
+    let onOrdersTap: () -> Void
+
+        var body: some View {
+            SettingsViewFactory.makeView(onOrdersTap: onOrdersTap)
+        }
 }

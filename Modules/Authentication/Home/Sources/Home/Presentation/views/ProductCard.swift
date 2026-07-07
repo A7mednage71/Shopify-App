@@ -86,15 +86,11 @@ struct ProductCard: View {
                     Spacer(minLength: 0)
                 }
 
-                if let rating = product.rating {
-                    HStack(spacing: 3) {
-                        StarRatingView(rating: rating, size: 11)
-                        if let count = product.reviewCount {
-                            Text(formatCount(count))
-                                .font(.reviewCount)
-                                .foregroundColor(.appTextTertiary)
-                        }
-                    }
+                HStack(spacing: 3) {
+                    StarRatingView(rating: product.rating ?? 0.0, size: 11)
+                    Text(formatCount(product.reviewCount ?? 0))
+                        .font(.reviewCount)
+                        .foregroundColor(.appTextTertiary)
                 }
             }
             .padding(.horizontal, 10)
@@ -103,43 +99,16 @@ struct ProductCard: View {
         }
         .background(Color.appBackgroundWhite)
         .cornerRadius(14)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.appPrimaryOrange.opacity(0.15), lineWidth: 1)
+        )
         .shadow(color: Color.appCardShadow.opacity(0.08), radius: 6, x: 0, y: 2)
         .if(fixedWidth != nil) { $0.frame(width: fixedWidth) }
     }
 
     private func formatCount(_ n: Int) -> String {
         n >= 1000 ? String(format: "%.0fk", Double(n) / 1000) : "\(n)"
-    }
-}
-
-// MARK: - Star Rating View
-
-struct StarRatingView: View {
-    let rating: Double
-    let size: CGFloat
-    let maxStars: Int = 5
-
-    var body: some View {
-        HStack(spacing: 2) {
-            ForEach(1...maxStars, id: \.self) { star in
-                starImage(for: star)
-                    .font(.system(size: size))
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func starImage(for star: Int) -> some View {
-        let filled    = Double(star) <= rating
-        let halfFilled = !filled && Double(star) - 0.5 <= rating
-
-        if filled {
-            Image(systemName: "star.fill").foregroundColor(.appStarFilled)
-        } else if halfFilled {
-            Image(systemName: "star.leadinghalf.filled").foregroundColor(.appStarFilled)
-        } else {
-            Image(systemName: "star").foregroundColor(.appStarEmpty)
-        }
     }
 }
 

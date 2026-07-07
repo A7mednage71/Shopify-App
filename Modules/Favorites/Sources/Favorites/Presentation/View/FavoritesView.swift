@@ -22,55 +22,36 @@ public struct FavoritesView: View {
     }
     
     public var body: some View {
-        ZStack {
-            if viewModel.isLoading && viewModel.favoriteProducts.isEmpty {
-                ProgressView()
-                    .scaleEffect(1.5)
-            } else if viewModel.favoriteProducts.isEmpty {
-                VStack(spacing: 16) {
-                    Image("no_favorites", bundle: .module)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 200)
-                        .foregroundColor(.gray.opacity(0.5))
-                        .scaleEffect(illustrationScale)
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0) {
+                FavoritesHeaderView(count: viewModel.favoriteProducts.count)
+                
+                if viewModel.isLoading && viewModel.favoriteProducts.isEmpty {
+                    FavoritesSkeletonView()
+                } else if viewModel.favoriteProducts.isEmpty {
+                    FavoritesEmptyStateView(illustrationScale: illustrationScale)
                         .onAppear {
                             startIllustrationAnimation()
                         }
                         .onChange(of: reduceMotion) { _ in
                             startIllustrationAnimation()
                         }
-                    
-                    Text("No Favorites Yet")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    Text("Tap the heart icon on any product to save it here.")
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
-                }
-            } else {
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                        ForEach(viewModel.favoriteProducts) { product in
-                            FavoriteProductCard(product: product) {
-                                productToDelete = product
-                                showDeleteAlert = true
-                            }
-                            .onTapGesture {
-                                onProductTap(product.id)
-                            }
-                            .transition(.scale.combined(with: .opacity))
+                } else {
+                    FavoritesGridSection(
+                        products: viewModel.favoriteProducts,
+                        onProductTap: onProductTap,
+                        onRemove: { product in
+                            productToDelete = product
+                            showDeleteAlert = true
                         }
-                    }
-                    .padding()
+                    )
                     .animation(.spring(response: 0.35, dampingFraction: 0.8), value: viewModel.favoriteProducts)
                 }
             }
         }
+        .background(Color.appBackgroundGray)
         .navigationTitle("Favorites")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.loadFavorites()
         }

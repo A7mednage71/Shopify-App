@@ -76,9 +76,14 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "BaseCartLineConnection": return ShopifyAPI.Objects.BaseCartLineConnection
     case "BaseCartLineEdge": return ShopifyAPI.Objects.BaseCartLineEdge
     case "QueryRoot": return ShopifyAPI.Objects.QueryRoot
+    case "OrderConnection": return ShopifyAPI.Objects.OrderConnection
+    case "OrderEdge": return ShopifyAPI.Objects.OrderEdge
+    case "OrderLineItemConnection": return ShopifyAPI.Objects.OrderLineItemConnection
+    case "OrderLineItemEdge": return ShopifyAPI.Objects.OrderLineItemEdge
+    case "OrderLineItem": return ShopifyAPI.Objects.OrderLineItem
+    case "Image": return ShopifyAPI.Objects.Image
     case "CartCreatePayload": return ShopifyAPI.Objects.CartCreatePayload
     case "CartLineCost": return ShopifyAPI.Objects.CartLineCost
-    case "Image": return ShopifyAPI.Objects.Image
     case "CartDiscountCodesUpdatePayload": return ShopifyAPI.Objects.CartDiscountCodesUpdatePayload
     case "CartDiscountCode": return ShopifyAPI.Objects.CartDiscountCode
     case "CustomerAddressUpdatePayload": return ShopifyAPI.Objects.CustomerAddressUpdatePayload
@@ -96,13 +101,13 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ImageEdge": return ShopifyAPI.Objects.ImageEdge
     case "ProductVariantConnection": return ShopifyAPI.Objects.ProductVariantConnection
     case "ProductVariantEdge": return ShopifyAPI.Objects.ProductVariantEdge
+    case "MetafieldReferenceConnection": return ShopifyAPI.Objects.MetafieldReferenceConnection
+    case "MetafieldReferenceEdge": return ShopifyAPI.Objects.MetafieldReferenceEdge
+    case "MetaobjectField": return ShopifyAPI.Objects.MetaobjectField
     case "PageInfo": return ShopifyAPI.Objects.PageInfo
     case "SearchResultItemConnection": return ShopifyAPI.Objects.SearchResultItemConnection
     case "SearchResultItemEdge": return ShopifyAPI.Objects.SearchResultItemEdge
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
-    case "MetafieldReferenceConnection": return ShopifyAPI.Objects.MetafieldReferenceConnection
-    case "MetafieldReferenceEdge": return ShopifyAPI.Objects.MetafieldReferenceEdge
-    case "MetaobjectField": return ShopifyAPI.Objects.MetaobjectField
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
     case "CustomerCreatePayload": return ShopifyAPI.Objects.CustomerCreatePayload
     case "CartLinesUpdatePayload": return ShopifyAPI.Objects.CartLinesUpdatePayload

@@ -14,13 +14,23 @@ public struct FavoriteProduct: Identifiable, Equatable {
     public let price: Double
     public let currencyCode: String
     public let compareAtPrice: Double?
+    public let rating: Double?
     
-    public init(id: String, title: String, imageURL: String, price: Double, currencyCode: String, compareAtPrice: Double?) {
+    public init(
+        id: String,
+        title: String,
+        imageURL: String,
+        price: Double,
+        currencyCode: String,
+        compareAtPrice: Double?,
+        rating: Double? = nil
+    ) {
         self.id = id
         self.title = title
         self.imageURL = imageURL
         self.price = price
         self.currencyCode = currencyCode
         self.compareAtPrice = compareAtPrice
+        self.rating = rating
     }
 }
