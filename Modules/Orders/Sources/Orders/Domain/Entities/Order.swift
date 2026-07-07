@@ -16,6 +16,7 @@ public struct Order: Identifiable, Sendable, Equatable {
     public let fulfillmentStatus: String
     public let totalPrice: String
     public let currencyCode: String
+    public let shippingAddress: String?
     public let lineItems: [OrderLineItem]
 
     public init(
@@ -27,6 +28,7 @@ public struct Order: Identifiable, Sendable, Equatable {
         fulfillmentStatus: String,
         totalPrice: String,
         currencyCode: String,
+        shippingAddress: String?,
         lineItems: [OrderLineItem]
     ) {
         self.id = id
@@ -37,6 +39,7 @@ public struct Order: Identifiable, Sendable, Equatable {
         self.fulfillmentStatus = fulfillmentStatus
         self.totalPrice = totalPrice
         self.currencyCode = currencyCode
+        self.shippingAddress = shippingAddress
         self.lineItems = lineItems
     }
 }

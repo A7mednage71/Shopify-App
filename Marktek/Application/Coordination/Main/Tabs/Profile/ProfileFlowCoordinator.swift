@@ -8,6 +8,10 @@ final class ProfileFlowCoordinator: ObservableObject {
             path.append(.orders)
         }
     
+    func showOrderDetails(orderID: String) {
+            path.append(.orderDetails(orderID: orderID))
+        }
+    
     func showRoot() {
         path = []
     }

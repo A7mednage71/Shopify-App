@@ -18,6 +18,7 @@ extension OrderDataModel {
             fulfillmentStatus: fulfillmentStatus,
             totalPrice: totalPriceAmount,
             currencyCode: currencyCode,
+            shippingAddress: shippingAddress,
             lineItems: lineItems.map { $0.toDomain() }
         )
     }

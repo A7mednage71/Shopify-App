@@ -10,9 +10,11 @@ import Common
 
 public struct OrdersView: View {
     @ObservedObject private var viewModel: OrdersViewModel
+    private let onOrderTap: (String) -> Void
 
-    public init(viewModel: OrdersViewModel) {
+    public init(viewModel: OrdersViewModel, onOrderTap: @escaping (String) -> Void) {
         self.viewModel = viewModel
+        self.onOrderTap = onOrderTap
     }
 
     public var body: some View {
@@ -72,7 +74,12 @@ public struct OrdersView: View {
             ScrollView {
                 LazyVStack(spacing: 12) {
                     ForEach(orders) { order in
-                        OrderRowView(order: order)
+                        Button {
+                            onOrderTap(order.id)
+                        } label: {
+                            OrderRowView(order: order)
+                        }
+                        .buttonStyle(.plain) 
                     }
                 }
                 .padding(16)
