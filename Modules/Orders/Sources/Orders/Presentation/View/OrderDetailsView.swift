@@ -79,7 +79,20 @@ public struct OrderDetailsView: View {
                 .padding(.bottom, 4)
             
             infoRow(title: "Order", value: "#\(order.orderNumber)", isValueBold: false)
-            infoRow(title: "Payment Method", value: "Apple Pay", isValueBold: false) // Dummy
+            HStack {
+                Text("Payment Method")
+                    .font(AppFonts.callout)
+                    .foregroundColor(AppColors.textSecondary)
+                
+                Spacer()
+                
+                HStack(spacing: 6) {
+                    Image(systemName: order.paymentMethod.systemImageName)
+                    Text(order.paymentMethod.title)
+                }
+                .font(AppFonts.callout.bold())
+                .foregroundColor(AppColors.textPrimary)
+            }
             
             let isPaid = order.financialStatus?.uppercased() == "PAID"
             infoRow(title: "Payment Status", value: isPaid ? "Paid" : "Not Paid", isValueBold: false)
