@@ -108,15 +108,10 @@ struct MainFlowView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             if shouldShowHomeToolbar {
                 Button(action: {}) {
-                    AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
-                        image.resizable().aspectRatio(contentMode: .fill)
-                    } placeholder: {
-                        Image(systemName: "person.circle.fill")
-                            .foregroundColor(.appTextTertiary)
-                    }
-                    .frame(width: 34, height: 34)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                    CachedImage(urlString: "https://i.pravatar.cc/40", failureImageName: "product_placeholder")
+                        .frame(width: 34, height: 34)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
                 }
             }
         }

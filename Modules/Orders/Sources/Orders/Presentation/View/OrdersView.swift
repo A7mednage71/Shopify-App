@@ -48,6 +48,7 @@ public struct OrdersView: View {
                 }
                 .padding(16)
             }
+            .background(Color.appBackgroundGray)
             .allowsHitTesting(false)
 
         case .empty:
@@ -83,6 +84,7 @@ public struct OrdersView: View {
                 }
                 .padding(16)
             }
+           .background(Color.appBackgroundGray)
             .refreshable {
                 await viewModel.loadOrders()
             }
