@@ -17,7 +17,18 @@ public struct OrdersView: View {
 
     public var body: some View {
         content
-            .navigationTitle("Order History")
+            .navigationBarTitleDisplayMode(.inline) 
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "shippingbox.fill")
+                        Text("Order History")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                    }
+                    .foregroundColor(AppColors.primary)
+                }
+            }
             .task {
                 await viewModel.loadOrders()
             }
