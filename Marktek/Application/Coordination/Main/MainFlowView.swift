@@ -1,3 +1,4 @@
+import Address
 import Cart
 import Checkout
 import Common
@@ -12,6 +13,8 @@ struct MainFlowView: View {
     @StateObject private var favoritesCoordinator = FavoritesFlowCoordinator()
     @StateObject private var profileCoordinator = ProfileFlowCoordinator()
     @State private var isGuestAlertPresented = false
+    @State private var checkoutAddressSheet: CheckoutAddressSheet?
+    @State private var pendingCheckoutAddressCompletion: (() -> Void)?
 
     init(authState: AuthState) {
         self.authState = authState
@@ -46,6 +49,14 @@ struct MainFlowView: View {
             }
         } message: {
             Text("You're browsing as a guest. Sign in to use cart, favorites, and AI features.")
+        }
+        .sheet(item: $checkoutAddressSheet, onDismiss: clearPendingCheckoutAddressCompletion) { sheet in
+            switch sheet {
+            case .add:
+                checkoutAddressAddSheet
+            case .book:
+                checkoutAddressBookSheet
+            }
         }
     }
 
@@ -207,7 +218,11 @@ struct MainFlowView: View {
             sharedDestination(for: sharedRoute)
 
         case .checkout:
-            CheckoutViewFactory.makeView(onOrderConfirmed: showOrderConfirmation)
+            CheckoutViewFactory.makeView(
+                onOrderConfirmed: showOrderConfirmation,
+                onAddAddressTap: presentCheckoutAddressAdd(completion:),
+                onAddressBookTap: presentCheckoutAddressBook(completion:)
+            )
 
         case .orderConfirmation:
             cartOrderConfirmationDestination
@@ -258,6 +273,78 @@ struct MainFlowView: View {
         profileCoordinator.showRoot()
     }
 
+    @ViewBuilder
+    private var checkoutAddressAddSheet: some View {
+        if #available(iOS 16.0, *) {
+            AddAddressFlowView(
+                viewModel: DependencyInjector.shared.resolve(AddressesViewModel.self),
+                onAddressAdded: handleCheckoutAddressAdded,
+                onCancel: dismissCheckoutAddressAdd
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+        } else {
+            Text("Address flow requires iOS 16 or later.")
+                .font(.appBarTitle)
+                .foregroundColor(.appTextPrimary)
+        }
+    }
+
+    @ViewBuilder
+    private var checkoutAddressBookSheet: some View {
+        if #available(iOS 16.0, *) {
+            AddressBookFlowView(
+                viewModel: DependencyInjector.shared.resolve(AddressesViewModel.self),
+                onAddressChanged: handleCheckoutAddressChanged,
+                onCancel: dismissCheckoutAddressBook
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+        } else {
+            Text("Address flow requires iOS 16 or later.")
+                .font(.appBarTitle)
+                .foregroundColor(.appTextPrimary)
+        }
+    }
+
+    private func presentCheckoutAddressAdd(completion: @escaping () -> Void) {
+        pendingCheckoutAddressCompletion = completion
+        checkoutAddressSheet = .add
+    }
+
+    private func presentCheckoutAddressBook(completion: @escaping () -> Void) {
+        pendingCheckoutAddressCompletion = completion
+        checkoutAddressSheet = .book
+    }
+
+    private func handleCheckoutAddressAdded() {
+        let completion = pendingCheckoutAddressCompletion
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+        completion?()
+    }
+
+    private func handleCheckoutAddressChanged() {
+        let completion = pendingCheckoutAddressCompletion
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+        completion?()
+    }
+
+    private func dismissCheckoutAddressAdd() {
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+    }
+
+    private func dismissCheckoutAddressBook() {
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+    }
+
+    private func clearPendingCheckoutAddressCompletion() {
+        pendingCheckoutAddressCompletion = nil
+    }
+
     private func resetAllRoutesToHome() {
         homeCoordinator.showRoot()
         cartCoordinator.showRoot()
@@ -300,6 +387,20 @@ struct MainFlowView: View {
             favoritesCoordinator.showProductInfo(productID: productID)
         case .profile:
             break
+        }
+    }
+}
+
+private enum CheckoutAddressSheet: Identifiable {
+    case add
+    case book
+
+    var id: String {
+        switch self {
+        case .add:
+            return "add"
+        case .book:
+            return "book"
         }
     }
 }

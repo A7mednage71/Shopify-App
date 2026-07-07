@@ -44,11 +44,17 @@ extension CartViewFactory {
 extension CheckoutViewFactory {
     @MainActor
     static func makeView(
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void,
+        onAddAddressTap: @escaping (@escaping () -> Void) -> Void = { _ in },
+        onAddressBookTap: @escaping (@escaping () -> Void) -> Void = { _ in }
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeCheckoutDestinationView(onOrderConfirmed: onOrderConfirmed)
+            .makeCheckoutDestinationView(
+                onOrderConfirmed: onOrderConfirmed,
+                onAddAddressTap: onAddAddressTap,
+                onAddressBookTap: onAddressBookTap
+            )
     }
 
     @MainActor
