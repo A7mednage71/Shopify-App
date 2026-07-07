@@ -62,13 +62,18 @@ struct OrderRowView: View {
     }
 
     private var statusBadge: some View {
-        Text(order.fulfillmentStatus.capitalized)
-            .font(AppFonts.caption)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(
-                Capsule().fill(AppColors.primary.opacity(0.12))
-            )
-            .foregroundColor(AppColors.primary)
-    }
+            let isPaid = (order.financialStatus?.uppercased() == "PAID")
+            let statusText = isPaid ? "Paid" : "Not Paid"
+            
+            let badgeColor = isPaid ? Color.green : AppColors.primary
+            
+            return Text(statusText)
+                .font(AppFonts.caption)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(
+                    Capsule().fill(badgeColor.opacity(0.12))
+                )
+                .foregroundColor(badgeColor)
+        }
 }
