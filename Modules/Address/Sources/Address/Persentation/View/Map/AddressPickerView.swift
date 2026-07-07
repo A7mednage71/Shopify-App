@@ -75,11 +75,12 @@ public struct AddressPickerView: View {
             TextField("Search for an address", text: $searchViewModel.query)
                 .focused($searchFieldFocused)
                 .font(AppFonts.body)
+                .foregroundColor(AppColors.textPrimary)
         }
         .padding(10)
-        .background(Color.white)
+        .background(AppColors.background)
         .cornerRadius(10)
-        .shadow(radius: 3)
+        .shadow(color: AppColors.shadow.opacity(0.14), radius: 3, x: 0, y: 2)
     }
 
     private var suggestionsList: some View {
@@ -90,19 +91,20 @@ public struct AddressPickerView: View {
                 } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(completion.title).font(AppFonts.body)
+                            .foregroundColor(AppColors.textPrimary)
                         Text(completion.subtitle)
                             .font(AppFonts.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppColors.textSecondary)
                     }
                     .padding(.vertical, 6)
                     .padding(.horizontal, 10)
                 }
-                Divider()
+                Divider().background(AppColors.border)
             }
         }
-        .background(Color.white)
+        .background(AppColors.background)
         .cornerRadius(10)
-        .shadow(radius: 3)
+        .shadow(color: AppColors.shadow.opacity(0.14), radius: 3, x: 0, y: 2)
     }
 
     private var confirmButton: some View {
@@ -111,12 +113,12 @@ public struct AddressPickerView: View {
         } label: {
             HStack(spacing: 8) {
                 if pickerViewModel.isResolvingAddress {
-                    ProgressView().tint(.white)
+                    ProgressView().tint(AppColors.textWhite)
                 }
                 Text(pickerViewModel.isResolvingAddress ? "Locating..." : "Confirm Location")
                     .font(AppFonts.body)
             }
-            .foregroundColor(.white)
+            .foregroundColor(AppColors.textWhite)
             .padding(.vertical, 14)
             .padding(.horizontal, 32)
             .background(AppColors.primary)
@@ -136,5 +138,4 @@ public struct AddressPickerView: View {
         searchFieldFocused = false
     }
 }
-
 

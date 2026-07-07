@@ -7,6 +7,7 @@
 
 
 
+import Common
 import SwiftUI
 @available(iOS 13.0.0, *)
 struct CustomBtn: View {
@@ -19,13 +20,12 @@ struct CustomBtn: View {
         } label: {
             Text(label)
                 .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(AppColors.textWhite)
          
                 .padding(.vertical, 14)
                 .frame(maxWidth: .infinity)
-                .background(Color(red: 255/255, green: 161/255, blue: 2/255))
+                .background(AppColors.primary)
                 .cornerRadius(10).padding(.horizontal, 30)
         }
     }
 }
-

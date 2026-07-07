@@ -12,16 +12,16 @@ struct CartOrderSummaryView: View {
 
             VStack(spacing: 10) {
                 CartSummaryRow(title: CartText.itemsSummaryTitle, value: "\(cart.totalQuantity)")
-                CartSummaryRow(title: CartText.subtotalSummaryTitle, value: cart.cost.subtotalAmount.formattedCurrency(fractionDigits: 0))
-                CartSummaryRow(title: CartText.discountSummaryTitle, value: discountText)
+                CartPriceSummaryRow(title: CartText.subtotalSummaryTitle, money: cart.cost.subtotalAmount)
+                CartPriceSummaryRow(title: CartText.discountSummaryTitle, priceInUSD: discountPriceValue)
 
                 Divider()
                     .background(AppColors.border)
                     .padding(.top, 6)
 
-                CartSummaryRow(
+                CartPriceSummaryRow(
                     title: CartText.totalSummaryTitle,
-                    value: cart.cost.totalAmount.formattedCurrency(fractionDigits: 0),
+                    money: cart.cost.totalAmount,
                     isTotal: true
                 )
             }
@@ -33,13 +33,48 @@ struct CartOrderSummaryView: View {
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
-    private var discountText: String {
+    private var discountPriceValue: Double {
         let discount = cart.cost.subtotalAmount.subtracting(cart.cost.totalAmount, clampedToZero: true)
 
         guard discount.decimalValue > 0 else {
-            return discount.formattedCurrency(fractionDigits: 0)
+            return 0
         }
 
-        return "-\(discount.formattedCurrency(fractionDigits: 0))"
+        return -discount.priceViewValue
+    }
+}
+
+private struct CartPriceSummaryRow: View {
+    let title: String
+    let priceInUSD: Double
+    var isTotal = false
+
+    init(title: String, money: CartMoney, isTotal: Bool = false) {
+        self.title = title
+        self.priceInUSD = money.priceViewValue
+        self.isTotal = isTotal
+    }
+
+    init(title: String, priceInUSD: Double, isTotal: Bool = false) {
+        self.title = title
+        self.priceInUSD = priceInUSD
+        self.isTotal = isTotal
+    }
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.system(size: isTotal ? 17 : 16, weight: isTotal ? .bold : .semibold))
+                .foregroundColor(isTotal ? AppColors.textPrimary : AppColors.textSecondary)
+
+            Spacer()
+
+            PriceView(
+                priceInUSD: priceInUSD,
+                font: .system(size: isTotal ? 17 : 16, weight: .bold),
+                color: isTotal ? AppColors.textPrimary : AppColors.textSecondary
+            )
+            .monospacedDigit()
+        }
     }
 }

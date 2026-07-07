@@ -20,26 +20,29 @@ struct AddressConfirmationForm: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Address")
                     .font(AppFonts.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.textSecondary)
                 Text(address.fullAddress)
                     .font(AppFonts.body)
+                    .foregroundColor(AppColors.textPrimary)
             }
 
             HStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Zip Code")
                         .font(AppFonts.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppColors.textSecondary)
                     TextField("Zip Code", text: $address.zipCode)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
+                        .foregroundColor(AppColors.textPrimary)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Country")
                         .font(AppFonts.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppColors.textSecondary)
                     TextField("Country", text: $address.country)
                         .textFieldStyle(.roundedBorder)
+                        .foregroundColor(AppColors.textPrimary)
                 }
             }
 
@@ -51,7 +54,7 @@ struct AddressConfirmationForm: View {
             } label: {
                 Text("Add Address")
                     .font(AppFonts.body)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppColors.textWhite)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .background(AppColors.primary)
@@ -59,5 +62,6 @@ struct AddressConfirmationForm: View {
             }
         }
         .padding(24)
+        .background(AppColors.background.ignoresSafeArea())
     }
 }

@@ -12,8 +12,6 @@ import Persistence
 import SwiftUI
 import Common
 import Authentication
-import Common
-import Address
 @available(iOS 14.0, *)
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -28,14 +26,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MarktekApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var authState = AuthState()
-    @StateObject private var viewModel = DependencyInjector.shared.resolve(AddressesViewModel.self)
     private let persistenceController = PersistenceController.shared
     
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     var body: some Scene {
         WindowGroup {
             AppFlowView(authState: authState)
-            .preferredColorScheme(isDarkMode ? .dark : .light)
+                .tint(AppColors.primary)
+                .preferredColorScheme(isDarkMode ? .dark : .light)
                 .task {
                     await CurrencyService.shared.fetchLatestRates()
                 }.onOpenURL { url in

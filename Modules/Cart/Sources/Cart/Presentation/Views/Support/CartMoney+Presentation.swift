@@ -47,4 +47,8 @@ extension CartMoney {
     var decimalValue: Decimal {
         Decimal(string: amount.replacingOccurrences(of: ",", with: "")) ?? 0
     }
+
+    var priceViewValue: Double {
+        NSDecimalNumber(decimal: decimalValue).doubleValue
+    }
 }

@@ -6,21 +6,17 @@ struct HomeView: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var sortButtonAnchor: Anchor<CGRect>?
     private let onProductTap: ((String) -> Void)?
-    private let onAssistantTap: () -> Void
     private let performProtectedAction: (@escaping () -> Void) -> Void
 
     init(
         viewModel: HomeViewModel,
         onProductTap: ((String) -> Void)? = nil,
-        onAssistantTap: @escaping () -> Void = {},
         performProtectedAction: @escaping (@escaping () -> Void) -> Void = { action in action() }
     ) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.onProductTap = onProductTap
-        self.onAssistantTap = onAssistantTap
         self.performProtectedAction = performProtectedAction
     }
-
 
 
     public var body: some View {
@@ -58,29 +54,6 @@ struct HomeView: View {
             .onPreferenceChange(SortButtonAnchorKey.self) { anchor in
                 sortButtonAnchor = anchor
             }
-
-            // Floating Chatbot Button
-            Button(action: {
-                performProtectedAction {
-                    onAssistantTap()
-                }
-            }) {
-                Image(systemName: "bubble.left.and.bubble.right.fill")
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundColor(.white)
-                    .padding(16)
-                    .background(
-                        LinearGradient(
-                            colors: [.appPrimaryOrange, .orange],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .clipShape(Circle())
-                    .shadow(color: Color.appPrimaryOrange.opacity(0.4), radius: 8, x: 0, y: 4)
-            }
-            .padding(.trailing, 20)
-            .padding(.bottom, 20)
         }
         .background(Color.appBackgroundGray)
         .task {

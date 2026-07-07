@@ -1,3 +1,5 @@
+import Address
+import Authentication
 import Cart
 import Checkout
 import ProductInfo
@@ -6,6 +8,8 @@ import Settings
 import Favorites
 import Orders
 
+
+@MainActor
 final class AppDIContainer {
     static let shared = AppDIContainer()
 
@@ -15,6 +19,7 @@ final class AppDIContainer {
         CartDomainAssembly(),
         CartPresentationAssembly(),
         CheckoutPresentationAssembly(),
+        AuthAssembly(),
         ProductInfoDataAssembly(),
         ProductInfoDomainAssembly(),
         ProductInfoPresentationAssembly(),
@@ -22,6 +27,7 @@ final class AppDIContainer {
         FavoritesDataAssembly(),
         FavoritesDomainAssembly(),
         FavoritesPresentationAssembly(),
+        AddressAssembly(),
         OrdersDataAssembly(),
         OrdersDomainAssembly(),
         OrdersPresentationAssembly()

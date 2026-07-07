@@ -1,3 +1,4 @@
+import Address
 import Cart
 import Checkout
 import ProductInfo
@@ -8,7 +9,6 @@ import Orders
 import SwiftUI
 
 struct MainFlowViewFactory {
-    
     @MainActor
     static func makeView(authState: AuthState) -> MainFlowView {
         MainFlowView(authState: authState)
@@ -17,7 +17,7 @@ struct MainFlowViewFactory {
 }
 
 private enum FeatureViewFactoryResolver {
-    static func resolve<Factory>(_ factoryType: Factory.Type) -> Factory {
+    @MainActor static func resolve<Factory>(_ factoryType: Factory.Type) -> Factory {
         guard let factory = AppDIContainer.shared.resolve(factoryType) else {
             fatalError("Unable to resolve \(factoryType). Check the app DI assemblies.")
         }
@@ -106,10 +106,57 @@ extension FavoritesViewFactory {
 
 extension SettingsViewFactory {
     @MainActor
-    static func makeView(onOrdersTap: @escaping () -> Void) -> some View {
+    static func makeView(
+        authState: AuthState,
+        onPersonalInformationTap: @escaping () -> Void,
+        onSavedAddressesTap: @escaping () -> Void,
+        onOrdersTap: @escaping () -> Void
+    ) -> some View {
         FeatureViewFactoryResolver
             .resolve(SettingsViewFactory.self)
-            .makeSettingsView(onOrdersTap: onOrdersTap)
+            .makeSettingsView(
+                authState: authState,
+                onPersonalInformationTap: onPersonalInformationTap,
+                onSavedAddressesTap: onSavedAddressesTap,
+                onOrdersTap: onOrdersTap
+            )
+    }
+}
+
+extension AddressViewFactory {
+    @MainActor
+    static func makeView() -> some View {
+        FeatureViewFactoryResolver
+            .resolve(AddressViewFactory.self)
+            .makeAddressDestinationView()
+    }
+
+    @available(iOS 16.0, *)
+    @MainActor
+    static func makeAddAddressFlowView(
+        onAddressAdded: @escaping () -> Void,
+        onCancel: @escaping () -> Void = {}
+    ) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(AddressViewFactory.self)
+            .makeAddAddressFlowView(
+                onAddressAdded: onAddressAdded,
+                onCancel: onCancel
+            )
+    }
+
+    @available(iOS 16.0, *)
+    @MainActor
+    static func makeAddressBookFlowView(
+        onAddressChanged: @escaping () -> Void,
+        onCancel: @escaping () -> Void = {}
+    ) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(AddressViewFactory.self)
+            .makeAddressBookFlowView(
+                onAddressChanged: onAddressChanged,
+                onCancel: onCancel
+            )
     }
 }
 

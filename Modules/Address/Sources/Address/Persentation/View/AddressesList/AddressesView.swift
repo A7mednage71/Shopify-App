@@ -32,6 +32,7 @@ public struct AddressesView: View {
             VStack(alignment: .leading) {
                 Text("Saved Addresses")
                     .font(.headline)
+                    .foregroundColor(AppColors.textPrimary)
                     .padding(.top)
                     .padding(.horizontal, 24)
                 List {
@@ -53,6 +54,7 @@ public struct AddressesView: View {
                             viewModel.selectedAddressID = address.id
                         }
                         .listRowSeparator(.hidden)
+                        .listRowBackground(AppColors.backgroundSecondary)
                         
                         
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
@@ -69,10 +71,11 @@ public struct AddressesView: View {
                         onAddAddress()
                     })
                     .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+                    .listRowBackground(AppColors.backgroundSecondary)
                     .padding(.top, 8)
                 }
                 .listStyle(.plain)
+                .background(AppColors.backgroundSecondary)
                 
                 
                 CustomBtn(label: "Apply", action: {
@@ -96,23 +99,24 @@ public struct AddressesView: View {
                     Spacer()
                     HStack(spacing: 12) {
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.textWhite)
                         Text(snackbarMessage)
                             .font(.subheadline)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.textWhite)
                             .fontWeight(.medium)
                     }
                     .padding(.vertical, 14)
                     .padding(.horizontal, 24)
-                    .background(Color.black.opacity(0.85))
+                    .background(AppColors.primary)
                     .cornerRadius(25)
-                    .shadow(radius: 6)
+                    .shadow(color: AppColors.shadow.opacity(0.18), radius: 6, x: 0, y: 3)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .padding(.bottom, 90)
                 }
                 .animation(.spring(), value: showSnackbar)
             }
         }
+        .background(AppColors.backgroundSecondary)
         .alert("Delete Address", isPresented: $showingDeleteAlert, presenting: addressToDelete) { address in
             Button("Delete", role: .destructive) {
                 var transaction = Transaction()

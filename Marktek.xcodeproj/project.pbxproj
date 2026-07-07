@@ -50,6 +50,7 @@
 		618A2B7B2FFC89460023A971 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7A2FFC89460023A971 /* Persistence */; };
 		618A2B7D2FFC89460023A971 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7C2FFC89460023A971 /* ProductInfo */; };
 		CA3294992FFC841A00E93B26 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CA3294982FFC841A00E93B26 /* Secrets.xcconfig */; };
+		618A2B7F2FFDABCD0023A971 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7E2FFDABCD0023A971 /* Onboarding */; };
 		618A2B7F2FFC89460023A971 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7E2FFC89460023A971 /* Settings */; };
 		618A2B812FFC89460023A971 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B802FFC89460023A971 /* Apollo */; };
 		618A2B832FFC89460023A971 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B822FFC89460023A971 /* FirebaseAuth */; };
@@ -139,6 +140,7 @@
 				618A2B892FFC89460023A971 /* Swinject in Frameworks */,
 				618A2B832FFC89460023A971 /* FirebaseAuth in Frameworks */,
 				618A2B7F2FFC89460023A971 /* Settings in Frameworks */,
+				618A2B7F2FFDABCD0023A971 /* Onboarding in Frameworks */,
 				617997B12FFD253600902D94 /* Address in Frameworks */,
 				618A2B772FFC89460023A971 /* Home in Frameworks */,
 				618A2B732FFC89460023A971 /* Checkout in Frameworks */,
@@ -387,6 +389,7 @@
 				618A2B7A2FFC89460023A971 /* Persistence */,
 				618A2B7C2FFC89460023A971 /* ProductInfo */,
 				618A2B7E2FFC89460023A971 /* Settings */,
+				618A2B7E2FFDABCD0023A971 /* Onboarding */,
 				618A2B802FFC89460023A971 /* Apollo */,
 				618A2B822FFC89460023A971 /* FirebaseAuth */,
 				618A2B842FFC89460023A971 /* GoogleSignIn */,
@@ -1002,6 +1005,10 @@
 		618A2B7E2FFC89460023A971 /* Settings */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Settings;
+		};
+		618A2B7E2FFDABCD0023A971 /* Onboarding */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Onboarding;
 		};
 		618A2B802FFC89460023A971 /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;

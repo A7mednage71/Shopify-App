@@ -9,6 +9,8 @@ import Foundation
 import Swinject
 import Foundation
 import Swinject
+
+
 @MainActor
 public final class AuthAssembly: Assembly {
     
@@ -47,6 +49,10 @@ public final class AuthAssembly: Assembly {
         
         container.register(RegisterUseCase.self) { resolver in
             RegisterUseCase(authRepo: resolver.resolve(AuthRepoInterface.self)!)
+        }
+
+        container.register(LogoutUseCase.self) { resolver in
+            LogoutUseCase(authRepo: resolver.resolve(AuthRepoInterface.self)!)
         }
         
         container.register(LoginViewModel.self) { resolver in

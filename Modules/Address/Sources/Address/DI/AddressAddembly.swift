@@ -60,8 +60,15 @@ public final class AddressAssembly : Assembly{
                     
                 )
             }
+
+            container.register(AddressViewFactory.self) { resolver in
+                AddressViewFactory(
+                    makeAddressesViewModel: {
+                        resolver.resolve(AddressesViewModel.self)!
+                    }
+                )
+            }
             
         }
     }
-
 

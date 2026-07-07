@@ -29,7 +29,7 @@ struct NewAddressButton: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .strokeBorder(
-                        Color(red: 225/255, green: 161/255, blue: 2/255),
+                        AppColors.primary,
                         lineWidth: 1
                     )
             )

@@ -60,7 +60,7 @@ public struct AddAddressFlowView: View {
 
     private var savingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.24)
+            AppColors.shadow.opacity(0.24)
                 .ignoresSafeArea()
 
             VStack(spacing: 12) {

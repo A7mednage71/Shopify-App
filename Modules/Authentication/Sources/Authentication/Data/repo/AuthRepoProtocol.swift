@@ -11,5 +11,6 @@ protocol AuthRepoInterface {
     func signIn(email: String, password: String) async throws
     func signInByGoogle() async throws
     func createUserWithEmailAndPassword(email: String, password: String , firstName : String , lastName : String) async throws
+    func signOut() async throws
 }
  

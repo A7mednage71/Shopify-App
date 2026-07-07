@@ -79,9 +79,6 @@ struct MainFlowView: View {
         case .home:
             HomeFlowView(
                 onProductDetailsTap: homeCoordinator.showProductInfo(productID:),
-                onAssistantTap: {
-                    showAssistant = true
-                },
                 performProtectedAction: performProtectedAction(_:)
             )
 
@@ -106,7 +103,12 @@ struct MainFlowView: View {
             }
 
         case .profile:
-            ProfileFlowView(onOrdersTap: profileCoordinator.showOrders)
+            ProfileFlowView(
+                authState: authState,
+                onPersonalInformationTap: profileCoordinator.showPersonalInformation,
+                onSavedAddressesTap: profileCoordinator.showAddresses,
+                onOrdersTap: profileCoordinator.showOrders
+            )
         }
     }
 
@@ -249,6 +251,10 @@ struct MainFlowView: View {
     @ViewBuilder
     private func profileDestination(for route: ProfileFlowRoute) -> some View {
         switch route {
+        case .personalInformation:
+            ProfilePersonalInformationPlaceholderView()
+        case .addresses:
+            AddressViewFactory.makeView()
         case .orders:
             OrdersViewFactory.makeView(onOrderTap: profileCoordinator.showOrderDetails(orderID:))
         case .orderDetails(let orderID):
@@ -295,8 +301,7 @@ struct MainFlowView: View {
     @ViewBuilder
     private var checkoutAddressAddSheet: some View {
         if #available(iOS 16.0, *) {
-            AddAddressFlowView(
-                viewModel: DependencyInjector.shared.resolve(AddressesViewModel.self),
+            AddressViewFactory.makeAddAddressFlowView(
                 onAddressAdded: handleCheckoutAddressAdded,
                 onCancel: dismissCheckoutAddressAdd
             )
@@ -312,8 +317,7 @@ struct MainFlowView: View {
     @ViewBuilder
     private var checkoutAddressBookSheet: some View {
         if #available(iOS 16.0, *) {
-            AddressBookFlowView(
-                viewModel: DependencyInjector.shared.resolve(AddressesViewModel.self),
+            AddressViewFactory.makeAddressBookFlowView(
                 onAddressChanged: handleCheckoutAddressChanged,
                 onCancel: dismissCheckoutAddressBook
             )
@@ -438,6 +442,28 @@ private enum CheckoutAddressSheet: Identifiable {
         case .book:
             return "book"
         }
+    }
+}
+
+private struct ProfilePersonalInformationPlaceholderView: View {
+    var body: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "person.text.rectangle")
+                .font(.system(size: 42, weight: .semibold))
+                .foregroundColor(AppColors.primary)
+
+            Text("Personal Information")
+                .font(AppFonts.title2.weight(.bold))
+                .foregroundColor(AppColors.textPrimary)
+
+            Text("Coming soon")
+                .font(AppFonts.callout)
+                .foregroundColor(AppColors.textSecondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.backgroundSecondary.ignoresSafeArea())
+        .navigationTitle("Personal Information")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

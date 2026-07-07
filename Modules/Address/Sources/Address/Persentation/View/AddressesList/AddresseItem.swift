@@ -7,8 +7,6 @@
 
 import SwiftUI
 import Common
-import SwiftUI
-import Common
 
 struct AddressItem: View {
     @Binding var isSelected: Bool
@@ -30,7 +28,7 @@ struct AddressItem: View {
                 
                 Text(addressItem.address1)
                     .font(AppFonts.subheadline)
-                    .foregroundColor(Color(red: 128/255, green: 128/255, blue: 128/255))
+                    .foregroundColor(AppColors.textSecondary)
                     .lineLimit(1)
                     .truncationMode(.middle)
             }
@@ -46,7 +44,7 @@ struct AddressItem: View {
        
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(isSelected ? AppColors.primaryVeryLight : Color.clear)
+                .fill(isSelected ? AppColors.primaryVeryLight : AppColors.background)
         )
         
         
@@ -56,5 +54,4 @@ struct AddressItem: View {
         )
     }
 }
-
 

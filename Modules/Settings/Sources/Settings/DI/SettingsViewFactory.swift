@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Common
 import SwiftUI
 
 public struct SettingsViewFactory {
@@ -16,14 +17,21 @@ public struct SettingsViewFactory {
     }
 
     @MainActor
-    public func makeSettingsDestinationView() -> some View {
-        SettingsView(viewModel: viewModelFactory.makeViewModel())
+    public func makeSettingsDestinationView(authState: AuthState) -> some View {
+        SettingsView(viewModel: viewModelFactory.makeViewModel(authState: authState))
     }
 
     @MainActor
-    public func makeSettingsView(onOrdersTap: @escaping () -> Void) -> some View {
+    public func makeSettingsView(
+        authState: AuthState,
+        onPersonalInformationTap: @escaping () -> Void,
+        onSavedAddressesTap: @escaping () -> Void,
+        onOrdersTap: @escaping () -> Void
+    ) -> some View {
         SettingsView(
-            viewModel: viewModelFactory.makeViewModel(),
+            viewModel: viewModelFactory.makeViewModel(authState: authState),
+            onPersonalInformationTap: onPersonalInformationTap,
+            onSavedAddressesTap: onSavedAddressesTap,
             onOrdersTap: onOrdersTap
         )
     }

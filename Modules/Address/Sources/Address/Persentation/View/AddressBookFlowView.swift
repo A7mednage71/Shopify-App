@@ -26,6 +26,8 @@ public struct AddressBookFlowView: View {
                 switch viewModel.state {
                 case .initialState, .loading:
                     ProgressView("Loading addresses...")
+                        .foregroundColor(AppColors.textPrimary)
+                        .tint(AppColors.primary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 case .NoAddressProvided:
@@ -49,6 +51,8 @@ public struct AddressBookFlowView: View {
                     ServerErrorView()
                 }
             }
+            .background(AppColors.backgroundSecondary.ignoresSafeArea())
+            .tint(AppColors.primary)
             .navigationTitle("Delivery Address")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

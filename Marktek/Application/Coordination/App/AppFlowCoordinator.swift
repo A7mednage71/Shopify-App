@@ -4,8 +4,16 @@ import SwiftUI
 final class AppFlowCoordinator: ObservableObject {
     @Published var selectedFlow: AppFlow
 
-    init(shouldShowMainFlow: Bool) {
-        selectedFlow = shouldShowMainFlow ? .main : .auth
+    init(shouldShowOnboarding: Bool, shouldShowMainFlow: Bool) {
+        if shouldShowOnboarding {
+            selectedFlow = .onboarding
+        } else {
+            selectedFlow = shouldShowMainFlow ? .main : .auth
+        }
+    }
+
+    func showOnboarding() {
+        selectedFlow = .onboarding
     }
 
     func showAuth() {
@@ -18,6 +26,7 @@ final class AppFlowCoordinator: ObservableObject {
 }
 
 enum AppFlow: Hashable {
+    case onboarding
     case auth
     case main
 }

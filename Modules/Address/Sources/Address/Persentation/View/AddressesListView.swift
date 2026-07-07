@@ -14,6 +14,8 @@ public struct SwiftUIView: View {
                 switch viewModel.state {
                 case .initialState, .loading:
                     ProgressView("Loading addresses...")
+                        .foregroundColor(AppColors.textPrimary)
+                        .tint(AppColors.primary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 case .NoAddressProvided:
                     NoSavedAddressesView(onAddAddress: {
@@ -31,6 +33,8 @@ public struct SwiftUIView: View {
         
                 }
             }
+            .background(AppColors.backgroundSecondary.ignoresSafeArea())
+            .tint(AppColors.primary)
             .task {
                 await viewModel.fetchAddresses()
             } .navigationDestination(isPresented: $isShowingMap) {
@@ -44,4 +48,3 @@ public struct SwiftUIView: View {
         }
     }
 }
-

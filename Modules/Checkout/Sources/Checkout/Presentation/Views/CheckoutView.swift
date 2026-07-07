@@ -137,7 +137,6 @@ struct CheckoutView: View {
                 CheckoutShippingMethodSection(
                     methods: viewModel.shippingSelection.methods,
                     selectedMethod: viewModel.shippingSelection.selectedMethod,
-                    currencyCode: cart.cost.subtotalAmount.currencyCode,
                     onSelect: viewModel.selectShippingMethod(_:)
                 )
 
