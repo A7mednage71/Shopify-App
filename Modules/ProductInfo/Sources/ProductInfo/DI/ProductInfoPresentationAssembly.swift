@@ -9,6 +9,8 @@ public struct ProductInfoPresentationAssembly: Assembly {
         container.register(ProductInfoViewModelFactory.self) { resolver in
             ProductInfoViewModelFactory(
                 getProductInfoUseCase: resolver.resolve(GetProductInfoUseCaseProtocol.self)!,
+                getComparableProductsUseCase: resolver.resolve(GetComparableProductsUseCaseProtocol.self)!,
+                getProductComparisonRecommendationUseCase: resolver.resolve(GetProductComparisonRecommendationUseCaseProtocol.self)!,
                 addItemToCartUseCase: resolver.resolve(AddItemToCartUseCaseProtocol.self)!,
                 manageFavoritesUseCase: resolver.resolve(ManageFavoritesUseCase.self)!
             )

@@ -1,3 +1,4 @@
+import Common
 import Foundation
 
 public struct GeminiShoppingAssistantRemoteDataSource: ShoppingAssistantRemoteDataSource {
@@ -24,7 +25,7 @@ public struct GeminiShoppingAssistantRemoteDataSource: ShoppingAssistantRemoteDa
     
     public func getReply(messages: [ChatMessage], catalog: [ShopProduct], brands: [Collection], categories: [Collection]) async throws -> AssistantReply {
         let body = try requestBuilder.buildRequestBody(messages: messages, catalog: catalog, brands: brands, categories: categories)
-        let response = try await client.generateContent(body: body)
+        let response = try await client.generateContent(body: body, responseType: GeminiDirectResponse.self)
         return try responseParser.parse(response: response)
     }
 }

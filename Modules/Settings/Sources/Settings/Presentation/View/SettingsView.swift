@@ -11,8 +11,11 @@ import Common
 @available(iOS 14.0, *)
 public struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
+    private let onOrdersTap: () -> Void
     
-    public init() {}
+    public init(onOrdersTap: @escaping () -> Void) {
+            self.onOrdersTap = onOrdersTap
+        }
     
     public var body: some View {
         NavigationView {
@@ -35,6 +38,11 @@ public struct SettingsView: View {
                         SettingsActionRow(icon: "mappin.and.ellipse", title: "Saved Addresses") {
                             print("Go to Addresses")
                         }
+                        Divider().background(AppColors.border)
+                            
+                            SettingsActionRow(icon: "shippingbox", title: "Order History") {
+                                onOrdersTap()
+                            }
                     }
                     
                     SettingsSectionView(title: "Regional Preferences") {

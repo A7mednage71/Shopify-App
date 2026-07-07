@@ -5,6 +5,7 @@ import SwiftUI
 import Swinject
 import Settings
 import Favorites
+import Orders
 
 final class AppDIContainer {
     static let shared = AppDIContainer()
@@ -21,7 +22,10 @@ final class AppDIContainer {
         SettingsAssembly(),
         FavoritesDataAssembly(),
         FavoritesDomainAssembly(),
-        FavoritesPresentationAssembly()
+        FavoritesPresentationAssembly(),
+        OrdersDataAssembly(),
+        OrdersDomainAssembly(),
+        OrdersPresentationAssembly()
     ])
 
     private init() {}
@@ -36,6 +40,6 @@ final class AppDIContainer {
                 return AnyView(Text("Unable to load settings."))
             }
 
-            return AnyView(settingsViewFactory.makeSettingsView())
+            return AnyView(settingsViewFactory.makeSettingsView(onOrdersTap: {}))
         }
 }

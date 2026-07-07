@@ -2,6 +2,7 @@ import Cart
 import Checkout
 import Common
 import ProductInfo
+import Orders
 import SwiftUI
 
 struct MainFlowView: View {
@@ -67,7 +68,7 @@ struct MainFlowView: View {
                 )
 
         case .profile:
-            ProfileFlowView()
+            ProfileFlowView(onOrdersTap: profileCoordinator.showOrders)
         }
     }
 
@@ -162,8 +163,8 @@ struct MainFlowView: View {
         case .favorites(let route):
             favoritesDestination(for: route)
 
-        case .profile:
-            EmptyView()
+        case .profile(let route):
+            profileDestination(for: route)
         }
     }
 
@@ -196,6 +197,14 @@ struct MainFlowView: View {
             sharedDestination(for: sharedRoute)
         }
     }
+    
+    @ViewBuilder
+    private func profileDestination(for route: ProfileFlowRoute) -> some View {
+        switch route {
+        case .orders:
+            OrdersViewFactory.makeView()
+        }
+    }
 
     @ViewBuilder
     private func sharedDestination(for route: SharedFlowRoute) -> some View {
@@ -203,7 +212,8 @@ struct MainFlowView: View {
         case .productInfo(let productID):
             ProductInfoViewFactory.makeView(
                 productID: productID,
-                onCartTap: showCartRoot
+                onCartTap: showCartRoot,
+                onProductTap: showProductInfoOnActiveTab(productID:)
             )
         }
     }
@@ -249,6 +259,20 @@ struct MainFlowView: View {
         cartCoordinator.showRoot()
         coordinator.showCart()
     }
+
+    private func showProductInfoOnActiveTab(productID: String) {
+        switch coordinator.selectedTab {
+        case .home:
+            homeCoordinator.showProductInfo(productID: productID)
+        case .cart:
+            cartCoordinator.showProductDetails(for: productID)
+        case .favorites:
+            favoritesCoordinator.showProductInfo(productID: productID)
+        case .profile:
+            break
+        }
+    }
+
 
     private func handleProductTapFromAssistant(productID: String) {
         showAssistant = false

@@ -10,12 +10,14 @@ public struct ProductInfoViewFactory {
     @MainActor
     public func makeProductInfoView(
         productID: String,
-        onCartTap: @escaping () -> Void
+        onCartTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void = { _ in }
     ) -> some View {
         ProductInfoView(
             productID: productID,
             viewModel: viewModelFactory.makeViewModel(),
-            onCartTap: onCartTap
+            onCartTap: onCartTap,
+            onProductTap: onProductTap
         )
     }
 }

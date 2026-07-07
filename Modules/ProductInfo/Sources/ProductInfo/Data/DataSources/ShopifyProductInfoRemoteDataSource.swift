@@ -10,4 +10,18 @@ struct ShopifyProductInfoRemoteDataSource: ProductInfoRemoteDataSource, Sendable
 
         return ProductInfoDataModel(product: product)
     }
+
+    func fetchProducts(productType: ProductType, first: Int, after: String?) async throws -> [ProductInfoDataModel] {
+        guard let queryValue = productType.queryValue else { return [] }
+
+        let data = try await ShopifyGraphQLClient.shared.fetch(
+            GetProductsByProductTypeQuery(
+                productType: queryValue,
+                first: .some(first),
+                after: after.map { .some($0) } ?? .none
+            )
+        )
+
+        return data.products.edges.map { ProductInfoDataModel(productTypeNode: $0.node) }
+    }
 }

@@ -19,14 +19,12 @@ struct HomePresentationAssembly: Assembly {
         .inObjectScope(.container)
 
         container.register(ShoppingAssistantViewModel.self) { r in
-            MainActor.assumeIsolated {
                 ShoppingAssistantViewModel(
                     getProductsUseCase: r.resolve(GetProductsUseCaseProtocol.self)!,
                     getBrandsUseCase: r.resolve(GetBrandsUseCaseProtocol.self)!,
                     getCategoriesUseCase: r.resolve(GetCategoriesUseCaseProtocol.self)!,
                     getAssistantResponseUseCase: r.resolve(GetAssistantResponseUseCaseProtocol.self)!
                 )
-            }
         }
         .inObjectScope(.container)
     }

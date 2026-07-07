@@ -2,6 +2,8 @@ import Cart
 import Checkout
 import ProductInfo
 import Favorites
+import Settings
+import Orders
 import SwiftUI
 
 struct MainFlowViewFactory {
@@ -68,14 +70,16 @@ extension ProductInfoViewFactory {
     @MainActor
     static func makeView(
         productID: String,
-        onCartTap: @escaping () -> Void
+        onCartTap: @escaping () -> Void,
+        onProductTap: @escaping (String) -> Void = { _ in }
     ) -> some View {
         // Product ID is screen data; cart tap remains a coordinator-owned navigation action.
         FeatureViewFactoryResolver
             .resolve(ProductInfoViewFactory.self)
             .makeProductInfoView(
                 productID: productID,
-                onCartTap: onCartTap
+                onCartTap: onCartTap,
+                onProductTap: onProductTap
             )
     }
 }
@@ -88,5 +92,23 @@ extension FavoritesViewFactory {
         FeatureViewFactoryResolver
             .resolve(FavoritesViewFactory.self)
             .makeFavoritesDestinationView(onProductTap: onProductTap)
+    }
+}
+
+extension SettingsViewFactory {
+    @MainActor
+    static func makeView(onOrdersTap: @escaping () -> Void) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(SettingsViewFactory.self)
+            .makeSettingsView(onOrdersTap: onOrdersTap)
+    }
+}
+
+extension OrdersViewFactory {
+    @MainActor
+    static func makeView() -> some View {
+        FeatureViewFactoryResolver
+            .resolve(OrdersViewFactory.self)
+            .makeOrdersDestinationView()
     }
 }
