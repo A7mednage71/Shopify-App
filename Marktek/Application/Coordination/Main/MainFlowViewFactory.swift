@@ -106,9 +106,16 @@ extension SettingsViewFactory {
 
 extension OrdersViewFactory {
     @MainActor
-    static func makeView() -> some View {
+    static func makeView(onOrderTap: @escaping (String) -> Void) -> some View {
         FeatureViewFactoryResolver
             .resolve(OrdersViewFactory.self)
-            .makeOrdersDestinationView()
+            .makeOrdersDestinationView(onOrderTap: onOrderTap)
+    }
+
+    @MainActor
+    static func makeDetailsView(orderID: String) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(OrdersViewFactory.self)
+            .makeOrderDetailsView(orderID: orderID)
     }
 }

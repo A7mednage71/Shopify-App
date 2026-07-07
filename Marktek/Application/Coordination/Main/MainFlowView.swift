@@ -202,7 +202,9 @@ struct MainFlowView: View {
     private func profileDestination(for route: ProfileFlowRoute) -> some View {
         switch route {
         case .orders:
-            OrdersViewFactory.makeView()
+            OrdersViewFactory.makeView(onOrderTap: profileCoordinator.showOrderDetails(orderID:))
+        case .orderDetails(let orderID):
+            OrdersViewFactory.makeDetailsView(orderID: orderID)
         }
     }
 
