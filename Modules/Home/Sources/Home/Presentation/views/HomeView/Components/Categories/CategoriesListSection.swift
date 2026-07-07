@@ -35,45 +35,13 @@ struct CategoryItem: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            if let imageURL = category.imageURL, let url = URL(string: imageURL) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    case .empty:
-                        Circle()
-                            .fill(Color.appBackgroundGray)
-                            .overlay(
-                                ProgressView()
-                                    .tint(.appPrimaryOrange)
-                            )
-                    case .failure:
-                        Image("category_placeholder")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    @unknown default:
-                        EmptyView()
-                    }
-                }
+            CachedImage(urlString: category.imageURL, failureImageName: "category_placeholder")
                 .frame(width: 58, height: 58)
                 .clipShape(Circle())
                 .overlay(
                     Circle()
                         .stroke(Color.appPrimaryOrange, lineWidth: 1.5)
                 )
-            } else {
-                Image("category_placeholder")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 58, height: 58)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle()
-                            .stroke(Color.appPrimaryOrange, lineWidth: 1.5)
-                    )
-            }
 
             Text(category.title)
                 .categoryLabelStyle()

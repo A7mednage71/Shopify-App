@@ -137,17 +137,11 @@ struct BannerCard: View {
                 .padding(.leading, 20)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
-                AsyncImage(url: URL(string: banner.imageURL)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Color.appWhiteOverlayLight
-                }
-                .frame(width: 130, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .clipped()
-                .padding(.trailing, 10)
+                CachedImage(urlString: banner.imageURL, failureImageName: "brand_placeholder")
+                    .frame(width: 130, height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .clipped()
+                    .padding(.trailing, 10)
             }
         }
         .frame(height: 170)

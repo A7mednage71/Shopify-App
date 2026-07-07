@@ -93,6 +93,10 @@ struct OrderRowView: View {
                     .fill(orderStatus.color)
                     .frame(width: 4)
             }
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(orderStatus.color, lineWidth: 1)
+            )
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .shadow(color: AppColors.shadow.opacity(0.2), radius: 6, x: 0, y: 3)
     }
@@ -200,28 +204,9 @@ struct OrderRowView: View {
     }
 
     private func itemImage(url: String?, size: CGFloat) -> some View {
-        Group {
-            if let urlString = url, let url = URL(string: urlString) {
-                AsyncImage(url: url) { image in
-                    image.resizable()
-                        .scaledToFill()
-                } placeholder: {
-                    ProgressView()
-                        .scaleEffect(size > 40 ? 0.8 : 0.6)
-                }
-                .frame(width: size, height: size)
-                .clipShape(Circle())
-            } else {
-                Circle()
-                    .fill(AppColors.backgroundSecondary)
-                    .frame(width: size, height: size)
-                    .overlay(
-                        Image(systemName: "shippingbox")
-                            .font(.system(size: size > 40 ? 20 : 14))
-                            .foregroundColor(AppColors.textTertiary)
-                    )
-            }
-        }
+        CachedImage(urlString: url, failureImageName: "product_placeholder")
+            .frame(width: size, height: size)
+            .clipShape(Circle())
         .overlay(
             Circle()
                 .stroke(AppColors.background, lineWidth: 1.5)

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Common
 
 // MARK: - Trending Product Card (compact square)
 struct TrendingProductCard: View {
@@ -20,32 +21,9 @@ struct TrendingProductCard: View {
         ZStack(alignment: .bottomLeading) {
 
             // Background image — fills entire card
-            Group {
-                if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        case .empty:
-                            Rectangle()
-                                .fill(Color.appBackgroundGray)
-                                .overlay(ProgressView().tint(.appTextTertiary))
-                        default:
-                            Image("product_placeholder")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        }
-                    }
-                } else {
-                    Image("product_placeholder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                }
-            }
-            .frame(width: cardWidth, height: cardHeight)
-            .clipped()
+            CachedImage(urlString: product.featuredImageURL, failureImageName: "product_placeholder")
+                .frame(width: cardWidth, height: cardHeight)
+                .clipped()
 
             // Gradient — stronger and taller for legibility
             LinearGradient(

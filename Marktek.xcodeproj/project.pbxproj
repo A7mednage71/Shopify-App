@@ -473,6 +473,7 @@
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */,
+				2C1F7A362FFD94BD001D3EC6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -913,6 +914,14 @@
 			requirement = {
 				kind = exactVersion;
 				version = 1.5.0;
+			};
+		};
+		2C1F7A362FFD94BD001D3EC6 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.10.0;
 			};
 		};
 		616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {

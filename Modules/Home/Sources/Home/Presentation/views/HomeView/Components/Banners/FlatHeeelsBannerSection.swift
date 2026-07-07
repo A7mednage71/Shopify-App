@@ -20,21 +20,12 @@ struct FlatHeeelsBannerSection: View {
             
             HStack(spacing: 0) {
                 // Product Image
-                AsyncImage(url: URL(string: product.featuredImageURL!)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Image(systemName: "shoeprints.fill")
-                        .font(.system(size: 42))
-                        .foregroundColor(.appPrimaryOrange.opacity(0.35))
-                        .frame(width: 110, height: 100)
-                }
-                .frame(width: 110, height: 100)
-                .clipped()
-                .cornerRadius(10)
-                .padding(.leading, 14)
-                .padding(.vertical, 14)
+                CachedImage(urlString: product.featuredImageURL, failureImageName: "product_placeholder")
+                    .frame(width: 110, height: 100)
+                    .clipped()
+                    .cornerRadius(10)
+                    .padding(.leading, 14)
+                    .padding(.vertical, 14)
                 
                 Spacer()
                 

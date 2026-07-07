@@ -15,40 +15,10 @@ struct FavoriteProductCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .topTrailing) {
-                if let url = URL(string: product.imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        case .empty:
-                            Rectangle()
-                                .fill(Color.appBackgroundGray)
-                                .overlay(
-                                    ProgressView()
-                                        .tint(.appPrimaryOrange)
-                                )
-                        case .failure(_):
-                            Image("product_placeholder")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                            
-                        @unknown default:
-                            EmptyView()
-                        }
-                    }
+                CachedImage(urlString: product.imageURL, failureImageName: "product_placeholder")
                     .frame(width: 170, height: 180)
                     .clipped()
                     .cornerRadius(12)
-                } else {
-                    Image("product_placeholder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 170, height: 180)
-                        .clipped()
-                        .cornerRadius(12)
-                }
                 
                 Button(action: onRemove) {
                     Image(systemName: "heart.fill")

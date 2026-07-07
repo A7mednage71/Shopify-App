@@ -19,33 +19,9 @@ public struct UserProfileCard: View {
     public var body: some View {
         VStack(alignment: .center, spacing: 16) {
             ZStack(alignment: .bottomTrailing) {
-                Group {
-                    if let urlString = user.profileImageURL, let url = URL(string: urlString) {
-                        if #available(iOS 15.0, *) {
-                            AsyncImage(url: url) { image in
-                                image.resizable().scaledToFill()
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(width: 80, height: 80)
-                            .clipShape(Circle())
-                        } else {
-                            Image(systemName: "person.crop.circle.fill")
-                                .resizable()
-                                .foregroundColor(AppColors.textSecondary.opacity(0.3))
-                                .frame(width: 80, height: 80)
-                                .background(AppColors.background)
-                                .clipShape(Circle())
-                        }
-                    } else {
-                        Image(systemName: "person.crop.circle.fill")
-                            .resizable()
-                            .foregroundColor(AppColors.textSecondary.opacity(0.4))
-                            .frame(width: 80, height: 80)
-                            .background(AppColors.backgroundSecondary)
-                            .clipShape(Circle())
-                    }
-                }
+                CachedImage(urlString: user.profileImageURL, failureImageName: "product_placeholder")
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
                 .overlay(
                     Circle()
                         .stroke(AppColors.primary.opacity(0.2), lineWidth: 2)

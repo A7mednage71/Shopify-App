@@ -13,39 +13,10 @@ struct OfferProductCard: View {
             
             ZStack(alignment: .topTrailing) {
                 
-                if let imageURL = product.featuredImageURL, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        case .empty:
-                            Rectangle()
-                                .fill(Color.appBackgroundGray)
-                                .overlay(
-                                    ProgressView()
-                                        .tint(.appPrimaryOrange)
-                                )
-                        case .failure(_):
-                            Image("product_placeholder")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        @unknown default:
-                            EmptyView()
-                        }
-                    }
+                CachedImage(urlString: product.featuredImageURL, failureImageName: "product_placeholder")
                     .frame(width: 170, height: 180)
                     .clipped()
                     .cornerRadius(12)
-                } else {
-                    Image("product_placeholder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 170, height: 180)
-                        .clipped()
-                        .cornerRadius(12)
-                }
 
                 // Wishlist
                 Button(action: onFavoriteTap) {
