@@ -42,15 +42,13 @@ struct AddressItem: View {
         .padding(.horizontal, 20)
         
        
-        .background(
+         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(isSelected ? AppColors.primaryVeryLight : AppColors.background)
+                .fill(AppColors.background)
         )
-        
-        
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(isSelected ? AppColors.primary : AppColors.border, lineWidth: 1)
+                .stroke(isSelected ? AppColors.primary : AppColors.border, lineWidth: isSelected ? 2 : 1)
         )
     }
 }

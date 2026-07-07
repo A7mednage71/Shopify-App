@@ -10,8 +10,6 @@ import Common
 
 public struct OrderDetailsView: View {
     @ObservedObject private var viewModel: OrderDetailsViewModel
-    @Environment(\.dismiss) private var dismiss
-
     public init(viewModel: OrderDetailsViewModel) {
         self.viewModel = viewModel
     }
@@ -28,19 +26,6 @@ public struct OrderDetailsView: View {
         }
         .navigationTitle("Order Details")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: { dismiss() }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.backward")
-                            .font(.headline)
-                        Text("Payment")
-                    }
-                    .foregroundColor(AppColors.primary)
-                }
-            }
-        }
     }
 
     @ViewBuilder
@@ -52,19 +37,6 @@ public struct OrderDetailsView: View {
                 productsCard(order: order)
                 summaryCard(order: order)
                 
-                Button(action: {
-                    dismiss()
-                }) {
-                    Text("Done")
-                        .font(AppFonts.title3.bold())
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(AppColors.primary) 
-                        .cornerRadius(12)
-                }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)
             }
             .padding(.vertical, 16)
         }
