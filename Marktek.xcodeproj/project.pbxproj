@@ -21,9 +21,9 @@
 		616653B22FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */; };
 		616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E12FF1A35200F29AA5 /* GoogleSignIn */; };
 		616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E32FF1A35200F29AA5 /* GoogleSignInSwift */; };
+		616F54522FFD0A3D00173C0A /* Address in Frameworks */ = {isa = PBXBuildFile; productRef = 616F54512FFD0A3D00173C0A /* Address */; };
 		617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C62FF01B7C001CC25D /* FirebaseAuth */; };
 		617276C92FF023F9001CC25D /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C82FF023F9001CC25D /* Authentication */; };
-		61AD6F3A2FF93BF6008DA9E4 /* Address in Frameworks */ = {isa = PBXBuildFile; productRef = 61AD6F392FF93BF6008DA9E4 /* Address */; };
 		CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D80092FF335C50090C2CF /* Apollo */; };
 		CACE9CC42FF4953B00461ED1 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC32FF4953B00461ED1 /* Onboarding */; };
 		CACE9CC62FF4955900461ED1 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC52FF4955900461ED1 /* Home */; };
@@ -69,7 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */,
-				61AD6F3A2FF93BF6008DA9E4 /* Address in Frameworks */,
+				616F54522FFD0A3D00173C0A /* Address in Frameworks */,
 				616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */,
 				CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */,
 				086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */,
@@ -212,7 +212,7 @@
 				CACE9CC32FF4953B00461ED1 /* Onboarding */,
 				CACE9CC52FF4955900461ED1 /* Home */,
 				CACE9CC72FF4956A00461ED1 /* Persistence */,
-				61AD6F392FF93BF6008DA9E4 /* Address */,
+				616F54512FFD0A3D00173C0A /* Address */,
 			);
 			productName = Marktek;
 			productReference = 6166538C2FEFCE9F00C605D3 /* Marktek.app */;
@@ -767,6 +767,10 @@
 			package = 616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
 		};
+		616F54512FFD0A3D00173C0A /* Address */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Address;
+		};
 		617276C62FF01B7C001CC25D /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -775,10 +779,6 @@
 		617276C82FF023F9001CC25D /* Authentication */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Authentication;
-		};
-		61AD6F392FF93BF6008DA9E4 /* Address */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Address;
 		};
 		CA7D80092FF335C50090C2CF /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;

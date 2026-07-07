@@ -35,7 +35,10 @@ public struct SwiftUIView: View {
                 await viewModel.fetchAddresses()
             } .navigationDestination(isPresented: $isShowingMap) {
                 AddressPickerView(onAddressConfirmed: { selected in
-                    Task { await viewModel.createNewAddress(from: selected) }
+                    Task { await viewModel.createNewAddress(from: selected)
+                        isShowingMap = false
+                        
+                    }
                 })
             }
         }

@@ -60,7 +60,7 @@ public struct AddressPickerView: View {
                 address: $pickerViewModel.selectedAddress,
                 onAddAddress: { address in
                     onAddressConfirmed(address)
-                    dismiss()
+//                    dismiss()
                 }
             )
             .presentationDetents([.medium])
