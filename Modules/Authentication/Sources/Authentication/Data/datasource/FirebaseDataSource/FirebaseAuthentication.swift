@@ -9,11 +9,10 @@ import Foundation
 import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
-import CryptoKit
 class FirebaseAuthenitcation : AuthenticationServiceViaPlatform{
     
     @available(iOS 13.0.0, *)
-    func signInUsingGoogle() async throws -> (email: String, password: String) {
+    func signInUsingGoogle() async throws -> (email: String, password: String, firstName: String, lastName: String) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             throw AuthError.unknown
         }
@@ -45,8 +44,9 @@ class FirebaseAuthenitcation : AuthenticationServiceViaPlatform{
             }
 
             let password = Self.generateShopifyPassword(for: email)
+            let names = Self.splitFullName(authResult.user.displayName, fallbackEmail: email)
 
-            return (email: email, password: password)
+            return (email: email, password: password, firstName: names.firstName, lastName: names.lastName)
 
         } catch {
             try mapGoogleError(error)
@@ -55,11 +55,28 @@ class FirebaseAuthenitcation : AuthenticationServiceViaPlatform{
     }
 
     private static func generateShopifyPassword(for email: String) -> String {
-        let salt = "YOUR_APP_SPECIFIC_SALT"
-        let raw = email.lowercased() + salt
-        let hash = SHA256.hash(data: Data(raw.utf8))
-        return hash.compactMap { String(format: "%02x", $0) }.joined()
+        let localPart = email
+            .split(separator: "@")
+            .first
+            .map(String.init) ?? "googleuser"
+        let safeLocalPart = localPart
+            .lowercased()
+            .filter { $0.isLetter || $0.isNumber }
+            .prefix(12)
+
+        return "Mk1@\(safeLocalPart.isEmpty ? "googleuser" : String(safeLocalPart))"
     }
+
+    private static func splitFullName(_ fullName: String?, fallbackEmail: String) -> (firstName: String, lastName: String) {
+        let parts = (fullName ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .split(separator: " ", maxSplits: 1)
+            .map(String.init)
+
+        let fallbackFirstName = fallbackEmail.split(separator: "@").first.map(String.init) ?? ""
+        return (firstName: parts.first ?? fallbackFirstName, lastName: parts.count > 1 ? parts[1] : "")
+    }
+
     func signInUsingApple() throws {
         
     }

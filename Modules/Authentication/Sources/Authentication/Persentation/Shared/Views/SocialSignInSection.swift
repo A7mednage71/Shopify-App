@@ -20,7 +20,7 @@ public struct SocialSignInSection: View {
             Spacer().frame(height: 35)
             HStack {
                 CutomeCircularBtn(image: "person", label: "Guest", action: guestAction)
-                CutomeCircularBtn(image: "apple", action: appleAction)
+                //CutomeCircularBtn(image: "apple", action: appleAction)
                 CutomeCircularBtn(image: "google", action: googleAction)
             }
         }

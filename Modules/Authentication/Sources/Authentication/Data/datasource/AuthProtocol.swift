@@ -14,7 +14,7 @@ protocol AuthenticationService{
 
 protocol AuthenticationServiceViaPlatform{
     @available(iOS 13.0.0, *)
-    func signInUsingGoogle() async throws -> (email : String , password : String) ;
+    func signInUsingGoogle() async throws -> (email: String, password: String, firstName: String, lastName: String)
     @available(iOS 13.0.0, *)
     func signInUsingApple() async throws ;
     

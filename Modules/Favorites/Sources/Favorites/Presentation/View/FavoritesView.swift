@@ -9,7 +9,9 @@ import SwiftUI
 import Common
 
 public struct FavoritesView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject private var viewModel: FavoritesViewModel
+    @State private var illustrationScale: CGFloat = 0.98
     @State private var showDeleteAlert = false
     @State private var productToDelete: FavoriteProduct?
     let onProductTap: (String) -> Void
@@ -31,6 +33,13 @@ public struct FavoritesView: View {
                         .scaledToFit()
                         .frame(width: 200, height: 200)
                         .foregroundColor(.gray.opacity(0.5))
+                        .scaleEffect(illustrationScale)
+                        .onAppear {
+                            startIllustrationAnimation()
+                        }
+                        .onChange(of: reduceMotion) { _ in
+                            startIllustrationAnimation()
+                        }
                     
                     Text("No Favorites Yet")
                         .font(.title2)
@@ -74,6 +83,18 @@ public struct FavoritesView: View {
             }
         } message: { product in
             Text("Are you sure you want to remove '\(product.title)' from your favorites?")
+        }
+    }
+
+    private func startIllustrationAnimation() {
+        guard !reduceMotion else {
+            illustrationScale = 1.0
+            return
+        }
+
+        illustrationScale = 0.98
+        withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
+            illustrationScale = 1.03
         }
     }
 }

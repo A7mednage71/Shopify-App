@@ -14,9 +14,10 @@ struct CartRepositoryImpl: CartRepository, Sendable {
     }
 
     func createCart(lines: [AddCartLineRequest]) async throws -> CartDetails {
+        let customerAccessToken = try localDataSource.customerAccessToken()
         let cart = try await remoteDataSource.createCart(
             lines: lines,
-            customerAccessToken: localDataSource.customerAccessToken
+            customerAccessToken: customerAccessToken
         ).toDomain()
         cartManager.save(cartID: cart.id)
 

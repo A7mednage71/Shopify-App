@@ -6,10 +6,16 @@ struct HomeView: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var sortButtonAnchor: Anchor<CGRect>?
     private let onProductTap: ((String) -> Void)?
+    private let performProtectedAction: (@escaping () -> Void) -> Void
 
-    init(viewModel: HomeViewModel, onProductTap: ((String) -> Void)? = nil) {
+    init(
+        viewModel: HomeViewModel,
+        onProductTap: ((String) -> Void)? = nil,
+        performProtectedAction: @escaping (@escaping () -> Void) -> Void = { action in action() }
+    ) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.onProductTap = onProductTap
+        self.performProtectedAction = performProtectedAction
     }
 
     @State private var showAssistant = false
@@ -35,14 +41,14 @@ struct HomeView: View {
                     if viewModel.isSearching {
                         HomeSearchResultsView(viewModel: viewModel, onProductTap: { product in
                             onProductTap?(product.id)
-                        })
+                        }, performProtectedAction: performProtectedAction)
                         .padding(.bottom, 30)
                     } else {
                         HomeMainContentView(viewModel: viewModel, onProductTap: { product in
                             onProductTap?(product.id)
                         }, onProductTapByID: { productID in
                             onProductTap?(productID)
-                        })
+                        }, performProtectedAction: performProtectedAction)
                     }
                 }
             }
@@ -51,7 +57,11 @@ struct HomeView: View {
             }
 
             // Floating Chatbot Button
-            Button(action: { showAssistant = true }) {
+            Button(action: {
+                performProtectedAction {
+                    showAssistant = true
+                }
+            }) {
                 Image(systemName: "bubble.left.and.bubble.right.fill")
                     .font(.system(size: 22, weight: .semibold))
                     .foregroundColor(.white)

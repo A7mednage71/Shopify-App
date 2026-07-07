@@ -28,14 +28,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MarktekApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var authState = AuthState()
-    @State private var isGuest = false
     @StateObject private var viewModel = DependencyInjector.shared.resolve(AddressesViewModel.self)
     private let persistenceController = PersistenceController.shared
     
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     var body: some Scene {
         WindowGroup {
-            AppFlowView()
+            AppFlowView(authState: authState)
             .preferredColorScheme(isDarkMode ? .dark : .light)
                 .task {
                     await CurrencyService.shared.fetchLatestRates()

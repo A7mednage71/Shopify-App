@@ -1,37 +1,50 @@
 import SwiftUI
 
 public struct UnsignedUserPlaceholderView: View {
-    
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var illustrationScale: CGFloat = 0.98
+
+    private let title: String
+    private let message: String
+    private let buttonTitle: String
     let onJoinUsTapped: () -> Void
     
-    public init(onJoinUsTapped: @escaping () -> Void) {
+    public init(
+        title: String = "You're not signed in",
+        message: String = "Join us to unlock all features and personalize your experience.",
+        buttonTitle: String = "Join us now",
+        onJoinUsTapped: @escaping () -> Void
+    ) {
+        self.title = title
+        self.message = message
+        self.buttonTitle = buttonTitle
         self.onJoinUsTapped = onJoinUsTapped
     }
     
     public var body: some View {
         VStack(spacing: 24) {
             Spacer()
-            
-            
-            ZStack {
-                Circle()
-                    .fill(Color.orange.opacity(0.1))
-                    .frame(width: 100, height: 100)
-                
-                Image(systemName: "person.crop.circle.badge.plus")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.orange)
-            }
+
+            Image("UnauthenticatedPlaceholder", bundle: .module)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: 240)
+                .padding(.horizontal, 24)
+                .scaleEffect(illustrationScale)
+                .onAppear {
+                    startIllustrationAnimation()
+                }
+                .onChange(of: reduceMotion) { _ in
+                    startIllustrationAnimation()
+                }
             
             VStack(spacing: 8) {
-                Text("You're not signed in")
+                Text(title)
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
                 
-                Text("Join us to unlock all features and personalize your experience.")
+                Text(message)
                     .font(.subheadline)
                     .foregroundColor(AppColors.textPrimary)
                     .multilineTextAlignment(.center)
@@ -39,7 +52,7 @@ public struct UnsignedUserPlaceholderView: View {
             }
             
             Button(action: onJoinUsTapped) {
-                Text("Join us now")
+                Text(buttonTitle)
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -53,6 +66,18 @@ public struct UnsignedUserPlaceholderView: View {
             Spacer()
         }
         .padding()
+    }
+
+    private func startIllustrationAnimation() {
+        guard !reduceMotion else {
+            illustrationScale = 1.0
+            return
+        }
+
+        illustrationScale = 0.98
+        withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
+            illustrationScale = 1.03
+        }
     }
 }
 

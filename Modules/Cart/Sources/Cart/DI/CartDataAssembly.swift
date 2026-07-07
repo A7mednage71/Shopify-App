@@ -5,7 +5,7 @@ public struct CartDataAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(CartLocalDataSource.self) { _ in
-            DummyCartLocalDataSource()
+            KeychainCartLocalDataSource()
         }
 
         container.register(CartRemoteDataSource.self) { _ in

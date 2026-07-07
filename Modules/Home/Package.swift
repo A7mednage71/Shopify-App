@@ -33,7 +33,8 @@ let package = Package(
                 .product(name: "Swinject", package: "Swinject"),
                 .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
                 .product(name: "Favorites", package: "Favorites")
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         
         .testTarget(

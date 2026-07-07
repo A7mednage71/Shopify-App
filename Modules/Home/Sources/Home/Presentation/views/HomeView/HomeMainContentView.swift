@@ -5,6 +5,7 @@ struct HomeMainContentView: View {
     @ObservedObject var viewModel: HomeViewModel
     var onProductTap: ((HomeProduct) -> Void)? = nil
     var onProductTapByID: ((String) -> Void)? = nil
+    var performProtectedAction: (@escaping () -> Void) -> Void = { action in action() }
     
     var body: some View {
         Group {
@@ -26,6 +27,7 @@ struct HomeMainContentView: View {
                 viewModel: viewModel,
                 categories: viewModel.categories,
                 onProductTap: onProductTapByID,
+                performProtectedAction: performProtectedAction,
                 onCategoryTap: { collection in
                     print("Tapped Category: \(collection.title)")
                 }
@@ -41,6 +43,7 @@ struct HomeMainContentView: View {
                     viewModel: viewModel,
                     brands: viewModel.brands,
                     onProductTap: onProductTapByID,
+                    performProtectedAction: performProtectedAction,
                     onBrandTap: { collection in
                         print("Tapped Brand: \(collection.title)")
                     }
@@ -60,8 +63,10 @@ struct HomeMainContentView: View {
                 products: viewModel.specialOffers,
                 favoriteProductIDs: viewModel.favoriteProductIDs,
                 onFavoriteTap: { product in
-                    Task {
-                        await viewModel.toggleFavorite(for: product)
+                    performProtectedAction {
+                        Task {
+                            await viewModel.toggleFavorite(for: product)
+                        }
                     }
                 },
                 onProductTap: { product in

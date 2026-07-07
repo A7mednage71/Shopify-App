@@ -2,13 +2,14 @@ import Cart
 import Checkout
 import ProductInfo
 import Favorites
+import Common
 import SwiftUI
 
 struct MainFlowViewFactory {
     
     @MainActor
-    static func makeView() -> MainFlowView {
-        MainFlowView()
+    static func makeView(authState: AuthState) -> MainFlowView {
+        MainFlowView(authState: authState)
     }
     
 }
@@ -69,7 +70,8 @@ extension ProductInfoViewFactory {
     static func makeView(
         productID: String,
         onCartTap: @escaping () -> Void,
-        onProductTap: @escaping (String) -> Void = { _ in }
+        onProductTap: @escaping (String) -> Void = { _ in },
+        performProtectedAction: @escaping (@escaping () -> Void) -> Void
     ) -> some View {
         // Product ID is screen data; cart tap remains a coordinator-owned navigation action.
         FeatureViewFactoryResolver
@@ -77,7 +79,8 @@ extension ProductInfoViewFactory {
             .makeProductInfoView(
                 productID: productID,
                 onCartTap: onCartTap,
-                onProductTap: onProductTap
+                onProductTap: onProductTap,
+                performProtectedAction: performProtectedAction
             )
     }
 }

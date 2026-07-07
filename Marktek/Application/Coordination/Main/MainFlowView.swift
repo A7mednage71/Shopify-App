@@ -5,11 +5,17 @@ import ProductInfo
 import SwiftUI
 
 struct MainFlowView: View {
+    @ObservedObject private var authState: AuthState
     @StateObject private var coordinator = MainFlowCoordinator()
     @StateObject private var homeCoordinator = HomeFlowCoordinator()
     @StateObject private var cartCoordinator = CartFlowCoordinator()
     @StateObject private var favoritesCoordinator = FavoritesFlowCoordinator()
     @StateObject private var profileCoordinator = ProfileFlowCoordinator()
+    @State private var isGuestAlertPresented = false
+
+    init(authState: AuthState) {
+        self.authState = authState
+    }
 
     var body: some View {
         NavigationStack(path: activeRouter) {
@@ -33,6 +39,14 @@ struct MainFlowView: View {
         .onChange(of: cartCoordinator.path) { newPath in
             cartCoordinator.handlePathChange(newPath)
         }
+        .alert("Sign in required", isPresented: $isGuestAlertPresented) {
+            Button("Cancel", role: .cancel) {}
+            Button("Sign In") {
+                authState.markNeedsLogin()
+            }
+        } message: {
+            Text("You're browsing as a guest. Sign in to use cart, favorites, and AI features.")
+        }
     }
 
     @ViewBuilder
@@ -40,20 +54,29 @@ struct MainFlowView: View {
         switch tab {
         case .home:
             HomeFlowView(
-                onProductDetailsTap: homeCoordinator.showProductInfo(productID:)
+                onProductDetailsTap: homeCoordinator.showProductInfo(productID:),
+                performProtectedAction: performProtectedAction(_:)
             )
 
         case .cart:
-            CartFlowView(
-                onCheckoutTap: { _ in cartCoordinator.showCheckout() },
-                onStartShoppingTap: showHomeRoot,
-                onProductTap: cartCoordinator.showProductDetails
-            )
+            if authState.canUseProtectedFeatures {
+                CartFlowView(
+                    onCheckoutTap: { _ in cartCoordinator.showCheckout() },
+                    onStartShoppingTap: showHomeRoot,
+                    onProductTap: cartCoordinator.showProductDetails
+                )
+            } else {
+                protectedTabPlaceholder
+            }
 
         case .favorites:
-            FavoritesFlowView(
+            if authState.canUseProtectedFeatures {
+                FavoritesFlowView(
                     onProductDetailsTap: favoritesCoordinator.showProductInfo(productID:)
                 )
+            } else {
+                protectedTabPlaceholder
+            }
 
         case .profile:
             ProfileFlowView()
@@ -62,6 +85,17 @@ struct MainFlowView: View {
 
     private var tabs: [MainTab] {
         [.home, .cart, .favorites, .profile]
+    }
+
+    private var protectedTabPlaceholder: some View {
+        UnsignedUserPlaceholderView(
+            title: "Sign in required",
+            message: "You're browsing as a guest. Sign in to use cart, favorites, and AI features.",
+            buttonTitle: "Sign In",
+            onJoinUsTapped: {
+                authState.markNeedsLogin()
+            }
+        )
     }
 
     private var shouldShowHomeToolbar: Bool {
@@ -95,7 +129,9 @@ struct MainFlowView: View {
 
         ToolbarItem(placement: .navigationBarTrailing) {
             if shouldShowHomeToolbar {
-                Button(action: {}) {
+                Button(action: {
+                    authState.markLoggedOut()
+                }) {
                     AsyncImage(url: URL(string: "https://i.pravatar.cc/40")) { image in
                         image.resizable().aspectRatio(contentMode: .fill)
                     } placeholder: {
@@ -115,15 +151,14 @@ struct MainFlowView: View {
             get: {
                 switch coordinator.selectedTab {
                 case .home:
-                    homeCoordinator.path.map(MainFlowRoute.home)
+                    return homeCoordinator.path.map(MainFlowRoute.home)
                 case .cart:
-                    cartCoordinator.path.map(MainFlowRoute.cart)
+                    return cartCoordinator.path.map(MainFlowRoute.cart)
                 case .favorites:
-                    favoritesCoordinator.path.map(MainFlowRoute.favorites)
+                    return favoritesCoordinator.path.map(MainFlowRoute.favorites)
                 case .profile:
-                    profileCoordinator.path.map(MainFlowRoute.profile)
+                    return profileCoordinator.path.map(MainFlowRoute.profile)
                 }
-                return  homeCoordinator.path.map(MainFlowRoute.home)
             },
             set: { routes in
                 switch coordinator.selectedTab {
@@ -194,7 +229,8 @@ struct MainFlowView: View {
             ProductInfoViewFactory.makeView(
                 productID: productID,
                 onCartTap: showCartRoot,
-                onProductTap: showProductInfoOnActiveTab(productID:)
+                onProductTap: showProductInfoOnActiveTab(productID:),
+                performProtectedAction: performProtectedAction(_:)
             )
         }
     }
@@ -239,6 +275,19 @@ struct MainFlowView: View {
     private func showCartRoot() {
         cartCoordinator.showRoot()
         coordinator.showCart()
+    }
+
+    private func showGuestAlert() {
+        isGuestAlertPresented = true
+    }
+
+    private func performProtectedAction(_ action: @escaping () -> Void) {
+        guard authState.canUseProtectedFeatures else {
+            showGuestAlert()
+            return
+        }
+
+        action()
     }
 
     private func showProductInfoOnActiveTab(productID: String) {

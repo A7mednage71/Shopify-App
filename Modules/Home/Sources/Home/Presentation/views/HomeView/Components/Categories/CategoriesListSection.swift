@@ -7,13 +7,21 @@ struct CategoriesListSection: View {
     let viewModel: HomeViewModel
     let categories: [Collection]
     var onProductTap: ((String) -> Void)? = nil
+    var performProtectedAction: (@escaping () -> Void) -> Void = { action in action() }
     var onCategoryTap: ((Collection) -> Void)? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
                 ForEach(categories) { category in
-                    NavigationLink(destination: CategoryProductsView(category: category, viewModel: viewModel, onProductTap: onProductTap)) {
+                    NavigationLink(
+                        destination: CategoryProductsView(
+                            category: category,
+                            viewModel: viewModel,
+                            onProductTap: onProductTap,
+                            performProtectedAction: performProtectedAction
+                        )
+                    ) {
                         CategoryItem(category: category)
                     }
                     .buttonStyle(.plain)
@@ -82,4 +90,3 @@ struct CategoryItem: View {
         .frame(width: 65)
     }
 }
-

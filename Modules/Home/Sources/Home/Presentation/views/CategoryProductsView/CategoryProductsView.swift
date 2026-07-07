@@ -5,6 +5,7 @@ struct CategoryProductsView: View {
     let category: Collection
     @ObservedObject var viewModel: HomeViewModel
     var onProductTap: ((String) -> Void)? = nil
+    var performProtectedAction: (@escaping () -> Void) -> Void = { action in action() }
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -25,8 +26,10 @@ struct CategoryProductsView: View {
                         products: viewModel.vendorProducts,
                         favoriteProductIDs: viewModel.favoriteProductIDs,
                         onFavoriteTap: { product in
-                            Task {
-                                await viewModel.toggleFavorite(for: product)
+                            performProtectedAction {
+                                Task {
+                                    await viewModel.toggleFavorite(for: product)
+                                }
                             }
                         },
                         onProductTap: onProductTap

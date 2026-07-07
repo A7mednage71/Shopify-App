@@ -1,30 +1,23 @@
 import Foundation
 import Common
 public final class AddressRepositoryImpl: AddressRepository {
-
-    
-
     private let dataSource: AddressApiDataSourceProtocol
-    private let tokenStore: KeychainTokenStore
+    private let customerAccessTokenProvider: any CustomerAccessTokenProvider
 
     public init(
         dataSource: AddressApiDataSourceProtocol = AddressApiDataSource.shared,
-        tokenStore: KeychainTokenStore = KeychainTokenStore()
+        customerAccessTokenProvider: any CustomerAccessTokenProvider = KeychainCustomerAccessTokenProvider()
     ) {
         self.dataSource = dataSource
-        self.tokenStore = tokenStore
+        self.customerAccessTokenProvider = customerAccessTokenProvider
     }
 
     private func validAccessToken() throws -> String {
-        guard let stored = tokenStore.load() else {
+        do {
+            return try customerAccessTokenProvider.customerAccessToken()
+        } catch {
             throw AddressError.unauthorized
         }
-        if stored.isExpired {
-            throw AddressError.unauthorized
-        }
-        
-        print(stored.accessToken )
-        return stored.accessToken
     }
 
 
@@ -72,4 +65,3 @@ public final class AddressRepositoryImpl: AddressRepository {
         return try createdDto.toDomain()
     }
 }
-

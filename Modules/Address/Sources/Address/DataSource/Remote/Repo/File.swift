@@ -9,22 +9,23 @@ import Foundation
 import Common
 public final class CustomerRepositoryImpl: CustomerRepository {
     private let dataSource: CustomerApiDataSourceProtocol
-    private let tokenStore: KeychainTokenStore
+    private let customerAccessTokenProvider: any CustomerAccessTokenProvider
 
     public init(
         dataSource: CustomerApiDataSourceProtocol = CustomerApiDataSource.shared,
-        tokenStore: KeychainTokenStore = KeychainTokenStore()
+        customerAccessTokenProvider: any CustomerAccessTokenProvider = KeychainCustomerAccessTokenProvider()
     ) {
         self.dataSource = dataSource
-        self.tokenStore = tokenStore
+        self.customerAccessTokenProvider = customerAccessTokenProvider
     }
 
     public func getName() async throws -> CustomerProfile {
-        guard let stored = tokenStore.load(), !stored.isExpired else {
-            print("The error is here ")
+        do {
+            let accessToken = try customerAccessTokenProvider.customerAccessToken()
+            let dto = try await dataSource.fetchCustomerName(customerAccessToken: accessToken)
+            return dto.toDomain()
+        } catch {
             throw AddressError.unauthorized
         }
-        let dto = try await dataSource.fetchCustomerName(customerAccessToken: stored.accessToken)
-        return dto.toDomain()
     }
 }

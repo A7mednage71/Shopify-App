@@ -11,13 +11,15 @@ public struct ProductInfoViewFactory {
     public func makeProductInfoView(
         productID: String,
         onCartTap: @escaping () -> Void,
-        onProductTap: @escaping (String) -> Void = { _ in }
+        onProductTap: @escaping (String) -> Void = { _ in },
+        performProtectedAction: @escaping (@escaping () -> Void) -> Void = { action in action() }
     ) -> some View {
         ProductInfoView(
             productID: productID,
             viewModel: viewModelFactory.makeViewModel(),
             onCartTap: onCartTap,
-            onProductTap: onProductTap
+            onProductTap: onProductTap,
+            performProtectedAction: performProtectedAction
         )
     }
 }

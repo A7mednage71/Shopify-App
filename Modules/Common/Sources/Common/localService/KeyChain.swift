@@ -6,8 +6,8 @@
 //
 import Foundation
 import Security
-import Common
-public struct StoredCustomerToken: Codable {
+
+public struct StoredCustomerToken: Codable, Equatable, Sendable {
     public let accessToken: String
     public let expiresAt: String
 
@@ -35,12 +35,36 @@ public struct StoredCustomerToken: Codable {
     }
 }
 
-public enum KeychainError: Error {
+public enum KeychainError: Error, Sendable {
     case saveFailed(OSStatus)
     case encodingFailed
 }
 
-public final class KeychainTokenStore {
+public enum CustomerAccessTokenError: LocalizedError, Equatable, Sendable {
+    case missing
+    case expired
+
+    public var errorDescription: String? {
+        switch self {
+        case .missing:
+            return "No customer access token is saved."
+        case .expired:
+            return "The saved customer access token has expired."
+        }
+    }
+}
+
+public protocol CustomerTokenStore: Sendable {
+    func save(_ token: StoredCustomerToken) throws
+    func load() -> StoredCustomerToken?
+    func delete()
+}
+
+public protocol CustomerAccessTokenProvider: Sendable {
+    func customerAccessToken() throws -> String
+}
+
+public final class KeychainTokenStore: CustomerTokenStore, @unchecked Sendable {
     private let service = "com.yourapp.customerToken"
     private let account = "shopifyCustomer"
 
@@ -95,5 +119,25 @@ public final class KeychainTokenStore {
             kSecAttrAccount as String: account
         ]
         SecItemDelete(query as CFDictionary)
+    }
+}
+
+public struct KeychainCustomerAccessTokenProvider: CustomerAccessTokenProvider, Sendable {
+    private let tokenStore: any CustomerTokenStore
+
+    public init(tokenStore: any CustomerTokenStore = KeychainTokenStore()) {
+        self.tokenStore = tokenStore
+    }
+
+    public func customerAccessToken() throws -> String {
+        guard let stored = tokenStore.load() else {
+            throw CustomerAccessTokenError.missing
+        }
+
+        guard !stored.isExpired else {
+            throw CustomerAccessTokenError.expired
+        }
+
+        return stored.accessToken
     }
 }

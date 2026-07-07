@@ -7,9 +7,9 @@ final class MainFlowCoordinator: ObservableObject {
     func showHome() {
         selectedTab = .home
     }
-    
+
     func showCart() {
-            selectedTab = .cart
+        selectedTab = .cart
     }
 }
 
@@ -22,28 +22,26 @@ enum MainTab: Hashable {
     var title: String {
         switch self {
         case .home:
-            "Home"
+            return "Home"
         case .cart:
-            "Cart"
+            return "Cart"
         case .favorites:
-            "Favorites"
+            return "Favorites"
         case .profile:
-            "Profile"
+            return "Profile"
         }
-        return ""
     }
 
     var systemImage: String {
         switch self {
         case .home:
-            "house"
+            return "house"
         case .cart:
-            "cart"
+            return "cart"
         case .favorites:
-            "heart"
+            return "heart"
         case .profile:
-            "person"
+            return "person"
         }
-        return ""
     }
 }

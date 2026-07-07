@@ -9,6 +9,7 @@ struct ProductInfoStateContentView: View {
     let onCartTap: () -> Void
     let onAddToCart: (ProductVariant?, Int) -> Void
     let onProductTap: (String) -> Void
+    let performProtectedAction: (@escaping () -> Void) -> Void
     let onRetry: () -> Void
 
     var body: some View {
@@ -25,7 +26,8 @@ struct ProductInfoStateContentView: View {
                 onCartTap: onCartTap,
                 onAddToCart: onAddToCart,
                 onFavoriteTap: { onFavoriteTap(product) },
-                onProductTap: onProductTap
+                onProductTap: onProductTap,
+                performProtectedAction: performProtectedAction
             )
 
         case .failure(let message):

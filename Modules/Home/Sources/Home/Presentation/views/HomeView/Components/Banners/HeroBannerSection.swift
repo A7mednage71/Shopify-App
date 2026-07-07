@@ -137,6 +137,21 @@ struct BannerCard: View {
                 .padding(.leading, 20)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
+                trailingImage
+            }
+        }
+        .frame(height: 170)
+        .clipped()
+    }
+
+    @ViewBuilder
+    private var trailingImage: some View {
+        Group {
+            if let trailingImageName = banner.trailingImageName {
+                Image(trailingImageName, bundle: .module)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } else {
                 AsyncImage(url: URL(string: banner.imageURL)) { image in
                     image
                         .resizable()
@@ -144,13 +159,12 @@ struct BannerCard: View {
                 } placeholder: {
                     Color.appWhiteOverlayLight
                 }
-                .frame(width: 130, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .clipped()
-                .padding(.trailing, 10)
             }
         }
-        .frame(height: 170)
+        .frame(width: 130, height: 150)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
         .clipped()
+        .padding(.trailing, 10)
+        .accessibilityHidden(true)
     }
 }
