@@ -60,7 +60,7 @@
 		616653AB2FEFCEA200C605D3 /* MarktekUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarktekUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITests.swift; sourceTree = "<group>"; };
 		616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarktekUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		CADE619D2FF47D6600290B13 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		617DDBC52FFD16600092714E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				083555A02FF3A07D00083148 /* .swiftlint.yml */,
-				CADE619D2FF47D6600290B13 /* Secrets.xcconfig */,
+				617DDBC42FFD16600092714E /* Config */,
 				6166538E2FEFCE9F00C605D3 /* Marktek */,
 				616653A42FEFCEA200C605D3 /* MarktekTests */,
 				616653AE2FEFCEA200C605D3 /* MarktekUITests */,
@@ -183,6 +183,14 @@
 				616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */,
 			);
 			path = MarktekUITests;
+			sourceTree = "<group>";
+		};
+		617DDBC42FFD16600092714E /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				617DDBC52FFD16600092714E /* Secrets.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
