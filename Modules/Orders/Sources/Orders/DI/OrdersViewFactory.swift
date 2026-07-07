@@ -15,7 +15,12 @@ public struct OrdersViewFactory {
     }
 
     @MainActor
-    public func makeOrdersDestinationView() -> some View {
-        OrdersView(viewModel: viewModel)
+    public func makeOrdersDestinationView(onOrderTap: @escaping (String) -> Void) -> some View {
+        OrdersView(viewModel: viewModel, onOrderTap: onOrderTap)
+    }
+    
+    @MainActor
+    public func makeOrderDetailsView(orderID: String) -> some View {
+        OrderDetailsView(viewModel: OrderDetailsViewModel(orderID: orderID, ordersViewModel: viewModel))
     }
 }
