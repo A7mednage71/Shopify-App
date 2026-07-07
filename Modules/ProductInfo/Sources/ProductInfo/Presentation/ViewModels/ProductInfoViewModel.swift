@@ -71,7 +71,8 @@ public final class ProductInfoViewModel: ObservableObject {
                 imageURL: product.images.first?.url ?? "",
                 price: price,
                 currencyCode: currency,
-                compareAtPrice: finalComparePrice
+                compareAtPrice: finalComparePrice,
+                rating: product.reviewSummary.averageRating
             )
             
             do {

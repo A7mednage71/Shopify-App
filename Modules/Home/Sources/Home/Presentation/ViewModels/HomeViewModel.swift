@@ -155,7 +155,8 @@ final class HomeViewModel: ObservableObject {
                 imageURL: product.featuredImageURL ?? "", 
                 price: price,
                 currencyCode: product.currencyCode,
-                compareAtPrice: finalComparePrice
+                compareAtPrice: finalComparePrice,
+                rating: product.rating
             )
             
             await executeToggle(for: favoriteItem)
@@ -175,7 +176,8 @@ final class HomeViewModel: ObservableObject {
                 imageURL: product.featuredImageURL ?? "", 
                 price: price,
                 currencyCode: product.currencyCode,
-                compareAtPrice: finalComparePrice
+                compareAtPrice: finalComparePrice,
+                rating: product.rating
             )
             
             await executeToggle(for: favoriteItem)

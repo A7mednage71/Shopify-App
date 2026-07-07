@@ -28,7 +28,8 @@ public final class FavoritesRepositoryImpl: FavoritesRepository {
                     imageURL: item.imageURL ?? "",
                     price: item.price,
                     currencyCode: item.currencyCode ?? "USD",
-                    compareAtPrice: item.compareAtPrice > 0 ? item.compareAtPrice : nil
+                    compareAtPrice: item.compareAtPrice > 0 ? item.compareAtPrice : nil,
+                    rating: item.rating > 0 ? item.rating : nil
                 )
             }
         }
@@ -47,6 +48,10 @@ public final class FavoritesRepositoryImpl: FavoritesRepository {
             
             if let comparePrice = product.compareAtPrice {
                 newItem.compareAtPrice = comparePrice
+            }
+            
+            if let rating = product.rating {
+                newItem.rating = rating
             }
             
             try self.context.save()
