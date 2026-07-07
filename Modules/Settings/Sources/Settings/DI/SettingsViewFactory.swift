@@ -13,7 +13,7 @@ public struct SettingsViewFactory {
     public init() {}
 
     @MainActor
-    public func makeSettingsView() -> some View {
-        SettingsView()
-    }
+    public func makeSettingsView(onOrdersTap: @escaping () -> Void) -> some View {
+            SettingsView(onOrdersTap: onOrdersTap)
+        }
 }
