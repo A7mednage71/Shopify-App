@@ -11,11 +11,11 @@ enum CustomerProfileError: LocalizedError, Sendable {
     var errorDescription: String? {
         switch self {
         case .unauthorized:
-            return "Sign in to view your profile information."
+            return L10n.Settings.profileSignInRequired
         case .userErrors(let messages):
             return messages.joined(separator: "\n")
         case .unknown:
-            return "We could not load your profile information. Please try again."
+            return L10n.Settings.profileLoadFailed
         }
     }
 }

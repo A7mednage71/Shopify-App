@@ -41,6 +41,8 @@
 "settings_language_change_confirm" = "تغيير";
 "settings_ok" = "حسناً";
 "settings_try_again" = "حاول مرة أخرى";
+"settings_profile_sign_in_required" = "سجّل الدخول لعرض معلومات ملفك الشخصي.";
+"settings_profile_load_failed" = "تعذر تحميل معلومات ملفك الشخصي. حاول مرة أخرى.";
 
 /* Home */
 "home_category_collection" = "مجموعة الفئات";

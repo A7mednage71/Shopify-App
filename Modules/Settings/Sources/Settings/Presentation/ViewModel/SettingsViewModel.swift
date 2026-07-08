@@ -21,6 +21,10 @@ public class SettingsViewModel: ObservableObject {
     public let profileDataViewModel: ProfileDataViewModel
     private let logoutUseCase: any LogoutUseCaseProtocol
     private let authState: AuthState
+
+    public var canUseProtectedFeatures: Bool {
+        authState.canUseProtectedFeatures
+    }
     
     public init(
         logoutUseCase: any LogoutUseCaseProtocol,
@@ -47,6 +51,10 @@ public class SettingsViewModel: ObservableObject {
         }
 
         isSigningOut = false
+    }
+
+    public func signIn() {
+        authState.markNeedsLogin()
     }
     
     public func convertPrice(priceInUSD: Double) -> String {

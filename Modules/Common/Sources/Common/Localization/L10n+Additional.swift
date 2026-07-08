@@ -240,6 +240,8 @@ public extension L10n.ProductInfo {
 
 @available(iOS 14.0, *)
 public extension L10n.Settings {
+    static var profileSignInRequired: String { LocalizationManager.shared.localizedString(for: "settings_profile_sign_in_required") }
+    static var profileLoadFailed: String { LocalizationManager.shared.localizedString(for: "settings_profile_load_failed") }
     static var firstName: String { LocalizationManager.shared.localizedString(for: "settings_first_name") }
     static var lastName: String { LocalizationManager.shared.localizedString(for: "settings_last_name") }
     static var phone: String { LocalizationManager.shared.localizedString(for: "settings_phone") }

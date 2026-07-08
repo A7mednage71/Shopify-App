@@ -41,6 +41,8 @@
 "settings_language_change_confirm" = "Change";
 "settings_ok" = "OK";
 "settings_try_again" = "Try Again";
+"settings_profile_sign_in_required" = "Sign in to view your profile information.";
+"settings_profile_load_failed" = "We could not load your profile information. Please try again.";
 
 /* Home */
 "home_category_collection" = "Category Collection";

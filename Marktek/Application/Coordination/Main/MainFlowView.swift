@@ -48,12 +48,21 @@ struct MainFlowView: View {
                 cartCoordinator.handlePathChange(newPath)
             }
 
-            GlobalFloatingAssistantButton(onTap: {
-                showAssistant = true
-            })
+            if authState.canUseProtectedFeatures {
+                GlobalFloatingAssistantButton(onTap: {
+                    showAssistant = true
+                })
+            }
         }
         .sheet(isPresented: $showAssistant) {
-            HomeFlowView.makeShoppingAssistantView(onProductTap: handleProductTapFromAssistant)
+            if authState.canUseProtectedFeatures {
+                HomeFlowView.makeShoppingAssistantView(onProductTap: handleProductTapFromAssistant)
+            }
+        }
+        .onChange(of: authState.canUseProtectedFeatures) { canUseProtectedFeatures in
+            if !canUseProtectedFeatures {
+                showAssistant = false
+            }
         }
         .alert(L10n.Main.signInRequired, isPresented: $isGuestAlertPresented) {
             Button(L10n.Main.cancel, role: .cancel) {}
@@ -160,11 +169,19 @@ struct MainFlowView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             if shouldShowHomeToolbar {
                 Button(action: {}) {
-                    CachedImage(urlString: "https://i.pravatar.cc/40", failureImageName: "product_placeholder")
-                        .frame(width: 34, height: 34)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                    ZStack {
+                        CachedImage(urlString: "https://i.pravatar.cc/40", failureImageName: "product_placeholder")
+                            .frame(width: 34, height: 34)
+                            .clipped()
+                    }
+                    .frame(width: 34, height: 34)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
                 }
+                .buttonStyle(.plain)
             }
         }
     }
