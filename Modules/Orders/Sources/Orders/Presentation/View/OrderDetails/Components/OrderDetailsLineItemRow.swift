@@ -9,24 +9,24 @@ import Common
 
 struct OrderDetailsLineItemRow: View {
     let lineItem: OrderLineItem
-
+    let isReviewed: Bool
+    let onReviewTap: ((OrderLineItem) -> Void)?
+    
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             // Thumbnail with quantity badge
-            ZStack(alignment: .bottomTrailing) {
-                thumbnail
-
-                if lineItem.quantity > 1 {
-                    Text("×\(lineItem.quantity)")
-                        .font(.system(size: 10, weight: .black, design: .rounded))
+            thumbnail
+                .overlay(
+                    Text("\(lineItem.quantity)")
+                        .font(.system(size: 11, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, 2)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
                         .background(AppColors.primary)
                         .clipShape(Capsule())
-                        .offset(x: 4, y: 4)
-                }
-            }
+                        .offset(x: 6, y: -6),
+                    alignment: .topTrailing
+                )
 
             // Info
             VStack(alignment: .leading, spacing: 5) {
@@ -39,6 +39,22 @@ struct OrderDetailsLineItemRow: View {
                 Text("Qty: \(lineItem.quantity)")
                     .font(.system(size: 12, weight: .semibold, design: .rounded))
                     .foregroundColor(AppColors.textTertiary)
+
+                if lineItem.productID != nil {
+                    Button {
+                        onReviewTap?(lineItem)
+                    } label: {
+                        Label(
+                            isReviewed ? "Reviewed" : "Review",
+                            systemImage: isReviewed ? "checkmark.circle.fill" : "star.fill"
+                        )
+                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                        .foregroundColor(isReviewed ? AppColors.success : AppColors.primary)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(isReviewed)
+                    .padding(.top, 2)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 

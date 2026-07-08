@@ -17,6 +17,7 @@ public struct Order: Identifiable, Sendable, Equatable {
     public let totalPrice: String
     public let currencyCode: String
     public let shippingAddress: String?
+    public let customerName: String
     public let lineItems: [OrderLineItem]
 
     public init(
@@ -29,6 +30,7 @@ public struct Order: Identifiable, Sendable, Equatable {
         totalPrice: String,
         currencyCode: String,
         shippingAddress: String?,
+        customerName: String,
         lineItems: [OrderLineItem]
     ) {
         self.id = id
@@ -40,6 +42,7 @@ public struct Order: Identifiable, Sendable, Equatable {
         self.totalPrice = totalPrice
         self.currencyCode = currencyCode
         self.shippingAddress = shippingAddress
+        self.customerName = customerName
         self.lineItems = lineItems
     }
 }
@@ -51,6 +54,7 @@ public struct OrderLineItem: Identifiable, Sendable, Equatable {
     public let price: String
     public let currencyCode: String
     public let imageURL: String?
+    public let productID: String?
 
     public init(
         id: String,
@@ -58,7 +62,8 @@ public struct OrderLineItem: Identifiable, Sendable, Equatable {
         quantity: Int,
         price: String,
         currencyCode: String,
-        imageURL: String?
+        imageURL: String?,
+        productID: String?
     ) {
         self.id = id
         self.title = title
@@ -66,5 +71,6 @@ public struct OrderLineItem: Identifiable, Sendable, Equatable {
         self.price = price
         self.currencyCode = currencyCode
         self.imageURL = imageURL
+        self.productID = productID
     }
 }

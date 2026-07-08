@@ -17,6 +17,7 @@ public struct OrderDataModel: Sendable {
     public let totalPriceAmount: String
     public let currencyCode: String
     public let shippingAddress: String?
+    public let customerName: String
     public let lineItems: [OrderLineItemDataModel]
 
     public init(
@@ -29,6 +30,7 @@ public struct OrderDataModel: Sendable {
         totalPriceAmount: String,
         currencyCode: String,
         shippingAddress: String?,
+        customerName: String,
         lineItems: [OrderLineItemDataModel]
     ) {
         self.id = id
@@ -40,6 +42,7 @@ public struct OrderDataModel: Sendable {
         self.totalPriceAmount = totalPriceAmount
         self.currencyCode = currencyCode
         self.shippingAddress = shippingAddress
+        self.customerName = customerName
         self.lineItems = lineItems
     }
 }
@@ -51,6 +54,7 @@ public struct OrderLineItemDataModel: Sendable {
     public let priceAmount: String
     public let currencyCode: String
     public let imageURL: String?
+    public let productID: String?
 
     public init(
         id: String,
@@ -58,7 +62,8 @@ public struct OrderLineItemDataModel: Sendable {
         quantity: Int,
         priceAmount: String,
         currencyCode: String,
-        imageURL: String?
+        imageURL: String?,
+        productID: String?
     ) {
         self.id = id
         self.title = title
@@ -66,5 +71,6 @@ public struct OrderLineItemDataModel: Sendable {
         self.priceAmount = priceAmount
         self.currencyCode = currencyCode
         self.imageURL = imageURL
+        self.productID = productID
     }
 }

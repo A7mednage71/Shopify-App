@@ -1,5 +1,7 @@
 query GetCustomerOrders($customerAccessToken: String!, $first: Int!) {
   customer(customerAccessToken: $customerAccessToken) {
+    firstName
+    lastName
     orders(first: $first, sortKey: PROCESSED_AT, reverse: true) {
       edges {
         node {
@@ -30,6 +32,9 @@ query GetCustomerOrders($customerAccessToken: String!, $first: Int!) {
                 }
                 variant {
                   id
+                  product {
+                    id
+                  }
                   image {
                     url
                   }

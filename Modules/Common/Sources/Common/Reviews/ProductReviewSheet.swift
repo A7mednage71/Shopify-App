@@ -1,7 +1,7 @@
-import Common
 import SwiftUI
 
-struct CheckoutReviewSheet: View {
+@available(iOS 16.0, *)
+public struct ProductReviewSheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var rating = 0
     @State private var title = ""
@@ -10,11 +10,21 @@ struct CheckoutReviewSheet: View {
     @State private var errorMessage: String?
     @State private var successMessage: String?
 
-    let productTitle: String
-    let onSubmit: (ProductReviewInput) async throws -> Void
-    let productID: String?
+    public let productTitle: String
+    public let onSubmit: (ProductReviewInput) async throws -> Void
+    public let productID: String?
 
-    var body: some View {
+    public init(
+        productTitle: String,
+        onSubmit: @escaping (ProductReviewInput) async throws -> Void,
+        productID: String?
+    ) {
+        self.productTitle = productTitle
+        self.onSubmit = onSubmit
+        self.productID = productID
+    }
+
+    public var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Capsule()
                 .fill(AppColors.border)
@@ -23,7 +33,7 @@ struct CheckoutReviewSheet: View {
                 .padding(.top, 8)
 
             VStack(alignment: .leading, spacing: 6) {
-                Text(CheckoutText.reviewSheetTitle)
+                Text("Review product")
                     .font(.system(size: 22, weight: .bold))
                     .foregroundColor(AppColors.textPrimary)
 
@@ -34,7 +44,7 @@ struct CheckoutReviewSheet: View {
             }
 
             VStack(alignment: .leading, spacing: 10) {
-                Text(CheckoutText.reviewRatingTitle)
+                Text("Your rating")
                     .font(.system(size: 15, weight: .bold))
                     .foregroundColor(AppColors.textPrimary)
 
@@ -53,7 +63,7 @@ struct CheckoutReviewSheet: View {
                 }
             }
 
-            TextField(CheckoutText.reviewTitlePlaceholder, text: $title)
+            TextField("Review title", text: $title)
                 .font(.system(size: 15, weight: .semibold))
                 .textFieldStyle(.plain)
                 .padding(.horizontal, 14)
@@ -61,7 +71,7 @@ struct CheckoutReviewSheet: View {
                 .background(AppColors.backgroundSecondary)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
 
-            TextField(CheckoutText.reviewBodyPlaceholder, text: $bodyText, axis: .vertical)
+            TextField("Tell us what you liked", text: $bodyText, axis: .vertical)
                 .font(.system(size: 15, weight: .semibold))
                 .lineLimit(4...6)
                 .textFieldStyle(.plain)
@@ -80,13 +90,20 @@ struct CheckoutReviewSheet: View {
                     .foregroundColor(AppColors.error)
             }
 
-            CheckoutPrimaryButton(
-                title: isSubmitting
-                    ? CheckoutText.submittingReviewButtonTitle
-                    : CheckoutText.submitReviewButtonTitle,
-                isDisabled: isSubmitting || productID == nil,
-                action: submit
-            )
+            // Submit Button
+            Button(action: submit) {
+                Text(isSubmitting ? "Submitting..." : "Submit review")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(AppColors.textWhite)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 58)
+                    .background(isSubmitting || productID == nil ? AppColors.textSecondary : AppColors.primary)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .shadow(color: (isSubmitting || productID == nil ? Color.clear : AppColors.primary.opacity(0.28)), radius: 16, x: 0, y: 10)
+            }
+            .disabled(isSubmitting || productID == nil)
+            .buttonStyle(PrimaryButtonStyle())
+            .accessibilityLabel(isSubmitting ? "Submitting..." : "Submit review")
         }
         .padding(.horizontal, 22)
         .padding(.bottom, 24)
@@ -97,7 +114,7 @@ struct CheckoutReviewSheet: View {
 
     private func submit() {
         guard let productID else {
-            errorMessage = CheckoutError.unknown.localizedDescription
+            errorMessage = "Product not found."
             return
         }
 
@@ -116,7 +133,7 @@ struct CheckoutReviewSheet: View {
                     )
                 )
 
-                successMessage = CheckoutText.reviewSubmittedMessage
+                successMessage = "Thanks for your review."
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
                     dismiss()
@@ -127,5 +144,13 @@ struct CheckoutReviewSheet: View {
 
             isSubmitting = false
         }
+    }
+}
+
+private struct PrimaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.98 : 1)
+            .animation(.easeInOut(duration: 0.12), value: configuration.isPressed)
     }
 }

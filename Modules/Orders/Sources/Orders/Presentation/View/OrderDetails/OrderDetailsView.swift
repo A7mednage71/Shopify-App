@@ -9,6 +9,8 @@ import Common
 
 public struct OrderDetailsView: View {
     @ObservedObject private var viewModel: OrderDetailsViewModel
+    @State private var reviewLine: OrderLineItem?
+    @State private var reviewedProductIDs = Set<String>()
 
     public init(viewModel: OrderDetailsViewModel) {
         self.viewModel = viewModel
@@ -40,13 +42,36 @@ public struct OrderDetailsView: View {
 
                 VStack(spacing: 16) {
                     OrderDetailsStatusTimeline(currentStatus: status)
-                    OrderDetailsProductsSection(lineItems: order.lineItems)
+                    OrderDetailsProductsSection(
+                        lineItems: order.lineItems,
+                        reviewedProductIDs: reviewedProductIDs,
+                        onReviewTap: { line in
+                            reviewLine = line
+                        }
+                    )
                     OrderDetailsAddressCard(shippingAddress: order.shippingAddress)
                     OrderDetailsSummaryCard(order: order)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 20)
                 .padding(.bottom, 32)
+            }
+        }
+        .sheet(item: $reviewLine) { line in
+            if #available(iOS 16.0, *) {
+                ProductReviewSheet(
+                    productTitle: line.title,
+                    onSubmit: { input in
+                        try await viewModel.submitReview(
+                            input: input,
+                            customerName: order.customerName
+                        )
+                        if let productID = line.productID {
+                            reviewedProductIDs.insert(productID)
+                        }
+                    },
+                    productID: line.productID
+                )
             }
         }
     }

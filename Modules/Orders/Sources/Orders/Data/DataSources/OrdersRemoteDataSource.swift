@@ -42,6 +42,14 @@ public struct ShopifyOrdersRemoteDataSource: OrdersRemoteDataSource, Sendable {
             throw OrdersError.customerNotFound
         }
 
-        return gqlCustomer.orders.edges.map { OrderDataModel(gqlOrderNode: $0.node) }
+        let firstName = gqlCustomer.firstName ?? ""
+        let lastName = gqlCustomer.lastName ?? ""
+        let customerName = [firstName, lastName]
+            .compactMap { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+        let displayName = customerName.isEmpty ? "Customer" : customerName
+
+        return gqlCustomer.orders.edges.map { OrderDataModel(gqlOrderNode: $0.node, customerName: displayName) }
     }
 }

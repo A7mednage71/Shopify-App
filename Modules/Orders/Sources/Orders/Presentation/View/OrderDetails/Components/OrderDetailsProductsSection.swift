@@ -7,6 +7,8 @@ import Common
 
 struct OrderDetailsProductsSection: View {
     let lineItems: [OrderLineItem]
+    let reviewedProductIDs: Set<String>
+    let onReviewTap: ((OrderLineItem) -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -24,7 +26,11 @@ struct OrderDetailsProductsSection: View {
 
             VStack(spacing: 10) {
                 ForEach(lineItems) { item in
-                    OrderDetailsLineItemRow(lineItem: item)
+                    OrderDetailsLineItemRow(
+                        lineItem: item,
+                        isReviewed: item.productID.map { reviewedProductIDs.contains($0) } ?? false,
+                        onReviewTap: onReviewTap
+                    )
                 }
             }
         }
