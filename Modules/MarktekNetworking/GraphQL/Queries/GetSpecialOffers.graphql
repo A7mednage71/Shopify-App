@@ -1,4 +1,4 @@
-query GetSpecialOffers($first: Int = 10) {
+query GetSpecialOffers($first: Int = 10, $language: LanguageCode) @inContext(language: $language) {
   products(first: $first) {
     nodes {
       id

@@ -1,4 +1,4 @@
-query GetProductsByVendor($query: String!, $first: Int!, $after: String) {
+query GetProductsByVendor($query: String!, $first: Int!, $after: String, $language: LanguageCode) @inContext(language: $language) {
   products(first: $first, after: $after, query: $query) {
     edges {
       cursor

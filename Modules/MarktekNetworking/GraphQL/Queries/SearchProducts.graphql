@@ -1,4 +1,4 @@
-query SearchProducts($query: String!, $first: Int!, $after: String) {
+query SearchProducts($query: String!, $first: Int!, $after: String, $language: LanguageCode) @inContext(language: $language) {
   search(query: $query, first: $first, after: $after, types: [PRODUCT]) {
     totalCount
     edges {

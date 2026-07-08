@@ -196,6 +196,9 @@
 "checkout_addressFailureTitle" = "Address could not load";
 "checkout_addressFailureFallbackMessage" = "Try again in a moment.";
 "checkout_productsTitle" = "Products";
+"checkout_products_count_title" = "Products (%d)";
+"checkout_color_text" = "Color: %@";
+"checkout_quantity_text" = "Qty: %d";
 "checkout_shippingMethodTitle" = "Shipping Method";
 "checkout_paymentMethodTitle" = "Payment Method";
 "checkout_orderSummaryTitle" = "Order Summary";

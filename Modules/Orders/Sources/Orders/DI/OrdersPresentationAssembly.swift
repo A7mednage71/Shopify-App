@@ -15,7 +15,7 @@ public struct OrdersPresentationAssembly: Assembly {
             OrdersViewModel(
                 getOrdersUseCase: resolver.resolve(GetOrdersUseCaseProtocol.self)!
             )
-        }.inObjectScope(.container)
+        }
 
         container.register(OrdersViewFactory.self) { resolver in
             OrdersViewFactory(

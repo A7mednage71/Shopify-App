@@ -267,6 +267,7 @@ extension ProductOption {
         let normalizedName = name.lowercased()
         return normalizedName.contains("color")
             || normalizedName.contains("colour")
+            || normalizedName.contains("لون")
     }
 
     var isDefaultTitleOption: Bool {

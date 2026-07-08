@@ -196,6 +196,9 @@
 "checkout_addressFailureTitle" = "تعذر تحميل العنوان";
 "checkout_addressFailureFallbackMessage" = "حاول مرة أخرى بعد قليل.";
 "checkout_productsTitle" = "المنتجات";
+"checkout_products_count_title" = "المنتجات (%d)";
+"checkout_color_text" = "اللون: %@";
+"checkout_quantity_text" = "الكمية: %d";
 "checkout_shippingMethodTitle" = "طريقة الشحن";
 "checkout_paymentMethodTitle" = "طريقة الدفع";
 "checkout_orderSummaryTitle" = "ملخص الطلب";

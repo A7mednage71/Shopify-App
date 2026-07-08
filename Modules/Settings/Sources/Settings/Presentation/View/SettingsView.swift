@@ -109,9 +109,7 @@ public struct SettingsView: View {
                             title: Text(L10n.Settings.languageChangeTitle),
                             message: Text(L10n.Settings.languageChangeMessage),
                             primaryButton: .default(Text(L10n.Settings.languageChangeConfirm)) {
-                                withAnimation(.easeInOut(duration: 0.6)) {
-                                    localizationManager.appLanguage = pendingLanguage
-                                }
+                                localizationManager.changeLanguage(to: pendingLanguage)
                             },
                             secondaryButton: .cancel(Text(L10n.Main.cancel))
                         )

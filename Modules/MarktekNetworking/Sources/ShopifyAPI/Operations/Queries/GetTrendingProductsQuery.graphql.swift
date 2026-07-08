@@ -7,16 +7,24 @@ public class GetTrendingProductsQuery: GraphQLQuery {
   public static let operationName: String = "GetTrendingProducts"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetTrendingProducts($first: Int = 10) { products(first: $first, sortKey: BEST_SELLING) { __typename nodes { __typename id title handle featuredImage { __typename url } priceRange { __typename minVariantPrice { __typename amount currencyCode } } compareAtPriceRange { __typename minVariantPrice { __typename amount currencyCode } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } } }"#
+      #"query GetTrendingProducts($first: Int = 10, $language: LanguageCode) @inContext(language: $language) { products(first: $first, sortKey: BEST_SELLING) { __typename nodes { __typename id title handle featuredImage { __typename url } priceRange { __typename minVariantPrice { __typename amount currencyCode } } compareAtPriceRange { __typename minVariantPrice { __typename amount currencyCode } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } } }"#
     ))
 
   public var first: GraphQLNullable<Int>
+  public var language: GraphQLNullable<GraphQLEnum<LanguageCode>>
 
-  public init(first: GraphQLNullable<Int> = 10) {
+  public init(
+    first: GraphQLNullable<Int> = 10,
+    language: GraphQLNullable<GraphQLEnum<LanguageCode>>
+  ) {
     self.first = first
+    self.language = language
   }
 
-  public var __variables: Variables? { ["first": first] }
+  public var __variables: Variables? { [
+    "first": first,
+    "language": language
+  ] }
 
   public struct Data: ShopifyAPI.SelectionSet {
     public let __data: DataDict

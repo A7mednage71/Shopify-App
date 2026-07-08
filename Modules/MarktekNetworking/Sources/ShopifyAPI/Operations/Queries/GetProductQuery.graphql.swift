@@ -7,16 +7,24 @@ public class GetProductQuery: GraphQLQuery {
   public static let operationName: String = "GetProduct"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetProduct($id: ID!) { product(id: $id) { __typename id title description descriptionHtml vendor productType tags availableForSale priceRange { __typename minVariantPrice { __typename amount currencyCode } maxVariantPrice { __typename amount currencyCode } } compareAtPriceRange { __typename minVariantPrice { __typename amount currencyCode } } images(first: 20) { __typename edges { __typename node { __typename id url altText width height } } } options { __typename id name values } variants(first: 30) { __typename edges { __typename node { __typename id title availableForSale quantityAvailable price { __typename amount currencyCode } compareAtPrice { __typename amount currencyCode } selectedOptions { __typename name value } image { __typename url altText } } } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } }"#
+      #"query GetProduct($id: ID!, $language: LanguageCode) @inContext(language: $language) { product(id: $id) { __typename id title description descriptionHtml vendor productType tags availableForSale priceRange { __typename minVariantPrice { __typename amount currencyCode } maxVariantPrice { __typename amount currencyCode } } compareAtPriceRange { __typename minVariantPrice { __typename amount currencyCode } } images(first: 20) { __typename edges { __typename node { __typename id url altText width height } } } options { __typename id name values } variants(first: 30) { __typename edges { __typename node { __typename id title availableForSale quantityAvailable price { __typename amount currencyCode } compareAtPrice { __typename amount currencyCode } selectedOptions { __typename name value } image { __typename url altText } } } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } }"#
     ))
 
   public var id: ID
+  public var language: GraphQLNullable<GraphQLEnum<LanguageCode>>
 
-  public init(id: ID) {
+  public init(
+    id: ID,
+    language: GraphQLNullable<GraphQLEnum<LanguageCode>>
+  ) {
     self.id = id
+    self.language = language
   }
 
-  public var __variables: Variables? { ["id": id] }
+  public var __variables: Variables? { [
+    "id": id,
+    "language": language
+  ] }
 
   public struct Data: ShopifyAPI.SelectionSet {
     public let __data: DataDict

@@ -7,16 +7,24 @@ public class GetProductReviewMetafieldQuery: GraphQLQuery {
   public static let operationName: String = "GetProductReviewMetafield"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetProductReviewMetafield($productId: ID!) { product(id: $productId) { __typename id metafield(namespace: "reviews", key: "items") { __typename key namespace value type } } }"#
+      #"query GetProductReviewMetafield($productId: ID!, $language: LanguageCode) @inContext(language: $language) { product(id: $productId) { __typename id metafield(namespace: "reviews", key: "items") { __typename key namespace value type } } }"#
     ))
 
   public var productId: ID
+  public var language: GraphQLNullable<GraphQLEnum<LanguageCode>>
 
-  public init(productId: ID) {
+  public init(
+    productId: ID,
+    language: GraphQLNullable<GraphQLEnum<LanguageCode>>
+  ) {
     self.productId = productId
+    self.language = language
   }
 
-  public var __variables: Variables? { ["productId": productId] }
+  public var __variables: Variables? { [
+    "productId": productId,
+    "language": language
+  ] }
 
   public struct Data: ShopifyAPI.SelectionSet {
     public let __data: DataDict

@@ -1,4 +1,5 @@
 import Swinject
+import Common
 
 public struct CartDataAssembly: Assembly {
     public init() {}
@@ -9,7 +10,7 @@ public struct CartDataAssembly: Assembly {
         }
 
         container.register(CartRemoteDataSource.self) { _ in
-            ShopifyCartRemoteDataSource()
+            ShopifyCartRemoteDataSource(localizationManager: LocalizationManager.shared)
         }
 
         container.register(CartManager.self) { _ in

@@ -47,14 +47,14 @@ enum CheckoutText {
     static var defaultVariantName: String { L10n.Checkout.defaultVariantName }
 
     static func productsTitle(count: Int) -> String {
-        "Products (\(count))"
+        L10n.Checkout.productsCountTitle(count)
     }
 
     static func colorText(_ value: String) -> String {
-        "Color: \(value)"
+        L10n.Checkout.colorText(value)
     }
 
     static func quantityText(_ quantity: Int) -> String {
-        "Qty: \(quantity)"
+        L10n.Checkout.quantityText(quantity)
     }
 }

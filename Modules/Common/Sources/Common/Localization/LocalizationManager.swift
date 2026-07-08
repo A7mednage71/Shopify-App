@@ -7,16 +7,18 @@ public class LocalizationManager: ObservableObject {
     
     @Published public var updateId: UUID = UUID()
     
-    @AppStorage("app_language") public var appLanguage: String = "en" {
-        didSet {
-            updateId = UUID()
-            objectWillChange.send()
-        }
-    }
+    @AppStorage("app_language") public var appLanguage: String = "en"
     
     public var currentLanguage: AppLanguage {
         get { AppLanguage(rawValue: appLanguage) ?? .en }
-        set { appLanguage = newValue.rawValue }
+    }
+    
+    public func changeLanguage(to newLanguage: String) {
+        withAnimation(.easeInOut(duration: 0.5)) {
+            self.appLanguage = newLanguage
+            self.updateId = UUID()
+            NotificationCenter.default.post(name: .appLanguageDidChange, object: nil)
+        }
     }
     
     private init() {}
@@ -28,4 +30,8 @@ public class LocalizationManager: ObservableObject {
         }
         return bundle.localizedString(forKey: key, value: nil, table: nil)
     }
+}
+
+public extension Notification.Name {
+    static let appLanguageDidChange = Notification.Name("appLanguageDidChange")
 }

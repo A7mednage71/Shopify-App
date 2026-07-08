@@ -2,6 +2,12 @@
 import Common
 
 struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
+    private let localizationManager: LocalizationManager
+
+    init(localizationManager: LocalizationManager) {
+        self.localizationManager = localizationManager
+    }
+
     func createCart(lines: [AddCartLineRequest], customerAccessToken: String) async throws -> CartDataModel {
         let mutation = try CreateCartMutation(
             input: CartInput(
@@ -29,7 +35,8 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
     }
 
     func getCart(cartID: String) async throws -> CartDataModel? {
-        let data = try await ShopifyGraphQLClient.shared.fetch(GetCartQuery(cartId: cartID))
+        let language: GraphQLEnum<LanguageCode> = localizationManager.currentLanguage == .en ? .case(.en) : .case(.ar)
+        let data = try await ShopifyGraphQLClient.shared.fetch(GetCartQuery(cartId: cartID, language: .some(language)))
 
         return data.cart.map { CartDataModel(cart: $0) }
     }

@@ -29,14 +29,17 @@ public protocol OrdersRemoteDataSource: Sendable {
 
 public struct ShopifyOrdersRemoteDataSource: OrdersRemoteDataSource, Sendable {
     private let customerAccessTokenDataSource: CustomerAccessTokenDataSource
+    private let localizationManager: LocalizationManager
 
-    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource) {
+    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource, localizationManager: LocalizationManager) {
         self.customerAccessTokenDataSource = customerAccessTokenDataSource
+        self.localizationManager = localizationManager
     }
 
     public func getOrders() async throws -> [OrderDataModel] {
         let customerAccessToken = try await customerAccessTokenDataSource.customerAccessToken()
-        let query = GetCustomerOrdersQuery(customerAccessToken: customerAccessToken, first: 20)
+        let language: GraphQLEnum<LanguageCode> = localizationManager.currentLanguage == .en ? .case(.en) : .case(.ar)
+        let query = GetCustomerOrdersQuery(customerAccessToken: customerAccessToken, first: 20, language: .some(language))
         let data = try await ShopifyGraphQLClient.shared.fetch(query)
 
         guard let gqlCustomer = data.customer else {

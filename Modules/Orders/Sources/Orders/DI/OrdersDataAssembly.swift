@@ -6,6 +6,7 @@
 //
 
 import Swinject
+import Common
 
 public struct OrdersDataAssembly: Assembly {
     public init() {}
@@ -17,7 +18,8 @@ public struct OrdersDataAssembly: Assembly {
 
         container.register(OrdersRemoteDataSource.self) { resolver in
             ShopifyOrdersRemoteDataSource(
-                customerAccessTokenDataSource: resolver.resolve(CustomerAccessTokenDataSource.self)!
+                customerAccessTokenDataSource: resolver.resolve(CustomerAccessTokenDataSource.self)!,
+                localizationManager: LocalizationManager.shared
             )
         }
 

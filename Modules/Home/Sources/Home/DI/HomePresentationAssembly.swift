@@ -16,7 +16,6 @@ struct HomePresentationAssembly: Assembly {
                 manageFavoritesUseCase: r.resolve(ManageFavoritesUseCase.self)!
             )
         }
-        .inObjectScope(.container)
 
         container.register(ShoppingAssistantViewModel.self) { r in
                 ShoppingAssistantViewModel(
@@ -26,6 +25,5 @@ struct HomePresentationAssembly: Assembly {
                     getAssistantResponseUseCase: r.resolve(GetAssistantResponseUseCaseProtocol.self)!
                 )
         }
-        .inObjectScope(.container)
     }
 }

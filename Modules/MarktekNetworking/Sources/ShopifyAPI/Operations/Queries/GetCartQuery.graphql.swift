@@ -7,16 +7,24 @@ public class GetCartQuery: GraphQLQuery {
   public static let operationName: String = "GetCart"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetCart($cartId: ID!) { cart(id: $cartId) { __typename id checkoutUrl totalQuantity discountCodes { __typename code applicable } cost { __typename subtotalAmount { __typename amount currencyCode } totalAmount { __typename amount currencyCode } totalTaxAmount { __typename amount currencyCode } checkoutChargeAmount { __typename amount currencyCode } } lines(first: 20) { __typename edges { __typename node { __typename id quantity cost { __typename totalAmount { __typename amount currencyCode } amountPerQuantity { __typename amount currencyCode } compareAtAmountPerQuantity { __typename amount currencyCode } } merchandise { __typename ... on ProductVariant { id title price { __typename amount currencyCode } compareAtPrice { __typename amount currencyCode } availableForSale quantityAvailable selectedOptions { __typename name value } image { __typename url altText } product { __typename id title vendor } } } } } } } }"#
+      #"query GetCart($cartId: ID!, $language: LanguageCode) @inContext(language: $language) { cart(id: $cartId) { __typename id checkoutUrl totalQuantity discountCodes { __typename code applicable } cost { __typename subtotalAmount { __typename amount currencyCode } totalAmount { __typename amount currencyCode } totalTaxAmount { __typename amount currencyCode } checkoutChargeAmount { __typename amount currencyCode } } lines(first: 20) { __typename edges { __typename node { __typename id quantity cost { __typename totalAmount { __typename amount currencyCode } amountPerQuantity { __typename amount currencyCode } compareAtAmountPerQuantity { __typename amount currencyCode } } merchandise { __typename ... on ProductVariant { id title price { __typename amount currencyCode } compareAtPrice { __typename amount currencyCode } availableForSale quantityAvailable selectedOptions { __typename name value } image { __typename url altText } product { __typename id title vendor } } } } } } } }"#
     ))
 
   public var cartId: ID
+  public var language: GraphQLNullable<GraphQLEnum<LanguageCode>>
 
-  public init(cartId: ID) {
+  public init(
+    cartId: ID,
+    language: GraphQLNullable<GraphQLEnum<LanguageCode>>
+  ) {
     self.cartId = cartId
+    self.language = language
   }
 
-  public var __variables: Variables? { ["cartId": cartId] }
+  public var __variables: Variables? { [
+    "cartId": cartId,
+    "language": language
+  ] }
 
   public struct Data: ShopifyAPI.SelectionSet {
     public let __data: DataDict

@@ -1,5 +1,5 @@
 import Foundation
-import Common
+@preconcurrency import Common
 import MarktekNetworking
 import ApolloAPI
 
@@ -32,9 +32,11 @@ public protocol CheckoutRemoteDataSource: Sendable {
 
 public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendable {
     private let customerAccessTokenDataSource: CustomerAccessTokenDataSource
+    private let localizationManager: LocalizationManager
     
-    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource) {
+    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource, localizationManager: LocalizationManager) {
         self.customerAccessTokenDataSource = customerAccessTokenDataSource
+        self.localizationManager = localizationManager
     }
 
     public func getCustomerDetails() async throws -> CustomerDetailsDataModel {
@@ -114,8 +116,9 @@ public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendabl
     }
 
     private func fetchExistingReviewIds(productId: String) async throws -> [String] {
+        let language: GraphQLEnum<LanguageCode> = localizationManager.currentLanguage == .en ? .case(.en) : .case(.ar)
         let data = try await ShopifyGraphQLClient.shared.fetch(
-            GetProductReviewMetafieldQuery(productId: productId)
+            GetProductReviewMetafieldQuery(productId: productId, language: .some(language))
         )
 
         guard let value = data.product?.metafield?.value,

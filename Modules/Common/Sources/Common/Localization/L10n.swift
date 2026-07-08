@@ -280,6 +280,15 @@ public enum L10n {
         public static var addressFailureTitle: String { LocalizationManager.shared.localizedString(for: "checkout_addressFailureTitle") }
         public static var addressFailureFallbackMessage: String { LocalizationManager.shared.localizedString(for: "checkout_addressFailureFallbackMessage") }
         public static var productsTitle: String { LocalizationManager.shared.localizedString(for: "checkout_productsTitle") }
+        public static func productsCountTitle(_ count: Int) -> String {
+            String(format: LocalizationManager.shared.localizedString(for: "checkout_products_count_title"), count)
+        }
+        public static func colorText(_ color: String) -> String {
+            String(format: LocalizationManager.shared.localizedString(for: "checkout_color_text"), color)
+        }
+        public static func quantityText(_ quantity: Int) -> String {
+            String(format: LocalizationManager.shared.localizedString(for: "checkout_quantity_text"), quantity)
+        }
         public static var shippingMethodTitle: String { LocalizationManager.shared.localizedString(for: "checkout_shippingMethodTitle") }
         public static var paymentMethodTitle: String { LocalizationManager.shared.localizedString(for: "checkout_paymentMethodTitle") }
         public static var orderSummaryTitle: String { LocalizationManager.shared.localizedString(for: "checkout_orderSummaryTitle") }
