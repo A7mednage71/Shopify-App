@@ -84,6 +84,11 @@ public final class AuthState: ObservableObject {
     private func updateSessionStatus(_ status: AuthSessionStatus, reason: String) {
         let previousStatus = sessionStatus
         sessionStatus = status
+        
+        if status == .unauthenticated {
+            userDefaults.removeObject(forKey: AppUserDefaultsKeys.cartID)
+        }
+        
         logAuthStateChange(from: previousStatus, to: status, reason: reason)
     }
 

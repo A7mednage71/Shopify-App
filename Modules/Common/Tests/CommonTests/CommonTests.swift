@@ -104,14 +104,16 @@ final class CommonTests: XCTestCase {
     private func validToken() -> StoredCustomerToken {
         StoredCustomerToken(
             accessToken: "token-1",
-            expiresAt: "2999-01-01T00:00:00Z"
+            expiresAt: "2999-01-01T00:00:00Z",
+            userID: "user-1"
         )
     }
 
     private func expiredToken() -> StoredCustomerToken {
         StoredCustomerToken(
             accessToken: "token-1",
-            expiresAt: "2000-01-01T00:00:00Z"
+            expiresAt: "2000-01-01T00:00:00Z",
+            userID: "user-1"
         )
     }
 }

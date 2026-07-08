@@ -1,7 +1,8 @@
 import Foundation
+import Common
 
 struct UserDefaultsCartManager: CartManager, Sendable {
-    private static let cartIDKey = "com.marktek.cart.id"
+    private static let cartIDKey = AppUserDefaultsKeys.cartID
 
     var cartID: String? {
         guard let savedCartID = UserDefaults.standard.string(forKey: Self.cartIDKey) else {
