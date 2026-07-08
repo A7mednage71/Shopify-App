@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import Common
-import Authentication
 
 @available(iOS 14.0, *)
 @MainActor
@@ -21,11 +20,11 @@ public class SettingsViewModel: ObservableObject {
     @AppStorage("selectedCurrency") public var selectedCurrency: AppCurrency = .usd
     @AppStorage("isDarkMode") public var isDarkMode: Bool = false
 
-    private let logoutUseCase: LogoutUseCase
+    private let logoutUseCase: any LogoutUseCaseProtocol
     private let authState: AuthState
     
     public init(
-        logoutUseCase: LogoutUseCase,
+        logoutUseCase: any LogoutUseCaseProtocol,
         authState: AuthState
     ) {
         self.logoutUseCase = logoutUseCase

@@ -50,10 +50,8 @@ public struct CheckoutPresentationAssembly: Assembly {
             )
         }
 
-        container.register(SubmitProductReviewUseCaseProtocol.self) { resolver in
-            SubmitProductReviewUseCase(
-                repository: resolver.resolve(CheckoutRepository.self)!
-            )
+        container.register(SubmitProductReviewUseCaseProtocol.self) { _ in
+            SubmitProductReviewUseCase()
         }
 
         container.register(CheckoutViewModelFactory.self) { resolver in

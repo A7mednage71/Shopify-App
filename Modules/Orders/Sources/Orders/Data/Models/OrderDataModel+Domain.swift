@@ -19,6 +19,7 @@ extension OrderDataModel {
             totalPrice: totalPriceAmount,
             currencyCode: currencyCode,
             shippingAddress: shippingAddress,
+            customerName: customerName,
             lineItems: lineItems.map { $0.toDomain() }
         )
     }
@@ -32,7 +33,8 @@ extension OrderLineItemDataModel {
             quantity: quantity,
             price: priceAmount,
             currencyCode: currencyCode,
-            imageURL: imageURL
+            imageURL: imageURL,
+            productID: productID
         )
     }
 }

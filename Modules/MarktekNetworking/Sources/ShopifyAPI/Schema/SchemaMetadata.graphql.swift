@@ -87,15 +87,10 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "CartDiscountCodesUpdatePayload": return ShopifyAPI.Objects.CartDiscountCodesUpdatePayload
     case "CartDiscountCode": return ShopifyAPI.Objects.CartDiscountCode
     case "CustomerAddressUpdatePayload": return ShopifyAPI.Objects.CustomerAddressUpdatePayload
-    case "CustomerAddressCreatePayload": return ShopifyAPI.Objects.CustomerAddressCreatePayload
     case "CollectionConnection": return ShopifyAPI.Objects.CollectionConnection
+    case "CustomerAddressCreatePayload": return ShopifyAPI.Objects.CustomerAddressCreatePayload
     case "ProductConnection": return ShopifyAPI.Objects.ProductConnection
     case "ProductEdge": return ShopifyAPI.Objects.ProductEdge
-    case "MailingAddressConnection": return ShopifyAPI.Objects.MailingAddressConnection
-    case "MailingAddressEdge": return ShopifyAPI.Objects.MailingAddressEdge
-    case "CustomerDefaultAddressUpdatePayload": return ShopifyAPI.Objects.CustomerDefaultAddressUpdatePayload
-    case "CustomerAccessTokenCreatePayload": return ShopifyAPI.Objects.CustomerAccessTokenCreatePayload
-    case "CustomerAccessToken": return ShopifyAPI.Objects.CustomerAccessToken
     case "ProductPriceRange": return ShopifyAPI.Objects.ProductPriceRange
     case "ImageConnection": return ShopifyAPI.Objects.ImageConnection
     case "ImageEdge": return ShopifyAPI.Objects.ImageEdge
@@ -105,9 +100,14 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "MetafieldReferenceEdge": return ShopifyAPI.Objects.MetafieldReferenceEdge
     case "MetaobjectField": return ShopifyAPI.Objects.MetaobjectField
     case "PageInfo": return ShopifyAPI.Objects.PageInfo
+    case "MailingAddressConnection": return ShopifyAPI.Objects.MailingAddressConnection
+    case "MailingAddressEdge": return ShopifyAPI.Objects.MailingAddressEdge
     case "SearchResultItemConnection": return ShopifyAPI.Objects.SearchResultItemConnection
     case "SearchResultItemEdge": return ShopifyAPI.Objects.SearchResultItemEdge
+    case "CustomerDefaultAddressUpdatePayload": return ShopifyAPI.Objects.CustomerDefaultAddressUpdatePayload
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
+    case "CustomerAccessTokenCreatePayload": return ShopifyAPI.Objects.CustomerAccessTokenCreatePayload
+    case "CustomerAccessToken": return ShopifyAPI.Objects.CustomerAccessToken
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
     case "CustomerCreatePayload": return ShopifyAPI.Objects.CustomerCreatePayload
     case "CartLinesUpdatePayload": return ShopifyAPI.Objects.CartLinesUpdatePayload

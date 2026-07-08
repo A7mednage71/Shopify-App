@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import Common
 
 public struct OrdersViewFactory {
     private let viewModel: OrdersViewModel
+    private let submitProductReviewUseCase: any SubmitProductReviewUseCaseProtocol
 
-    public init(viewModel: OrdersViewModel) {
+    public init(
+        viewModel: OrdersViewModel,
+        submitProductReviewUseCase: any SubmitProductReviewUseCaseProtocol
+    ) {
         self.viewModel = viewModel
+        self.submitProductReviewUseCase = submitProductReviewUseCase
     }
 
     @MainActor
@@ -21,6 +27,12 @@ public struct OrdersViewFactory {
     
     @MainActor
     public func makeOrderDetailsView(orderID: String) -> some View {
-        OrderDetailsView(viewModel: OrderDetailsViewModel(orderID: orderID, ordersViewModel: viewModel))
+        OrderDetailsView(
+            viewModel: OrderDetailsViewModel(
+                orderID: orderID,
+                ordersViewModel: viewModel,
+                submitProductReviewUseCase: submitProductReviewUseCase
+            )
+        )
     }
 }

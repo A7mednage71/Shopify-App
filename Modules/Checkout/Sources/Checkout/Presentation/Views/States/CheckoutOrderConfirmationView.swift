@@ -50,12 +50,18 @@ struct CheckoutOrderConfirmationView: View {
             }
         }
         .sheet(item: $reviewLine) { line in
-            CheckoutReviewSheet(
+            ProductReviewSheet(
                 productTitle: line.checkoutProductTitle,
                 onSubmit: { input in
+                    let name = [confirmation.customerDetails.firstName, confirmation.customerDetails.lastName]
+                        .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
+                        .filter { !$0.isEmpty }
+                        .joined(separator: " ")
+                    let customerName = name.isEmpty ? "Customer" : name
+
                     try await submitProductReviewUseCase.execute(
                         input: input,
-                        customerDetails: confirmation.customerDetails
+                        customerName: customerName
                     )
 
                     if let productID = line.checkoutProductID {
