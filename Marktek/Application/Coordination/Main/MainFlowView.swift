@@ -1,4 +1,5 @@
 import Address
+import Settings
 import Cart
 import Checkout
 import Common
@@ -252,7 +253,7 @@ struct MainFlowView: View {
     private func profileDestination(for route: ProfileFlowRoute) -> some View {
         switch route {
         case .personalInformation:
-            ProfilePersonalInformationPlaceholderView()
+            SettingsViewFactory.makePersonalInformationView(authState: authState)
         case .addresses:
             AddressViewFactory.makeView()
         case .orders:
@@ -442,28 +443,6 @@ private enum CheckoutAddressSheet: Identifiable {
         case .book:
             return "book"
         }
-    }
-}
-
-private struct ProfilePersonalInformationPlaceholderView: View {
-    var body: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "person.text.rectangle")
-                .font(.system(size: 42, weight: .semibold))
-                .foregroundColor(AppColors.primary)
-
-            Text("Personal Information")
-                .font(AppFonts.title2.weight(.bold))
-                .foregroundColor(AppColors.textPrimary)
-
-            Text("Coming soon")
-                .font(AppFonts.callout)
-                .foregroundColor(AppColors.textSecondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.backgroundSecondary.ignoresSafeArea())
-        .navigationTitle("Personal Information")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
