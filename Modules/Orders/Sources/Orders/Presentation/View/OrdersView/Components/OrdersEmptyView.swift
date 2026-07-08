@@ -1,6 +1,5 @@
 //
-//  SwiftUIView.swift
-//  
+//  OrdersEmptyView.swift
 //
 //  Created by Esraa Ehab on 07/07/2026.
 //
@@ -11,7 +10,7 @@ import Common
 struct OrdersEmptyView: View {
     var body: some View {
         VStack(spacing: 16) {
-            Image("no_orders",bundle: .module)
+            Image("no_orders", bundle: .module)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)
