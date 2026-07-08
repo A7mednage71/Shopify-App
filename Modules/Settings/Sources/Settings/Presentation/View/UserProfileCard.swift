@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Common
+import Shimmer
 
 @available(iOS 14.0, *)
 public struct UserProfileCard: View {
@@ -44,21 +45,29 @@ public struct UserProfileCard: View {
     }
 
     private var loadingContent: some View {
-        VStack(alignment: .center, spacing: 14) {
-            ProgressView()
-                .tint(AppColors.primary)
-
-            Text(L10n.Settings.loadingProfile)
-                .font(AppFonts.subheadline.weight(.semibold))
-                .foregroundColor(AppColors.textSecondary)
+        VStack(alignment: .center, spacing: 16) {
+            Circle()
+                .fill(AppColors.backgroundSecondary)
+                .frame(width: 80, height: 80)
+            
+            VStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(AppColors.backgroundSecondary)
+                    .frame(width: 140, height: 20)
+                
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(AppColors.backgroundSecondary)
+                    .frame(width: 180, height: 14)
+            }
         }
+        .shimmering()
         .frame(minHeight: 132)
     }
 
     private func profileContent(_ profile: CustomerProfile) -> some View {
         VStack(alignment: .center, spacing: 16) {
             ZStack(alignment: .bottomTrailing) {
-                CachedImage(urlString: nil, failureImageName: "product_placeholder")
+                CachedImage(urlString: nil, failureImageName: "profileـplaceholder")
                     .frame(width: 80, height: 80)
                     .clipShape(Circle())
                 .overlay(
