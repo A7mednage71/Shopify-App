@@ -31,13 +31,6 @@ struct ProductCardView: View {
         return categoryOption
     }
 
-    private var priceLabel: String {
-        if let val = Double(product.price) {
-            return String(format: "%.0f", val)
-        }
-        return product.price
-    }
-
     public var body: some View {
         VStack(spacing: 8) {
             if let vendor = product.vendor, !vendor.isEmpty {
@@ -82,10 +75,12 @@ struct ProductCardView: View {
                           .lineLimit(1)
                   }
 
-                  Text("\(priceLabel) \(product.currencyCode)")
-                      .font(.assistantProductPrice)
-                      .foregroundColor(AppColors.primary)
-                      .padding(.top, 2)
+                  PriceView(
+                      priceInUSD: Double(product.price) ?? 0.0,
+                      font: .assistantProductPrice,
+                      color: AppColors.primary
+                  )
+                  .padding(.top, 2)
               }
         }
         .padding(10)

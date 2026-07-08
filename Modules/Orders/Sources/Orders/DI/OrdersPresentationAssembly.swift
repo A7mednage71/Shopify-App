@@ -6,6 +6,7 @@
 //
 
 import Swinject
+import Common
 
 public struct OrdersPresentationAssembly: Assembly {
     public init() {}
@@ -19,7 +20,8 @@ public struct OrdersPresentationAssembly: Assembly {
 
         container.register(OrdersViewFactory.self) { resolver in
             OrdersViewFactory(
-                viewModel: resolver.resolve(OrdersViewModel.self)!
+                viewModel: resolver.resolve(OrdersViewModel.self)!,
+                submitProductReviewUseCase: resolver.resolve(SubmitProductReviewUseCaseProtocol.self)!
             )
         }
     }

@@ -19,6 +19,7 @@ let package = Package(
             .package(path: "../Common"),
             .package(path: "../MarktekNetworking"),
             .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3"),
+            .package(url: "https://github.com/markiv/SwiftUI-Shimmer.git", from: "1.4.0"),
         ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -29,6 +30,7 @@ let package = Package(
                             .product(name: "Common", package: "Common"),
                             .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                             .product(name: "Swinject", package: "Swinject"),
+                            .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
                         ],
             resources: [.process("Resources")]
         ),

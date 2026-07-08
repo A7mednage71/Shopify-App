@@ -26,11 +26,11 @@ let package = Package(
         .target(
             name: "Favorites",
             dependencies: [
-                            "Persistence",
-                            "Common",
-                            "Swinject",
-                            .product(name: "Shimmer", package: "SwiftUI-Shimmer")
-                        ],
+                .product(name: "Persistence", package: "Persistence"),
+                .product(name: "Common", package: "Common"),
+                .product(name: "Swinject", package: "Swinject"),
+                .product(name: "Shimmer", package: "SwiftUI-Shimmer")
+            ],
             resources: [.process("Resources")]
         ),
         .testTarget(

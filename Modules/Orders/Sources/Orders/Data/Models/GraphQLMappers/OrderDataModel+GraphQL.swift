@@ -9,7 +9,7 @@ import Foundation
 import MarktekNetworking
 
 extension OrderDataModel {
-    public init(gqlOrderNode: GetCustomerOrdersQuery.Data.Customer.Orders.Edge.Node) {
+    public init(gqlOrderNode: GetCustomerOrdersQuery.Data.Customer.Orders.Edge.Node, customerName: String) {
         self.id = gqlOrderNode.id
         self.name = gqlOrderNode.name
         self.orderNumber = gqlOrderNode.orderNumber
@@ -18,6 +18,7 @@ extension OrderDataModel {
         self.fulfillmentStatus = gqlOrderNode.fulfillmentStatus.rawValue
         self.totalPriceAmount = "\(gqlOrderNode.currentTotalPrice.amount)"
         self.currencyCode = gqlOrderNode.currentTotalPrice.currencyCode.rawValue
+        self.customerName = customerName
         
         self.lineItems = gqlOrderNode.lineItems.edges.enumerated().map { index, edge in
             let node = edge.node
@@ -27,7 +28,8 @@ extension OrderDataModel {
                 quantity: node.quantity,
                 priceAmount: "\(node.originalTotalPrice.amount)",
                 currencyCode: node.originalTotalPrice.currencyCode.rawValue,
-                imageURL: node.variant?.image?.url
+                imageURL: node.variant?.image?.url,
+                productID: node.variant?.product.id
             )
         }
         if let address = gqlOrderNode.shippingAddress {

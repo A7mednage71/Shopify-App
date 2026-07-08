@@ -27,7 +27,6 @@ public protocol CheckoutRemoteDataSource: Sendable {
     func createOrder(input: OrderCreateInput) async throws -> OrderDataModel
     func getCustomerDetails() async throws -> CustomerDetailsDataModel
     func validateDiscountCode(code: String) async throws -> ValidatedDiscountCode?
-    func submitProductReview(_ review: ProductReviewSubmission) async throws
 }
 
 public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendable {

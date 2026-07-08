@@ -17,8 +17,7 @@ struct SettingsViewModelFactory {
     func makeViewModel(authState: AuthState) -> SettingsViewModel {
         SettingsViewModel(
             logoutUseCase: logoutUseCase,
-            authState: authState,
-            profileDataViewModel: profileDataViewModelProvider.viewModel()
+            authState: authState
         )
     }
 

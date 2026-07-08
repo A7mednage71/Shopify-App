@@ -55,6 +55,8 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
       public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Customer }
       public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
+        .field("firstName", String?.self),
+        .field("lastName", String?.self),
         .field("orders", Orders.self, arguments: [
           "first": .variable("first"),
           "sortKey": "PROCESSED_AT",
@@ -62,6 +64,10 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
         ]),
       ] }
 
+      /// The customer’s first name.
+      public var firstName: String? { __data["firstName"] }
+      /// The customer’s last name.
+      public var lastName: String? { __data["lastName"] }
       /// The orders associated with the customer.
       public var orders: Orders { __data["orders"] }
 
@@ -277,13 +283,33 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
                     public static var __selections: [ApolloAPI.Selection] { [
                       .field("__typename", String.self),
                       .field("id", ShopifyAPI.ID.self),
+                      .field("product", Product.self),
                       .field("image", Image?.self),
                     ] }
 
                     /// A globally-unique ID.
                     public var id: ShopifyAPI.ID { __data["id"] }
+                    /// The product object that the product variant belongs to.
+                    public var product: Product { __data["product"] }
                     /// Image associated with the product variant. This field falls back to the product image if no image is available.
                     public var image: Image? { __data["image"] }
+
+                    /// Customer.Orders.Edge.Node.LineItems.Edge.Node.Variant.Product
+                    ///
+                    /// Parent Type: `Product`
+                    public struct Product: ShopifyAPI.SelectionSet {
+                      public let __data: DataDict
+                      public init(_dataDict: DataDict) { __data = _dataDict }
+
+                      public static var __parentType: ApolloAPI.ParentType { ShopifyAPI.Objects.Product }
+                      public static var __selections: [ApolloAPI.Selection] { [
+                        .field("__typename", String.self),
+                        .field("id", ShopifyAPI.ID.self),
+                      ] }
+
+                      /// A globally-unique ID.
+                      public var id: ShopifyAPI.ID { __data["id"] }
+                    }
 
                     /// Customer.Orders.Edge.Node.LineItems.Edge.Node.Variant.Image
                     ///

@@ -7,6 +7,7 @@
 
 import Swinject
 import Common
+import Common
 
 public final class SettingsAssembly: Assembly {
     public init() {}
