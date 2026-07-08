@@ -174,7 +174,7 @@ public extension L10n.Onboarding {
 
 @available(iOS 14.0, *)
 public extension L10n.Orders {
-    static var paid: String { LocalizationManager.shared.localizedString(for: "orders_paid") }
+//    static var paid: String { LocalizationManager.shared.localizedString(for: "orders_paid") }
     static var notPaid: String { LocalizationManager.shared.localizedString(for: "orders_not_paid") }
     static var noDeliveryAddress: String { LocalizationManager.shared.localizedString(for: "orders_no_delivery_address") }
     static var noDiscountCodeValue: String { LocalizationManager.shared.localizedString(for: "orders_no_discount_code_value") }
