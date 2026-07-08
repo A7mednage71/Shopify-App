@@ -18,7 +18,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.10.0"),
-        .package(url: "https://github.com/markiv/SwiftUI-Shimmer.git", from: "1.4.0")
+        .package(url: "https://github.com/markiv/SwiftUI-Shimmer.git", from: "1.4.0"),
+        .package(path: "../MarktekNetworking")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,7 +28,8 @@ let package = Package(
             name: "Common",
             dependencies: [
                 .product(name: "Kingfisher", package: "Kingfisher"),
-                .product(name: "Shimmer", package: "SwiftUI-Shimmer")
+                .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
+                .product(name: "MarktekNetworking", package: "MarktekNetworking")
             ],
             resources: [.process("Resources")]
         ),

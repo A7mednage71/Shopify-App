@@ -6,7 +6,7 @@
 //
 
 import Swinject
-import Authentication
+import Common
 
 public final class SettingsAssembly: Assembly {
     public init() {}
@@ -14,7 +14,7 @@ public final class SettingsAssembly: Assembly {
     public func assemble(container: Container) {
         container.register(SettingsViewModelFactory.self) { resolver in
             SettingsViewModelFactory(
-                logoutUseCase: resolver.resolve(LogoutUseCase.self)!
+                logoutUseCase: resolver.resolve((any LogoutUseCaseProtocol).self)!
             )
         }
 

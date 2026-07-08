@@ -1,11 +1,10 @@
-import Authentication
 import Common
 import Foundation
 
 struct SettingsViewModelFactory {
-    private let logoutUseCase: LogoutUseCase
+    private let logoutUseCase: any LogoutUseCaseProtocol
 
-    init(logoutUseCase: LogoutUseCase) {
+    init(logoutUseCase: any LogoutUseCaseProtocol) {
         self.logoutUseCase = logoutUseCase
     }
 
@@ -15,5 +14,6 @@ struct SettingsViewModelFactory {
             logoutUseCase: logoutUseCase,
             authState: authState
         )
+        
     }
 }
