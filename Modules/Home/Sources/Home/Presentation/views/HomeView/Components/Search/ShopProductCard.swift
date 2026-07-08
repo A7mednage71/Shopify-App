@@ -59,17 +59,22 @@ struct ShopProductCard: View {
 
                 // Price
                 HStack(alignment: .center, spacing: 4) {
-                    Text(product.price)
-                        .font(.productPrice)
-                        .foregroundColor(.appTextPrimary)
-                        .lineLimit(1)
+                    PriceView(
+                        priceInUSD: Double(product.price) ?? 0.0,
+                        font: .productPrice,
+                        color: .appTextPrimary
+                    )
+                    .lineLimit(1)
 
-                    if let compareAtPrice = product.compareAtPrice {
-                        Text(compareAtPrice)
-                            .font(.productOldPrice)
-                            .foregroundColor(.appTextStrikePrice)
-                            .strikethrough(true, color: .appTextStrikePrice)
-                            .lineLimit(1)
+                    if let compareAtPrice = product.compareAtPrice,
+                       let compareAtPriceDouble = Double(compareAtPrice) {
+                        PriceView(
+                            priceInUSD: compareAtPriceDouble,
+                            font: .productOldPrice,
+                            color: .appTextStrikePrice,
+                            isStrikethrough: true
+                        )
+                        .lineLimit(1)
                     }
 
                     Spacer(minLength: 0)

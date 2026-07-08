@@ -47,15 +47,20 @@ struct TrendingProductCard: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 HStack(spacing: 6) {
-                    Text(product.price)
-                        .font(.system(size: 15, weight: .bold))
-                        .foregroundColor(.white)
+                    PriceView(
+                        priceInUSD: Double(product.price) ?? 0.0,
+                        font: .system(size: 15, weight: .bold),
+                        color: .white
+                    )
 
-                    if let compareAtPrice = product.compareAtPrice {
-                        Text(compareAtPrice)
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundColor(.white.opacity(0.65))
-                            .strikethrough(true, color: .white.opacity(0.65))
+                    if let compareAtPrice = product.compareAtPrice,
+                       let compareAtPriceDouble = Double(compareAtPrice) {
+                        PriceView(
+                            priceInUSD: compareAtPriceDouble,
+                            font: .system(size: 11, weight: .medium),
+                            color: .white.opacity(0.65),
+                            isStrikethrough: true
+                        )
                     }
                 }
             }
