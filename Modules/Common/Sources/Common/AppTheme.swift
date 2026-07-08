@@ -11,7 +11,8 @@ public enum AppColors {
     public static let primary = Color.appPrimaryOrange
     public static let primaryDark = Color.appPrimaryOrangeDark
     public static let primaryLight = Color.appPrimaryOrangeSecondary
-
+    public static let primaryShadow =
+        Color.appOrangeShadow
     public static let secondary = Color.appPrimaryPink
     public static let background = Color.appBackgroundWhite
     public static let backgroundSecondary = Color.appBackgroundGray
@@ -24,6 +25,7 @@ public enum AppColors {
     public static let success = Color.appSuccessGreen
     public static let error = Color.appErrorRed
     public static let disabled = Color.appDisabled
+    public static let primaryVeryLight = Color.appVeryLightOrange
 }
 
 public enum AppFonts {
@@ -76,6 +78,8 @@ public extension Color {
     static let appSuccessGreen = AppColorAsset.color("AppSuccessGreen")
     static let appErrorRed = AppColorAsset.color("AppErrorRed")
     static let appDisabled = AppColorAsset.color("AppDisabled")
+    static let appVeryLightOrange =
+    AppColorAsset.color("AppVeryLightOrange")
 }
 
 public extension Font {

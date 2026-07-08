@@ -1,6 +1,11 @@
 import Common
 import Foundation
 
+struct CheckoutToastState: Equatable, Identifiable {
+    let id = UUID()
+    let message: String
+}
+
 struct CheckoutPaymentSelectionState {
     let methods: [CheckoutPaymentMethodType]
     private(set) var selectedMethodType: CheckoutPaymentMethodType

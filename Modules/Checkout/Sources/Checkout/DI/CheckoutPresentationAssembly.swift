@@ -6,7 +6,7 @@ public struct CheckoutPresentationAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(CustomerAccessTokenDataSource.self) { _ in
-            DummyCustomerAccessTokenDataSource()
+            KeychainCustomerAccessTokenDataSource()
         }
 
         container.register(CheckoutRemoteDataSource.self) { resolver in

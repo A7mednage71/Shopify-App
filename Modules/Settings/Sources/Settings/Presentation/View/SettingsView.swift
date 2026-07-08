@@ -10,10 +10,21 @@ import Common
 
 @available(iOS 14.0, *)
 public struct SettingsView: View {
-    @StateObject private var viewModel = SettingsViewModel()
+    @StateObject private var viewModel: SettingsViewModel
+    @State private var isSignOutConfirmationPresented = false
+    private let onPersonalInformationTap: () -> Void
+    private let onSavedAddressesTap: () -> Void
     private let onOrdersTap: () -> Void
     
-    public init(onOrdersTap: @escaping () -> Void) {
+    public init(
+        viewModel: SettingsViewModel,
+        onPersonalInformationTap: @escaping () -> Void = {},
+        onSavedAddressesTap: @escaping () -> Void = {},
+        onOrdersTap: @escaping () -> Void = {}
+    ) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.onPersonalInformationTap = onPersonalInformationTap
+        self.onSavedAddressesTap = onSavedAddressesTap
         self.onOrdersTap = onOrdersTap
     }
     
@@ -31,11 +42,11 @@ public struct SettingsView: View {
                 
                 SettingsSectionView(title: "Account Settings") {
                     SettingsActionRow(icon: "person", title: "Profile Information") {
-                        print("Go to Profile Info")
+                        onPersonalInformationTap()
                     }
                     Divider().background(AppColors.border)
                     SettingsActionRow(icon: "mappin.and.ellipse", title: "Saved Addresses") {
-                        print("Go to Addresses")
+                        onSavedAddressesTap()
                     }
                     Divider().background(AppColors.border)
                         
@@ -99,18 +110,26 @@ public struct SettingsView: View {
                 }
                 
                 Button(action: {
-                    viewModel.signOut()
+                    isSignOutConfirmationPresented = true
                 }) {
-                    Text("Sign Out")
-                        .font(AppFonts.title3)
-                        .foregroundColor(AppColors.error)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(AppColors.error.opacity(0.3), lineWidth: 1)
-                        )
+                    HStack(spacing: 8) {
+                        if viewModel.isSigningOut {
+                            ProgressView()
+                                .tint(AppColors.error)
+                        }
+
+                        Text(viewModel.isSigningOut ? "Signing Out..." : "Sign Out")
+                            .font(AppFonts.title3)
+                    }
+                    .foregroundColor(AppColors.error)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(AppColors.error.opacity(0.3), lineWidth: 1)
+                    )
                 }
+                .disabled(viewModel.isSigningOut)
                 .padding(.top, 10)
                 .padding(.bottom, 40)
                 
@@ -119,5 +138,33 @@ public struct SettingsView: View {
         }
         .background(AppColors.backgroundSecondary.ignoresSafeArea())
         .navigationBarHidden(true)
+        .alert("Sign out?", isPresented: $isSignOutConfirmationPresented) {
+            Button("Cancel", role: .cancel) {}
+            Button("Sign Out", role: .destructive) {
+                Task {
+                    await viewModel.signOut()
+                }
+            }
+        } message: {
+            Text("Are you sure you want to sign out?")
+        }
+        .alert("Could not sign out", isPresented: signOutErrorBinding) {
+            Button("OK", role: .cancel) {
+                viewModel.signOutErrorMessage = nil
+            }
+        } message: {
+            Text(viewModel.signOutErrorMessage ?? "Please try again.")
+        }
+    }
+
+    private var signOutErrorBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.signOutErrorMessage != nil },
+            set: { isPresented in
+                if !isPresented {
+                    viewModel.signOutErrorMessage = nil
+                }
+            }
+        )
     }
 }

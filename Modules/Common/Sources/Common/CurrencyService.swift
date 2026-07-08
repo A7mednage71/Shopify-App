@@ -20,6 +20,7 @@ public struct CurrencyResponse: Codable {
     }
 }
 
+@available(iOS 14.0, *)
 public class CurrencyService {
     public static let shared = CurrencyService()
     

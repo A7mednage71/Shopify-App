@@ -1,31 +1,55 @@
-//
-//  SwiftUIView 2.swift
-//  
-//
-//  Created by Eyad waleed on 28/06/2026.
-//
-
 import SwiftUI
+import Common
 
 struct CutomeCircularBtn: View {
-    var image : String
+    var image: String
+    var label: String = ""
     var action: () -> Void
-    @available(iOS 13.0.0, *)
+
+    private var isSystemImage: Bool {
+        UIImage(systemName: image) != nil
+    }
+
     var body: some View {
         Button {
             action()
         } label: {
-            Image(image)
-                .resizable()
-                .scaledToFit()
-                .padding(12)
-                .frame(width: 54, height: 54)
-                .background(Color(red: 252/255, green: 243/255, blue: 246/255))
-                .clipShape(Circle())
-                .overlay(
-                    Circle()
-                        .stroke(Color(red: 255/255, green: 161/255, blue: 2/255), lineWidth: 1)
-                )
+            VStack(spacing: 0) {
+                if isSystemImage {
+                    Image(systemName: image)
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                        .foregroundColor(AppColors.primary)
+                } else {
+                    Image(image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                }
+                
+                
+                if !label.isEmpty {
+                    Spacer()
+                        .frame(height: 8)
+                    
+                    Text(label)
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(AppColors.textPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.4)
+                        .padding(.horizontal, 4)
+                }
+            }
+            .frame(width: 56, height: 56)
+            .background(Color.appOrangeShadow)
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(AppColors.primary, lineWidth: 1)
+            )
         }
     }
+  
 }

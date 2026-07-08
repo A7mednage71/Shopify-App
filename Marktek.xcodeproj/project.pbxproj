@@ -7,16 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0860648A2FF126690010B267 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 086064892FF126690010B267 /* Swinject */; };
-		086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18D2FF0074F005DEA2D /* ApolloAPI */; };
-		086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 086CE18F2FF008E4005DEA2D /* MarktekNetworking */; };
-		08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D800B2FF335C50090C2CF /* ApolloAPI */; };
 		08B93C902FF3246100AAA4F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08B93C8F2FF3246100AAA4F7 /* GoogleService-Info.plist */; };
-		08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 08EA15A92FF2B32E0056ECA5 /* Cart */; };
-		0B0000012FF5000000000001 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0000022FF5000000000002 /* ProductInfo */; };
 		0B0000032FF5000000000003 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000042FF5000000000004 /* AppDIContainer.swift */; };
 		0B0000032FF5000000000011 /* NetworkingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000042FF5000000000011 /* NetworkingAssembly.swift */; };
-		0C0000012FF6000000000001 /* Checkout in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0000022FF6000000000002 /* Checkout */; };
 		0D1000132FF7000000000003 /* MainFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000032FF7000000000003 /* MainFlowView.swift */; };
 		0D1000132FF7000000000009 /* GlobalFloatingAssistantButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1000032FF7000000000009 /* GlobalFloatingAssistantButton.swift */; };
 		0D10001D2FF700000000000D /* MainFlowRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D10000D2FF700000000000D /* MainFlowRoute.swift */; };
@@ -47,18 +40,25 @@
 		616653A62FEFCEA200C605D3 /* MarktekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653A52FEFCEA200C605D3 /* MarktekTests.swift */; };
 		616653B02FEFCEA300C605D3 /* MarktekUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653AF2FEFCEA300C605D3 /* MarktekUITests.swift */; };
 		616653B22FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616653B12FEFCEA300C605D3 /* MarktekUITestsLaunchTests.swift */; };
-		616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E12FF1A35200F29AA5 /* GoogleSignIn */; };
-		616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 616851E32FF1A35200F29AA5 /* GoogleSignInSwift */; };
-		617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C62FF01B7C001CC25D /* FirebaseAuth */; };
-		617276C92FF023F9001CC25D /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 617276C82FF023F9001CC25D /* Authentication */; };
+		617997B12FFD253600902D94 /* Address in Frameworks */ = {isa = PBXBuildFile; productRef = 617997B02FFD253600902D94 /* Address */; };
+		618A2B6F2FFC86340023A971 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B6E2FFC86340023A971 /* Authentication */; };
+		618A2B712FFC89460023A971 /* Cart in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B702FFC89460023A971 /* Cart */; };
+		618A2B732FFC89460023A971 /* Checkout in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B722FFC89460023A971 /* Checkout */; };
+		618A2B752FFC89460023A971 /* Favorites in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B742FFC89460023A971 /* Favorites */; };
+		618A2B772FFC89460023A971 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B762FFC89460023A971 /* Home */; };
+		618A2B792FFC89460023A971 /* MarktekNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B782FFC89460023A971 /* MarktekNetworking */; };
+		618A2B7B2FFC89460023A971 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7A2FFC89460023A971 /* Persistence */; };
+		618A2B7D2FFC89460023A971 /* ProductInfo in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7C2FFC89460023A971 /* ProductInfo */; };
 		CA3294992FFC841A00E93B26 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CA3294982FFC841A00E93B26 /* Secrets.xcconfig */; };
-		CA61CFB32FF5F66700859A89 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = CA61CFB22FF5F66700859A89 /* Settings */; };
-		CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = CA7D80092FF335C50090C2CF /* Apollo */; };
+		618A2B7F2FFDABCD0023A971 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7E2FFDABCD0023A971 /* Onboarding */; };
+		618A2B7F2FFC89460023A971 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B7E2FFC89460023A971 /* Settings */; };
+		618A2B812FFC89460023A971 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B802FFC89460023A971 /* Apollo */; };
+		618A2B832FFC89460023A971 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B822FFC89460023A971 /* FirebaseAuth */; };
 		CA7E44582FFD1F3500710E22 /* Orders in Frameworks */ = {isa = PBXBuildFile; productRef = CA7E44572FFD1F3500710E22 /* Orders */; };
-		CA9F9BFA2FFA91C900CD2E30 /* Favorites in Frameworks */ = {isa = PBXBuildFile; productRef = CA9F9BF92FFA91C900CD2E30 /* Favorites */; };
-		CACE9CC42FF4953B00461ED1 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC32FF4953B00461ED1 /* Onboarding */; };
-		CACE9CC62FF4955900461ED1 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC52FF4955900461ED1 /* Home */; };
-		CACE9CC82FF4956A00461ED1 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = CACE9CC72FF4956A00461ED1 /* Persistence */; };
+		618A2B852FFC89460023A971 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B842FFC89460023A971 /* GoogleSignIn */; };
+		618A2B892FFC89460023A971 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B882FFC89460023A971 /* Swinject */; };
+		618A2B8B2FFC8BB30023A971 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B8A2FFC8BB30023A971 /* Common */; };
+		618A2B8E2FFCA6950023A971 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 618A2B8D2FFCA6950023A971 /* Shimmer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,24 +126,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08B93C8E2FF322C500AAA4F7 /* ApolloAPI in Frameworks */,
-				616851E42FF1A35200F29AA5 /* GoogleSignInSwift in Frameworks */,
-				CA7D800A2FF335C50090C2CF /* Apollo in Frameworks */,
-				086CE1902FF008E4005DEA2D /* MarktekNetworking in Frameworks */,
-				CACE9CC82FF4956A00461ED1 /* Persistence in Frameworks */,
+				618A2B7D2FFC89460023A971 /* ProductInfo in Frameworks */,
+				618A2B792FFC89460023A971 /* MarktekNetworking in Frameworks */,
+				618A2B752FFC89460023A971 /* Favorites in Frameworks */,
+				618A2B7B2FFC89460023A971 /* Persistence in Frameworks */,
 				CA7E44582FFD1F3500710E22 /* Orders in Frameworks */,
-				CACE9CC62FF4955900461ED1 /* Home in Frameworks */,
-				CA61CFB32FF5F66700859A89 /* Settings in Frameworks */,
-				CA9F9BFA2FFA91C900CD2E30 /* Favorites in Frameworks */,
-				08EA15AA2FF2B32E0056ECA5 /* Cart in Frameworks */,
-				0C0000012FF6000000000001 /* Checkout in Frameworks */,
-				0B0000012FF5000000000001 /* ProductInfo in Frameworks */,
-				CACE9CC42FF4953B00461ED1 /* Onboarding in Frameworks */,
-				0860648A2FF126690010B267 /* Swinject in Frameworks */,
-				086CE18E2FF0074F005DEA2D /* ApolloAPI in Frameworks */,
-				616851E22FF1A35200F29AA5 /* GoogleSignIn in Frameworks */,
-				617276C72FF01B7C001CC25D /* FirebaseAuth in Frameworks */,
-				617276C92FF023F9001CC25D /* Authentication in Frameworks */,
+				618A2B712FFC89460023A971 /* Cart in Frameworks */,
+				618A2B8B2FFC8BB30023A971 /* Common in Frameworks */,
+				618A2B8E2FFCA6950023A971 /* Shimmer in Frameworks */,
+				618A2B852FFC89460023A971 /* GoogleSignIn in Frameworks */,
+				618A2B812FFC89460023A971 /* Apollo in Frameworks */,
+				618A2B6F2FFC86340023A971 /* Authentication in Frameworks */,
+				618A2B892FFC89460023A971 /* Swinject in Frameworks */,
+				618A2B832FFC89460023A971 /* FirebaseAuth in Frameworks */,
+				618A2B7F2FFC89460023A971 /* Settings in Frameworks */,
+				618A2B7F2FFDABCD0023A971 /* Onboarding in Frameworks */,
+				617997B12FFD253600902D94 /* Address in Frameworks */,
+				618A2B772FFC89460023A971 /* Home in Frameworks */,
+				618A2B732FFC89460023A971 /* Checkout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,19 +380,23 @@
 			);
 			name = Marktek;
 			packageProductDependencies = (
-				617276C62FF01B7C001CC25D /* FirebaseAuth */,
-				617276C82FF023F9001CC25D /* Authentication */,
-				616851E12FF1A35200F29AA5 /* GoogleSignIn */,
-				616851E32FF1A35200F29AA5 /* GoogleSignInSwift */,
-				CA7D80092FF335C50090C2CF /* Apollo */,
-				CA7D800B2FF335C50090C2CF /* ApolloAPI */,
-				CACE9CC32FF4953B00461ED1 /* Onboarding */,
-				CACE9CC52FF4955900461ED1 /* Home */,
-				CACE9CC72FF4956A00461ED1 /* Persistence */,
-				0B0000022FF5000000000002 /* ProductInfo */,
-				0C0000022FF6000000000002 /* Checkout */,
-				CA61CFB22FF5F66700859A89 /* Settings */,
-				CA9F9BF92FFA91C900CD2E30 /* Favorites */,
+				618A2B6E2FFC86340023A971 /* Authentication */,
+				618A2B702FFC89460023A971 /* Cart */,
+				618A2B722FFC89460023A971 /* Checkout */,
+				618A2B742FFC89460023A971 /* Favorites */,
+				618A2B762FFC89460023A971 /* Home */,
+				618A2B782FFC89460023A971 /* MarktekNetworking */,
+				618A2B7A2FFC89460023A971 /* Persistence */,
+				618A2B7C2FFC89460023A971 /* ProductInfo */,
+				618A2B7E2FFC89460023A971 /* Settings */,
+				618A2B7E2FFDABCD0023A971 /* Onboarding */,
+				618A2B802FFC89460023A971 /* Apollo */,
+				618A2B822FFC89460023A971 /* FirebaseAuth */,
+				618A2B842FFC89460023A971 /* GoogleSignIn */,
+				618A2B882FFC89460023A971 /* Swinject */,
+				618A2B8A2FFC8BB30023A971 /* Common */,
+				618A2B8D2FFCA6950023A971 /* Shimmer */,
+				617997B02FFD253600902D94 /* Address */,
 				CA7E44572FFD1F3500710E22 /* Orders */,
 			);
 			productName = Marktek;
@@ -471,9 +475,9 @@
 				086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */,
 				2C1F7A362FFD94BD001D3EC6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				618A2B8C2FFCA6950023A971 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			productRefGroup = 6166538D2FEFCE9F00C605D3 /* Products */;
 			projectDirPath = "";
@@ -642,6 +646,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SHOPIFY_HOST = "mad46-ios-team3.myshopify.com";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -696,6 +701,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				SHOPIFY_HOST = "mad46-ios-team3.myshopify.com";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -719,7 +725,6 @@
 				INFOPLIST_FILE = Marktek/Info.plist;
 				INFOPLIST_KEY_SHOPIFY_API_VERSION = "$(SHOPIFY_API_VERSION)";
 				INFOPLIST_KEY_SHOPIFY_HOST = "$(SHOPIFY_HOST)";
-				INFOPLIST_KEY_SHOPIFY_STOREFRONT_ACCESS_TOKEN = "$(SHOPIFY_STOREFRONT_ACCESS_TOKEN)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -734,6 +739,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ITI.Marktek;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SHOPIFY_API_VERSION = "2024-01";
+				SHOPIFY_HOST = "mad46-ios-team3.myshopify.com";
+				SHOPIFY_STOREFRONT_ACCESS_TOKEN = 2f30f34e02314069529b0ac05e730270;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -757,7 +765,6 @@
 				INFOPLIST_FILE = Marktek/Info.plist;
 				INFOPLIST_KEY_SHOPIFY_API_VERSION = "$(SHOPIFY_API_VERSION)";
 				INFOPLIST_KEY_SHOPIFY_HOST = "$(SHOPIFY_HOST)";
-				INFOPLIST_KEY_SHOPIFY_STOREFRONT_ACCESS_TOKEN = "$(SHOPIFY_STOREFRONT_ACCESS_TOKEN)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -772,6 +779,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ITI.Marktek;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SHOPIFY_API_VERSION = "2024-01";
+				SHOPIFY_HOST = "mad46-ios-team3.myshopify.com";
+				SHOPIFY_STOREFRONT_ACCESS_TOKEN = 2f30f34e02314069529b0ac05e730270;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -897,7 +907,7 @@
 			repositoryURL = "https://github.com/realm/SwiftLint";
 			requirement = {
 				kind = exactVersion;
-				version = 0.51.0;
+				version = 0.52.2;
 			};
 		};
 		086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */ = {
@@ -905,7 +915,7 @@
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
 			requirement = {
 				kind = exactVersion;
-				version = 2.9.1;
+				version = 2.8.3;
 			};
 		};
 		086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
@@ -940,6 +950,14 @@
 				minimumVersion = 10.28.0;
 			};
 		};
+		618A2B8C2FFCA6950023A971 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -948,82 +966,82 @@
 			package = 0835559D2FF39FC700083148 /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
-		086064892FF126690010B267 /* Swinject */ = {
+		617997B02FFD253600902D94 /* Address */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */;
-			productName = Swinject;
+			productName = Address;
 		};
-		086CE18D2FF0074F005DEA2D /* ApolloAPI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */;
-			productName = ApolloAPI;
-		};
-		086CE18F2FF008E4005DEA2D /* MarktekNetworking */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MarktekNetworking;
-		};
-		08EA15A92FF2B32E0056ECA5 /* Cart */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Cart;
-		};
-		0B0000022FF5000000000002 /* ProductInfo */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProductInfo;
-		};
-		0C0000022FF6000000000002 /* Checkout */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Checkout;
-		};
-		616851E12FF1A35200F29AA5 /* GoogleSignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignIn;
-		};
-		616851E32FF1A35200F29AA5 /* GoogleSignInSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignInSwift;
-		};
-		617276C62FF01B7C001CC25D /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		617276C82FF023F9001CC25D /* Authentication */ = {
+		618A2B6E2FFC86340023A971 /* Authentication */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Authentication;
 		};
-		CA61CFB22FF5F66700859A89 /* Settings */ = {
+		618A2B702FFC89460023A971 /* Cart */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cart;
+		};
+		618A2B722FFC89460023A971 /* Checkout */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Checkout;
+		};
+		618A2B742FFC89460023A971 /* Favorites */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Favorites;
+		};
+		618A2B762FFC89460023A971 /* Home */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Home;
+		};
+		618A2B782FFC89460023A971 /* MarktekNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MarktekNetworking;
+		};
+		618A2B7A2FFC89460023A971 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Persistence;
+		};
+		618A2B7C2FFC89460023A971 /* ProductInfo */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductInfo;
+		};
+		618A2B7E2FFC89460023A971 /* Settings */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Settings;
 		};
-		CA7D80092FF335C50090C2CF /* Apollo */ = {
+		618A2B7E2FFDABCD0023A971 /* Onboarding */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = Onboarding;
+		};
+		618A2B802FFC89460023A971 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086CE18A2FF0074F005DEA2D /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
 		};
-		CA7D800B2FF335C50090C2CF /* ApolloAPI */ = {
+		618A2B822FFC89460023A971 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ApolloAPI;
+			package = 617276C12FF009F4001CC25D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 		CA7E44572FFD1F3500710E22 /* Orders */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Orders;
 		};
-		CA9F9BF92FFA91C900CD2E30 /* Favorites */ = {
+		618A2B842FFC89460023A971 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Favorites;
+			package = 616851E02FF1A35200F29AA5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
-		CACE9CC32FF4953B00461ED1 /* Onboarding */ = {
+		618A2B882FFC89460023A971 /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Onboarding;
+			package = 086064882FF126690010B267 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
 		};
-		CACE9CC52FF4955900461ED1 /* Home */ = {
+		618A2B8A2FFC8BB30023A971 /* Common */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Home;
+			productName = Common;
 		};
-		CACE9CC72FF4956A00461ED1 /* Persistence */ = {
+		618A2B8D2FFCA6950023A971 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Persistence;
+			package = 618A2B8C2FFCA6950023A971 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

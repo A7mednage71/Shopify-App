@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Esraa Ehab on 29/06/2026.
 //
@@ -15,10 +15,16 @@ class RegisterUseCase {
         self.authRepo = authRepo
     }
     
-    private func validate(email: String, password: String, confirmPassword: String) throws {
+    private func validate(fullName: String, email: String, password: String, confirmPassword: String) throws {
+        var fullNameError: String = ""
         var emailError: String = ""
         var passwordError: String = ""
         var confirmPasswordError: String = ""
+        
+        let trimmedFullName = fullName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedFullName.isEmpty {
+            fullNameError = "Name cannot be empty"
+        }
         
         if email.isEmpty {
             emailError = "Email cannot be empty"
@@ -38,24 +44,38 @@ class RegisterUseCase {
             confirmPasswordError = "Passwords do not match"
         }
         
-        if emailError.isEmpty && passwordError.isEmpty && confirmPasswordError.isEmpty {
+        if fullNameError.isEmpty && emailError.isEmpty && passwordError.isEmpty && confirmPasswordError.isEmpty {
             return
         } else {
             throw RegisterValidateError(
+                fullNameErrorMessage: fullNameError,
                 emailErrorMessage: emailError,
                 passwordErrorMessage: passwordError,
                 confirmPasswordErrorMessage: confirmPasswordError
             )
         }
     }
+    
+    private func splitFullName(_ fullName: String) -> (firstName: String, lastName: String) {
+        let parts = fullName
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .split(separator: " ", maxSplits: 1)
+            .map(String.init)
+        
+        let firstName = parts.first ?? ""
+        let lastName = parts.count > 1 ? parts[1] : ""
+        return (firstName, lastName)
+    }
 
-    func execute(email: String, password: String, confirmPassword: String) async throws {
-        try validate(email: email, password: password, confirmPassword: confirmPassword)
-        try await authRepo.createUserWithEmailAndPassword(email: email, password: password)
+    func execute(fullName: String, email: String, password: String, confirmPassword: String) async throws {
+        try validate(fullName: fullName, email: email, password: password, confirmPassword: confirmPassword)
+        let (firstName, lastName) = splitFullName(fullName)
+        try await authRepo.createUserWithEmailAndPassword(email: email, password: password, firstName: firstName, lastName: lastName)
     }
 }
 
 struct RegisterValidateError: Error {
+    let fullNameErrorMessage: String
     let emailErrorMessage: String
     let passwordErrorMessage: String
     let confirmPasswordErrorMessage: String

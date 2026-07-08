@@ -23,6 +23,13 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
   public static func objectType(forTypename typename: String) -> Object? {
     switch typename {
     case "Mutation": return ShopifyAPI.Objects.Mutation
+    case "CustomerAddressDeletePayload": return ShopifyAPI.Objects.CustomerAddressDeletePayload
+    case "CustomerUserError": return ShopifyAPI.Objects.CustomerUserError
+    case "CartUserError": return ShopifyAPI.Objects.CartUserError
+    case "MetafieldDeleteUserError": return ShopifyAPI.Objects.MetafieldDeleteUserError
+    case "MetafieldsSetUserError": return ShopifyAPI.Objects.MetafieldsSetUserError
+    case "UserError": return ShopifyAPI.Objects.UserError
+    case "UserErrorsShopPayPaymentRequestSessionUserErrors": return ShopifyAPI.Objects.UserErrorsShopPayPaymentRequestSessionUserErrors
     case "CartLinesRemovePayload": return ShopifyAPI.Objects.CartLinesRemovePayload
     case "Cart": return ShopifyAPI.Objects.Cart
     case "Article": return ShopifyAPI.Objects.Article
@@ -68,12 +75,6 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "MoneyV2": return ShopifyAPI.Objects.MoneyV2
     case "BaseCartLineConnection": return ShopifyAPI.Objects.BaseCartLineConnection
     case "BaseCartLineEdge": return ShopifyAPI.Objects.BaseCartLineEdge
-    case "CartUserError": return ShopifyAPI.Objects.CartUserError
-    case "CustomerUserError": return ShopifyAPI.Objects.CustomerUserError
-    case "MetafieldDeleteUserError": return ShopifyAPI.Objects.MetafieldDeleteUserError
-    case "MetafieldsSetUserError": return ShopifyAPI.Objects.MetafieldsSetUserError
-    case "UserError": return ShopifyAPI.Objects.UserError
-    case "UserErrorsShopPayPaymentRequestSessionUserErrors": return ShopifyAPI.Objects.UserErrorsShopPayPaymentRequestSessionUserErrors
     case "QueryRoot": return ShopifyAPI.Objects.QueryRoot
     case "OrderConnection": return ShopifyAPI.Objects.OrderConnection
     case "OrderEdge": return ShopifyAPI.Objects.OrderEdge
@@ -85,9 +86,16 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "CartLineCost": return ShopifyAPI.Objects.CartLineCost
     case "CartDiscountCodesUpdatePayload": return ShopifyAPI.Objects.CartDiscountCodesUpdatePayload
     case "CartDiscountCode": return ShopifyAPI.Objects.CartDiscountCode
+    case "CustomerAddressUpdatePayload": return ShopifyAPI.Objects.CustomerAddressUpdatePayload
+    case "CustomerAddressCreatePayload": return ShopifyAPI.Objects.CustomerAddressCreatePayload
     case "CollectionConnection": return ShopifyAPI.Objects.CollectionConnection
     case "ProductConnection": return ShopifyAPI.Objects.ProductConnection
     case "ProductEdge": return ShopifyAPI.Objects.ProductEdge
+    case "MailingAddressConnection": return ShopifyAPI.Objects.MailingAddressConnection
+    case "MailingAddressEdge": return ShopifyAPI.Objects.MailingAddressEdge
+    case "CustomerDefaultAddressUpdatePayload": return ShopifyAPI.Objects.CustomerDefaultAddressUpdatePayload
+    case "CustomerAccessTokenCreatePayload": return ShopifyAPI.Objects.CustomerAccessTokenCreatePayload
+    case "CustomerAccessToken": return ShopifyAPI.Objects.CustomerAccessToken
     case "ProductPriceRange": return ShopifyAPI.Objects.ProductPriceRange
     case "ImageConnection": return ShopifyAPI.Objects.ImageConnection
     case "ImageEdge": return ShopifyAPI.Objects.ImageEdge
@@ -101,6 +109,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "SearchResultItemEdge": return ShopifyAPI.Objects.SearchResultItemEdge
     case "SelectedOption": return ShopifyAPI.Objects.SelectedOption
     case "CartLinesAddPayload": return ShopifyAPI.Objects.CartLinesAddPayload
+    case "CustomerCreatePayload": return ShopifyAPI.Objects.CustomerCreatePayload
     case "CartLinesUpdatePayload": return ShopifyAPI.Objects.CartLinesUpdatePayload
     default: return nil
     }

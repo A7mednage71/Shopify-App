@@ -58,9 +58,11 @@ struct OrderRowView: View {
                 statusBadge
 
                 HStack(spacing: 8) {
-                    Text("\(order.totalPrice) \(order.currencyCode)")
-                        .font(AppFonts.caption)
-                        .foregroundColor(AppColors.textSecondary)
+                    PriceView(
+                        priceInUSD: order.totalPrice.orderPriceViewValue,
+                        font: AppFonts.caption,
+                        color: AppColors.textSecondary
+                    )
 
                     Image(systemName: "chevron.right")
                         .font(.system(size: 12, weight: .semibold))
@@ -71,7 +73,7 @@ struct OrderRowView: View {
         .padding(14)
         .background(cardBackground)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Order \(order.name), \(orderStatus.text), \(order.totalPrice) \(order.currencyCode)")
+        .accessibilityLabel("Order \(order.name), \(orderStatus.text)")
     }
 
     // MARK: - Subviews

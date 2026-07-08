@@ -1,0 +1,19 @@
+mutation CustomerRegister($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
+    customerCreate(input: {
+        firstName: $firstName
+        lastName: $lastName
+        email: $email
+        password: $password
+    }) {
+        customer {
+            id
+            email
+            firstName
+            lastName
+        }
+        customerUserErrors {
+            code
+            message
+        }
+    }
+}

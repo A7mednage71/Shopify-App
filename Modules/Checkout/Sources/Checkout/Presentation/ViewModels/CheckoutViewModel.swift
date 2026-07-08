@@ -8,6 +8,7 @@ public final class CheckoutViewModel: ObservableObject {
     @Published private(set) var paymentSelection = CheckoutPaymentSelectionState()
     @Published private(set) var shippingSelection = CheckoutShippingSelectionState()
     @Published private(set) var orderPlacement = CheckoutOrderPlacementState()
+    @Published private(set) var toast: CheckoutToastState?
 
     private let getCurrentCartUseCase: any GetCurrentCartUseCaseProtocol
     private let createOrderUseCase: any CreateOrderUseCaseProtocol
@@ -72,6 +73,12 @@ public final class CheckoutViewModel: ObservableObject {
         guard let loadedState = state.loadedState,
               let pricing = shippingSelection.pricing else { return }
 
+        guard loadedState.customerDetails.defaultAddress != nil else {
+            orderPlacement.dismissError()
+            showToast(message: CheckoutText.missingAddressToastMessage)
+            return
+        }
+
         orderPlacement.start(message: loadingMessage(for: paymentSelection.selectedMethodType))
 
         do {
@@ -94,6 +101,34 @@ public final class CheckoutViewModel: ObservableObject {
 
     func dismissCheckoutError() {
         orderPlacement.dismissError()
+    }
+
+    func dismissToast(id: UUID) {
+        guard toast?.id == id else { return }
+        toast = nil
+    }
+
+    func refreshCustomerDetails() async {
+        guard let loadedState = state.loadedState else { return }
+
+        addressState = .loading
+
+        do {
+            let customerDetails = try await getCustomerDetailsUseCase.execute()
+            let refreshedState = CheckoutLoadedState(
+                cart: loadedState.cart,
+                customerDetails: customerDetails
+            )
+
+            state = .success(refreshedState)
+            addressState = customerDetails.defaultAddress.map(CheckoutAddressViewState.success) ?? .empty
+        } catch {
+            addressState = .failure(error.localizedDescription)
+        }
+    }
+
+    private func showToast(message: String) {
+        toast = CheckoutToastState(message: message)
     }
 
     private func refreshPricing(for cart: CartDetails) async {

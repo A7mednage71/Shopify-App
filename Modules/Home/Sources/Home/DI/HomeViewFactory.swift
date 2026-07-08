@@ -2,10 +2,14 @@ import SwiftUI
 
 public enum HomeViewFactory {
     @MainActor
-    public static func makeHomeView(onProductTap: @escaping (String) -> Void) -> some View {
+    public static func makeHomeView(
+        onProductTap: @escaping (String) -> Void,
+        performProtectedAction: @escaping (@escaping () -> Void) -> Void = { action in action() }
+    ) -> some View {
         HomeView(
             viewModel: HomeAssembler.resolveHomeViewModel(),
-            onProductTap: onProductTap
+            onProductTap: onProductTap,
+            performProtectedAction: performProtectedAction
         )
     }
 

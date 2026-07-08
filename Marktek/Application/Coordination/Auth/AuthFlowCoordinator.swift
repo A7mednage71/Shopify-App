@@ -7,4 +7,12 @@ final class AuthFlowCoordinator: ObservableObject {
     func showRoot() {
         path = []
     }
+    
+    func showRegister() {
+        path.append(.register)
+    }
+
+    func popToLogin() {
+        path.removeLast()
+    }
 }

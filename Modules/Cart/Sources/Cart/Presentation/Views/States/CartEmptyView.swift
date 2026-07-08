@@ -2,6 +2,8 @@ import Common
 import SwiftUI
 
 struct CartEmptyView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var illustrationScale: CGFloat = 0.98
     let onStartShoppingTap: () -> Void
 
     var body: some View {
@@ -13,6 +15,13 @@ struct CartEmptyView: View {
                 .scaledToFit()
                 .frame(maxWidth: 300)
                 .padding(.horizontal, 26)
+                .scaleEffect(illustrationScale)
+                .onAppear {
+                    startIllustrationAnimation()
+                }
+                .onChange(of: reduceMotion) { _ in
+                    startIllustrationAnimation()
+                }
                 .transition(.opacity.combined(with: .scale(scale: 0.96)))
 
             VStack(spacing: 8) {
@@ -38,5 +47,17 @@ struct CartEmptyView: View {
             Spacer(minLength: 42)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func startIllustrationAnimation() {
+        guard !reduceMotion else {
+            illustrationScale = 1.0
+            return
+        }
+
+        illustrationScale = 0.98
+        withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
+            illustrationScale = 1.03
+        }
     }
 }

@@ -134,10 +134,9 @@ struct CheckoutOrderConfirmationView: View {
                     )
                 }
 
-                confirmationRow(
+                confirmationPriceRow(
                     title: CheckoutText.totalTitle,
-                    value: orderTotalText,
-                    isEmphasized: true
+                    priceInUSD: orderTotalPriceValue
                 )
             }
         }
@@ -168,17 +167,32 @@ struct CheckoutOrderConfirmationView: View {
         }
     }
 
-    private var orderTotalText: String {
-        guard let total = Decimal(string: confirmation.order.totalPrice.replacingOccurrences(of: ",", with: "")) else {
-            return confirmation.pricing.total.checkoutFormattedCurrency(
-                currencyCode: confirmation.pricing.currencyCode
+    private func confirmationPriceRow(
+        title: String,
+        priceInUSD: Double
+    ) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(title)
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(AppColors.textSecondary)
+
+            Spacer(minLength: 12)
+
+            PriceView(
+                priceInUSD: priceInUSD,
+                font: .system(size: 17, weight: .bold),
+                color: AppColors.textPrimary
             )
+            .multilineTextAlignment(.trailing)
+            .monospacedDigit()
+        }
+    }
+
+    private var orderTotalPriceValue: Double {
+        guard let total = Decimal(string: confirmation.order.totalPrice.replacingOccurrences(of: ",", with: "")) else {
+            return confirmation.pricing.total.checkoutPriceViewValue
         }
 
-        return total.checkoutFormattedCurrency(
-            currencyCode: confirmation.order.currencyCode.isEmpty
-                ? confirmation.pricing.currencyCode
-                : confirmation.order.currencyCode
-        )
+        return total.checkoutPriceViewValue
     }
 }

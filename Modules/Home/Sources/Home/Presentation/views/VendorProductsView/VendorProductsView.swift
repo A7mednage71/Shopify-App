@@ -5,6 +5,7 @@ struct VendorProductsView: View {
     let vendorName: String
     @ObservedObject var viewModel: HomeViewModel
     var onProductTap: ((String) -> Void)? = nil
+    var performProtectedAction: (@escaping () -> Void) -> Void = { action in action() }
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -27,8 +28,10 @@ struct VendorProductsView: View {
                         products: viewModel.vendorProducts,
                         favoriteProductIDs: viewModel.favoriteProductIDs,
                         onFavoriteTap: { product in
-                            Task {
-                                await viewModel.toggleFavorite(for: product)
+                            performProtectedAction {
+                                Task {
+                                    await viewModel.toggleFavorite(for: product)
+                                }
                             }
                         },
                         onProductTap: onProductTap
@@ -44,15 +47,5 @@ struct VendorProductsView: View {
                 await viewModel.loadProducts(for: vendorName)
             }
         }
-    }
-}
-
-// MARK: - Previews
-#Preview {
-    NavigationView {
-        VendorProductsView(
-            vendorName: "Nike",
-            viewModel: HomeAssembler.resolveHomeViewModel()
-        )
     }
 }

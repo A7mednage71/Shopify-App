@@ -1,3 +1,4 @@
+import Address
 import Cart
 import Checkout
 import Common
@@ -6,6 +7,7 @@ import Orders
 import SwiftUI
 
 struct MainFlowView: View {
+    @ObservedObject private var authState: AuthState
     @StateObject private var coordinator = MainFlowCoordinator()
     @StateObject private var homeCoordinator = HomeFlowCoordinator()
     @StateObject private var cartCoordinator = CartFlowCoordinator()
@@ -13,6 +15,13 @@ struct MainFlowView: View {
     @StateObject private var profileCoordinator = ProfileFlowCoordinator()
 
     @State private var showAssistant = false
+    @State private var isGuestAlertPresented = false
+    @State private var checkoutAddressSheet: CheckoutAddressSheet?
+    @State private var pendingCheckoutAddressCompletion: (() -> Void)?
+
+    init(authState: AuthState) {
+        self.authState = authState
+    }
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -45,6 +54,23 @@ struct MainFlowView: View {
         .sheet(isPresented: $showAssistant) {
             HomeFlowView.makeShoppingAssistantView(onProductTap: handleProductTapFromAssistant)
         }
+        .alert("Sign in required", isPresented: $isGuestAlertPresented) {
+            Button("Cancel", role: .cancel) {}
+            Button("Sign In") {
+                authState.markNeedsLogin()
+            }
+        } message: {
+            Text("You're browsing as a guest. Sign in to use cart, favorites, and AI features.")
+        }
+        .sheet(item: $checkoutAddressSheet, onDismiss: clearPendingCheckoutAddressCompletion) { sheet in
+            switch sheet {
+            case .add:
+                checkoutAddressAddSheet
+            case .book:
+                checkoutAddressBookSheet
+            }
+        }
+        
     }
 
     @ViewBuilder
@@ -52,28 +78,53 @@ struct MainFlowView: View {
         switch tab {
         case .home:
             HomeFlowView(
-                onProductDetailsTap: homeCoordinator.showProductInfo(productID:)
+                onProductDetailsTap: homeCoordinator.showProductInfo(productID:),
+                performProtectedAction: performProtectedAction(_:)
             )
 
         case .cart:
-            CartFlowView(
-                onCheckoutTap: { _ in cartCoordinator.showCheckout() },
-                onStartShoppingTap: showHomeRoot,
-                onProductTap: cartCoordinator.showProductDetails
-            )
+            if authState.canUseProtectedFeatures {
+                CartFlowView(
+                    onCheckoutTap: { _ in cartCoordinator.showCheckout() },
+                    onStartShoppingTap: showHomeRoot,
+                    onProductTap: cartCoordinator.showProductDetails
+                )
+            } else {
+                protectedTabPlaceholder
+            }
 
         case .favorites:
-            FavoritesFlowView(
+            if authState.canUseProtectedFeatures {
+                FavoritesFlowView(
                     onProductDetailsTap: favoritesCoordinator.showProductInfo(productID:)
                 )
+            } else {
+                protectedTabPlaceholder
+            }
 
         case .profile:
-            ProfileFlowView(onOrdersTap: profileCoordinator.showOrders)
+            ProfileFlowView(
+                authState: authState,
+                onPersonalInformationTap: profileCoordinator.showPersonalInformation,
+                onSavedAddressesTap: profileCoordinator.showAddresses,
+                onOrdersTap: profileCoordinator.showOrders
+            )
         }
     }
 
     private var tabs: [MainTab] {
         [.home, .cart, .favorites, .profile]
+    }
+
+    private var protectedTabPlaceholder: some View {
+        UnsignedUserPlaceholderView(
+            title: "Sign in required",
+            message: "You're browsing as a guest. Sign in to use cart, favorites, and AI features.",
+            buttonTitle: "Sign In",
+            onJoinUsTapped: {
+                authState.markNeedsLogin()
+            }
+        )
     }
 
     private var shouldShowHomeToolbar: Bool {
@@ -122,13 +173,13 @@ struct MainFlowView: View {
             get: {
                 switch coordinator.selectedTab {
                 case .home:
-                    homeCoordinator.path.map(MainFlowRoute.home)
+                    return homeCoordinator.path.map(MainFlowRoute.home)
                 case .cart:
-                    cartCoordinator.path.map(MainFlowRoute.cart)
+                    return cartCoordinator.path.map(MainFlowRoute.cart)
                 case .favorites:
-                    favoritesCoordinator.path.map(MainFlowRoute.favorites)
+                    return favoritesCoordinator.path.map(MainFlowRoute.favorites)
                 case .profile:
-                    profileCoordinator.path.map(MainFlowRoute.profile)
+                    return profileCoordinator.path.map(MainFlowRoute.profile)
                 }
             },
             set: { routes in
@@ -178,7 +229,11 @@ struct MainFlowView: View {
             sharedDestination(for: sharedRoute)
 
         case .checkout:
-            CheckoutViewFactory.makeView(onOrderConfirmed: showOrderConfirmation)
+            CheckoutViewFactory.makeView(
+                onOrderConfirmed: showOrderConfirmation,
+                onAddAddressTap: presentCheckoutAddressAdd(completion:),
+                onAddressBookTap: presentCheckoutAddressBook(completion:)
+            )
 
         case .orderConfirmation:
             cartOrderConfirmationDestination
@@ -196,6 +251,10 @@ struct MainFlowView: View {
     @ViewBuilder
     private func profileDestination(for route: ProfileFlowRoute) -> some View {
         switch route {
+        case .personalInformation:
+            ProfilePersonalInformationPlaceholderView()
+        case .addresses:
+            AddressViewFactory.makeView()
         case .orders:
             OrdersViewFactory.makeView(onOrderTap: profileCoordinator.showOrderDetails(orderID:))
         case .orderDetails(let orderID):
@@ -210,7 +269,8 @@ struct MainFlowView: View {
             ProductInfoViewFactory.makeView(
                 productID: productID,
                 onCartTap: showCartRoot,
-                onProductTap: showProductInfoOnActiveTab(productID:)
+                onProductTap: showProductInfoOnActiveTab(productID:),
+                performProtectedAction: performProtectedAction(_:)
             )
         }
     }
@@ -238,6 +298,76 @@ struct MainFlowView: View {
         profileCoordinator.showRoot()
     }
 
+    @ViewBuilder
+    private var checkoutAddressAddSheet: some View {
+        if #available(iOS 16.0, *) {
+            AddressViewFactory.makeAddAddressFlowView(
+                onAddressAdded: handleCheckoutAddressAdded,
+                onCancel: dismissCheckoutAddressAdd
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+        } else {
+            Text("Address flow requires iOS 16 or later.")
+                .font(.appBarTitle)
+                .foregroundColor(.appTextPrimary)
+        }
+    }
+
+    @ViewBuilder
+    private var checkoutAddressBookSheet: some View {
+        if #available(iOS 16.0, *) {
+            AddressViewFactory.makeAddressBookFlowView(
+                onAddressChanged: handleCheckoutAddressChanged,
+                onCancel: dismissCheckoutAddressBook
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+        } else {
+            Text("Address flow requires iOS 16 or later.")
+                .font(.appBarTitle)
+                .foregroundColor(.appTextPrimary)
+        }
+    }
+
+    private func presentCheckoutAddressAdd(completion: @escaping () -> Void) {
+        pendingCheckoutAddressCompletion = completion
+        checkoutAddressSheet = .add
+    }
+
+    private func presentCheckoutAddressBook(completion: @escaping () -> Void) {
+        pendingCheckoutAddressCompletion = completion
+        checkoutAddressSheet = .book
+    }
+
+    private func handleCheckoutAddressAdded() {
+        let completion = pendingCheckoutAddressCompletion
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+        completion?()
+    }
+
+    private func handleCheckoutAddressChanged() {
+        let completion = pendingCheckoutAddressCompletion
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+        completion?()
+    }
+
+    private func dismissCheckoutAddressAdd() {
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+    }
+
+    private func dismissCheckoutAddressBook() {
+        pendingCheckoutAddressCompletion = nil
+        checkoutAddressSheet = nil
+    }
+
+    private func clearPendingCheckoutAddressCompletion() {
+        pendingCheckoutAddressCompletion = nil
+    }
+
     private func resetAllRoutesToHome() {
         homeCoordinator.showRoot()
         cartCoordinator.showRoot()
@@ -257,6 +387,19 @@ struct MainFlowView: View {
         coordinator.showCart()
     }
 
+    private func showGuestAlert() {
+        isGuestAlertPresented = true
+    }
+
+    private func performProtectedAction(_ action: @escaping () -> Void) {
+        guard authState.canUseProtectedFeatures else {
+            showGuestAlert()
+            return
+        }
+
+        action()
+    }
+
     private func showProductInfoOnActiveTab(productID: String) {
         switch coordinator.selectedTab {
         case .home:
@@ -269,7 +412,6 @@ struct MainFlowView: View {
             break
         }
     }
-
 
     private func handleProductTapFromAssistant(productID: String) {
         showAssistant = false
@@ -286,6 +428,42 @@ struct MainFlowView: View {
                 homeCoordinator.showProductInfo(productID: productID)
             }
         }
+    }
+}
+
+private enum CheckoutAddressSheet: Identifiable {
+    case add
+    case book
+
+    var id: String {
+        switch self {
+        case .add:
+            return "add"
+        case .book:
+            return "book"
+        }
+    }
+}
+
+private struct ProfilePersonalInformationPlaceholderView: View {
+    var body: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "person.text.rectangle")
+                .font(.system(size: 42, weight: .semibold))
+                .foregroundColor(AppColors.primary)
+
+            Text("Personal Information")
+                .font(AppFonts.title2.weight(.bold))
+                .foregroundColor(AppColors.textPrimary)
+
+            Text("Coming soon")
+                .font(AppFonts.callout)
+                .foregroundColor(AppColors.textSecondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.backgroundSecondary.ignoresSafeArea())
+        .navigationTitle("Personal Information")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -322,5 +500,3 @@ private extension MainFlowRoute {
         return nil
     }
 }
-
-

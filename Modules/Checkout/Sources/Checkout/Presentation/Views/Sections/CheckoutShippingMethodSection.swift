@@ -4,7 +4,6 @@ import SwiftUI
 struct CheckoutShippingMethodSection: View {
     let methods: [CheckoutShippingMethod]
     let selectedMethod: CheckoutShippingMethod
-    let currencyCode: String
     let onSelect: (CheckoutShippingMethod) -> Void
 
     var body: some View {
@@ -16,7 +15,6 @@ struct CheckoutShippingMethodSection: View {
                     CheckoutShippingMethodRow(
                         method: method,
                         isSelected: method == selectedMethod,
-                        currencyCode: currencyCode,
                         onSelect: { onSelect(method) }
                     )
                 }
@@ -28,7 +26,6 @@ struct CheckoutShippingMethodSection: View {
 private struct CheckoutShippingMethodRow: View {
     let method: CheckoutShippingMethod
     let isSelected: Bool
-    let currencyCode: String
     let onSelect: () -> Void
 
     var body: some View {
@@ -56,9 +53,11 @@ private struct CheckoutShippingMethodRow: View {
 
                 Spacer(minLength: 8)
 
-                Text(method.amount.checkoutFormattedCurrency(currencyCode: currencyCode))
-                    .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(AppColors.textPrimary)
+                PriceView(
+                    priceInUSD: method.amount.checkoutPriceViewValue,
+                    font: .system(size: 15, weight: .bold),
+                    color: AppColors.textPrimary
+                )
                     .monospacedDigit()
 
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "chevron.right")

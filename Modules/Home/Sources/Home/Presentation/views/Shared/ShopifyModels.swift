@@ -98,6 +98,7 @@ struct HeroBanner: Identifiable {
     let ctaText: String
     let ctaHandle: String
     let imageURL: String
+    let trailingImageName: String?
     let gradientColors: [Color]
     var couponCode: String?
 }
@@ -121,6 +122,7 @@ struct MockShopifyData {
             ctaText: "Copy Code",
             ctaHandle: "sale",
             imageURL: "https://picsum.photos/seed/banner1/400/200",
+            trailingImageName: "offer_discount_trailing",
             gradientColors: [Color(red: 1.0, green: 0.45, blue: 0.0), Color(red: 1.0, green: 0.65, blue: 0.1)],
             couponCode: "FIRST50"
         ),
@@ -131,6 +133,7 @@ struct MockShopifyData {
             ctaText: "Copy Code",
             ctaHandle: "new-arrivals",
             imageURL: "https://picsum.photos/seed/banner2/400/200",
+            trailingImageName: "offer_special_gift_trailing",
             gradientColors: [Color(red: 0.05, green: 0.35, blue: 0.50), Color(red: 0.1, green: 0.55, blue: 0.65)],
             couponCode: "GIFT30"
         ),
@@ -141,6 +144,7 @@ struct MockShopifyData {
             ctaText: "Copy Code",
             ctaHandle: "brands",
             imageURL: "https://picsum.photos/seed/banner3/400/200",
+            trailingImageName: "offer_free_shipping_trailing",
             gradientColors: [Color(red: 0.30, green: 0.15, blue: 0.65), Color(red: 0.55, green: 0.25, blue: 0.85)],
             couponCode: "FREESHIPPING2026"
         )

@@ -241,12 +241,27 @@ final class CheckoutViewModelPaymentPendingTests: XCTestCase {
         XCTAssertTrue(repository.didGetCustomerDetails)
     }
 
-    func testDummyCustomerAccessTokenDataSourceProvidesToken() async throws {
-        let dataSource = DummyCustomerAccessTokenDataSource(token: "test-token")
+    func testKeychainCustomerAccessTokenDataSourceProvidesTokenFromProvider() async throws {
+        let dataSource = KeychainCustomerAccessTokenDataSource(
+            customerAccessTokenProvider: CustomerAccessTokenProviderMock(token: "test-token")
+        )
 
         let token = try await dataSource.customerAccessToken()
 
         XCTAssertEqual(token, "test-token")
+    }
+
+    func testKeychainCustomerAccessTokenDataSourceThrowsProviderError() async {
+        let dataSource = KeychainCustomerAccessTokenDataSource(
+            customerAccessTokenProvider: CustomerAccessTokenProviderMock(error: CustomerAccessTokenError.missing)
+        )
+
+        do {
+            _ = try await dataSource.customerAccessToken()
+            XCTFail("Expected token lookup to throw")
+        } catch {
+            XCTAssertEqual(error as? CustomerAccessTokenError, .missing)
+        }
     }
 
     fileprivate static func makeCustomerDetails() -> CustomerDetails {
@@ -413,6 +428,8 @@ private final class CheckoutRepositoryMock: CheckoutRepository, @unchecked Senda
         nil
     }
 
+    func submitProductReview(_ review: ProductReviewSubmission) async throws {}
+
     private static func defaultOrder() -> Order {
         Order(
             id: "order-1",
@@ -427,6 +444,29 @@ private final class CheckoutRepositoryMock: CheckoutRepository, @unchecked Senda
 
 private enum TestError: Error, Equatable {
     case expected
+}
+
+private struct CustomerAccessTokenProviderMock: CustomerAccessTokenProvider {
+    private let token: String?
+    private let error: CustomerAccessTokenError?
+
+    init(token: String) {
+        self.token = token
+        error = nil
+    }
+
+    init(error: CustomerAccessTokenError) {
+        token = nil
+        self.error = error
+    }
+
+    func customerAccessToken() throws -> String {
+        if let error {
+            throw error
+        }
+
+        return token ?? ""
+    }
 }
 
 private struct CheckoutPricingUseCaseMock: CheckoutPricingUseCaseProtocol {

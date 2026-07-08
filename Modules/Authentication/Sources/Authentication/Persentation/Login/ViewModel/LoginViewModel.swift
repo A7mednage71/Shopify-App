@@ -63,7 +63,9 @@ class LoginViewModel : ObservableObject{
             return "Check your internet connection"
     
         case .unknown:
-            return"Unkown Error"
+            return"Unknown Error"
+        case .unknowns:
+            return "Unknown Erorr"
         }
     }
     

@@ -1,22 +1,23 @@
+import Address
 import Cart
 import Checkout
 import ProductInfo
 import Favorites
+import Common
 import Settings
 import Orders
 import SwiftUI
 
 struct MainFlowViewFactory {
-    
     @MainActor
-    static func makeView() -> MainFlowView {
-        MainFlowView()
+    static func makeView(authState: AuthState) -> MainFlowView {
+        MainFlowView(authState: authState)
     }
     
 }
 
 private enum FeatureViewFactoryResolver {
-    static func resolve<Factory>(_ factoryType: Factory.Type) -> Factory {
+    @MainActor static func resolve<Factory>(_ factoryType: Factory.Type) -> Factory {
         guard let factory = AppDIContainer.shared.resolve(factoryType) else {
             fatalError("Unable to resolve \(factoryType). Check the app DI assemblies.")
         }
@@ -45,11 +46,17 @@ extension CartViewFactory {
 extension CheckoutViewFactory {
     @MainActor
     static func makeView(
-        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void
+        onOrderConfirmed: @escaping (CheckoutOrderConfirmation) -> Void,
+        onAddAddressTap: @escaping (@escaping () -> Void) -> Void = { _ in },
+        onAddressBookTap: @escaping (@escaping () -> Void) -> Void = { _ in }
     ) -> some View {
         FeatureViewFactoryResolver
             .resolve(CheckoutViewFactory.self)
-            .makeCheckoutDestinationView(onOrderConfirmed: onOrderConfirmed)
+            .makeCheckoutDestinationView(
+                onOrderConfirmed: onOrderConfirmed,
+                onAddAddressTap: onAddAddressTap,
+                onAddressBookTap: onAddressBookTap
+            )
     }
 
     @MainActor
@@ -71,7 +78,8 @@ extension ProductInfoViewFactory {
     static func makeView(
         productID: String,
         onCartTap: @escaping () -> Void,
-        onProductTap: @escaping (String) -> Void = { _ in }
+        onProductTap: @escaping (String) -> Void = { _ in },
+        performProtectedAction: @escaping (@escaping () -> Void) -> Void
     ) -> some View {
         // Product ID is screen data; cart tap remains a coordinator-owned navigation action.
         FeatureViewFactoryResolver
@@ -79,7 +87,8 @@ extension ProductInfoViewFactory {
             .makeProductInfoView(
                 productID: productID,
                 onCartTap: onCartTap,
-                onProductTap: onProductTap
+                onProductTap: onProductTap,
+                performProtectedAction: performProtectedAction
             )
     }
 }
@@ -97,10 +106,57 @@ extension FavoritesViewFactory {
 
 extension SettingsViewFactory {
     @MainActor
-    static func makeView(onOrdersTap: @escaping () -> Void) -> some View {
+    static func makeView(
+        authState: AuthState,
+        onPersonalInformationTap: @escaping () -> Void,
+        onSavedAddressesTap: @escaping () -> Void,
+        onOrdersTap: @escaping () -> Void
+    ) -> some View {
         FeatureViewFactoryResolver
             .resolve(SettingsViewFactory.self)
-            .makeSettingsView(onOrdersTap: onOrdersTap)
+            .makeSettingsView(
+                authState: authState,
+                onPersonalInformationTap: onPersonalInformationTap,
+                onSavedAddressesTap: onSavedAddressesTap,
+                onOrdersTap: onOrdersTap
+            )
+    }
+}
+
+extension AddressViewFactory {
+    @MainActor
+    static func makeView() -> some View {
+        FeatureViewFactoryResolver
+            .resolve(AddressViewFactory.self)
+            .makeAddressDestinationView()
+    }
+
+    @available(iOS 16.0, *)
+    @MainActor
+    static func makeAddAddressFlowView(
+        onAddressAdded: @escaping () -> Void,
+        onCancel: @escaping () -> Void = {}
+    ) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(AddressViewFactory.self)
+            .makeAddAddressFlowView(
+                onAddressAdded: onAddressAdded,
+                onCancel: onCancel
+            )
+    }
+
+    @available(iOS 16.0, *)
+    @MainActor
+    static func makeAddressBookFlowView(
+        onAddressChanged: @escaping () -> Void,
+        onCancel: @escaping () -> Void = {}
+    ) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(AddressViewFactory.self)
+            .makeAddressBookFlowView(
+                onAddressChanged: onAddressChanged,
+                onCancel: onCancel
+            )
     }
 }
 

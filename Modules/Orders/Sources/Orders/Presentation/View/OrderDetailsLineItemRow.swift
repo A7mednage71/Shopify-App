@@ -37,9 +37,12 @@ struct OrderDetailsLineItemRow: View {
 
             Spacer()
 
-            Text("\(lineItem.price)")
-                .font(AppFonts.callout.bold())
-                .foregroundColor(AppColors.textPrimary)
+            PriceView(
+                priceInUSD: lineItem.price.orderPriceViewValue,
+                font: AppFonts.callout.bold(),
+                color: AppColors.textPrimary
+            )
+            .monospacedDigit()
         }
         .padding(.vertical, 4)
     }

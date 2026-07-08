@@ -1,3 +1,3 @@
 protocol CartLocalDataSource: Sendable {
-    var customerAccessToken: String { get }
+    func customerAccessToken() throws -> String
 }

@@ -6,12 +6,17 @@ struct HomeView: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var sortButtonAnchor: Anchor<CGRect>?
     private let onProductTap: ((String) -> Void)?
+    private let performProtectedAction: (@escaping () -> Void) -> Void
 
-    init(viewModel: HomeViewModel, onProductTap: ((String) -> Void)? = nil) {
+    init(
+        viewModel: HomeViewModel,
+        onProductTap: ((String) -> Void)? = nil,
+        performProtectedAction: @escaping (@escaping () -> Void) -> Void = { action in action() }
+    ) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.onProductTap = onProductTap
+        self.performProtectedAction = performProtectedAction
     }
-
 
 
     public var body: some View {
@@ -35,22 +40,20 @@ struct HomeView: View {
                     if viewModel.isSearching {
                         HomeSearchResultsView(viewModel: viewModel, onProductTap: { product in
                             onProductTap?(product.id)
-                        })
+                        }, performProtectedAction: performProtectedAction)
                         .padding(.bottom, 30)
                     } else {
                         HomeMainContentView(viewModel: viewModel, onProductTap: { product in
                             onProductTap?(product.id)
                         }, onProductTapByID: { productID in
                             onProductTap?(productID)
-                        })
+                        }, performProtectedAction: performProtectedAction)
                     }
                 }
             }
             .onPreferenceChange(SortButtonAnchorKey.self) { anchor in
                 sortButtonAnchor = anchor
             }
-
-
         }
         .background(Color.appBackgroundGray)
         .task {

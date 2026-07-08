@@ -110,7 +110,7 @@ public final class ShopifyGraphQLClient {
         apollo
     }
  
-    private init() {
+    private init() { 
         let store = ApolloStore(cache: InMemoryNormalizedCache())
  
         let provider = StorefrontInterceptorProvider(store: store)

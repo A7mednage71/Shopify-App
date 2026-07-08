@@ -5,37 +5,40 @@
       location = "group:Modules/Orders">
    </FileRef>
    <FileRef
-      location = "group:Modules/Favorites">
+      location = "group:Modules/Address">
    </FileRef>
    <FileRef
-      location = "group:Modules/Settings">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Onboarding">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Home">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Persistence">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Common">
-   </FileRef>
-   <FileRef
-      location = "group:Modules/Checkout">
+      location = "group:Modules/Authentication">
    </FileRef>
    <FileRef
       location = "group:Modules/Cart">
    </FileRef>
    <FileRef
-      location = "group:Modules/ProductInfo">
+      location = "group:Modules/Checkout">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Common">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Favorites">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Home">
    </FileRef>
    <FileRef
       location = "group:Modules/MarktekNetworking">
    </FileRef>
    <FileRef
-      location = "group:Modules/Authentication">
+      location = "group:Modules/Onboarding">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Persistence">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/ProductInfo">
+   </FileRef>
+   <FileRef
+      location = "group:Modules/Settings">
    </FileRef>
    <FileRef
       location = "container:Marktek.xcodeproj">

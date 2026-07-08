@@ -79,14 +79,12 @@ private struct CheckoutProductRow: View {
 
             Spacer(minLength: 8)
 
-            Text(priceText)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(AppColors.textPrimary)
+            PriceView(
+                priceInUSD: line.checkoutDisplayPrice?.checkoutPriceViewValue ?? 0,
+                font: .system(size: 16, weight: .bold),
+                color: AppColors.textPrimary
+            )
                 .monospacedDigit()
         }
-    }
-
-    private var priceText: String {
-        line.checkoutDisplayPrice?.checkoutFormattedCurrency() ?? "$0"
     }
 }

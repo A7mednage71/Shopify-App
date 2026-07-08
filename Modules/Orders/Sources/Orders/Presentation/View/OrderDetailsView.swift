@@ -10,8 +10,6 @@ import Common
 
 public struct OrderDetailsView: View {
     @ObservedObject private var viewModel: OrderDetailsViewModel
-    @Environment(\.dismiss) private var dismiss
-
     public init(viewModel: OrderDetailsViewModel) {
         self.viewModel = viewModel
     }
@@ -28,19 +26,6 @@ public struct OrderDetailsView: View {
         }
         .navigationTitle("Order Details")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: { dismiss() }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.backward")
-                            .font(.headline)
-                        Text("Payment")
-                    }
-                    .foregroundColor(AppColors.primary)
-                }
-            }
-        }
     }
 
     @ViewBuilder
@@ -52,19 +37,6 @@ public struct OrderDetailsView: View {
                 productsCard(order: order)
                 summaryCard(order: order)
                 
-                Button(action: {
-                    dismiss()
-                }) {
-                    Text("Done")
-                        .font(AppFonts.title3.bold())
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(AppColors.primary) 
-                        .cornerRadius(12)
-                }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)
             }
             .padding(.vertical, 16)
         }
@@ -99,7 +71,7 @@ public struct OrderDetailsView: View {
             
             infoRow(title: "Fulfillment Status", value: order.fulfillmentStatus.capitalized, isValueBold: false)
             
-            infoRow(title: "Total", value: "\(order.totalPrice) \(order.currencyCode)", isValueBold: true)
+            priceInfoRow(title: "Total", priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: true)
         }
         .padding(16)
         .background(AppColors.background)
@@ -153,13 +125,13 @@ public struct OrderDetailsView: View {
                 .padding(.bottom, 4)
             
             infoRow(title: "Discount Code", value: "No discount code", isValueBold: false) // Dummy
-            infoRow(title: "Subtotal", value: "\(order.totalPrice) \(order.currencyCode)", isValueBold: false)
-            infoRow(title: "Shipping", value: "US$0", isValueBold: false) // Dummy
-            infoRow(title: "Discount", value: "US$0", isValueBold: false) // Dummy
+            priceInfoRow(title: "Subtotal", priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: false)
+            priceInfoRow(title: "Shipping", priceInUSD: 0, isValueBold: false) // Dummy
+            priceInfoRow(title: "Discount", priceInUSD: 0, isValueBold: false) // Dummy
             
             Divider()
             
-            infoRow(title: "Total", value: "\(order.totalPrice) \(order.currencyCode)", isValueBold: true)
+            priceInfoRow(title: "Total", priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: true)
         }
         .padding(16)
         .background(AppColors.background)
@@ -179,6 +151,23 @@ public struct OrderDetailsView: View {
             Text(value)
                 .font(isValueBold ? AppFonts.callout.bold() : AppFonts.callout)
                 .foregroundColor(AppColors.textPrimary)
+        }
+    }
+
+    private func priceInfoRow(title: String, priceInUSD: Double, isValueBold: Bool) -> some View {
+        HStack {
+            Text(title)
+                .font(AppFonts.callout)
+                .foregroundColor(AppColors.textSecondary)
+            
+            Spacer()
+            
+            PriceView(
+                priceInUSD: priceInUSD,
+                font: isValueBold ? AppFonts.callout.bold() : AppFonts.callout,
+                color: AppColors.textPrimary
+            )
+            .monospacedDigit()
         }
     }
 }

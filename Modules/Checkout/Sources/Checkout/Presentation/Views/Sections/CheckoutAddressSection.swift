@@ -3,6 +3,18 @@ import SwiftUI
 
 struct CheckoutAddressSection: View {
     let state: CheckoutAddressViewState
+    let onAddAddressTap: () -> Void
+    let onSelectedAddressTap: () -> Void
+
+    init(
+        state: CheckoutAddressViewState,
+        onAddAddressTap: @escaping () -> Void = {},
+        onSelectedAddressTap: @escaping () -> Void = {}
+    ) {
+        self.state = state
+        self.onAddAddressTap = onAddAddressTap
+        self.onSelectedAddressTap = onSelectedAddressTap
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -62,9 +74,13 @@ struct CheckoutAddressSection: View {
 
             Spacer(minLength: 8)
 
-            Image(systemName: "chevron.right")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(AppColors.primary)
+            Button(action: onAddAddressTap) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(AppColors.primary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Add delivery address")
         }
         .padding(14)
         .background(AppColors.backgroundSecondary)
@@ -72,29 +88,33 @@ struct CheckoutAddressSection: View {
     }
 
     private func successView(_ address: CheckoutAddress) -> some View {
-        HStack(spacing: 14) {
-            mapThumbnail
+        Button(action: onSelectedAddressTap) {
+            HStack(spacing: 14) {
+                mapThumbnail
 
-            VStack(alignment: .leading, spacing: 6) {
-                Text(address.title)
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(AppColors.textPrimary)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(address.title)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(AppColors.textPrimary)
 
-                Text(address.street)
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(AppColors.textSecondary)
+                    Text(address.street)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(AppColors.textSecondary)
 
-                Text("\(address.city), \(address.region), \(address.postalCode)")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(AppColors.textSecondary)
+                    Text("\(address.city), \(address.region), \(address.postalCode)")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(AppColors.textSecondary)
+                }
+
+                Spacer(minLength: 8)
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(AppColors.primary)
             }
-
-            Spacer(minLength: 8)
-
-            Image(systemName: "chevron.right")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(AppColors.primary)
         }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Change delivery address")
     }
 
     private func failureView(_ message: String) -> some View {

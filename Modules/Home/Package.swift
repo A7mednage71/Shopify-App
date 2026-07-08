@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Home",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v16),
         .macOS(.v12)
     ],
     products: [
@@ -19,7 +19,7 @@ let package = Package(
         .package(path: "../MarktekNetworking"),
         .package(path: "../Common"),
         .package(path: "../Favorites"),
-        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.9.1"),
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3"),
         .package(url: "https://github.com/markiv/SwiftUI-Shimmer.git", from: "1.4.0")
     ],
     targets: [
@@ -33,7 +33,8 @@ let package = Package(
                 .product(name: "Swinject", package: "Swinject"),
                 .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
                 .product(name: "Favorites", package: "Favorites")
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         
         .testTarget(

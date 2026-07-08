@@ -5,6 +5,7 @@ import Shimmer
 struct HomeSearchResultsView: View {
     @ObservedObject var viewModel: HomeViewModel
     var onProductTap: ((ShopProduct) -> Void)? = nil
+    var performProtectedAction: (@escaping () -> Void) -> Void = { action in action() }
     
     var body: some View {
         Group {
@@ -25,8 +26,10 @@ struct HomeSearchResultsView: View {
                     },
                     favoriteProductIDs: viewModel.favoriteProductIDs,
                     onFavoriteTap: { product in
-                        Task {
-                            await viewModel.toggleFavorite(for: product)
+                        performProtectedAction {
+                            Task {
+                                await viewModel.toggleFavorite(for: product)
+                            }
                         }
                     }
                 )

@@ -1,22 +1,35 @@
 //
-//  SwiftUIView.swift
-//  
+//  LoginView.swift
+//
 //
 //  Created by Eyad waleed on 28/06/2026.
 //
 
 import SwiftUI
+import Common
+import Combine
 @available(iOS 14.0, *)
-public struct SwiftUIView: View {
+ struct LoginView: View {
     @State var emailStateValue = ""
     @State var passwordStatValue = ""
-    @StateObject var viewModel = LoginViewModel(signIn: SignInUseCase(Authrepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation())),
-  signInWithGoogle: SignWithGoogleUseCase(authRepo: AuthenticationRepositarory(firebaseAuth: FirebaseAuthenitcation()))
-    )
-    public  init() {
-        
-    }
-    public var body: some View {
+    @ObservedObject   var viewModel: LoginViewModel
+    var onNavigateToRegister: () -> Void
+    var onGuestContinue: () -> Void
+    var onLoginSuccess: () -> Void
+
+     init(
+            onNavigateToRegister: @escaping () -> Void = {},
+            onGuestContinue: @escaping () -> Void = {},
+            onLoginSuccess : @escaping () -> Void = {} ,
+            viewModel : LoginViewModel
+        ) {
+            self.onNavigateToRegister = onNavigateToRegister
+            self.onGuestContinue = onGuestContinue
+            self.onLoginSuccess = onLoginSuccess
+            self.viewModel = viewModel
+            
+        }
+     var body: some View {
         ZStack {
             formContent
             if viewModel.loginState == .loading {
@@ -39,8 +52,13 @@ public struct SwiftUIView: View {
                 message: Text(errorMessage),
                 dismissButton: .default(Text("OK"))
             )
+        }.onChange(of: viewModel.loginState) { newState in
+            if newState == .success {
+                onLoginSuccess()
+            }
         }
     }
+    
     
     @ViewBuilder
     private var formContent: some View {
@@ -52,7 +70,7 @@ public struct SwiftUIView: View {
                 if !viewModel.emailError.isEmpty {
                     Text(viewModel.emailError)
                         .font(.system(size: 12))
-                        .foregroundColor(.red)
+                        .foregroundColor(AppColors.error)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 32)
                 }
@@ -61,18 +79,20 @@ public struct SwiftUIView: View {
                 if !viewModel.passwordError.isEmpty {
                     Text(viewModel.passwordError)
                         .font(.system(size: 12))
-                        .foregroundColor(.red)
+                        .foregroundColor(AppColors.error)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 32)
                 }
             }
             Group {
                 Spacer().frame(height: 9)
-                Button { } label: {
+                Button {
+                } label: {
                     Text("Forget Password ?")
                         .font(.system(size: 12))
-                        .foregroundColor(Color(red: 255/255, green: 161/255, blue: 2/255))
+                        .foregroundColor(AppColors.primary)
                 }
+                .frame(maxWidth: .infinity, alignment: .trailing).padding(.horizontal , 30)
                 Spacer().frame(height: 52)
                 CustomBtn(label: "Login", action: {
                     Task {
@@ -82,26 +102,25 @@ public struct SwiftUIView: View {
                 Spacer().frame(height: 75)
             }
             Group {
-                Text("-OR Continue with-").font(.system(size: 12, design: .default))
-                Spacer().frame(height: 35)
-                HStack {
-                    CutomeCircularBtn(image: "apple", action: {})
-                    CutomeCircularBtn(image: "facebook", action: {})
-                    CutomeCircularBtn(image: "google", action: {
-                        Task{
+                SocialSignInSection(
+                    guestAction: {
+                        onGuestContinue()
+                    },
+                    appleAction: {},
+                    googleAction: {
+                        Task {
                             await viewModel.signInWithGoogle()
                         }
-                    })
-                }
-                Spacer().frame(height: 28)
-                HStack {
-                    Text("Create An Account").font(.system(size: 14))
-                    Button { } label: {
-                        Text("Sign Up")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(Color(red: 255/255, green: 161/255, blue: 2/255))
                     }
-                }
+                )
+                Spacer().frame(height: 28)
+                AuthBottomPrompt(
+                    promptText: "Create An Account",
+                    actionText: "Sign Up",
+                    action: {
+                        onNavigateToRegister()
+                    }
+                )
             }
         }
         .disabled(viewModel.loginState == .loading)
@@ -109,10 +128,10 @@ public struct SwiftUIView: View {
     
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.3)
+            AppColors.shadow.opacity(0.3)
                 .ignoresSafeArea()
             ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .progressViewStyle(CircularProgressViewStyle(tint: AppColors.primary))
                 .scaleEffect(1.5)
         }
     }

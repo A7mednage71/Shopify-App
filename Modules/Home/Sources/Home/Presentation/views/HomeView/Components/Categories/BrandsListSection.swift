@@ -7,13 +7,21 @@ struct BrandsListSection: View {
     let viewModel: HomeViewModel
     let brands: [Collection]
     var onProductTap: ((String) -> Void)? = nil
+    var performProtectedAction: (@escaping () -> Void) -> Void = { action in action() }
     var onBrandTap: ((Collection) -> Void)? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
                 ForEach(brands) { brand in
-                    NavigationLink(destination: VendorProductsView(vendorName: brand.title, viewModel: viewModel, onProductTap: onProductTap)) {
+                    NavigationLink(
+                        destination: VendorProductsView(
+                            vendorName: brand.title,
+                            viewModel: viewModel,
+                            onProductTap: onProductTap,
+                            performProtectedAction: performProtectedAction
+                        )
+                    ) {
                         BrandItem(brand: brand)
                     }
                     .buttonStyle(.plain)

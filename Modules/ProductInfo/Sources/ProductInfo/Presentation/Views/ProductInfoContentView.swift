@@ -10,6 +10,7 @@ struct ProductInfoContentView: View {
     let isFavorite: Bool
     let onFavoriteTap: () -> Void
     let onProductTap: (String) -> Void
+    let performProtectedAction: (@escaping () -> Void) -> Void
     
     @State private var selectedImageURL: String?
     @State private var selectedOptions: [String: String]
@@ -32,7 +33,8 @@ struct ProductInfoContentView: View {
         onCartTap: @escaping () -> Void,
         onAddToCart: @escaping (ProductVariant?, Int) -> Void,
         onFavoriteTap: @escaping () -> Void,
-        onProductTap: @escaping (String) -> Void
+        onProductTap: @escaping (String) -> Void,
+        performProtectedAction: @escaping (@escaping () -> Void) -> Void = { action in action() }
     ) {
         self.product = product
         self.addToCartState = addToCartState
@@ -42,6 +44,7 @@ struct ProductInfoContentView: View {
         self.onAddToCart = onAddToCart
         self.onFavoriteTap = onFavoriteTap
         self.onProductTap = onProductTap
+        self.performProtectedAction = performProtectedAction
 
         let initialOptions = product.initialSelectedOptions
         _selectedOptions = State(initialValue: initialOptions)
@@ -78,7 +81,11 @@ struct ProductInfoContentView: View {
                             maxSelectableQuantity: maxSelectableQuantity,
                             isSelectedVariantAvailable: isSelectedVariantAvailable,
                             showsComparisonButton: product.normalizedProductType.isComparable,
-                            onCompareTap: { isComparisonSheetPresented = true },
+                            onCompareTap: {
+                                performProtectedAction {
+                                    isComparisonSheetPresented = true
+                                }
+                            },
                             onImageSelect: { selectedImageURL = $0 },
                             isValueAvailable: isValueAvailable(option:value:),
                             onOptionSelect: selectOption(_:value:),

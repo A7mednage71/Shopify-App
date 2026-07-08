@@ -8,11 +8,15 @@
 import Foundation
 protocol AuthenticationService{
     @available(iOS 13.0.0, *)
-    func createUserWithEmailAndPassword(email: String, password: String) async throws
-    @available(iOS 13.0.0, *)
-    func signInUsingGoogle() async throws;
-    @available(iOS 13.0.0, *)
-    func signInUsingApple() async throws;
-    @available(iOS 13.0.0, *)
-    func signInUsingEmailAndpassword(email : String , password : String) async throws ;
+    func createUserWithEmailAndPassword(email: String, password: String,firstName : String , lastName  : String) async throws
+    func signInUsingEmailAndPassword(email : String , password : String) async throws -> CustomerDto
     }
+
+protocol AuthenticationServiceViaPlatform{
+    @available(iOS 13.0.0, *)
+    func signInUsingGoogle() async throws -> (email: String, password: String, firstName: String, lastName: String)
+    @available(iOS 13.0.0, *)
+    func signInUsingApple() async throws ;
+    
+    func signOut() async throws;
+ }
