@@ -59,7 +59,8 @@ class AuthenticationRepositarory: AuthRepoInterface {
 
         let stored = StoredCustomerToken(
             accessToken: token.accessToken,
-            expiresAt: token.expiresAt
+            expiresAt: token.expiresAt,
+            userID: email
         )
         try tokenStore.save(stored)
     }

@@ -1,26 +1,27 @@
-//
-//  File.swift
-//  
-//
-//  Created by Esraa Ehab on 05/07/2026.
-//
-
 import Foundation
 import CoreData
 import Persistence
+import Common
 
 public final class FavoritesRepositoryImpl: FavoritesRepository {
     private let context: NSManagedObjectContext
-    
-    public init(context: NSManagedObjectContext) {
+    private let tokenStore: any CustomerTokenStore
+
+    public init(context: NSManagedObjectContext, tokenStore: any CustomerTokenStore) {
         self.context = context
+        self.tokenStore = tokenStore
     }
-    
+
+    private var currentUserID: String {
+        tokenStore.load()?.userID ?? ""
+    }
+
     public func getFavorites() async throws -> [FavoriteProduct] {
         return try await context.perform {
             let request: NSFetchRequest<FavoriteItem> = FavoriteItem.fetchRequest()
+            request.predicate = NSPredicate(format: "userID == %@", self.currentUserID)
             let items = try self.context.fetch(request)
-            
+
             return items.map { item in
                 FavoriteProduct(
                     id: item.id ?? "",
@@ -34,55 +35,56 @@ public final class FavoritesRepositoryImpl: FavoritesRepository {
             }
         }
     }
-    
+
     public func addFavorite(_ product: FavoriteProduct) async throws {
         try await context.perform {
             if try self.checkIsFavorite(id: product.id) { return }
-            
+
             let newItem = FavoriteItem(context: self.context)
             newItem.id = product.id
             newItem.title = product.title
             newItem.imageURL = product.imageURL
             newItem.price = product.price
             newItem.currencyCode = product.currencyCode
-            
+            newItem.userID = self.currentUserID
+
             if let comparePrice = product.compareAtPrice {
                 newItem.compareAtPrice = comparePrice
             }
-            
+
             if let rating = product.rating {
                 newItem.rating = rating
             }
-            
+
             try self.context.save()
         }
     }
-    
+
     public func removeFavorite(id: String) async throws {
         try await context.perform {
             let request: NSFetchRequest<FavoriteItem> = FavoriteItem.fetchRequest()
-            request.predicate = NSPredicate(format: "id == %@", id)
-            
+            request.predicate = NSPredicate(format: "id == %@ AND userID == %@", id, self.currentUserID)
+
             let results = try self.context.fetch(request)
             for item in results {
                 self.context.delete(item)
             }
-            
+
             if self.context.hasChanges {
                 try self.context.save()
             }
         }
     }
-    
+
     public func isFavorite(id: String) async throws -> Bool {
         try await context.perform {
             return try self.checkIsFavorite(id: id)
         }
     }
-    
+
     private func checkIsFavorite(id: String) throws -> Bool {
         let request: NSFetchRequest<FavoriteItem> = FavoriteItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", id)
+        request.predicate = NSPredicate(format: "id == %@ AND userID == %@", id, currentUserID)
         let count = try self.context.count(for: request)
         return count > 0
     }

@@ -10,10 +10,12 @@ import Security
 public struct StoredCustomerToken: Codable, Equatable, Sendable {
     public let accessToken: String
     public let expiresAt: String
+    public let userID: String
 
-    public init(accessToken: String, expiresAt: String) {
+    public init(accessToken: String, expiresAt: String, userID: String) {
         self.accessToken = accessToken
         self.expiresAt = expiresAt
+        self.userID = userID
     }
 
     public var isExpired: Bool {
