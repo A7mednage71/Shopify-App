@@ -9,10 +9,10 @@ import SwiftUI
 import Common
 
 public struct PersonalInformationView: View {
-    @State private var firstName: String = "Julianna"
-    @State private var lastName: String = "Rossi"
-    @State private var phone: String = "+1 234 567 890"
-    @State private var email: String = "julianna.rossi@gmail.com"
+    @State private var firstName: String = ""
+    @State private var lastName: String = ""
+    @State private var phone: String = ""
+    @State private var email: String = ""
     
     @State private var isSaving: Bool = false
     
@@ -27,26 +27,26 @@ public struct PersonalInformationView: View {
                     .frame(width: 50, height: 50)
                     .cornerRadius(10)
                 
-                Text("Profile Information")
+                Text(L10n.Settings.profileInformation)
                     .font(AppFonts.title1).bold()
                 
-                Text("Keep your contact information up to date for market alerts and portfolio security")
+                Text(L10n.Settings.profileSubtitle)
                     .multilineTextAlignment(.center)
                      .font(AppFonts.callout)
                      .foregroundColor(AppColors.primary)
                 
                 VStack(spacing: 0) {
-                    CustomTextFieldRow(icon: "person.fill", title: "First Name", text: $firstName, placeholder: "Enter first name")
+                    CustomTextFieldRow(icon: "person.fill", title: L10n.Settings.firstName, text: $firstName, placeholder: L10n.Settings.enterFirstName)
                     
                     Divider().padding(.leading, 48) 
                     
-                    CustomTextFieldRow(icon: "person", title: "Last Name", text: $lastName, placeholder: "Enter last name")
+                    CustomTextFieldRow(icon: "person", title: L10n.Settings.lastName, text: $lastName, placeholder: L10n.Settings.enterLastName)
                 }
                 .background(Color.white)
                 .cornerRadius(12)
                 
                 VStack(spacing: 0) {
-                    CustomTextFieldRow(icon: "phone.fill", title: "Phone", text: $phone, placeholder: "Enter phone number", keyboardType: .phonePad)
+                    CustomTextFieldRow(icon: "phone.fill", title: L10n.Settings.phone, text: $phone, placeholder: L10n.Settings.enterPhoneNumber, keyboardType: .phonePad)
                     
                     Divider().padding(.leading, 48)
                     
@@ -55,7 +55,7 @@ public struct PersonalInformationView: View {
                             .foregroundColor(.gray.opacity(0.8))
                             .frame(width: 24) 
                         
-                        Text("Email")
+                        Text(L10n.Settings.email)
                             .foregroundColor(.gray)
                             .frame(width: 90, alignment: .leading)
                         
@@ -77,7 +77,7 @@ public struct PersonalInformationView: View {
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .padding(.trailing, 8)
                         }
-                        Text("Save Changes")
+                        Text(L10n.Settings.saveChanges)
                             .font(.headline)
                     }
                     .frame(maxWidth: .infinity)
@@ -93,7 +93,7 @@ public struct PersonalInformationView: View {
             .padding()
         }
         .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
-        .navigationTitle("Personal Info")
+        .navigationTitle(L10n.Settings.personalInfo)
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -105,5 +105,4 @@ public struct PersonalInformationView: View {
         }
     }
 }
-
 

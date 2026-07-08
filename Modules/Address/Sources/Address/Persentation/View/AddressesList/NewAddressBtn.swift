@@ -19,7 +19,7 @@ struct NewAddressButton: View {
                     .foregroundColor(AppColors.primary)
                     .frame(width: 24, height: 24)
     
-                Text("Add New Address")
+                Text(L10n.Address.addNew)
                     .font(AppFonts.callout)
                     .foregroundColor(AppColors.textPrimary)
             }

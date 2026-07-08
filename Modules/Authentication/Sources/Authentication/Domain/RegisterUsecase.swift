@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Common
 
 @available(iOS 13.0.0, *)
 class RegisterUseCase {
@@ -23,25 +24,25 @@ class RegisterUseCase {
         
         let trimmedFullName = fullName.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmedFullName.isEmpty {
-            fullNameError = "Name cannot be empty"
+            fullNameError = L10n.Auth.validationNameEmpty
         }
         
         if email.isEmpty {
-            emailError = "Email cannot be empty"
+            emailError = L10n.Auth.validationEmailEmpty
         } else if !email.contains("@") {
-            emailError = "Please enter a valid email"
+            emailError = L10n.Auth.validationEmailInvalid
         }
         
         if password.isEmpty {
-            passwordError = "Password cannot be empty"
+            passwordError = L10n.Auth.validationPasswordEmpty
         } else if password.count < 6 {
-            passwordError = "Password must be at least 6 characters"
+            passwordError = L10n.Auth.validationPasswordMinLength
         }
         
         if confirmPassword.isEmpty {
-            confirmPasswordError = "Confirm Password cannot be empty"
+            confirmPasswordError = L10n.Auth.validationConfirmPasswordEmpty
         } else if password != confirmPassword {
-            confirmPasswordError = "Passwords do not match"
+            confirmPasswordError = L10n.Auth.validationPasswordsMismatch
         }
         
         if fullNameError.isEmpty && emailError.isEmpty && passwordError.isEmpty && confirmPasswordError.isEmpty {

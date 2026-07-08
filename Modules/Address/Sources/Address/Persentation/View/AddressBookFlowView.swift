@@ -25,7 +25,7 @@ public struct AddressBookFlowView: View {
             Group {
                 switch viewModel.state {
                 case .initialState, .loading:
-                    ProgressView("Loading addresses...")
+                    ProgressView(L10n.Address.loadingAddresses)
                         .foregroundColor(AppColors.textPrimary)
                         .tint(AppColors.primary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -53,17 +53,17 @@ public struct AddressBookFlowView: View {
             }
             .background(AppColors.backgroundSecondary.ignoresSafeArea())
             .tint(AppColors.primary)
-            .navigationTitle("Delivery Address")
+            .navigationTitle(L10n.Orders.deliveryAddress)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(L10n.Address.done) {
                         dismiss()
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(L10n.Address.cancel) {
                         onCancel()
                         dismiss()
                     }

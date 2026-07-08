@@ -76,7 +76,7 @@ struct ProductCardView: View {
                   }
 
                   if !sizesLabel.isEmpty {
-                      Text("Sizes: \(sizesLabel)")
+                      Text(L10n.Home.sizesLabel(sizesLabel))
                           .font(.assistantProductSizes)
                           .foregroundColor(AppColors.textSecondary)
                           .lineLimit(1)

@@ -1,0 +1,506 @@
+/* 
+  Localizable.strings
+  English
+*/
+
+"app_name" = "Marktek";
+
+/* Auth */
+"auth_or_continue_with" = "-OR Continue with-";
+"auth_error" = "Error";
+"auth_ok" = "OK";
+"auth_create_account_title" = "Create an\naccount";
+"auth_by_clicking" = "By clicking the ";
+"auth_register" = "Register ";
+"auth_agree_public_offer" = "button, you agree\nto the public offer";
+"auth_create_account" = "Create Account";
+"auth_welcome_back" = "Welcome Back!";
+"auth_forget_password" = "Forget Password ?";
+"auth_login" = "Login";
+
+/* Settings */
+"settings_profile" = "Profile";
+"settings_account_settings" = "Account Settings";
+"settings_profile_information" = "Profile Information";
+"settings_saved_addresses" = "Saved Addresses";
+"settings_order_history" = "Order History";
+"settings_regional_preferences" = "Regional Preferences";
+"settings_language_title" = "Language";
+"settings_currency_display" = "Currency Display";
+"settings_preferences" = "Preferences";
+"settings_dark_mode" = "Dark Mode";
+"settings_system_default" = "System Default";
+"settings_signing_out" = "Signing Out...";
+"settings_sign_out" = "Sign Out";
+"settings_sign_out_confirm_title" = "Sign Out";
+"settings_cancel" = "Cancel";
+"settings_sign_out_confirm_message" = "Are you sure you want to sign out of your account?";
+"settings_sign_out_error_title" = "Could not sign out";
+"settings_language_change_title" = "Change Language";
+"settings_language_change_message" = "The app layout will refresh to apply the new language. Are you sure you want to proceed?";
+"settings_language_change_confirm" = "Change";
+"settings_ok" = "OK";
+"settings_try_again" = "Try Again";
+
+/* Home */
+"home_category_collection" = "Category Collection";
+"home_no_products_found" = "No products found";
+"home_search_no_results" = "No results found";
+"home_search_try_different" = "Try different keywords or check your spelling";
+"home_filter_reset" = "Reset";
+"home_filter_title" = "Filters";
+"home_filter_in_stock_only" = "In Stock Only";
+"home_filter_hide_sold_out" = "Hide items that are sold out";
+"home_filter_apply" = "Apply Filters";
+"home_assistant_title" = "Smart Shopping Assistant";
+"home_assistant_loading" = "Loading products catalog...";
+"home_assistant_failed" = "Failed to load products";
+"home_assistant_syncing" = "Syncing with Shopify catalog...";
+"home_assistant_retry" = "Retry";
+
+/* Address */
+"address_saved_addresses" = "Saved Addresses";
+"address_delete" = "Delete";
+"address_cancel" = "Cancel";
+"address_apply" = "Apply";
+"address_no_saved" = "No Saved Addresses";
+"address_no_saved_desc" = "You haven't saved any addresses yet.\nAdd a new address to get started.";
+"address_add_new" = "Add New Address";
+"address_server_error" = "Server Error";
+"address_server_error_desc" = "There is problem in our server please try again later.";
+"address_try_again" = "Try again";
+"address_retry" = "Retry";
+"address_confirm" = "Confirm Address";
+"address_address" = "Address";
+"address_zip_code" = "Zip Code";
+"address_country" = "Country";
+"address_add_btn" = "Add Address";
+"address_saving" = "Saving address...";
+"address_ok" = "OK";
+
+/* Orders */
+"orders_review" = "Review";
+"orders_details" = "Order Details";
+"orders_payment_method" = "Payment Method";
+"orders_delivery_address" = "Delivery Address";
+"orders_summary" = "Order Summary";
+"orders_tap_to_view" = "Tap to view details";
+"orders_history" = "Order History";
+"orders_no_orders" = "No orders yet";
+"orders_no_orders_desc" = "Your past orders will show up here once you place one.";
+
+/* Favorites */
+"fav_cancel" = "Cancel";
+"fav_remove" = "Remove";
+"fav_no_favs" = "No Favorites Yet";
+"fav_no_favs_desc" = "Tap the heart icon on any product to save it here.";
+"fav_my_wishlist" = "My Wishlist";
+"fav_favorites" = "Favorites";
+"fav_browse_saved" = "Browse all items you've saved to your favorites";
+
+/* Cart */
+"cart_navigationTitle" = "Cart";
+"cart_loadingAccessibilityLabel" = "Loading cart";
+"cart_emptyImageName" = "empty_cart";
+"cart_emptyTitle" = "Your cart is empty";
+"cart_emptyMessage" = "Looks like you have not added anything yet.";
+"cart_startShoppingButtonTitle" = "Start Shopping";
+"cart_checkoutButtonTitle" = "Proceed to Checkout";
+"cart_orderSummaryTitle" = "Cart Summary";
+"cart_itemsSummaryTitle" = "Items";
+"cart_subtotalSummaryTitle" = "Subtotal";
+"cart_discountSummaryTitle" = "Discount";
+"cart_totalSummaryTitle" = "Total";
+"cart_priceFallbackText" = "$0";
+"cart_discountCodePlaceholder" = "Discount code";
+"cart_discountCodeApplyTitle" = "Apply";
+"cart_discountCodeRemoveTitle" = "Remove";
+"cart_discountCodeApplyingTitle" = "Applying";
+"cart_discountCodeNotApplicableMessage" = "The code you entered is not applicable.";
+"cart_deleteActionTitle" = "Delete";
+"cart_deleteAlertTitle" = "Remove item?";
+"cart_deleteAlertConfirmTitle" = "Remove";
+"cart_deleteAlertCancelTitle" = "Cancel";
+"cart_failureTitle" = "Cart could not load";
+"cart_failureRetryTitle" = "Try Again";
+"cart_failureHelpMessage" = "Check your connection and try again in a moment.";
+"cart_failureFallbackMessage" = "Something went wrong while fetching your cart.";
+"cart_cartItemImageAccessibilityLabel" = "Cart item image";
+"cart_cartItemFallbackTitle" = "Cart Item";
+"cart_colorOptionName" = "color";
+"cart_colourOptionName" = "colour";
+"cart_sizeOptionName" = "size";
+"cart_defaultVariantName" = "default";
+
+/* ProductInfo */
+"productinfo_productLoadFailureTitle" = "Product could not load";
+"productinfo_retryButtonTitle" = "Try Again";
+"productinfo_retryAccessibilityLabel" = "Try loading the product again";
+"productinfo_failureHelpMessage" = "Check your connection and try again in a moment.";
+"productinfo_failureFallbackMessage" = "Something went wrong while fetching this product.";
+"productinfo_loadingAccessibilityLabel" = "Loading product details";
+"productinfo_productImageAccessibilityLabel" = "Product image";
+"productinfo_selectAvailableVariantMessage" = "Please select an available variant.";
+"productinfo_viewCartAccessibilityLabel" = "View cart";
+"productinfo_removeFromFavoritesAccessibilityLabel" = "Remove from favorites";
+"productinfo_addToFavoritesAccessibilityLabel" = "Add to favorites";
+"productinfo_noDescriptionAvailable" = "No description available.";
+"productinfo_descriptionTitle" = "Description";
+"productinfo_reviewsTitle" = "Reviews";
+"productinfo_compareProductsTitle" = "Compare similar products";
+"productinfo_compareProductsSubtitle" = "See similar options and get a Marktek recommendation.";
+"productinfo_comparisonSheetTitle" = "Compare";
+"productinfo_closeButtonTitle" = "Close";
+"productinfo_loadingComparableProducts" = "Finding similar products...";
+"productinfo_noComparableProductsTitle" = "No similar products found";
+"productinfo_noComparableProductsMessage" = "There are no matching products available for comparison right now.";
+"productinfo_comparisonLoadFailureTitle" = "Comparison could not load";
+"productinfo_noSearchResultsTitle" = "No matches";
+"productinfo_noSearchResultsMessage" = "Try another product name.";
+"productinfo_changeComparisonProductTitle" = "Choose another product";
+"productinfo_currentProductTitle" = "Current";
+"productinfo_selectedProductTitle" = "Selected";
+"productinfo_comparisonPreferenceTitle" = "Add comparison preferences";
+"productinfo_comparisonPreferencePlaceholder" = "e.g. best value, premium feel, daily use";
+"productinfo_getRecommendationButtonTitle" = "Get Marktek Recommendation";
+"productinfo_loadingRecommendation" = "Building your recommendation...";
+"productinfo_recommendationFailureTitle" = "Recommendation unavailable";
+"productinfo_viewRecommendedProductTitle" = "View recommended product";
+"productinfo_compareSimilarProductsTitle" = "Pick a product to compare";
+"productinfo_comparisonSearchPlaceholder" = "Search by product name";
+"productinfo_stockFactTitle" = "Stock";
+"productinfo_vendorFactTitle" = "Vendor";
+"productinfo_materialFactTitle" = "Material";
+"productinfo_notSpecified" = "Not specified";
+"productinfo_noReviewsYet" = "No reviews yet";
+"productinfo_reviewEmptyMessage" = "No reviews for this product yet.";
+"productinfo_readLessButtonTitle" = "Read Less";
+"productinfo_readMoreButtonTitle" = "Read More";
+"productinfo_quantityTitle" = "Quantity";
+"productinfo_totalTitle" = "Total";
+"productinfo_addingToCartButtonTitle" = "Adding...";
+"productinfo_addToCartButtonTitle" = "Add to Cart";
+"productinfo_outOfStock" = "Out of stock";
+"productinfo_inStock" = "In stock";
+"productinfo_colorOptionName" = "color";
+"productinfo_colourOptionName" = "colour";
+"productinfo_defaultTitleOptionName" = "Title";
+"productinfo_defaultVariantTitle" = "Default Title";
+
+/* Checkout */
+"checkout_navigationTitle" = "Payment";
+"checkout_addressTitle" = "Address";
+"checkout_addressEmptyTitle" = "No address selected";
+"checkout_addressEmptyMessage" = "Add a delivery address before placing your order.";
+"checkout_missingAddressToastMessage" = "Add a delivery address before placing your order.";
+"checkout_addressFailureTitle" = "Address could not load";
+"checkout_addressFailureFallbackMessage" = "Try again in a moment.";
+"checkout_productsTitle" = "Products";
+"checkout_shippingMethodTitle" = "Shipping Method";
+"checkout_paymentMethodTitle" = "Payment Method";
+"checkout_orderSummaryTitle" = "Order Summary";
+"checkout_discountCodeTitle" = "Discount Code";
+"checkout_noDiscountCode" = "No discount code";
+"checkout_subtotalTitle" = "Subtotal";
+"checkout_shippingTitle" = "Shipping";
+"checkout_discountTitle" = "Discount";
+"checkout_totalTitle" = "Total";
+"checkout_checkoutButtonTitle" = "Checkout Now";
+"checkout_openingApplePayMessage" = "Opening Apple Pay...";
+"checkout_placingOrderMessage" = "Placing your order...";
+"checkout_checkoutErrorTitle" = "Checkout unavailable";
+"checkout_checkoutErrorDismissTitle" = "OK";
+"checkout_orderConfirmationNavigationTitle" = "Order Confirmed";
+"checkout_orderConfirmationTitle" = "Order Confirmed";
+"checkout_orderConfirmationMessage" = "Thank you for your purchase. Your order was received successfully.";
+"checkout_orderConfirmationDetailsTitle" = "Order Details";
+"checkout_orderConfirmationDoneTitle" = "Done";
+"checkout_reviewButtonTitle" = "Review";
+"checkout_reviewedButtonTitle" = "Reviewed";
+"checkout_reviewSheetTitle" = "Review product";
+"checkout_reviewRatingTitle" = "Your rating";
+"checkout_reviewTitlePlaceholder" = "Review title";
+"checkout_reviewBodyPlaceholder" = "Tell us what you liked";
+"checkout_submitReviewButtonTitle" = "Submit review";
+"checkout_submittingReviewButtonTitle" = "Submitting...";
+"checkout_reviewSubmittedMessage" = "Thanks for your review.";
+"checkout_orderNameTitle" = "Order";
+"checkout_financialStatusTitle" = "Payment Status";
+"checkout_fulfillmentStatusTitle" = "Fulfillment Status";
+"checkout_orderEmailTitle" = "Email";
+"checkout_cartItemFallbackTitle" = "Cart Item";
+"checkout_cartItemImageAccessibilityLabel" = "Cart item image";
+"checkout_colorOptionName" = "color";
+"checkout_colourOptionName" = "colour";
+"checkout_defaultVariantName" = "default";
+
+/* HomeStrs */
+"homestrs_placeholder" = "Search any Product...";
+"homestrs_categories_sectionTitle" = "Categories";
+"homestrs_brandsTitle" = "Brands";
+"homestrs_sortButton" = "Sort";
+"homestrs_filterButton" = "Filter";
+"homestrs_deal_sectionTitle" = "Deal of the Day";
+"homestrs_viewAll" = "View all";
+"homestrs_remaining" = "remaining";
+"homestrs_offers_title" = "Special Offers";
+"homestrs_offers_subtitle" = "We make sure you get the offer you need at best prices";
+"homestrs_cta" = "Visit now";
+"homestrs_trending_sectionTitle" = "Trending Products";
+"homestrs_lastDate" = "Last Date 29/02/22";
+"homestrs_results_count" = "%d results";
+"homestrs_sort_featured" = "Featured";
+"homestrs_sort_price_low_high" = "Price: Low to High";
+"homestrs_sort_price_high_low" = "Price: High to Low";
+"homestrs_sort_newest" = "Newest";
+"homestrs_banner1_title" = "50-40% OFF";
+"homestrs_banner1_subtitle" = "Now in all products\nAll colours";
+"homestrs_banner2_title" = "Special Gift";
+"homestrs_banner2_subtitle" = "Get $30 off on your order";
+"homestrs_banner3_title" = "Free Shipping";
+"homestrs_banner3_subtitle" = "On all orders above $100";
+"homestrs_banner_cta_copy_code" = "Copy Code";
+
+/* Onboarding */
+"onboarding_discover_title" = "Find Your Next Favorite";
+"onboarding_discover_desc" = "Browse fresh products, compare details, and discover picks that fit your style.";
+"onboarding_favorites_title" = "Save What You Love";
+"onboarding_favorites_desc" = "Keep favorites close so your best finds are ready when you come back.";
+"onboarding_checkout_title" = "Shop With Confidence";
+"onboarding_checkout_desc" = "Review product details, choose options, and move smoothly toward checkout.";
+"onboarding_skip" = "Skip";
+"onboarding_next" = "Next";
+"onboarding_start_shopping" = "Start Shopping";
+
+"orders_color_default" = "Color: Default";
+"orders_order_name" = "Order";
+"orders_payment_status" = "Payment Status";
+"orders_fulfillment_status" = "Fulfillment Status";
+"orders_total" = "Total";
+"orders_discount_code" = "Discount Code";
+"orders_subtotal" = "Subtotal";
+"orders_shipping" = "Shipping";
+"orders_discount" = "Discount";
+
+"fav_remove_alert_title" = "Remove from Favorites";
+"fav_remove_alert_message" = "Are you sure you want to remove '%@' from your favorites?";
+
+"checkout_processing_keep_open" = "Please keep this screen open.";
+"checkout_failure_title" = "Checkout could not load";
+"checkout_try_again" = "Try Again";
+"home_filter_reset" = "Reset";
+"home_filter_title" = "Filters";
+"home_filter_in_stock_only" = "In Stock Only";
+"home_filter_hide_sold_out" = "Hide items that are sold out";
+"home_filter_apply" = "Apply Filters";
+"home_filter_brands" = "Brands";
+"home_filter_category_types" = "Category Types";
+"home_filter_tags" = "Tags";
+"home_filter_price_range" = "Price Range";
+
+/* Main Flow */
+"main_sign_in_required" = "Sign in required";
+"main_guest_message" = "You're browsing as a guest. Sign in to use cart, favorites, and AI features.";
+"main_sign_in" = "Sign In";
+"main_cancel" = "Cancel";
+"main_app_name" = "Marktek";
+"main_personal_information" = "Personal Information";
+"main_coming_soon" = "Coming soon";
+"main_tab_home" = "Home";
+"main_tab_cart" = "Cart";
+"main_tab_favorites" = "Favorites";
+"main_tab_profile" = "Profile";
+
+/* Home - Shopping Assistant */
+"home_assistant_title" = "Smart Shopping Assistant";
+"home_assistant_loading" = "Loading products catalog...";
+"home_assistant_failed_to_load" = "Failed to load products";
+"home_assistant_active" = "Active · Shopify Catalog Synced";
+"home_assistant_ai_powered" = "AI POWERED";
+"home_assistant_resend" = "Resend";
+"home_assistant_brands" = "Brands";
+"home_assistant_categories" = "Categories";
+
+/* Home - Search */
+"home_no_results_found" = "No results found";
+"home_no_results_hint" = "Try different keywords or check your spelling";
+
+/* Home - Sort & Filter */
+"home_sort_order_by" = "Order By";
+"home_filter_clear" = "Clear";
+
+/* Home - Vendor & Category */
+"home_category_collection_label" = "Category Collection";
+"home_official_vendor_label" = "Official Vendor";
+
+/* Settings - Personal Information */
+"settings_profile_information_title" = "Profile Information";
+"settings_profile_subtitle" = "Keep your contact information up to date for market alerts and portfolio security";
+"settings_email" = "Email";
+"settings_save_changes" = "Save Changes";
+"settings_personal_info" = "Personal Info";
+
+/* Address - Additional */
+"address_done" = "Done";
+"address_unavailable_title" = "Address unavailable";
+"address_delete_alert" = "Delete Address";
+"address_search_placeholder" = "Search for an address";
+"address_ios16_required" = "Addresses require iOS 16 or later.";
+
+/* Orders - Additional */
+"orders_try_again" = "Try Again";
+
+/* Common */
+"common_something_went_wrong" = "Something went wrong";
+"common_try_again" = "Try Again";
+
+"home_assistant_ai_badge" = "AI";
+
+/* Auth - Additional */
+"auth_email_field_label" = "Email";
+"auth_password_field_label" = "Password";
+"auth_full_name_field_label" = "Full Name";
+"auth_username_or_email_field_label" = "Username or Email";
+"auth_confirm_password_field_label" = "Confirm Password";
+"auth_create_account_prompt" = "Create An Account";
+"auth_sign_up_action" = "Sign Up";
+"auth_already_have_account_prompt" = "I Already Have an Account";
+"auth_login_action" = "Login";
+"auth_validation_email_empty" = "Email cannot be empty";
+"auth_validation_email_invalid" = "Please enter a valid email";
+"auth_validation_password_empty" = "Password cannot be empty";
+"auth_validation_password_min_length" = "Password must be at least 6 characters";
+"auth_validation_name_empty" = "Name cannot be empty";
+"auth_validation_confirm_password_empty" = "Confirm Password cannot be empty";
+"auth_validation_passwords_mismatch" = "Passwords do not match";
+"auth_error_try_again_later" = "Try again later.";
+"auth_error_something_went_wrong" = "Something went wrong.";
+"auth_error_invalid_credentials" = "Invalid email or password";
+"auth_error_user_not_found" = "No account found with this email";
+"auth_error_email_already_registered" = "Email is already registered";
+"auth_error_network" = "Check your internet connection";
+"auth_error_unknown" = "Unknown error";
+
+/* Address - More */
+"address_loading_addresses" = "Loading addresses...";
+"address_save_failed_message" = "We couldn't save this address. Try again.";
+"address_locating" = "Locating...";
+"address_confirm_location" = "Confirm Location";
+"address_default_address_updated" = "Default address updated successfully!";
+"address_remove_address_success" = "Removed '%@' successfully.";
+"address_delete_address_message" = "Are you sure you want to delete '%@'?";
+
+/* Cart - Errors */
+"cart_error_missing_cart_id" = "No cart id is saved.";
+"cart_error_stale_cart" = "The saved cart no longer exists.";
+"cart_error_invalid_quantity" = "Cart item quantity must be greater than zero. Received %d.";
+"cart_error_quantity_limit_exceeded" = "Cart item quantity cannot exceed %d. Received %d.";
+"cart_error_malformed_create_payload" = "Cart create response is missing its payload.";
+"cart_error_malformed_create_cart" = "Cart create response is missing its cart.";
+"cart_error_malformed_add_payload" = "Cart lines add response is missing its payload.";
+"cart_error_malformed_add_cart" = "Cart lines add response is missing its cart.";
+"cart_error_malformed_update_payload" = "Cart lines update response is missing its payload.";
+"cart_error_malformed_update_cart" = "Cart lines update response is missing its cart.";
+"cart_error_malformed_remove_payload" = "Cart lines remove response is missing its payload.";
+"cart_error_malformed_remove_cart" = "Cart lines remove response is missing its cart.";
+"cart_error_malformed_discount_payload" = "Cart discount code response is missing its payload.";
+"cart_error_malformed_discount_cart" = "Cart discount code response is missing its cart.";
+"cart_option_text" = "%@: %@";
+"cart_variant_label" = "Variant";
+"cart_delete_alert_message" = "Remove %@ from your cart?";
+
+/* Checkout - Errors */
+"checkout_error_malformed_discount_code" = "We could not apply this discount at checkout. You can continue without it.";
+"checkout_error_malformed_reviews_metafield" = "We could not read existing product reviews. Please try again.";
+"checkout_error_unknown" = "An unknown error occurred during checkout.";
+"checkout_error_apple_pay_unavailable" = "Apple Pay is not available on this device.";
+"checkout_error_apple_pay_presentation_failed" = "We could not open Apple Pay. Please try again.";
+"checkout_error_apple_pay_missing_merchant_identifier" = "Apple Pay is not configured for this app.";
+"checkout_error_unsupported_payment_method" = "This payment method is not available.";
+"checkout_error_empty_cart" = "Your cart is empty.";
+"checkout_error_invalid_line_item" = "Some cart items are missing required variant details.";
+"checkout_error_missing_currency" = "Cart currency is missing.";
+"checkout_error_invalid_money_amount" = "Invalid cart amount: %@";
+"checkout_error_invalid_rating" = "Choose a rating before submitting your review.";
+"checkout_error_missing_review_title" = "Add a title for your review.";
+"checkout_error_missing_review_body" = "Add a few words about your experience.";
+"checkout_dismiss_accessibility_label" = "Dismiss";
+"checkout_add_delivery_address_accessibility_label" = "Add delivery address";
+"checkout_change_delivery_address_accessibility_label" = "Change delivery address";
+"checkout_discount_inactive" = "This discount code is not active.";
+"checkout_discount_inactive_yet" = "This discount code is not active yet.";
+"checkout_discount_expired" = "This discount code has expired.";
+"checkout_discount_usage_limit_reached" = "This discount code has reached its usage limit.";
+"checkout_discount_currency_mismatch" = "This discount code uses a different currency.";
+"checkout_discount_higher_subtotal_required" = "This discount code requires a higher subtotal.";
+"checkout_discount_selected_products_only" = "This discount code only supports selected products.";
+"checkout_discount_shipping_method_unsupported" = "This discount code does not cover the selected shipping method.";
+"checkout_discount_minimum_quantity" = "This discount code requires at least %d items.";
+"checkout_payment_method_apple_pay_title" = "Apple Pay";
+"checkout_payment_method_cash_on_delivery_title" = "Cash on Delivery";
+"checkout_payment_method_apple_pay_subtitle" = "Fast checkout with Apple Pay";
+"checkout_payment_method_cash_on_delivery_subtitle" = "Pay when your order arrives";
+"checkout_shipping_method_standard_title" = "Standard";
+"checkout_shipping_method_express_title" = "Express";
+"checkout_shipping_method_standard_estimate" = "5 days";
+"checkout_shipping_method_express_estimate" = "2 days";
+
+/* Home - Additional */
+"home_assistant_offline_error" = "It looks like you're offline. Check your internet connection.";
+"home_assistant_timeout_error" = "Connection timed out. Please try again in a moment.";
+"home_assistant_connection_error" = "Connection error. Please try again.";
+"home_assistant_processing_error" = "The assistant encountered an error processing the reply. Please try again.";
+"home_assistant_unexpected_error" = "An unexpected error occurred. Please try again.";
+"home_assistant_syncing_catalog" = "Syncing with Shopify catalog...";
+"home_category_browse_description" = "Browse all authentic products in %@";
+"home_category_empty_description" = "We couldn't find any products listed under %@ right now.";
+"home_vendor_browse_description" = "Browse all authentic products from %@";
+"home_vendor_empty_description" = "We couldn't find any products listed under this vendor right now.";
+"home_sizes_label" = "Sizes: %@";
+
+/* Onboarding - Additional */
+"onboarding_skip_accessibility_label" = "Skip onboarding";
+"onboarding_page_accessibility_label" = "Onboarding page %d of %d";
+
+/* Orders - Additional */
+"orders_paid" = "Paid";
+"orders_not_paid" = "Not Paid";
+"orders_no_delivery_address" = "No delivery address";
+"orders_no_discount_code_value" = "No discount code";
+"orders_products_title" = "Products (%d)";
+"orders_order_accessibility_label" = "Order %@, %@";
+"orders_error_customer_not_found" = "We couldn't find your account to load your orders.";
+"orders_error_unknown" = "Something went wrong while loading your orders.";
+"orders_status_pending" = "Pending";
+"orders_status_in_progress" = "In Progress";
+"orders_status_delivered" = "Delivered";
+"orders_payment_apple_pay" = "Apple Pay";
+"orders_payment_cash_on_delivery" = "Cash on Delivery";
+"orders_payment_credit_card" = "Credit Card";
+
+/* Product Info - Additional */
+"productinfo_customer_fallback_name" = "Customer";
+"productinfo_compare_matching_catalog_items" = "Compare this product with matching catalog items.";
+"productinfo_compare_other_items" = "Compare this product with other %@ items.";
+"productinfo_no_reviews_summary" = "No reviews yet";
+"productinfo_reviews_summary" = "%@ (%d reviews)";
+"productinfo_compact_reviews_summary" = "%@ (%d)";
+"productinfo_stock_quantity" = "%d in stock";
+"productinfo_add_to_cart_accessibility_label" = "Add %@ to cart";
+"productinfo_rating_out_of_five" = "%@ / 5";
+"productinfo_confidence_label" = "%@ confidence";
+"productinfo_not_specified_value" = "Not specified";
+
+/* Common - Languages */
+"common_language_english" = "English";
+"common_language_arabic" = "Arabic";
+"common_customer_token_missing" = "No customer access token is saved.";
+"common_customer_token_expired" = "The saved customer access token has expired.";
+
+/* Settings - Field Labels */
+"settings_first_name" = "First Name";
+"settings_last_name" = "Last Name";
+"settings_phone" = "Phone";
+"settings_enter_first_name" = "Enter first name";
+"settings_enter_last_name" = "Enter last name";
+"settings_enter_phone_number" = "Enter phone number";

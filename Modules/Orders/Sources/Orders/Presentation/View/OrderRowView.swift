@@ -47,7 +47,7 @@ struct OrderRowView: View {
                     .font(AppFonts.caption)
                     .foregroundColor(AppColors.textSecondary)
 
-                Text("Tap to view details")
+                Text(L10n.Orders.tapToView)
                     .font(AppFonts.footnote)
                     .foregroundColor(AppColors.textTertiary)
             }
@@ -73,7 +73,7 @@ struct OrderRowView: View {
         .padding(14)
         .background(cardBackground)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Order \(order.name), \(orderStatus.text)")
+        .accessibilityLabel(L10n.Orders.orderAccessibilityLabel(order.name, orderStatus.text))
     }
 
     // MARK: - Subviews

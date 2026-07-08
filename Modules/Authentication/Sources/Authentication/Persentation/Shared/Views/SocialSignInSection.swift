@@ -15,7 +15,7 @@ public struct SocialSignInSection: View {
 
     public var body: some View {
         VStack {
-            Text("-OR Continue with-")
+            Text(L10n.Auth.orContinueWith)
                 .font(.system(size: 12, design: .default))
             Spacer().frame(height: 35)
             HStack {

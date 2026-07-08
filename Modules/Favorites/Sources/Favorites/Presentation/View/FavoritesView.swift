@@ -50,20 +50,20 @@ public struct FavoritesView: View {
             }
         }
         .background(Color.appBackgroundGray)
-        .navigationTitle("Favorites")
+        .navigationTitle(L10n.Fav.favorites)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.loadFavorites()
         }
-        .alert("Remove from Favorites", isPresented: $showDeleteAlert, presenting: productToDelete) { product in
-            Button("Cancel", role: .cancel) {
+        .alert(L10n.Fav.removeAlertTitle, isPresented: $showDeleteAlert, presenting: productToDelete) { product in
+            Button(L10n.Fav.cancel, role: .cancel) {
                 productToDelete = nil
             }
-            Button("Remove", role: .destructive) {
+            Button(L10n.Fav.remove, role: .destructive) {
                 viewModel.removeFavorite(product: product)
             }
         } message: { product in
-            Text("Are you sure you want to remove '\(product.title)' from your favorites?")
+            Text(L10n.Fav.removeAlertMessage(product.title))
         }
     }
 

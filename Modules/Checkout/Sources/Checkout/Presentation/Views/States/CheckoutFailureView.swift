@@ -11,7 +11,7 @@ struct CheckoutFailureView: View {
                 .font(.system(size: 42, weight: .bold))
                 .foregroundColor(AppColors.error)
 
-            Text("Checkout could not load")
+            Text(L10n.Checkout.failureTitle)
                 .font(.system(size: 21, weight: .bold))
                 .foregroundColor(AppColors.textPrimary)
 
@@ -22,7 +22,7 @@ struct CheckoutFailureView: View {
                 .padding(.horizontal, 24)
 
             Button(action: onRetry) {
-                Text("Try Again")
+                Text(L10n.Checkout.tryAgain)
                     .font(.system(size: 15, weight: .bold))
                     .foregroundColor(AppColors.textWhite)
                     .padding(.horizontal, 24)

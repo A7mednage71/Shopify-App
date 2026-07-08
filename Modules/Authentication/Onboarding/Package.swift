@@ -13,9 +13,15 @@ let package = Package(
             targets: ["Onboarding"]
         ),
     ],
+    dependencies: [
+        .package(path: "../../Common"),
+    ],
     targets: [
         .target(
             name: "Onboarding",
+            dependencies: [
+                "Common",
+            ],
             resources: [
                 .process("Resources"),
             ]

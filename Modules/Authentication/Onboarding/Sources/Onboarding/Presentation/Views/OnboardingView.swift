@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct OnboardingView: View {
     private let items: [OnboardingItem]
@@ -33,7 +34,7 @@ struct OnboardingView: View {
                     )
 
                     OnboardingPrimaryButton(
-                        title: selectedIndex == items.count - 1 ? "Start Shopping" : "Next",
+                        title: selectedIndex == items.count - 1 ? L10n.Onboarding.startShopping : L10n.Onboarding.next,
                         action: handlePrimaryAction
                     )
                     .padding(.horizontal, 24)
@@ -54,13 +55,13 @@ struct OnboardingView: View {
         HStack {
             Spacer()
 
-            Button("Skip", action: onFinish)
+            Button(L10n.Onboarding.skip, action: onFinish)
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(OnboardingPalette.textSecondary)
                 .padding(.horizontal, 24)
                 .padding(.top, 18)
                 .padding(.bottom, 6)
-                .accessibilityLabel("Skip onboarding")
+                .accessibilityLabel(L10n.Onboarding.skipAccessibilityLabel)
         }
     }
 

@@ -15,13 +15,6 @@ struct SearchBarSection: View {
                 .font(.searchPlaceholder)
                 .foregroundColor(.appTextPrimary)
             
-            Spacer()
-            
-            Button(action: { onVoiceSearch?() }) {
-                Image(systemName: "mic.fill")
-                    .foregroundColor(.appSearchIcon)
-                    .font(.system(size: 16))
-            }
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 11)

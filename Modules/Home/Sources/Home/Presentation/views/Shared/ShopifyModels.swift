@@ -1,4 +1,5 @@
 import Foundation
+import Common
 import SwiftUI
 
 // MARK: - Shopify API Models
@@ -114,12 +115,12 @@ struct MockShopifyData {
         ShopifyCollection(id: "5", title: "Womens",  handle: "womens",  imageURL: "https://picsum.photos/seed/womens/80/80"),
     ]
     
-    static let heroBanners: [HeroBanner] = [
+    static var heroBanners: [HeroBanner] { [
         HeroBanner(
             id: "1",
-            title: "50-40% OFF",
-            subtitle: "Now in all products\nAll colours",
-            ctaText: "Copy Code",
+            title: L10n.HomeStrs.banner1Title,
+            subtitle: L10n.HomeStrs.banner1Subtitle,
+            ctaText: L10n.HomeStrs.bannerCtaCopyCode,
             ctaHandle: "sale",
             imageURL: "https://picsum.photos/seed/banner1/400/200",
             trailingImageName: "offer_discount_trailing",
@@ -128,9 +129,9 @@ struct MockShopifyData {
         ),
         HeroBanner(
             id: "2",
-            title: "Special Gift",
-            subtitle: "Get $30 off on your order",
-            ctaText: "Copy Code",
+            title: L10n.HomeStrs.banner2Title,
+            subtitle: L10n.HomeStrs.banner2Subtitle,
+            ctaText: L10n.HomeStrs.bannerCtaCopyCode,
             ctaHandle: "new-arrivals",
             imageURL: "https://picsum.photos/seed/banner2/400/200",
             trailingImageName: "offer_special_gift_trailing",
@@ -139,16 +140,16 @@ struct MockShopifyData {
         ),
         HeroBanner(
             id: "3",
-            title: "Free Shipping",
-            subtitle: "On all orders above $100",
-            ctaText: "Copy Code",
+            title: L10n.HomeStrs.banner3Title,
+            subtitle: L10n.HomeStrs.banner3Subtitle,
+            ctaText: L10n.HomeStrs.bannerCtaCopyCode,
             ctaHandle: "brands",
             imageURL: "https://picsum.photos/seed/banner3/400/200",
             trailingImageName: "offer_free_shipping_trailing",
             gradientColors: [Color(red: 0.30, green: 0.15, blue: 0.65), Color(red: 0.55, green: 0.25, blue: 0.85)],
             couponCode: "FREESHIPPING2026"
         )
-    ]
+    ] }
     
     // MARK: - Featured Products (using ShopProduct model)
     static let featuredProducts: [ShopProduct] = [

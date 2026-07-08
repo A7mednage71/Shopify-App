@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 extension ProductDetails {
     var totalAvailableQuantity: Int? {
@@ -37,7 +38,7 @@ extension ProductDetails {
             return tag
         }
 
-        return "Not specified"
+        return L10n.ProductInfo.notSpecifiedValue
     }
 }
 

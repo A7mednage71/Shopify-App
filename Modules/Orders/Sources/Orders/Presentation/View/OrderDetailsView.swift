@@ -24,7 +24,7 @@ public struct OrderDetailsView: View {
                 ProgressView() 
             }
         }
-        .navigationTitle("Order Details")
+        .navigationTitle(L10n.Orders.details)
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -45,14 +45,14 @@ public struct OrderDetailsView: View {
     
     private func detailsCard(order: Order) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Order Details")
+            Text(L10n.Orders.details)
                 .font(AppFonts.title2.bold())
                 .foregroundColor(AppColors.textPrimary)
                 .padding(.bottom, 4)
             
-            infoRow(title: "Order", value: "#\(order.orderNumber)", isValueBold: false)
+            infoRow(title: L10n.Orders.orderName, value: "#\(order.orderNumber)", isValueBold: false)
             HStack {
-                Text("Payment Method")
+                Text(L10n.Orders.paymentMethod)
                     .font(AppFonts.callout)
                     .foregroundColor(AppColors.textSecondary)
                 
@@ -67,11 +67,11 @@ public struct OrderDetailsView: View {
             }
             
             let isPaid = order.financialStatus?.uppercased() == "PAID"
-            infoRow(title: "Payment Status", value: isPaid ? "Paid" : "Not Paid", isValueBold: false)
+            infoRow(title: L10n.Orders.paymentStatus, value: isPaid ? L10n.Orders.paid : L10n.Orders.notPaid, isValueBold: false)
             
-            infoRow(title: "Fulfillment Status", value: order.fulfillmentStatus.capitalized, isValueBold: false)
+            infoRow(title: L10n.Orders.fulfillmentStatus, value: order.fulfillmentStatus.capitalized, isValueBold: false)
             
-            priceInfoRow(title: "Total", priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: true)
+            priceInfoRow(title: L10n.Orders.total, priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: true)
         }
         .padding(16)
         .background(AppColors.background)
@@ -81,7 +81,7 @@ public struct OrderDetailsView: View {
     
     private func productsCard(order: Order) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Products (\(order.lineItems.count))")
+            Text(L10n.Orders.productsTitle(order.lineItems.count))
                 .font(AppFonts.title2.bold())
                 .foregroundColor(AppColors.textPrimary)
                 .padding(.horizontal, 16)
@@ -94,7 +94,7 @@ public struct OrderDetailsView: View {
     }
     private func addressCard(order: Order) -> some View {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Delivery Address")
+                Text(L10n.Orders.deliveryAddress)
                     .font(AppFonts.title2.bold())
                     .foregroundColor(AppColors.textPrimary)
                 
@@ -104,7 +104,7 @@ public struct OrderDetailsView: View {
                         .font(.title3)
                         .padding(.top, 2)
                     
-                    Text(order.shippingAddress ?? "Tanta, Gharbia Governorate, Egypt\nStreet 15, Building 4, Floor 2")
+                    Text(order.shippingAddress ?? L10n.Orders.noDeliveryAddress)
                         .font(AppFonts.callout)
                         .foregroundColor(AppColors.textSecondary)
                         .lineSpacing(4)
@@ -119,19 +119,19 @@ public struct OrderDetailsView: View {
     
     private func summaryCard(order: Order) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Order Summary")
+            Text(L10n.Orders.summary)
                 .font(AppFonts.title2.bold())
                 .foregroundColor(AppColors.textPrimary)
                 .padding(.bottom, 4)
             
-            infoRow(title: "Discount Code", value: "No discount code", isValueBold: false) // Dummy
-            priceInfoRow(title: "Subtotal", priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: false)
-            priceInfoRow(title: "Shipping", priceInUSD: 0, isValueBold: false) // Dummy
-            priceInfoRow(title: "Discount", priceInUSD: 0, isValueBold: false) // Dummy
+            infoRow(title: L10n.Orders.discountCode, value: L10n.Orders.noDiscountCodeValue, isValueBold: false)
+            priceInfoRow(title: L10n.Orders.subtotal, priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: false)
+            priceInfoRow(title: L10n.Orders.shipping, priceInUSD: 0, isValueBold: false) // Dummy
+            priceInfoRow(title: L10n.Orders.discount, priceInUSD: 0, isValueBold: false) // Dummy
             
             Divider()
             
-            priceInfoRow(title: "Total", priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: true)
+            priceInfoRow(title: L10n.Orders.total, priceInUSD: order.totalPrice.orderPriceViewValue, isValueBold: true)
         }
         .padding(16)
         .background(AppColors.background)

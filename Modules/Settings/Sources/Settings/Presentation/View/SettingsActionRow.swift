@@ -42,6 +42,7 @@ public struct SettingsActionRow: View {
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
+                    .flipsForRightToLeftLayoutDirection(true)
                     .foregroundColor(AppColors.border)
             }
             .padding(.vertical, 12)

@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 enum CheckoutPaymentStrategyError: LocalizedError {
     case unsupportedPaymentMethod
@@ -6,7 +7,7 @@ enum CheckoutPaymentStrategyError: LocalizedError {
      var errorDescription: String? {
         switch self {
         case .unsupportedPaymentMethod:
-            return "This payment method is not available."
+            return L10n.Checkout.errorUnsupportedPaymentMethod
         }
     }
 }

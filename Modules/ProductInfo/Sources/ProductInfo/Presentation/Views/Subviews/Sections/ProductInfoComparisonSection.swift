@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct ProductInfoComparisonSection: View {
     let onCompareTap: () -> Void
@@ -24,7 +25,7 @@ struct ProductInfoComparisonSection: View {
                             .lineLimit(1)
                             .minimumScaleFactor(0.82)
 
-                        Text("AI")
+                        Text(L10n.Home.assistantAIBadge)
                             .font(.system(size: 10, weight: .black, design: .rounded))
                             .foregroundColor(ProductPalette.primary)
                             .padding(.horizontal, 7)

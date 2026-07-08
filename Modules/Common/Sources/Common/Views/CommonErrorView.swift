@@ -25,7 +25,7 @@ public struct CommonErrorView: View {
 
             // Text content
             VStack(spacing: 8) {
-                Text("Something went wrong")
+                Text(L10n.Common.somethingWentWrong)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.appTextPrimary)
                 
@@ -42,7 +42,7 @@ public struct CommonErrorView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "arrow.clockwise")
                         .font(.system(size: 14, weight: .bold))
-                    Text("Try Again")
+                    Text(L10n.Common.tryAgain)
                         .font(.buttonPrimary)
                 }
                 .foregroundColor(.white)

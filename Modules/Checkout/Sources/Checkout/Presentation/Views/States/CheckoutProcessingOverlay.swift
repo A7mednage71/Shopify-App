@@ -20,7 +20,7 @@ struct CheckoutProcessingOverlay: View {
                     .foregroundColor(AppColors.textPrimary)
                     .multilineTextAlignment(.center)
 
-                Text("Please keep this screen open.")
+                Text(L10n.Checkout.processingKeepOpen)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(AppColors.textSecondary)
                     .multilineTextAlignment(.center)

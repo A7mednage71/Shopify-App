@@ -535,7 +535,7 @@ private struct ProductComparisonRatingLine: View {
 
     private var ratingText: String {
         guard summary.reviewCount > 0 else { return ProductInfoText.noReviewsYet }
-        return "\(String(format: "%.1f", summary.averageRating)) (\(summary.reviewCount))"
+        return L10n.ProductInfo.compactReviewsSummary(summary.reviewCount, rating: String(format: "%.1f", summary.averageRating))
     }
 }
 
@@ -616,6 +616,6 @@ private extension ProductDetails {
 
 private extension ProductComparisonRecommendation {
     var confidenceLabel: String {
-        "\(confidence.rawValue.capitalized) confidence"
+        L10n.ProductInfo.confidenceLabel(confidence.rawValue.capitalized)
     }
 }

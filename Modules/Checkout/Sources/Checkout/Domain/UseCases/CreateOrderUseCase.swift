@@ -20,15 +20,15 @@ enum CreateOrderUseCaseError: LocalizedError, Equatable {
     public var errorDescription: String? {
         switch self {
         case .missingAddress:
-            return "Add a delivery address before placing your order."
+            return L10n.Checkout.missingAddressToastMessage
         case .emptyCart:
-            return "Your cart is empty."
+            return L10n.Checkout.errorEmptyCart
         case .invalidLineItem:
-            return "Some cart items are missing required variant details."
+            return L10n.Checkout.errorInvalidLineItem
         case .missingCurrency:
-            return "Cart currency is missing."
+            return L10n.Checkout.errorMissingCurrency
         case .invalidMoneyAmount(let amount):
-            return "Invalid cart amount: \(amount)"
+            return L10n.Checkout.errorInvalidMoneyAmount(amount)
         }
     }
 }

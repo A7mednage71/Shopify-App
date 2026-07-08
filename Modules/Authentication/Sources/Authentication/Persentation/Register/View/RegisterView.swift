@@ -55,9 +55,9 @@ import Common
                 errorMessage = msg
             }
             return Alert(
-                title: Text("Error"),
+                title: Text(L10n.Auth.error),
                 message: Text(errorMessage),
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text(L10n.Auth.ok))
             )
         }.onChange(of: viewModel.registerState) { newState in
             if newState == .success {
@@ -82,7 +82,7 @@ import Common
 
     @ViewBuilder
     private var headerSection: some View {
-        Text("Create an\naccount")
+        Text(L10n.Auth.createAccountTitle)
             .font(.system(size: 36, weight: .bold, design: .default))
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity, alignment: .center)
@@ -95,14 +95,14 @@ import Common
         Group {
             Spacer().frame(height: 35)
 
-            FormField(label: "Full Name", icon: "person.fill", isError: !viewModel.nameError.isEmpty, formFieldState: $fullNameStateValue)
+            FormField(label: L10n.Auth.fullNameFieldLabel, icon: "person.fill", isError: !viewModel.nameError.isEmpty, formFieldState: $fullNameStateValue)
             if !viewModel.nameError.isEmpty {
                 errorText(viewModel.nameError)
             }
 
             Spacer().frame(height: 15)
 
-            FormField(label: "Username or Email", icon: "envelope.fill", isError: !viewModel.emailError.isEmpty, formFieldState: $emailStateValue)
+            FormField(label: L10n.Auth.usernameOrEmailFieldLabel, icon: "envelope.fill", isError: !viewModel.emailError.isEmpty, formFieldState: $emailStateValue)
             if !viewModel.emailError.isEmpty {
                 errorText(viewModel.emailError)
             }
@@ -111,14 +111,14 @@ import Common
         Group {
             Spacer().frame(height: 15)
 
-            FormField(label: "Password", icon: "lock.fill", isSecureField: true, isError: !viewModel.passwordError.isEmpty, formFieldState: $passwordStateValue)
+            FormField(label: L10n.Auth.passwordFieldLabel, icon: "lock.fill", isSecureField: true, isError: !viewModel.passwordError.isEmpty, formFieldState: $passwordStateValue)
             if !viewModel.passwordError.isEmpty {
                 errorText(viewModel.passwordError)
             }
 
             Spacer().frame(height: 15)
 
-            FormField(label: "Confirm Password", icon: "lock.fill", isSecureField: true, isError: !viewModel.confirmPasswordError.isEmpty, formFieldState: $confirmPasswordStateValue)
+            FormField(label: L10n.Auth.confirmPasswordFieldLabel, icon: "lock.fill", isSecureField: true, isError: !viewModel.confirmPasswordError.isEmpty, formFieldState: $confirmPasswordStateValue)
             if !viewModel.confirmPasswordError.isEmpty {
                 errorText(viewModel.confirmPasswordError)
             }
@@ -129,13 +129,13 @@ import Common
     private var agreementAndSubmitSection: some View {
         Spacer().frame(height: 15)
 
-        (Text("By clicking the ")
+        (Text(L10n.Auth.byClicking)
             .foregroundColor(AppColors.textSecondary)
             .font(.system(size: 12))
-        + Text("Register ")
+        + Text(L10n.Auth.register)
             .foregroundColor(AppColors.primary)
             .font(.system(size: 12))
-        + Text("button, you agree\nto the public offer")
+        + Text(L10n.Auth.agreePublicOffer)
             .foregroundColor(AppColors.textSecondary)
             .font(.system(size: 12)))
         .multilineTextAlignment(.center)
@@ -143,7 +143,7 @@ import Common
 
         Spacer().frame(height: 35)
 
-        CustomBtn(label: "Create Account", action: {
+        CustomBtn(label: L10n.Auth.createAccount, action: {
             Task {
                 await viewModel.register(
                     fullName: fullNameStateValue,
@@ -174,8 +174,8 @@ import Common
         Spacer().frame(height: 28)
 
         AuthBottomPrompt(
-            promptText: "I Already Have an Account",
-            actionText: "Login",
+            promptText: L10n.Auth.alreadyHaveAccountPrompt,
+            actionText: L10n.Auth.loginAction,
             action: {
                 onNavigateToLogin()
             }

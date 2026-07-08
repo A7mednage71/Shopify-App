@@ -21,7 +21,7 @@ struct OrderDetailsLineItemRow: View {
                     .foregroundColor(AppColors.textPrimary)
                     .lineLimit(2)
                 
-                Text("Color: Default")
+                Text(L10n.Orders.colorDefault)
                     .font(AppFonts.caption)
                     .foregroundColor(AppColors.textSecondary)
                 
@@ -29,7 +29,7 @@ struct OrderDetailsLineItemRow: View {
                     Image(systemName: "star.fill")
                         .foregroundColor(.orange)
                         .font(.system(size: 10))
-                    Text("Review")
+                    Text(L10n.Orders.review)
                         .font(AppFonts.caption)
                         .foregroundColor(.orange)
                 }

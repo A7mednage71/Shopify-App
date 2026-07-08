@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 public struct AddressViewFactory {
     private let makeAddressesViewModel: @MainActor () -> AddressesViewModel
@@ -13,7 +14,7 @@ public struct AddressViewFactory {
         if #available(iOS 16.0, *) {
             SwiftUIView(viewModel: makeAddressesViewModel())
         } else {
-            Text("Addresses require iOS 16 or later.")
+            Text(L10n.Address.iOS16Required)
         }
     }
 

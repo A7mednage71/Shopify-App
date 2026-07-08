@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 enum CheckoutPaymentAuthorizationError: LocalizedError, Equatable {
     case applePayUnavailable
@@ -9,13 +10,13 @@ enum CheckoutPaymentAuthorizationError: LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case .applePayUnavailable:
-            return "Apple Pay is not available on this device."
+            return L10n.Checkout.errorApplePayUnavailable
         case .userCancelled:
             return nil
         case .presentationFailed:
-            return "We could not open Apple Pay. Please try again."
+            return L10n.Checkout.errorApplePayPresentationFailed
         case .missingMerchantIdentifier:
-            return "Apple Pay is not configured for this app."
+            return L10n.Checkout.errorApplePayMissingMerchantIdentifier
         }
     }
 }

@@ -1,4 +1,5 @@
 import Foundation
+import Common
 import MarktekNetworking
 import ApolloAPI
 
@@ -13,11 +14,11 @@ public enum CheckoutError: LocalizedError {
         case .userError(let messages):
             return messages.joined(separator: ", ")
         case .malformedDiscountCode:
-            return "We could not apply this discount at checkout. You can continue without it."
+            return L10n.Checkout.errorMalformedDiscountCode
         case .malformedReviewsMetafield:
-            return "We could not read existing product reviews. Please try again."
+            return L10n.Checkout.errorMalformedReviewsMetafield
         case .unknown:
-            return "An unknown error occurred during checkout."
+            return L10n.Checkout.errorUnknown
         }
     }
 }

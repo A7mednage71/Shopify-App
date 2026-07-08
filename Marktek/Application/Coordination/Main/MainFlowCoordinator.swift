@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 @MainActor
 final class MainFlowCoordinator: ObservableObject {
@@ -22,13 +23,13 @@ enum MainTab: Hashable {
     var title: String {
         switch self {
         case .home:
-            return "Home"
+            return L10n.Main.tabHome
         case .cart:
-            return "Cart"
+            return L10n.Main.tabCart
         case .favorites:
-            return "Favorites"
+            return L10n.Main.tabFavorites
         case .profile:
-            return "Profile"
+            return L10n.Main.tabProfile
         }
     }
 

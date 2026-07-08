@@ -100,7 +100,7 @@ public struct HomeView: View {
                         Image(systemName: "sparkles")
                             .foregroundColor(.appPrimaryOrange)
                             .font(.system(size: 20))
-                        Text("Marktek")
+                        Text(L10n.Main.appName)
                             .font(.appBarTitle)
                             .foregroundColor(.appPrimaryOrange)
                     }

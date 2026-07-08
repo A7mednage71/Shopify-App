@@ -72,7 +72,7 @@ public struct AddressPickerView: View {
         HStack {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(AppColors.secondary)
-            TextField("Search for an address", text: $searchViewModel.query)
+            TextField(L10n.Address.searchPlaceholder, text: $searchViewModel.query)
                 .focused($searchFieldFocused)
                 .font(AppFonts.body)
                 .foregroundColor(AppColors.textPrimary)
@@ -115,7 +115,7 @@ public struct AddressPickerView: View {
                 if pickerViewModel.isResolvingAddress {
                     ProgressView().tint(AppColors.textWhite)
                 }
-                Text(pickerViewModel.isResolvingAddress ? "Locating..." : "Confirm Location")
+                Text(pickerViewModel.isResolvingAddress ? L10n.Address.locating : L10n.Address.confirmLocation)
                     .font(AppFonts.body)
             }
             .foregroundColor(AppColors.textWhite)
@@ -138,4 +138,3 @@ public struct AddressPickerView: View {
         searchFieldFocused = false
     }
 }
-

@@ -18,7 +18,7 @@ struct AssistantCatalogErrorView: View {
                 .padding(.horizontal, 24)
             
             Button(action: onRetry) {
-                Text("Retry")
+                Text(L10n.Home.assistantRetry)
                     .font(.buttonPrimary)
                     .foregroundColor(.white)
                     .padding(.horizontal, 24)

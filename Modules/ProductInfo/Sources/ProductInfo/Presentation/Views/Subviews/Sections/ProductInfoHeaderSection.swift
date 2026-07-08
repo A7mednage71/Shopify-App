@@ -69,10 +69,10 @@ struct ProductInfoHeaderSection: View {
 
     private var reviewText: String {
         guard reviewSummary.reviewCount > 0 else {
-            return "No reviews yet"
+            return L10n.ProductInfo.noReviewsSummary
         }
 
-        return "\(reviewSummary.averageRating.formattedRating) (\(reviewSummary.reviewCount) reviews)"
+        return L10n.ProductInfo.reviewsSummary(reviewSummary.reviewCount, rating: reviewSummary.averageRating.formattedRating)
     }
 }
 

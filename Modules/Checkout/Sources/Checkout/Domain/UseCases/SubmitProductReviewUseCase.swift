@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 protocol SubmitProductReviewUseCaseProtocol: Sendable {
     func execute(
@@ -15,11 +16,11 @@ enum SubmitProductReviewUseCaseError: LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case .invalidRating:
-            return "Choose a rating before submitting your review."
+            return L10n.Checkout.errorInvalidRating
         case .missingTitle:
-            return "Add a title for your review."
+            return L10n.Checkout.errorMissingReviewTitle
         case .missingBody:
-            return "Add a few words about your experience."
+            return L10n.Checkout.errorMissingReviewBody
         }
     }
 }
@@ -66,7 +67,7 @@ struct SubmitProductReviewUseCase: SubmitProductReviewUseCaseProtocol, Sendable 
             .filter { !$0.isEmpty }
             .joined(separator: " ")
 
-        return name.isEmpty ? "Customer" : name
+        return name.isEmpty ? L10n.ProductInfo.customerFallbackName : name
     }
 }
 

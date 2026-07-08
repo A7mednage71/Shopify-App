@@ -24,7 +24,7 @@ public struct OrdersView: View {
                 ToolbarItem(placement: .principal) {
                     HStack(spacing: 8) {
                         Image(systemName: "shippingbox.fill")
-                        Text("Order History")
+                        Text(L10n.Orders.history)
                             .font(.headline)
                             .fontWeight(.bold)
                     }
@@ -61,7 +61,7 @@ public struct OrdersView: View {
                     .foregroundColor(AppColors.textSecondary)
                     .multilineTextAlignment(.center)
 
-                Button("Try Again") {
+                Button(L10n.Orders.tryAgain) {
                     Task { await viewModel.loadOrders() }
                 }
                 .font(AppFonts.callout)

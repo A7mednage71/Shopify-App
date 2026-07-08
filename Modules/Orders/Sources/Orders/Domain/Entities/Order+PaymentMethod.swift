@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Common
 
 extension Order {
     public enum PaymentMethod {
@@ -15,9 +16,9 @@ extension Order {
 
         public var title: String {
             switch self {
-            case .applePay: return "Apple Pay"
-            case .cashOnDelivery: return "Cash on Delivery"
-            case .unknown: return "Credit Card"
+            case .applePay: return L10n.Orders.paymentApplePay
+            case .cashOnDelivery: return L10n.Orders.paymentCashOnDelivery
+            case .unknown: return L10n.Orders.paymentCreditCard
             }
         }
 

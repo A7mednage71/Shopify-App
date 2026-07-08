@@ -216,7 +216,7 @@ private struct CheckoutTopToastView: View {
                     .foregroundColor(AppColors.textWhite.opacity(0.9))
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Dismiss")
+            .accessibilityLabel(L10n.Checkout.dismissAccessibilityLabel)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)

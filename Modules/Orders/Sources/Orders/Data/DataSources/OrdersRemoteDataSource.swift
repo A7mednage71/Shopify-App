@@ -7,6 +7,7 @@
 
 import Foundation
 import MarktekNetworking
+import Common
 
 public enum OrdersError: LocalizedError {
     case customerNotFound
@@ -15,9 +16,9 @@ public enum OrdersError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .customerNotFound:
-            return "We couldn't find your account to load your orders."
+            return L10n.Orders.errorCustomerNotFound
         case .unknown:
-            return "Something went wrong while loading your orders."
+            return L10n.Orders.errorUnknown
         }
     }
 }

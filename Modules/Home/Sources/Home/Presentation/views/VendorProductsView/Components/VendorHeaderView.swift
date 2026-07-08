@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct VendorHeaderView: View {
     let vendorName: String
@@ -9,7 +10,7 @@ struct VendorHeaderView: View {
                 Image(systemName: "tag.fill")
                     .foregroundColor(.appPrimaryOrange)
                     .font(.system(size: 14))
-                Text("Official Vendor")
+                Text(L10n.Home.officialVendorLabel)
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.appPrimaryOrange)
                     .textCase(.uppercase)
@@ -19,7 +20,7 @@ struct VendorHeaderView: View {
                 .font(.system(size: 28, weight: .bold))
                 .foregroundColor(.appTextPrimary)
             
-            Text("Browse all authentic products from \(vendorName)")
+            Text(L10n.Home.vendorBrowseDescription(vendorName))
                 .font(.system(size: 13))
                 .foregroundColor(.appTextSecondary)
         }

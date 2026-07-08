@@ -1,43 +1,45 @@
+import Common
 enum CartText {
-    static let navigationTitle = "Cart"
-    static let loadingAccessibilityLabel = "Loading cart"
+    static var navigationTitle: String { L10n.Cart.navigationTitle }
+    static var loadingAccessibilityLabel: String { L10n.Cart.loadingAccessibilityLabel }
 
-    static let emptyImageName = "empty_cart"
-    static let emptyTitle = "Your cart is empty"
-    static let emptyMessage = "Looks like you have not added anything yet."
-    static let startShoppingButtonTitle = "Start Shopping"
+    static var emptyImageName: String { L10n.Cart.emptyImageName }
+    static var emptyTitle: String { L10n.Cart.emptyTitle }
+    static var emptyMessage: String { L10n.Cart.emptyMessage }
+    static var startShoppingButtonTitle: String { L10n.Cart.startShoppingButtonTitle }
 
-    static let checkoutButtonTitle = "Proceed to Checkout"
-    static let orderSummaryTitle = "Cart Summary"
-    static let itemsSummaryTitle = "Items"
-    static let subtotalSummaryTitle = "Subtotal"
-    static let discountSummaryTitle = "Discount"
-    static let totalSummaryTitle = "Total"
-    static let priceFallbackText = "$0"
-    static let discountCodePlaceholder = "Discount code"
-    static let discountCodeApplyTitle = "Apply"
-    static let discountCodeRemoveTitle = "Remove"
-    static let discountCodeApplyingTitle = "Applying"
-    static let discountCodeNotApplicableMessage = "The code you entered is not applicable."
-    static let deleteActionTitle = "Delete"
-    static let deleteAlertTitle = "Remove item?"
-    static let deleteAlertConfirmTitle = "Remove"
-    static let deleteAlertCancelTitle = "Cancel"
+    static var checkoutButtonTitle: String { L10n.Cart.checkoutButtonTitle }
+    static var orderSummaryTitle: String { L10n.Cart.orderSummaryTitle }
+    static var itemsSummaryTitle: String { L10n.Cart.itemsSummaryTitle }
+    static var subtotalSummaryTitle: String { L10n.Cart.subtotalSummaryTitle }
+    static var discountSummaryTitle: String { L10n.Cart.discountSummaryTitle }
+    static var totalSummaryTitle: String { L10n.Cart.totalSummaryTitle }
+    static var priceFallbackText: String { L10n.Cart.priceFallbackText }
+    static var discountCodePlaceholder: String { L10n.Cart.discountCodePlaceholder }
+    static var discountCodeApplyTitle: String { L10n.Cart.discountCodeApplyTitle }
+    static var discountCodeRemoveTitle: String { L10n.Cart.discountCodeRemoveTitle }
+    static var discountCodeApplyingTitle: String { L10n.Cart.discountCodeApplyingTitle }
+    static var discountCodeNotApplicableMessage: String { L10n.Cart.discountCodeNotApplicableMessage }
+    static var deleteActionTitle: String { L10n.Cart.deleteActionTitle }
+    static var deleteAlertTitle: String { L10n.Cart.deleteAlertTitle }
+    static var deleteAlertConfirmTitle: String { L10n.Cart.deleteAlertConfirmTitle }
+    static var deleteAlertCancelTitle: String { L10n.Cart.deleteAlertCancelTitle }
 
-    static let failureTitle = "Cart could not load"
-    static let failureRetryTitle = "Try Again"
-    static let failureHelpMessage = "Check your connection and try again in a moment."
-    static let failureFallbackMessage = "Something went wrong while fetching your cart."
+    static var failureTitle: String { L10n.Cart.failureTitle }
+    static var failureRetryTitle: String { L10n.Cart.failureRetryTitle }
+    static var failureHelpMessage: String { L10n.Cart.failureHelpMessage }
+    static var failureFallbackMessage: String { L10n.Cart.failureFallbackMessage }
 
-    static let cartItemImageAccessibilityLabel = "Cart item image"
-    static let cartItemFallbackTitle = "Cart Item"
-    static let colorOptionName = "color"
-    static let colourOptionName = "colour"
-    static let sizeOptionName = "size"
-    static let defaultVariantName = "default"
+    static var cartItemImageAccessibilityLabel: String { L10n.Cart.cartItemImageAccessibilityLabel }
+    static var cartItemFallbackTitle: String { L10n.Cart.cartItemFallbackTitle }
+    static var colorOptionName: String { L10n.Cart.colorOptionName }
+    static var colourOptionName: String { L10n.Cart.colourOptionName }
+    static var sizeOptionName: String { L10n.Cart.sizeOptionName }
+    static var defaultVariantName: String { L10n.Cart.defaultVariantName }
+    static var variantLabel: String { L10n.Cart.variantLabel }
 
     static func optionText(name: String, value: String) -> String {
-        "\(name): \(value)"
+        L10n.Cart.optionText(name: name, value: value)
     }
 
     static func optionsText(_ options: [String]) -> String {
@@ -45,10 +47,10 @@ enum CartText {
     }
 
     static func variantText(title: String) -> String {
-        "Variant: \(title)"
+        "\(variantLabel): \(title)"
     }
 
     static func deleteAlertMessage(itemTitle: String) -> String {
-        "Remove \(itemTitle) from your cart?"
+        L10n.Cart.deleteAlertMessage(itemTitle)
     }
 }

@@ -190,35 +190,35 @@ struct CheckoutPricingUseCase: CheckoutPricingUseCaseProtocol, Sendable {
         shippingMethod: CheckoutShippingMethod
     ) -> String? {
         guard discount.status == "ACTIVE" else {
-            return "This discount code is not active."
+            return L10n.Checkout.discountInactive
         }
 
         if let startsAt = discount.startsAt, startsAt > now() {
-            return "This discount code is not active yet."
+            return L10n.Checkout.discountInactiveYet
         }
 
         if let endsAt = discount.endsAt, endsAt <= now() {
-            return "This discount code has expired."
+            return L10n.Checkout.discountExpired
         }
 
         if discount.isUsageLimitReached {
-            return "This discount code has reached its usage limit."
+            return L10n.Checkout.discountUsageLimitReached
         }
 
         if let minimumRequirement = discount.minimumRequirement {
             switch minimumRequirement {
             case .quantity(let minimumQuantity):
                 guard cart.totalQuantity >= minimumQuantity else {
-                    return "This discount code requires at least \(minimumQuantity) items."
+                    return L10n.Checkout.discountMinimumQuantity(minimumQuantity)
                 }
 
             case .subtotal(let amount, let requirementCurrencyCode):
                 guard requirementCurrencyCode == currencyCode else {
-                    return "This discount code uses a different currency."
+                    return L10n.Checkout.discountCurrencyMismatch
                 }
 
                 guard subtotal >= amount else {
-                    return "This discount code requires a higher subtotal."
+                    return L10n.Checkout.discountHigherSubtotalRequired
                 }
             }
         }
@@ -226,25 +226,25 @@ struct CheckoutPricingUseCase: CheckoutPricingUseCaseProtocol, Sendable {
         switch discount.value {
         case .fixedAmount(_, let discountCurrencyCode, _):
             guard discount.appliesToAllItems else {
-                return "This discount code only supports selected products."
+                return L10n.Checkout.discountSelectedProductsOnly
             }
 
             guard discountCurrencyCode == currencyCode else {
-                return "This discount code uses a different currency."
+                return L10n.Checkout.discountCurrencyMismatch
             }
 
         case .percentage:
             guard discount.appliesToAllItems else {
-                return "This discount code only supports selected products."
+                return L10n.Checkout.discountSelectedProductsOnly
             }
 
         case .freeShipping(let maximumShippingPrice, let shippingCurrencyCode):
             if let shippingCurrencyCode, shippingCurrencyCode != currencyCode {
-                return "This discount code uses a different currency."
+                return L10n.Checkout.discountCurrencyMismatch
             }
 
             if let maximumShippingPrice, shippingMethod.amount > maximumShippingPrice {
-                return "This discount code does not cover the selected shipping method."
+                return L10n.Checkout.discountShippingMethodUnsupported
             }
         }
 

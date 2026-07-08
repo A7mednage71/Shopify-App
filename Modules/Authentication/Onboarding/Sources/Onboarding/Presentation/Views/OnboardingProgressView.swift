@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct OnboardingProgressView: View {
     let currentIndex: Int
@@ -14,7 +15,7 @@ struct OnboardingProgressView: View {
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Onboarding page \(currentIndex + 1) of \(totalCount)")
+        .accessibilityLabel(L10n.Onboarding.pageAccessibilityLabel(currentIndex: currentIndex + 1, totalCount: totalCount))
     }
 }
 

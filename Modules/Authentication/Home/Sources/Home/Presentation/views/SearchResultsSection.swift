@@ -42,11 +42,11 @@ private struct SearchEmptyStateView: View {
                 .font(.system(size: 50, weight: .light))
                 .foregroundColor(.appBorderMedium)
 
-            Text("No results found")
+            Text(L10n.Home.noResultsFound)
                 .font(.sectionTitle)
                 .foregroundColor(.appTextPrimary)
 
-            Text("Try different keywords or check your spelling")
+            Text(L10n.Home.noResultsHint)
                 .font(.offerSubtitle)
                 .foregroundColor(.appTextSecondary)
                 .multilineTextAlignment(.center)

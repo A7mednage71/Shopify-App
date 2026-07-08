@@ -12,7 +12,7 @@ public struct SwiftUIView: View {
         Group {
             switch viewModel.state {
             case .initialState, .loading:
-                ProgressView("Loading addresses...")
+                ProgressView(L10n.Address.loadingAddresses)
                     .foregroundColor(AppColors.textPrimary)
                     .tint(AppColors.primary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

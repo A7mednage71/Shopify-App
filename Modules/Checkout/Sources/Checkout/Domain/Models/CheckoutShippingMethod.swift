@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 public enum CheckoutShippingMethod: String, CaseIterable, Identifiable, Sendable {
     case standard
@@ -9,9 +10,9 @@ public enum CheckoutShippingMethod: String, CaseIterable, Identifiable, Sendable
     var title: String {
         switch self {
         case .standard:
-            return "Standard"
+            return L10n.Checkout.shippingMethodStandardTitle
         case .express:
-            return "Express"
+            return L10n.Checkout.shippingMethodExpressTitle
         }
     }
 
@@ -22,9 +23,9 @@ public enum CheckoutShippingMethod: String, CaseIterable, Identifiable, Sendable
     var deliveryEstimate: String {
         switch self {
         case .standard:
-            return "5 days"
+            return L10n.Checkout.shippingMethodStandardEstimate
         case .express:
-            return "2 days"
+            return L10n.Checkout.shippingMethodExpressEstimate
         }
     }
 

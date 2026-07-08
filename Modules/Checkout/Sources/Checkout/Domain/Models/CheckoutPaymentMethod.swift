@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 enum CheckoutPaymentMethodType: String, CaseIterable, Identifiable, Sendable {
     case applePay
@@ -9,18 +10,18 @@ enum CheckoutPaymentMethodType: String, CaseIterable, Identifiable, Sendable {
     public var title: String {
         switch self {
         case .applePay:
-            return "Apple Pay"
+            return L10n.Checkout.paymentMethodApplePayTitle
         case .cashOnDelivery:
-            return "Cash on Delivery"
+            return L10n.Checkout.paymentMethodCashOnDeliveryTitle
         }
     }
 
     public var subtitle: String {
         switch self {
         case .applePay:
-            return "Fast checkout with Apple Pay"
+            return L10n.Checkout.paymentMethodApplePaySubtitle
         case .cashOnDelivery:
-            return "Pay when your order arrives"
+            return L10n.Checkout.paymentMethodCashOnDeliverySubtitle
         }
     }
 

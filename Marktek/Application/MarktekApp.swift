@@ -28,12 +28,18 @@ struct MarktekApp: App {
     @StateObject private var authState = AuthState()
     private let persistenceController = PersistenceController.shared
     
+    @StateObject private var localizationManager = LocalizationManager.shared
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     var body: some Scene {
         WindowGroup {
             AppFlowView(authState: authState)
                 .tint(AppColors.primary)
                 .preferredColorScheme(isDarkMode ? .dark : .light)
+                .environment(\.locale, Locale(identifier: localizationManager.appLanguage))
+                .environment(\.layoutDirection, localizationManager.currentLanguage.layoutDirection)
+                .id(localizationManager.appLanguage)
+                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                .animation(.easeInOut(duration: 0.5), value: localizationManager.appLanguage)
                 .task {
                     await CurrencyService.shared.fetchLatestRates()
                 }.onOpenURL { url in
