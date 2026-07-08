@@ -8,34 +8,41 @@
 import SwiftUI
 import Common
 struct NewAddressButton: View {
-    var action : ()->Void
+    var action: () -> Void
     var body: some View {
-        Button(action: {
-            action()
-            
-        }) {
-            HStack(spacing: 10) {
-                Image(systemName: "plus")
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(AppColors.primary)
-                    .frame(width: 24, height: 24)
-    
+                
                 Text(L10n.Address.addNew)
-                    .font(AppFonts.callout)
-                    .foregroundColor(AppColors.textPrimary)
+                    .font(AppFonts.headline)
+                    .foregroundColor(AppColors.primary)
             }
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 12)
+            .padding(.vertical, 18)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(AppColors.primary.opacity(0.04))
+            )
             .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(
                         AppColors.primary,
-                        lineWidth: 1
+                        style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round, dash: [6, 4])
                     )
             )
         }
+        .buttonStyle(NewAddressPressableButtonStyle())
+    }
+}
 
-
+fileprivate struct NewAddressPressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
 

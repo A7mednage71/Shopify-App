@@ -30,19 +30,11 @@ public struct AddressesView: View {
     public var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text(L10n.Address.savedAddresses)
-                    .font(.headline)
-                    .foregroundColor(AppColors.textPrimary)
-                    .padding(.top)
-                    .padding(.horizontal, 24)
                 List {
                     ForEach(viewModel.addressesList, id: \.id) { address in
                         AddressItem(
                             isSelected: Binding(
-                                get: {
-                                    if(viewModel.selectedAddressID == address.id ){
-                                    }
-                                    return viewModel.selectedAddressID == address.id },
+                                get: { viewModel.selectedAddressID == address.id },
                                 set: { isSelected in
                                     if isSelected {
                                         viewModel.selectedAddressID = address.id
@@ -53,10 +45,9 @@ public struct AddressesView: View {
                         .onTapGesture {
                             viewModel.selectedAddressID = address.id
                         }
+                        .listRowInsets(EdgeInsets(top: 6, leading: 24, bottom: 6, trailing: 24))
                         .listRowSeparator(.hidden)
-                        .listRowBackground(AppColors.backgroundSecondary)
-                        
-                        
+                        .listRowBackground(Color.clear)
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 addressToDelete = address
@@ -70,13 +61,13 @@ public struct AddressesView: View {
                     NewAddressButton(action: {
                         onAddAddress()
                     })
+                    .listRowInsets(EdgeInsets(top: 10, leading: 24, bottom: 10, trailing: 24))
                     .listRowSeparator(.hidden)
-                    .listRowBackground(AppColors.backgroundSecondary)
-                    .padding(.top, 8)
+                    .listRowBackground(Color.clear)
                 }
                 .listStyle(.plain)
-                .background(AppColors.backgroundSecondary)
-                
+                .background(Color.clear)
+                .padding(.top, 12)
                 
                 CustomBtn(label: L10n.Address.apply, action: {
                     Task {
@@ -91,7 +82,7 @@ public struct AddressesView: View {
                 .disabled(viewModel.isSelectionUnchanged)
                 .opacity(viewModel.isSelectionUnchanged ? 0.5 : 1.0)
                 .padding(.horizontal, 24)
-                .padding(.bottom)
+                .padding(.bottom, 16)
             }
             
             if showSnackbar {
@@ -117,6 +108,18 @@ public struct AddressesView: View {
             }
         }
         .background(AppColors.backgroundSecondary)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(spacing: 8) {
+                    Image(systemName: "mappin.and.ellipse")
+                    Text(L10n.Address.savedAddresses)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                }
+                .foregroundColor(AppColors.primary)
+            }
+        }
         .alert(L10n.Address.deleteAddressAlert, isPresented: $showingDeleteAlert, presenting: addressToDelete) { address in
             Button(L10n.Address.delete, role: .destructive) {
                 var transaction = Transaction()

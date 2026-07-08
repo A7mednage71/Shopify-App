@@ -15,8 +15,8 @@ let package = Package(
     dependencies: [
         .package(path: "../MarktekNetworking"),
         .package(path: "../Common"),
-        .package(url: "https://github.com/Swinject/Swinject.git",.upToNextMajor(from: "2.8.3") )
-
+        .package(url: "https://github.com/Swinject/Swinject.git",.upToNextMajor(from: "2.8.3") ),
+        .package(url: "https://github.com/markiv/SwiftUI-Shimmer.git", from: "1.4.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,8 +26,8 @@ let package = Package(
             dependencies: [
                 .product(name: "MarktekNetworking", package: "MarktekNetworking"),
                 .product(name: "Common", package: "Common"),
-    
-                .product(name: "Swinject" , package: "Swinject")
+                .product(name: "Swinject", package: "Swinject"),
+                .product(name: "Shimmer", package: "SwiftUI-Shimmer")
             ]),
         .testTarget(
             name: "AddressTests",

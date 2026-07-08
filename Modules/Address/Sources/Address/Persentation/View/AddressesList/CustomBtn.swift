@@ -15,17 +15,24 @@ struct CustomBtn: View {
     var action: () -> Void
     
     var body: some View {
-        Button {
-            action()
-        } label: {
+        Button(action: action) {
             Text(label)
-                .font(.system(size: 20, weight: .semibold))
+                .font(.system(size: 18, weight: .bold))
                 .foregroundColor(AppColors.textWhite)
-         
-                .padding(.vertical, 14)
+                .padding(.vertical, 16)
                 .frame(maxWidth: .infinity)
                 .background(AppColors.primary)
-                .cornerRadius(10).padding(.horizontal, 30)
+                .cornerRadius(14)
+                .shadow(color: AppColors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
         }
+        .buttonStyle(PressableButtonStyle())
+    }
+}
+
+struct PressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
