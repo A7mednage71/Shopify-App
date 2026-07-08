@@ -157,3 +157,9 @@ public extension View {
             .foregroundColor(.appTextPrimary)
     }
 }
+
+public enum AppImages {
+    public static var appIcon: Image {
+        Image("AppIcon", bundle: .module)
+    }
+}

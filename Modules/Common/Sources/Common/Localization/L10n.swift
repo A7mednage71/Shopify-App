@@ -20,6 +20,11 @@ public enum L10n {
         public static var welcomeBack: String { LocalizationManager.shared.localizedString(for: "auth_welcome_back") }
         public static var forgetPassword: String { LocalizationManager.shared.localizedString(for: "auth_forget_password") }
         public static var login: String { LocalizationManager.shared.localizedString(for: "auth_login") }
+        
+        public static var loginDescription: String { LocalizationManager.shared.localizedString(for: "auth_login_description") }
+        public static var registerDescription: String { LocalizationManager.shared.localizedString(for: "auth_register_description") }
+        public static var orWith: String { LocalizationManager.shared.localizedString(for: "auth_or_with") }
+        public static var smartShoppingAssistant: String { LocalizationManager.shared.localizedString(for: "auth_smart_shopping_assistant") }
     }
     
     public enum Settings {

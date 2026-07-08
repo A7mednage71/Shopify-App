@@ -60,7 +60,6 @@ struct LoginView: View {
         }
     }
 
-    // الـ Hero Section بارتفاع 230px وخلفية Peach وبها AppIcon
     private var heroSection: some View {
         ZStack {
             LinearGradient(
@@ -71,13 +70,12 @@ struct LoginView: View {
             .frame(height: 230)
             .clipShape(CustomRoundedCorner(radius: 40, corners: [.bottomLeft, .bottomRight]))
             
-            // הדائرة البيضاء وبداخلها الـ AppIcon
             Circle()
                 .fill(Color.white)
                 .frame(width: 104, height: 104)
                 .shadow(color: AppColors.primary.opacity(0.18), radius: 10, x: 0, y: 5)
                 .overlay(
-                    Image("AppIcon", bundle: .module)
+                    AppImages.appIcon
                         .resizable()
                         .scaledToFit()
                         .frame(width: 72, height: 72)
@@ -95,23 +93,21 @@ struct LoginView: View {
     @ViewBuilder
     private var formContent: some View {
         VStack(spacing: 0) {
-            // 2. العنوان مع الجملة الوصفية الترحيبية بالأبليكيشن
             VStack(spacing: 6) {
                 Text(L10n.Auth.welcomeBack)
                     .font(AppFonts.authTitle)
                     .foregroundColor(AppColors.textPrimary)
                 
-                Text("Your smart fashion destination for the best shopping deals.")
+                Text(L10n.Auth.loginDescription)
                     .font(AppFonts.authSubtitle)
                     .foregroundColor(AppColors.textSecondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
                     .padding(.top, 4)
             }
-            .padding(.top, 24)
+            .padding(.top, 12)
             .padding(.bottom, 36)
 
-            // 3. حقول الإدخال
             VStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 6) {
                     FormField(
@@ -149,7 +145,6 @@ struct LoginView: View {
                 }
             }
 
-            // نسيت كلمة المرور
             HStack {
                 Spacer()
                 Button {
@@ -164,7 +159,6 @@ struct LoginView: View {
             .padding(.top, 12)
             .padding(.bottom, 32)
 
-            // 4. زر الدخول مع الـ loading المدمج فيه والـ shadow الطافي والـ Gradient
             CustomBtn(
                 label: L10n.Auth.login,
                 isLoading: viewModel.loginState == .loading,
@@ -175,10 +169,9 @@ struct LoginView: View {
                 }
             )
 
-            // 5. الفاصل الـ Divider الأنيق مكتوب عليه "OR WITH"
             HStack {
                 VStack { Divider().background(AppColors.authDivider) }
-                Text("OR WITH")
+                Text(L10n.Auth.orWith)
                     .font(AppFonts.authEyebrow)
                     .tracking(1.5)
                     .foregroundColor(AppColors.textSecondary.opacity(0.8))
@@ -189,7 +182,6 @@ struct LoginView: View {
             .padding(.top, 40)
             .padding(.bottom, 24)
 
-            // 6. أيقونات Guest و Google
             VStack(spacing: 32) {
                 HStack(spacing: 24) {
                     CutomeCircularBtn(image: "person.crop.circle.fill.badge.plus", label: "", action: onGuestContinue)

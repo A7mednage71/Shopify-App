@@ -541,3 +541,10 @@
 "settings_enter_first_name" = "أدخل الاسم الأول";
 "settings_enter_last_name" = "أدخل اسم العائلة";
 "settings_enter_phone_number" = "أدخل رقم الهاتف";
+
+/* New Auth Customizations */
+"auth_login_description" = "وجهتك الذكية للأزياء وأفضل عروض التسوق.";
+"auth_register_description" = "انضم إلينا لاستكشاف أحدث صيحات الموضة والحصول على اقتراحات تسوق ذكية.";
+"auth_or_with" = "أو بواسطة";
+"auth_smart_shopping_assistant" = "تسوق مدعوم بالذكاء الاصطناعي";
+

@@ -541,3 +541,10 @@
 "settings_enter_first_name" = "Enter first name";
 "settings_enter_last_name" = "Enter last name";
 "settings_enter_phone_number" = "Enter phone number";
+
+/* New Auth Customizations */
+"auth_login_description" = "Your smart fashion destination for the best shopping deals.";
+"auth_register_description" = "Join us to explore the latest fashion trends and get smart shopping suggestions.";
+"auth_or_with" = "OR WITH";
+"auth_smart_shopping_assistant" = "AI-POWERED SHOPPING";
+

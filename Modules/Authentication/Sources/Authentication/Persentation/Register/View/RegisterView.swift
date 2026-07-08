@@ -63,7 +63,6 @@ struct RegisterView: View {
         }
     }
 
-    // الـ Hero Section بارتفاع 230px وخلفية Peach وبها AppIcon
     private var heroSection: some View {
         ZStack {
             LinearGradient(
@@ -74,13 +73,12 @@ struct RegisterView: View {
             .frame(height: 230)
             .clipShape(CustomRoundedCorner(radius: 40, corners: [.bottomLeft, .bottomRight]))
             
-            // الدائرة البيضاء وبداخلها الـ AppIcon
             Circle()
                 .fill(Color.white)
                 .frame(width: 104, height: 104)
                 .shadow(color: AppColors.primary.opacity(0.18), radius: 10, x: 0, y: 5)
                 .overlay(
-                    Image("AppIcon", bundle: .module)
+                    AppImages.appIcon
                         .resizable()
                         .scaledToFit()
                         .frame(width: 72, height: 72)
@@ -98,13 +96,12 @@ struct RegisterView: View {
     @ViewBuilder
     private var formContent: some View {
         VStack(spacing: 0) {
-            // 2. العنوان مع الجملة الوصفية الترحيبية بالأبليكيشن
             VStack(spacing: 6) {
                 Text(L10n.Auth.createAccount)
                     .font(AppFonts.authTitle)
                     .foregroundColor(AppColors.textPrimary)
                 
-                Text("Join us to explore the latest fashion trends and get smart shopping suggestions.")
+                Text(L10n.Auth.registerDescription)
                     .font(AppFonts.authSubtitle)
                     .foregroundColor(AppColors.textSecondary)
                     .multilineTextAlignment(.center)
@@ -114,7 +111,6 @@ struct RegisterView: View {
             .padding(.top, 12)
             .padding(.bottom, 24)
 
-            // 3. حقول الإدخال
             VStack(spacing: 14) {
                 VStack(alignment: .leading, spacing: 6) {
                     FormField(
@@ -171,7 +167,6 @@ struct RegisterView: View {
                 }
             }
 
-            // شروط الخدمة والاتفاقية
             VStack(spacing: 0) {
                 (Text(L10n.Auth.byClicking)
                     .foregroundColor(AppColors.textSecondary)
@@ -188,7 +183,6 @@ struct RegisterView: View {
             .padding(.top, 16)
             .padding(.bottom, 28)
 
-            // 4. زر التسجيل مع الـ Loading المدمج فيه
             CustomBtn(
                 label: L10n.Auth.createAccount,
                 isLoading: viewModel.registerState == .loading,
@@ -204,10 +198,9 @@ struct RegisterView: View {
                 }
             )
 
-            // 5. الفاصل الـ Divider الأنيق مكتوب عليه "OR WITH"
             HStack {
                 VStack { Divider().background(AppColors.authDivider) }
-                Text("OR WITH")
+                Text(L10n.Auth.orWith)
                     .font(AppFonts.authEyebrow)
                     .tracking(1.5)
                     .foregroundColor(AppColors.textSecondary.opacity(0.8))

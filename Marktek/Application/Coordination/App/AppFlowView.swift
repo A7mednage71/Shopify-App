@@ -8,6 +8,7 @@ struct AppFlowView: View {
 
     @ObservedObject private var authState: AuthState
     @StateObject private var coordinator: AppFlowCoordinator
+    @State private var isSplashActive = true
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     init(authState: AuthState) {
@@ -22,20 +23,33 @@ struct AppFlowView: View {
 
     var body: some View {
         Group {
-            switch coordinator.selectedFlow {
-            case .onboarding:
-                OnboardingViewFactory.makeOnboardingView(onFinish: completeOnboarding)
+            if isSplashActive {
+                SplashView(onAnimationFinished: {
+                    withAnimation {
+                        isSplashActive = false
+                    }
+                })
+                .transition(.opacity)
+            } else {
+                Group {
+                    switch coordinator.selectedFlow {
+                    case .onboarding:
+                        OnboardingViewFactory.makeOnboardingView(onFinish: completeOnboarding)
 
-            case .auth:
-                AuthFlowViewFactory.makeView(
-                    onAuthenticated: showMainAfterAuthentication,
-                    onContinueAsGuest: showMainAsGuest
-                )
+                    case .auth:
+                        AuthFlowViewFactory.makeView(
+                            onAuthenticated: showMainAfterAuthentication,
+                            onContinueAsGuest: showMainAsGuest
+                        )
 
-            case .main:
-                MainFlowViewFactory.makeView(authState: authState)
+                    case .main:
+                        MainFlowViewFactory.makeView(authState: authState)
+                    }
+                }
+                .transition(.opacity)
             }
         }
+        .animation(.easeInOut(duration: 0.5), value: isSplashActive)
         .onChange(of: authState.sessionStatus) { status in
             guard hasCompletedOnboarding else {
                 coordinator.showOnboarding()
