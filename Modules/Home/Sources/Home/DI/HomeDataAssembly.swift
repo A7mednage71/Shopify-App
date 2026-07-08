@@ -1,9 +1,10 @@
 import Swinject
+import Common
 
 struct HomeDataAssembly: Assembly {
     func assemble(container: Container) {
         container.register(HomeRemoteDataSource.self) { _ in
-            ShopifyHomeRemoteDataSource()
+            ShopifyHomeRemoteDataSource(localizationManager: LocalizationManager.shared)
         }
 
         container.register(HomeRepository.self) { resolver in

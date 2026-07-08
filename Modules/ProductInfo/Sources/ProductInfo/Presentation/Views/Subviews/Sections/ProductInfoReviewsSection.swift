@@ -1,4 +1,5 @@
 import Foundation
+import Common
 import SwiftUI
 
 struct ProductInfoReviewsSection: View {
@@ -35,7 +36,7 @@ struct ProductInfoReviewsSection: View {
 
     private var summaryText: String {
         guard summary.reviewCount > 0 else { return ProductInfoText.noReviewsYet }
-        return "\(summary.averageRating.formattedRating) / 5"
+        return L10n.ProductInfo.ratingOutOfFive(summary.averageRating.formattedRating)
     }
 
     private var emptyState: some View {

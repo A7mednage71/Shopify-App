@@ -12,7 +12,7 @@ struct AssistantErrorBubbleView: View {
                 .foregroundColor(.white)
             
             Button(action: onResend) {
-                Text("Resend")
+                Text(L10n.Home.assistantResend)
                     .font(.assistantButtonSmall)
                     .foregroundColor(AppColors.textWhite)
                     .padding(.horizontal, 8)

@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct SortButtonAnchorKey: PreferenceKey {
     static var defaultValue: Anchor<CGRect>?
@@ -60,7 +61,7 @@ struct FloatingSortCard<Option: Hashable>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            Text("Order By")
+            Text(L10n.Home.sortOrderBy)
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundColor(.appTextTertiary)
                 .padding(.horizontal, 16)

@@ -1,4 +1,4 @@
-query GetTrendingProducts($first: Int = 10) {
+query GetTrendingProducts($first: Int = 10, $language: LanguageCode) @inContext(language: $language) {
   products(first: $first, sortKey: BEST_SELLING) {
     nodes {
       id

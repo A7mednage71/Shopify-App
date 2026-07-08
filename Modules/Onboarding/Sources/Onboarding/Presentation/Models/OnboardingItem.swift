@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 struct OnboardingItem: Identifiable, Equatable {
     let id: String
@@ -18,18 +19,18 @@ extension OnboardingItem {
     static let defaults: [OnboardingItem] = [
         OnboardingItem(
             imageName: "onboarding_discover",
-            title: "Find Your Next Favorite",
-            description: "Browse fresh products, compare details, and discover picks that fit your style."
+            title: L10n.Onboarding.discoverTitle,
+            description: L10n.Onboarding.discoverDesc
         ),
         OnboardingItem(
             imageName: "onboarding_favorites",
-            title: "Save What You Love",
-            description: "Keep favorites close so your best finds are ready when you come back."
+            title: L10n.Onboarding.favoritesTitle,
+            description: L10n.Onboarding.favoritesDesc
         ),
         OnboardingItem(
             imageName: "onboarding_checkout",
-            title: "Shop With Confidence",
-            description: "Review product details, choose options, and move smoothly toward checkout."
+            title: L10n.Onboarding.checkoutTitle,
+            description: L10n.Onboarding.checkoutDesc
         ),
     ]
 }

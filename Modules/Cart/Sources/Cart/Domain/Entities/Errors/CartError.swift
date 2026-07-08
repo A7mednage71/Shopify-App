@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 public enum CartError: Error, Equatable, Sendable {
     case missingCartID
@@ -13,13 +14,13 @@ extension CartError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .missingCartID:
-            return "No cart id is saved."
+            return L10n.Cart.errorMissingCartID
         case .staleCart:
-            return "The saved cart no longer exists."
+            return L10n.Cart.errorStaleCart
         case let .invalidQuantity(quantity):
-            return "Cart item quantity must be greater than zero. Received \(quantity)."
+            return L10n.Cart.invalidQuantityMessage(quantity)
         case let .quantityLimitExceeded(quantity, maximumQuantity):
-            return "Cart item quantity cannot exceed \(maximumQuantity). Received \(quantity)."
+            return L10n.Cart.quantityLimitExceededMessage(quantity: quantity, maximumQuantity: maximumQuantity)
         case let .userErrors(errors):
             return errors.map(\.message).joined(separator: "\n")
         case let .malformedResponse(message):

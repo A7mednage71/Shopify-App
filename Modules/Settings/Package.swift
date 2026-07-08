@@ -7,6 +7,7 @@ let package = Package(
     name: "Settings",
     platforms: [
         .iOS(.v16),
+        .macOS(.v13),
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -16,6 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Common"),
+        .package(path: "../MarktekNetworking"),
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.3"),
     ],
     targets: [
@@ -23,10 +25,7 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "Settings",
-            dependencies: [
-                .product(name: "Common", package: "Common"),
-                .product(name: "Swinject", package: "Swinject")
-            ],
+            dependencies: ["Common", "MarktekNetworking", "Swinject"],
             resources: [
                     .process("Resources")
                 ]

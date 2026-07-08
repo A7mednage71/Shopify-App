@@ -7,6 +7,7 @@
 
 import Foundation
 import MarktekNetworking
+import Common
 
 public enum OrdersError: LocalizedError {
     case customerNotFound
@@ -15,9 +16,9 @@ public enum OrdersError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .customerNotFound:
-            return "We couldn't find your account to load your orders."
+            return L10n.Orders.errorCustomerNotFound
         case .unknown:
-            return "Something went wrong while loading your orders."
+            return L10n.Orders.errorUnknown
         }
     }
 }
@@ -28,14 +29,17 @@ public protocol OrdersRemoteDataSource: Sendable {
 
 public struct ShopifyOrdersRemoteDataSource: OrdersRemoteDataSource, Sendable {
     private let customerAccessTokenDataSource: CustomerAccessTokenDataSource
+    private let localizationManager: LocalizationManager
 
-    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource) {
+    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource, localizationManager: LocalizationManager) {
         self.customerAccessTokenDataSource = customerAccessTokenDataSource
+        self.localizationManager = localizationManager
     }
 
     public func getOrders() async throws -> [OrderDataModel] {
         let customerAccessToken = try await customerAccessTokenDataSource.customerAccessToken()
-        let query = GetCustomerOrdersQuery(customerAccessToken: customerAccessToken, first: 20)
+        let language: GraphQLEnum<LanguageCode> = localizationManager.currentLanguage == .en ? .case(.en) : .case(.ar)
+        let query = GetCustomerOrdersQuery(customerAccessToken: customerAccessToken, first: 20, language: .some(language))
         let data = try await ShopifyGraphQLClient.shared.fetch(query)
 
         guard let gqlCustomer = data.customer else {

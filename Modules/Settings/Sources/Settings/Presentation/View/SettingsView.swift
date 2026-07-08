@@ -11,7 +11,11 @@ import Common
 @available(iOS 14.0, *)
 public struct SettingsView: View {
     @StateObject private var viewModel: SettingsViewModel
+    @ObservedObject private var profileDataViewModel: ProfileDataViewModel
+    @ObservedObject private var localizationManager = LocalizationManager.shared
     @State private var isSignOutConfirmationPresented = false
+    @State private var showLanguageAlert = false
+    @State private var pendingLanguage = ""
     private let onPersonalInformationTap: () -> Void
     private let onSavedAddressesTap: () -> Void
     private let onOrdersTap: () -> Void
@@ -23,6 +27,7 @@ public struct SettingsView: View {
         onOrdersTap: @escaping () -> Void = {}
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.profileDataViewModel = viewModel.profileDataViewModel
         self.onPersonalInformationTap = onPersonalInformationTap
         self.onSavedAddressesTap = onSavedAddressesTap
         self.onOrdersTap = onOrdersTap
@@ -32,32 +37,84 @@ public struct SettingsView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 28) {
                 
-                Text("Profile")
+                Text(L10n.Settings.profile)
                     .font(AppFonts.title1)
                     .foregroundColor(AppColors.textPrimary)
                     .padding(.top, 10)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                UserProfileCard(user: viewModel.user)
+                UserProfileCard(
+                    state: profileDataViewModel.state,
+                    onRetry: {
+                        Task {
+                            await profileDataViewModel.loadProfile()
+                        }
+                    },
+                    onEdit: onPersonalInformationTap
+                )
                 
-                SettingsSectionView(title: "Account Settings") {
-                    SettingsActionRow(icon: "person", title: "Profile Information") {
-                        onPersonalInformationTap()
-                    }
-                    Divider().background(AppColors.border)
-                    SettingsActionRow(icon: "mappin.and.ellipse", title: "Saved Addresses") {
-                        onSavedAddressesTap()
-                    }
-                    Divider().background(AppColors.border)
-                        
-                        SettingsActionRow(icon: "shippingbox", title: "Order History") {
+                if viewModel.canUseProtectedFeatures {
+                    SettingsSectionView(title: L10n.Settings.accountSettings) {
+                        SettingsActionRow(icon: "person", title: L10n.Settings.profileInformation) {
+                            onPersonalInformationTap()
+                        }
+                        Divider().background(AppColors.border)
+                        SettingsActionRow(icon: "mappin.and.ellipse", title: L10n.Settings.savedAddresses) {
+                            onSavedAddressesTap()
+                        }
+                        Divider().background(AppColors.border)
+
+                        SettingsActionRow(icon: "shippingbox", title: L10n.Settings.orderHistory) {
                             onOrdersTap()
                         }
+                    }
                 }
                 
-                SettingsSectionView(title: "Regional Preferences") {
-                    SettingsActionRow(icon: "globe", title: "Language", subtitle: "English (United Kingdom)") {
-                        print("Change Language")
+                SettingsSectionView(title: L10n.Settings.regionalPreferences) {
+                    HStack(spacing: 16) {
+                        ZStack {
+                            Circle().fill(AppColors.primary.opacity(0.1)).frame(width: 36, height: 36)
+                            Image(systemName: "globe").foregroundColor(AppColors.primary)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(L10n.Settings.languageTitle)
+                                .font(AppFonts.callout)
+                                .foregroundColor(AppColors.textPrimary)
+                            Text(localizationManager.currentLanguage.displayName)
+                                .font(AppFonts.caption)
+                                .foregroundColor(AppColors.textSecondary)
+                        }
+                        Spacer()
+                        
+                        let languageBinding = Binding<String>(
+                            get: { localizationManager.appLanguage },
+                            set: { newValue in
+                                if newValue != localizationManager.appLanguage {
+                                    pendingLanguage = newValue
+                                    showLanguageAlert = true
+                                }
+                            }
+                        )
+                        
+                        Picker("", selection: languageBinding) {
+                            ForEach(AppLanguage.allCases) { lang in
+                                Text(lang.displayName).tag(lang.rawValue)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        .accentColor(AppColors.textSecondary)
+                    }
+                    .padding(.vertical, 12)
+                    .alert(isPresented: $showLanguageAlert) {
+                        Alert(
+                            title: Text(L10n.Settings.languageChangeTitle),
+                            message: Text(L10n.Settings.languageChangeMessage),
+                            primaryButton: .default(Text(L10n.Settings.languageChangeConfirm)) {
+                                localizationManager.changeLanguage(to: pendingLanguage)
+                            },
+                            secondaryButton: .cancel(Text(L10n.Main.cancel))
+                        )
                     }
                     Divider().background(AppColors.border)
                     
@@ -68,7 +125,7 @@ public struct SettingsView: View {
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Currency Display")
+                            Text(L10n.Settings.currencyDisplay)
                                 .font(AppFonts.callout)
                                 .foregroundColor(AppColors.textPrimary)
                             Text(viewModel.selectedCurrency.rawValue)
@@ -88,17 +145,17 @@ public struct SettingsView: View {
                     .padding(.vertical, 12)
                 }
                 
-                SettingsSectionView(title: "Preferences") {
+                SettingsSectionView(title: L10n.Settings.preferences) {
                     HStack(spacing: 16) {
                         ZStack {
                             Circle().fill(AppColors.primary.opacity(0.1)).frame(width: 36, height: 36)
                             Image(systemName: "moon.fill").foregroundColor(AppColors.primary)
                         }
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Dark Mode")
+                            Text(L10n.Settings.darkMode)
                                 .font(AppFonts.callout)
                                 .foregroundColor(AppColors.textPrimary)
-                            Text("System Default")
+                            Text(L10n.Settings.systemDefault)
                                 .font(AppFonts.caption)
                                 .foregroundColor(AppColors.textSecondary)
                         }
@@ -109,26 +166,7 @@ public struct SettingsView: View {
                     .padding(.vertical, 12)
                 }
                 
-                Button(action: {
-                    isSignOutConfirmationPresented = true
-                }) {
-                    HStack(spacing: 8) {
-                        if viewModel.isSigningOut {
-                            ProgressView()
-                                .tint(AppColors.error)
-                        }
-
-                        Text(viewModel.isSigningOut ? "Signing Out..." : "Sign Out")
-                            .font(AppFonts.title3)
-                    }
-                    .foregroundColor(AppColors.error)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(AppColors.error.opacity(0.3), lineWidth: 1)
-                    )
-                }
+                authActionButton
                 .disabled(viewModel.isSigningOut)
                 .padding(.top, 10)
                 .padding(.bottom, 40)
@@ -138,22 +176,25 @@ public struct SettingsView: View {
         }
         .background(AppColors.backgroundSecondary.ignoresSafeArea())
         .navigationBarHidden(true)
-        .alert("Sign out?", isPresented: $isSignOutConfirmationPresented) {
-            Button("Cancel", role: .cancel) {}
-            Button("Sign Out", role: .destructive) {
+        .task {
+            await profileDataViewModel.loadProfileIfNeeded()
+        }
+        .alert(L10n.Settings.signOutConfirmTitle, isPresented: $isSignOutConfirmationPresented) {
+            Button(L10n.Settings.cancel, role: .cancel) {}
+            Button(L10n.Settings.signOut, role: .destructive) {
                 Task {
                     await viewModel.signOut()
                 }
             }
         } message: {
-            Text("Are you sure you want to sign out?")
+            Text(L10n.Settings.signOutConfirmMessage)
         }
-        .alert("Could not sign out", isPresented: signOutErrorBinding) {
-            Button("OK", role: .cancel) {
+        .alert(L10n.Settings.signOutErrorTitle, isPresented: signOutErrorBinding) {
+            Button(L10n.Settings.ok, role: .cancel) {
                 viewModel.signOutErrorMessage = nil
             }
         } message: {
-            Text(viewModel.signOutErrorMessage ?? "Please try again.")
+            Text(viewModel.signOutErrorMessage ?? L10n.Settings.tryAgain)
         }
     }
 
@@ -166,5 +207,55 @@ public struct SettingsView: View {
                 }
             }
         )
+    }
+
+    private var authActionButton: some View {
+        let isProtected = viewModel.canUseProtectedFeatures
+        let actionColor = isProtected ? AppColors.error : AppColors.primary
+        let iconName = isProtected
+            ? "rectangle.portrait.and.arrow.right"
+            : "rectangle.portrait.and.arrow.forward"
+        let title = viewModel.isSigningOut
+            ? L10n.Settings.signingOut
+            : (isProtected ? L10n.Settings.signOut : L10n.Main.signIn)
+
+        return Button(action: {
+            if isProtected {
+                isSignOutConfirmationPresented = true
+            } else {
+                viewModel.signIn()
+            }
+        }) {
+            HStack(spacing: 12) {
+                ZStack {
+                    Circle()
+                        .fill(actionColor.opacity(0.12))
+                        .frame(width: 36, height: 36)
+
+                    if viewModel.isSigningOut {
+                        ProgressView()
+                            .tint(actionColor)
+                    } else {
+                        Image(systemName: iconName)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(actionColor)
+                    }
+                }
+
+                Text(title)
+                    .font(AppFonts.callout.weight(.semibold))
+                    .foregroundColor(actionColor)
+
+                Spacer()
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .background(actionColor.opacity(0.08))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(actionColor.opacity(0.18), lineWidth: 1)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        }
     }
 }

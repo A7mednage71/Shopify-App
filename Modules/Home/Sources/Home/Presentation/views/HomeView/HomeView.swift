@@ -62,6 +62,20 @@ struct HomeView: View {
             await viewModel.loadSpecialOffers()
             await viewModel.loadFavorites()
         }
+        .alert(isPresented: $viewModel.showingRemoveFavoriteAlert) {
+            Alert(
+                title: Text(L10n.Fav.removeAlertTitle),
+                message: Text(L10n.Fav.removeAlertMessage(viewModel.productToRemove?.title ?? "")),
+                primaryButton: .destructive(Text(L10n.Fav.remove)) {
+                    Task {
+                        await viewModel.confirmRemoveFavorite()
+                    }
+                },
+                secondaryButton: .cancel(Text(L10n.Settings.cancel)) {
+                    viewModel.productToRemove = nil
+                }
+            )
+        }
         .overlay(
             SortMenuOverlay(
                 isPresented: $viewModel.showSortSheet,

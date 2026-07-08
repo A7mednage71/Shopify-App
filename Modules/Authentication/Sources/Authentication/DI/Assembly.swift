@@ -7,8 +7,6 @@
 
 import Foundation
 import Swinject
-import Foundation
-import Swinject
 import Common
 
 
@@ -55,6 +53,11 @@ public final class AuthAssembly: Assembly {
         container.register(LogoutUseCase.self) { resolver in
             LogoutUseCase(authRepo: resolver.resolve(AuthRepoInterface.self)!)
         }
+
+        container.register(LogoutUseCaseProtocol.self) { resolver in
+            resolver.resolve(LogoutUseCase.self)!
+        }
+
         container.register((any LogoutUseCaseProtocol).self) { resolver in
             resolver.resolve(LogoutUseCase.self)!
         }

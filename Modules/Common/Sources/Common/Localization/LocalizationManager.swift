@@ -1,0 +1,37 @@
+import SwiftUI
+import Combine
+
+@available(iOS 14.0, *)
+public class LocalizationManager: ObservableObject {
+    public static let shared = LocalizationManager()
+    
+    @Published public var updateId: UUID = UUID()
+    
+    @AppStorage("app_language") public var appLanguage: String = "en"
+    
+    public var currentLanguage: AppLanguage {
+        get { AppLanguage(rawValue: appLanguage) ?? .en }
+    }
+    
+    public func changeLanguage(to newLanguage: String) {
+        withAnimation(.easeInOut(duration: 0.5)) {
+            self.appLanguage = newLanguage
+            self.updateId = UUID()
+            NotificationCenter.default.post(name: .appLanguageDidChange, object: nil)
+        }
+    }
+    
+    private init() {}
+    
+    public func localizedString(for key: String) -> String {
+        guard let path = Bundle.module.path(forResource: currentLanguage.rawValue, ofType: "lproj"),
+              let bundle = Bundle(path: path) else {
+            return Bundle.module.localizedString(forKey: key, value: nil, table: nil)
+        }
+        return bundle.localizedString(forKey: key, value: nil, table: nil)
+    }
+}
+
+public extension Notification.Name {
+    static let appLanguageDidChange = Notification.Name("appLanguageDidChange")
+}

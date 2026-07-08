@@ -9,12 +9,12 @@ struct OrderDetailsHeroHeader: View {
     let order: Order
     let status: OrderStatus
 
-    private static let dateFormatter: DateFormatter = {
+    private var dateFormatter: DateFormatter {
         let f = DateFormatter()
         f.dateFormat = "dd MMM yyyy"
-        f.locale = Locale(identifier: "en_US_POSIX")
+        f.locale = Locale(identifier: LocalizationManager.shared.currentLanguage.rawValue)
         return f
-    }()
+    }
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,7 +29,7 @@ struct OrderDetailsHeroHeader: View {
             .frame(maxWidth: .infinity)
 
             VStack(spacing: 14) {
-                Text("Order \(order.name)")
+                Text("\(L10n.Orders.orderName) \(order.name)")
                     .font(.system(size: 26, weight: .heavy, design: .rounded))
                     .foregroundColor(AppColors.textPrimary)
 
@@ -49,7 +49,7 @@ struct OrderDetailsHeroHeader: View {
 
                 // Date + total
                 HStack(spacing: 16) {
-                    Label(Self.dateFormatter.string(from: order.processedAt), systemImage: "calendar")
+                    Label(dateFormatter.string(from: order.processedAt), systemImage: "calendar")
                         .font(.system(size: 13, weight: .medium, design: .rounded))
                         .foregroundColor(AppColors.textSecondary)
 

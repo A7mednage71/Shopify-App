@@ -13,12 +13,12 @@ struct AddressConfirmationForm: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("Confirm Address")
+            Text(L10n.Address.confirm)
                 .font(AppFonts.title2)
                 .foregroundColor(AppColors.textPrimary)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Address")
+                Text(L10n.Address.addressField)
                     .font(AppFonts.caption)
                     .foregroundColor(AppColors.textSecondary)
                 Text(address.fullAddress)
@@ -28,19 +28,19 @@ struct AddressConfirmationForm: View {
 
             HStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Zip Code")
+                    Text(L10n.Address.zipCode)
                         .font(AppFonts.caption)
                         .foregroundColor(AppColors.textSecondary)
-                    TextField("Zip Code", text: $address.zipCode)
+                    TextField(L10n.Address.zipCode, text: $address.zipCode)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .foregroundColor(AppColors.textPrimary)
                 }
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Country")
+                    Text(L10n.Address.country)
                         .font(AppFonts.caption)
                         .foregroundColor(AppColors.textSecondary)
-                    TextField("Country", text: $address.country)
+                    TextField(L10n.Address.country, text: $address.country)
                         .textFieldStyle(.roundedBorder)
                         .foregroundColor(AppColors.textPrimary)
                 }
@@ -52,7 +52,7 @@ struct AddressConfirmationForm: View {
                 onAddAddress(address)
                 dismiss()
             } label: {
-                Text("Add Address")
+                Text(L10n.Address.addBtn)
                     .font(AppFonts.body)
                     .foregroundColor(AppColors.textWhite)
                     .frame(maxWidth: .infinity)

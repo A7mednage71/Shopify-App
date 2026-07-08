@@ -1,4 +1,5 @@
 import MarktekNetworking
+import Common
 
 struct ProductInfoDataModel: Sendable {
     let id: String
@@ -197,7 +198,7 @@ private extension ProductReviewDataModel {
         }
 
         self.id = metaobject.id
-        self.customerName = metaobject.customerName?.value?.trimmedNonEmpty ?? "Customer"
+        self.customerName = metaobject.customerName?.value?.trimmedNonEmpty ?? L10n.ProductInfo.customerFallbackName
         self.rating = rating
         self.title = title
         self.body = body
@@ -216,7 +217,7 @@ private extension ProductReviewDataModel {
         }
 
         self.id = metaobject.id
-        self.customerName = metaobject.customerName?.value?.trimmedNonEmpty ?? "Customer"
+        self.customerName = metaobject.customerName?.value?.trimmedNonEmpty ?? L10n.ProductInfo.customerFallbackName
         self.rating = rating
         self.title = title
         self.body = body

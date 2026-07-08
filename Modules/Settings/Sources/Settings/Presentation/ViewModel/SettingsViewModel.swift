@@ -12,27 +12,28 @@ import Common
 @available(iOS 14.0, *)
 @MainActor
 public class SettingsViewModel: ObservableObject {
-    
-    @Published public var user: UserProfile
     @Published public private(set) var isSigningOut = false
     @Published public var signOutErrorMessage: String?
     
     @AppStorage("selectedCurrency") public var selectedCurrency: AppCurrency = .usd
     @AppStorage("isDarkMode") public var isDarkMode: Bool = false
 
+    public let profileDataViewModel: ProfileDataViewModel
     private let logoutUseCase: any LogoutUseCaseProtocol
     private let authState: AuthState
+
+    public var canUseProtectedFeatures: Bool {
+        authState.canUseProtectedFeatures
+    }
     
     public init(
         logoutUseCase: any LogoutUseCaseProtocol,
-        authState: AuthState
+        authState: AuthState,
+        profileDataViewModel: ProfileDataViewModel
     ) {
         self.logoutUseCase = logoutUseCase
         self.authState = authState
-        self.user = UserProfile(
-            name: "Julianna Rossi",
-            email: "julianna.rossi@gmail.com"
-        )
+        self.profileDataViewModel = profileDataViewModel
     }
     
     public func signOut() async {
@@ -43,12 +44,17 @@ public class SettingsViewModel: ObservableObject {
 
         do {
             try await logoutUseCase.execute()
+            profileDataViewModel.reset()
             authState.markLoggedOut()
         } catch {
             signOutErrorMessage = error.localizedDescription
         }
 
         isSigningOut = false
+    }
+
+    public func signIn() {
+        authState.markNeedsLogin()
     }
     
     public func convertPrice(priceInUSD: Double) -> String {

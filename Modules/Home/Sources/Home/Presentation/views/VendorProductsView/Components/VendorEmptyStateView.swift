@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct VendorEmptyStateView: View {
     var body: some View {
@@ -9,11 +10,11 @@ struct VendorEmptyStateView: View {
                 .frame(width: 120, height: 120)
                 .padding(.top, 60)
             
-            Text("No products found")
+            Text(L10n.Home.noProductsFound)
                 .font(.sectionTitle)
                 .foregroundColor(.appTextPrimary)
             
-            Text("We couldn't find any products listed under this vendor right now.")
+            Text(L10n.Home.vendorEmptyDescription)
                 .font(.offerSubtitle)
                 .foregroundColor(.appTextSecondary)
                 .multilineTextAlignment(.center)

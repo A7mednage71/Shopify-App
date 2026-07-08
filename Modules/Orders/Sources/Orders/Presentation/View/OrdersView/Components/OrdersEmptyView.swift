@@ -17,11 +17,11 @@ struct OrdersEmptyView: View {
                 .font(.system(size: 48))
                 .foregroundColor(AppColors.textTertiary)
 
-            Text("No orders yet")
+            Text(L10n.Orders.noOrders)
                 .font(AppFonts.title3)
                 .foregroundColor(AppColors.textPrimary)
 
-            Text("Your past orders will show up here once you place one.")
+            Text(L10n.Orders.noOrdersDesc)
                 .font(AppFonts.callout)
                 .foregroundColor(AppColors.textSecondary)
                 .multilineTextAlignment(.center)

@@ -1,4 +1,4 @@
-query GetProductsByProductType($productType: String!, $first: Int = 20, $after: String) {
+query GetProductsByProductType($productType: String!, $first: Int = 20, $after: String, $language: LanguageCode) @inContext(language: $language) {
   products(first: $first, after: $after, query: $productType) {
     edges {
       cursor

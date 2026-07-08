@@ -10,14 +10,14 @@ struct FavoritesHeaderView: View {
                 Image(systemName: "heart.fill")
                     .foregroundColor(.appPrimaryOrange)
                     .font(.system(size: 14))
-                Text("My Wishlist")
+                Text(L10n.Fav.myWishlist)
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.appPrimaryOrange)
                     .textCase(.uppercase)
             }
             
             HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("Favorites")
+                Text(L10n.Fav.favorites)
                     .font(.system(size: 28, weight: .bold))
                     .foregroundColor(.appTextPrimary)
                 
@@ -28,7 +28,7 @@ struct FavoritesHeaderView: View {
                 }
             }
             
-            Text("Browse all items you've saved to your favorites")
+            Text(L10n.Fav.browseSaved)
                 .font(.system(size: 13))
                 .foregroundColor(.appTextSecondary)
         }

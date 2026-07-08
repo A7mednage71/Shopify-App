@@ -1,4 +1,4 @@
-query GetProduct($id: ID!) {
+query GetProduct($id: ID!, $language: LanguageCode) @inContext(language: $language) {
   product(id: $id) {
     id
     title

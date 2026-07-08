@@ -118,75 +118,75 @@ enum ProductPalette {
 }
 
 enum ProductInfoText {
-    static let productLoadFailureTitle = "Product could not load"
-    static let retryButtonTitle = "Try Again"
-    static let retryAccessibilityLabel = "Try loading the product again"
-    static let failureHelpMessage = "Check your connection and try again in a moment."
-    static let failureFallbackMessage = "Something went wrong while fetching this product."
-    static let loadingAccessibilityLabel = "Loading product details"
-    static let productImageAccessibilityLabel = "Product image"
-    static let selectAvailableVariantMessage = "Please select an available variant."
-    static let viewCartAccessibilityLabel = "View cart"
-    static let removeFromFavoritesAccessibilityLabel = "Remove from favorites"
-    static let addToFavoritesAccessibilityLabel = "Add to favorites"
-    static let noDescriptionAvailable = "No description available."
-    static let descriptionTitle = "Description"
-    static let reviewsTitle = "Reviews"
-    static let compareProductsTitle = "Compare similar products"
-    static let compareProductsSubtitle = "See similar options and get a Marktek recommendation."
-    static let comparisonSheetTitle = "Compare"
-    static let closeButtonTitle = "Close"
-    static let loadingComparableProducts = "Finding similar products..."
-    static let noComparableProductsTitle = "No similar products found"
-    static let noComparableProductsMessage = "There are no matching products available for comparison right now."
-    static let comparisonLoadFailureTitle = "Comparison could not load"
-    static let noSearchResultsTitle = "No matches"
-    static let noSearchResultsMessage = "Try another product name."
-    static let changeComparisonProductTitle = "Choose another product"
-    static let currentProductTitle = "Current"
-    static let selectedProductTitle = "Selected"
-    static let comparisonPreferenceTitle = "Add comparison preferences"
-    static let comparisonPreferencePlaceholder = "e.g. best value, premium feel, daily use"
-    static let getRecommendationButtonTitle = "Get Marktek Recommendation"
-    static let loadingRecommendation = "Building your recommendation..."
-    static let recommendationFailureTitle = "Recommendation unavailable"
-    static let viewRecommendedProductTitle = "View recommended product"
-    static let compareSimilarProductsTitle = "Pick a product to compare"
-    static let comparisonSearchPlaceholder = "Search by product name"
-    static let stockFactTitle = "Stock"
-    static let vendorFactTitle = "Vendor"
-    static let materialFactTitle = "Material"
-    static let notSpecified = "Not specified"
-    static let noReviewsYet = "No reviews yet"
-    static let reviewEmptyMessage = "No reviews for this product yet."
-    static let readLessButtonTitle = "Read Less"
-    static let readMoreButtonTitle = "Read More"
-    static let quantityTitle = "Quantity"
-    static let totalTitle = "Total"
-    static let addingToCartButtonTitle = "Adding..."
-    static let addToCartButtonTitle = "Add to Cart"
-    static let outOfStock = "Out of stock"
-    static let inStock = "In stock"
-    static let colorOptionName = "color"
-    static let colourOptionName = "colour"
-    static let defaultTitleOptionName = "Title"
-    static let defaultVariantTitle = "Default Title"
+    static var productLoadFailureTitle: String { L10n.ProductInfo.productLoadFailureTitle }
+    static var retryButtonTitle: String { L10n.ProductInfo.retryButtonTitle }
+    static var retryAccessibilityLabel: String { L10n.ProductInfo.retryAccessibilityLabel }
+    static var failureHelpMessage: String { L10n.ProductInfo.failureHelpMessage }
+    static var failureFallbackMessage: String { L10n.ProductInfo.failureFallbackMessage }
+    static var loadingAccessibilityLabel: String { L10n.ProductInfo.loadingAccessibilityLabel }
+    static var productImageAccessibilityLabel: String { L10n.ProductInfo.productImageAccessibilityLabel }
+    static var selectAvailableVariantMessage: String { L10n.ProductInfo.selectAvailableVariantMessage }
+    static var viewCartAccessibilityLabel: String { L10n.ProductInfo.viewCartAccessibilityLabel }
+    static var removeFromFavoritesAccessibilityLabel: String { L10n.ProductInfo.removeFromFavoritesAccessibilityLabel }
+    static var addToFavoritesAccessibilityLabel: String { L10n.ProductInfo.addToFavoritesAccessibilityLabel }
+    static var noDescriptionAvailable: String { L10n.ProductInfo.noDescriptionAvailable }
+    static var descriptionTitle: String { L10n.ProductInfo.descriptionTitle }
+    static var reviewsTitle: String { L10n.ProductInfo.reviewsTitle }
+    static var compareProductsTitle: String { L10n.ProductInfo.compareProductsTitle }
+    static var compareProductsSubtitle: String { L10n.ProductInfo.compareProductsSubtitle }
+    static var comparisonSheetTitle: String { L10n.ProductInfo.comparisonSheetTitle }
+    static var closeButtonTitle: String { L10n.ProductInfo.closeButtonTitle }
+    static var loadingComparableProducts: String { L10n.ProductInfo.loadingComparableProducts }
+    static var noComparableProductsTitle: String { L10n.ProductInfo.noComparableProductsTitle }
+    static var noComparableProductsMessage: String { L10n.ProductInfo.noComparableProductsMessage }
+    static var comparisonLoadFailureTitle: String { L10n.ProductInfo.comparisonLoadFailureTitle }
+    static var noSearchResultsTitle: String { L10n.ProductInfo.noSearchResultsTitle }
+    static var noSearchResultsMessage: String { L10n.ProductInfo.noSearchResultsMessage }
+    static var changeComparisonProductTitle: String { L10n.ProductInfo.changeComparisonProductTitle }
+    static var currentProductTitle: String { L10n.ProductInfo.currentProductTitle }
+    static var selectedProductTitle: String { L10n.ProductInfo.selectedProductTitle }
+    static var comparisonPreferenceTitle: String { L10n.ProductInfo.comparisonPreferenceTitle }
+    static var comparisonPreferencePlaceholder: String { L10n.ProductInfo.comparisonPreferencePlaceholder }
+    static var getRecommendationButtonTitle: String { L10n.ProductInfo.getRecommendationButtonTitle }
+    static var loadingRecommendation: String { L10n.ProductInfo.loadingRecommendation }
+    static var recommendationFailureTitle: String { L10n.ProductInfo.recommendationFailureTitle }
+    static var viewRecommendedProductTitle: String { L10n.ProductInfo.viewRecommendedProductTitle }
+    static var compareSimilarProductsTitle: String { L10n.ProductInfo.compareSimilarProductsTitle }
+    static var comparisonSearchPlaceholder: String { L10n.ProductInfo.comparisonSearchPlaceholder }
+    static var stockFactTitle: String { L10n.ProductInfo.stockFactTitle }
+    static var vendorFactTitle: String { L10n.ProductInfo.vendorFactTitle }
+    static var materialFactTitle: String { L10n.ProductInfo.materialFactTitle }
+    static var notSpecified: String { L10n.ProductInfo.notSpecified }
+    static var noReviewsYet: String { L10n.ProductInfo.noReviewsYet }
+    static var reviewEmptyMessage: String { L10n.ProductInfo.reviewEmptyMessage }
+    static var readLessButtonTitle: String { L10n.ProductInfo.readLessButtonTitle }
+    static var readMoreButtonTitle: String { L10n.ProductInfo.readMoreButtonTitle }
+    static var quantityTitle: String { L10n.ProductInfo.quantityTitle }
+    static var totalTitle: String { L10n.ProductInfo.totalTitle }
+    static var addingToCartButtonTitle: String { L10n.ProductInfo.addingToCartButtonTitle }
+    static var addToCartButtonTitle: String { L10n.ProductInfo.addToCartButtonTitle }
+    static var outOfStock: String { L10n.ProductInfo.outOfStock }
+    static var inStock: String { L10n.ProductInfo.inStock }
+    static var colorOptionName: String { L10n.ProductInfo.colorOptionName }
+    static var colourOptionName: String { L10n.ProductInfo.colourOptionName }
+    static var defaultTitleOptionName: String { L10n.ProductInfo.defaultTitleOptionName }
+    static var defaultVariantTitle: String { L10n.ProductInfo.defaultVariantTitle }
 
     static func stockQuantity(_ quantity: Int) -> String {
-        "\(quantity) in stock"
+        L10n.ProductInfo.stockQuantity(quantity)
     }
 
     static func compareSimilarProductsSubtitle(productType: String) -> String {
         let trimmedType = productType.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedType.isEmpty else {
-            return "Compare this product with matching catalog items."
+            return L10n.ProductInfo.compareMatchingCatalogItems
         }
 
-        return "Compare this product with other \(trimmedType) items."
+        return L10n.ProductInfo.compareOtherItems(trimmedType)
     }
 
     static func addToCartAccessibilityLabel(productTitle: String) -> String {
-        "Add \(productTitle) to cart"
+        L10n.ProductInfo.addToCartAccessibilityLabel(productTitle)
     }
 }
 
@@ -265,14 +265,15 @@ extension ProductVariant {
 extension ProductOption {
     var isColorOption: Bool {
         let normalizedName = name.lowercased()
-        return normalizedName.contains(ProductInfoText.colorOptionName)
-            || normalizedName.contains(ProductInfoText.colourOptionName)
+        return normalizedName.contains("color")
+            || normalizedName.contains("colour")
+            || normalizedName.contains("لون")
     }
 
     var isDefaultTitleOption: Bool {
-        name.caseInsensitiveCompare(ProductInfoText.defaultTitleOptionName) == .orderedSame
+        name.caseInsensitiveCompare("Title") == .orderedSame
             && values.count == 1
-            && values.first?.caseInsensitiveCompare(ProductInfoText.defaultVariantTitle) == .orderedSame
+            && values.first?.caseInsensitiveCompare("Default Title") == .orderedSame
     }
 }
 

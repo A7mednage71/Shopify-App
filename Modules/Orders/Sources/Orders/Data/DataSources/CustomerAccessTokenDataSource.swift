@@ -6,19 +6,20 @@
 //
 
 import Foundation
+import Common
 
 public protocol CustomerAccessTokenDataSource: Sendable {
     func customerAccessToken() async throws -> String
 }
 
-public struct DummyCustomerAccessTokenDataSource: CustomerAccessTokenDataSource, Sendable {
-    private let token: String
+public struct KeychainCustomerAccessTokenDataSource: CustomerAccessTokenDataSource, Sendable {
+    private let customerAccessTokenProvider: any CustomerAccessTokenProvider
 
-    public init(token: String = "648edf17ddb633d185b256f956cefaf4") {
-        self.token = token
+    public init(customerAccessTokenProvider: any CustomerAccessTokenProvider = KeychainCustomerAccessTokenProvider()) {
+        self.customerAccessTokenProvider = customerAccessTokenProvider
     }
 
     public func customerAccessToken() async throws -> String {
-        token
+        try customerAccessTokenProvider.customerAccessToken()
     }
 }

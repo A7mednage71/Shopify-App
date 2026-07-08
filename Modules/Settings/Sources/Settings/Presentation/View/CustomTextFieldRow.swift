@@ -13,7 +13,7 @@ struct CustomTextFieldRow: View {
     var title: String
     @Binding var text: String
     var placeholder: String
-    var keyboardType: UIKeyboardType = .default
+    var keyboardType: SettingsKeyboardKind = .default
     
     var body: some View {
         HStack(spacing: 12) {
@@ -22,12 +22,12 @@ struct CustomTextFieldRow: View {
                 .frame(width: 24)
             
             Text(title)
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.textSecondary)
                 .frame(width: 90, alignment: .leading)
             
             TextField(placeholder, text: $text)
-                .keyboardType(keyboardType)
-                .foregroundColor(.black)
+                .settingsKeyboardType(keyboardType)
+                .foregroundColor(AppColors.textPrimary)
         }
         .padding()
     }

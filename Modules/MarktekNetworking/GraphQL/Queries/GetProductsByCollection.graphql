@@ -1,4 +1,4 @@
-query GetProductsByCollection($handle: String!, $first: Int!, $after: String) {
+query GetProductsByCollection($handle: String!, $first: Int!, $after: String, $language: LanguageCode) @inContext(language: $language) {
   collection(handle: $handle) {
     products(first: $first, after: $after) {
       edges {

@@ -34,9 +34,9 @@ public enum ProductReviewError: LocalizedError {
         case .userError(let messages):
             return messages.joined(separator: ", ")
         case .malformedReviewsMetafield:
-            return "Could not read existing product reviews. Please try again."
+            return L10n.ProductInfo.malformedReviewsMetafield
         case .unknown:
-            return "An unknown error occurred while submitting your review."
+            return L10n.ProductInfo.unknownReviewError
         }
     }
 }
@@ -64,8 +64,9 @@ public struct ProductReviewRepository: ProductReviewRepositoryProtocol, Sendable
     }
 
     private func fetchExistingReviewIds(productId: String) async throws -> [String] {
+        let language: GraphQLEnum<LanguageCode> = LocalizationManager.shared.currentLanguage == .en ? .case(.en) : .case(.ar)
         let data = try await ShopifyGraphQLClient.shared.fetch(
-            GetProductReviewMetafieldQuery(productId: productId)
+            GetProductReviewMetafieldQuery(productId: productId, language: .some(language))
         )
 
         guard let value = data.product?.metafield?.value,

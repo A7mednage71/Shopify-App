@@ -16,20 +16,20 @@ struct AssistantHeaderView: View {
             .padding(.trailing, 8)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("Smart Shopping Assistant")
+                Text(L10n.Home.assistantTitle)
                     .font(.assistantTitle)
                     .foregroundColor(AppColors.textPrimary)
                 
                 if isCatalogLoading {
-                    Text("Loading products catalog...")
+                    Text(L10n.Home.assistantLoading)
                         .font(.assistantSubtitle)
                         .foregroundColor(AppColors.textSecondary.opacity(0.7))
                 } else if hasCatalogError {
-                    Text("Failed to load products")
+                    Text(L10n.Home.assistantFailedToLoad)
                         .font(.assistantSubtitle)
                         .foregroundColor(AppColors.error)
                 } else {
-                    Text("Active · Shopify Catalog Synced")
+                    Text(L10n.Home.assistantActive)
                         .font(.assistantSubtitle)
                         .foregroundColor(AppColors.success)
                 }
@@ -37,7 +37,7 @@ struct AssistantHeaderView: View {
             
             Spacer()
 
-            Text("AI POWERED")
+            Text(L10n.Home.assistantAIPowered)
                 .font(.assistantHeaderBadge)
                 .foregroundColor(AppColors.primary)
                 .padding(.horizontal, 8)

@@ -33,15 +33,28 @@ extension OrderDataModel {
             )
         }
         if let address = gqlOrderNode.shippingAddress {
-            let street = address.address1 ?? ""
-            let city = address.city ?? ""
-            let country = address.country ?? ""
-            
-            self.shippingAddress = [street, city, country]
-                .filter { !$0.isEmpty }
+            let cityLine = [address.city, address.province, address.zip]
+                .compactMap { $0?.trimmedNonEmpty }
                 .joined(separator: ", ")
+
+            self.shippingAddress = [
+                address.address1,
+                address.address2,
+                cityLine,
+                address.country,
+                address.phone
+            ]
+            .compactMap { $0?.trimmedNonEmpty }
+            .joined(separator: "\n")
         } else {
             self.shippingAddress = nil
         }
+    }
+}
+
+private extension String {
+    var trimmedNonEmpty: String? {
+        let value = trimmingCharacters(in: .whitespacesAndNewlines)
+        return value.isEmpty ? nil : value
     }
 }

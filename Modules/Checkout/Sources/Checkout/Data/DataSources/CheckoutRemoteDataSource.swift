@@ -1,4 +1,5 @@
 import Foundation
+@preconcurrency import Common
 import MarktekNetworking
 import ApolloAPI
 
@@ -13,11 +14,11 @@ public enum CheckoutError: LocalizedError {
         case .userError(let messages):
             return messages.joined(separator: ", ")
         case .malformedDiscountCode:
-            return "We could not apply this discount at checkout. You can continue without it."
+            return L10n.Checkout.errorMalformedDiscountCode
         case .malformedReviewsMetafield:
-            return "We could not read existing product reviews. Please try again."
+            return L10n.Checkout.errorMalformedReviewsMetafield
         case .unknown:
-            return "An unknown error occurred during checkout."
+            return L10n.Checkout.errorUnknown
         }
     }
 }
@@ -30,9 +31,11 @@ public protocol CheckoutRemoteDataSource: Sendable {
 
 public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendable {
     private let customerAccessTokenDataSource: CustomerAccessTokenDataSource
+    private let localizationManager: LocalizationManager
     
-    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource) {
+    public init(customerAccessTokenDataSource: CustomerAccessTokenDataSource, localizationManager: LocalizationManager) {
         self.customerAccessTokenDataSource = customerAccessTokenDataSource
+        self.localizationManager = localizationManager
     }
 
     public func getCustomerDetails() async throws -> CustomerDetailsDataModel {
@@ -97,7 +100,94 @@ public struct ShopifyCheckoutRemoteDataSource: CheckoutRemoteDataSource, Sendabl
         return nil
     }
 
+    public func submitProductReview(_ review: ProductReviewSubmission) async throws {
+        var reviewIds = try await fetchExistingReviewIds(productId: review.productId)
+        let newReviewId = try await createProductReview(review)
 
+        if !reviewIds.contains(newReviewId) {
+            reviewIds.append(newReviewId)
+        }
+
+        try await setProductReviewIds(
+            productId: review.productId,
+            reviewIds: reviewIds
+        )
+    }
+
+    private func fetchExistingReviewIds(productId: String) async throws -> [String] {
+        let language: GraphQLEnum<LanguageCode> = localizationManager.currentLanguage == .en ? .case(.en) : .case(.ar)
+        let data = try await ShopifyGraphQLClient.shared.fetch(
+            GetProductReviewMetafieldQuery(productId: productId, language: .some(language))
+        )
+
+        guard let value = data.product?.metafield?.value,
+              !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return []
+        }
+
+        guard let jsonData = value.data(using: .utf8),
+              let ids = try? JSONDecoder().decode([String].self, from: jsonData) else {
+            throw CheckoutError.malformedReviewsMetafield
+        }
+
+        return ids
+    }
+
+    private func createProductReview(_ review: ProductReviewSubmission) async throws -> String {
+        let mutation = CreateProductReviewMutation(
+            metaobject: ShopifyAdminAPI.MetaobjectCreateInput(
+                type: "marketak_product_review",
+                fields: .some([
+                    ShopifyAdminAPI.MetaobjectFieldInput(key: "product", value: review.productId),
+                    ShopifyAdminAPI.MetaobjectFieldInput(key: "customer_name", value: review.customerName),
+                    ShopifyAdminAPI.MetaobjectFieldInput(key: "rating", value: "\(review.rating)"),
+                    ShopifyAdminAPI.MetaobjectFieldInput(key: "title", value: review.title),
+                    ShopifyAdminAPI.MetaobjectFieldInput(key: "body", value: review.body),
+                    ShopifyAdminAPI.MetaobjectFieldInput(key: "created_at", value: currentISO8601DateString()),
+                    ShopifyAdminAPI.MetaobjectFieldInput(key: "approved", value: "true")
+                ]),
+                capabilities: .some(
+                    ShopifyAdminAPI.MetaobjectCapabilityDataInput(
+                        publishable: .some(
+                            ShopifyAdminAPI.MetaobjectCapabilityDataPublishableInput(
+                                status: GraphQLEnum<ShopifyAdminAPI.MetaobjectStatus>(.active)
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        let data = try await ShopifyAdminGraphQLClient.shared.perform(mutation)
+
+        if let userErrors = data.metaobjectCreate?.userErrors, !userErrors.isEmpty {
+            throw CheckoutError.userError(userErrors.map { $0.message })
+        }
+
+        guard let metaobjectId = data.metaobjectCreate?.metaobject?.id else {
+            throw CheckoutError.unknown
+        }
+
+        return metaobjectId
+    }
+
+    private func setProductReviewIds(productId: String, reviewIds: [String]) async throws {
+        let jsonData = try JSONEncoder().encode(reviewIds)
+        guard let reviewIdsJson = String(data: jsonData, encoding: .utf8) else {
+            throw CheckoutError.unknown
+        }
+
+        let data = try await ShopifyAdminGraphQLClient.shared.perform(
+            SetProductReviewsMutation(
+                productId: productId,
+                reviewIdsJson: reviewIdsJson
+            )
+        )
+
+        if let userErrors = data.metafieldsSet?.userErrors, !userErrors.isEmpty {
+            throw CheckoutError.userError(userErrors.map { $0.message })
+        }
+    }
 
     private func validateDiscountCodeNode(code: String) async throws -> DiscountCodeLookupResult {
         let data = try await ShopifyAdminGraphQLClient.shared.fetch(

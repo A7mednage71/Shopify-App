@@ -60,7 +60,7 @@ struct MessageRow: View {
                 
                 if !brandCollections.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Brands")
+                        Text(L10n.Home.assistantBrands)
                             .font(.assistantSectionTitle)
                             .foregroundColor(AppColors.textPrimary)
                         
@@ -83,7 +83,7 @@ struct MessageRow: View {
 
                 if !categoryCollections.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Categories")
+                        Text(L10n.Home.assistantCategories)
                             .font(.assistantSectionTitle)
                             .foregroundColor(AppColors.textPrimary)
                             .padding(.leading, 4)

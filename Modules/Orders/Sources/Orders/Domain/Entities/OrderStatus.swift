@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Common
 
 enum OrderStatus {
     case pending
@@ -15,9 +16,9 @@ enum OrderStatus {
 
     var text: String {
         switch self {
-        case .pending: return "Pending"
-        case .inProgress: return "In Progress"
-        case .delivered: return "Delivered"
+        case .pending: return L10n.Orders.statusPending
+        case .inProgress: return L10n.Orders.statusInProgress
+        case .delivered: return L10n.Orders.statusDelivered
         }
     }
 

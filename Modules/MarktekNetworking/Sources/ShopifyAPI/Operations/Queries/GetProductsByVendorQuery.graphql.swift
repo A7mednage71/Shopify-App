@@ -7,27 +7,31 @@ public class GetProductsByVendorQuery: GraphQLQuery {
   public static let operationName: String = "GetProductsByVendor"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetProductsByVendor($query: String!, $first: Int!, $after: String) { products(first: $first, after: $after, query: $query) { __typename edges { __typename cursor node { __typename id title description handle vendor productType tags availableForSale options { __typename name values } priceRange { __typename minVariantPrice { __typename amount currencyCode } maxVariantPrice { __typename amount currencyCode } } images(first: 1) { __typename edges { __typename node { __typename url altText } } } variants(first: 10) { __typename edges { __typename node { __typename id title availableForSale price { __typename amount currencyCode } } } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } } pageInfo { __typename hasNextPage endCursor } } }"#
+      #"query GetProductsByVendor($query: String!, $first: Int!, $after: String, $language: LanguageCode) @inContext(language: $language) { products(first: $first, after: $after, query: $query) { __typename edges { __typename cursor node { __typename id title description handle vendor productType tags availableForSale options { __typename name values } priceRange { __typename minVariantPrice { __typename amount currencyCode } maxVariantPrice { __typename amount currencyCode } } images(first: 1) { __typename edges { __typename node { __typename url altText } } } variants(first: 10) { __typename edges { __typename node { __typename id title availableForSale price { __typename amount currencyCode } } } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } } pageInfo { __typename hasNextPage endCursor } } }"#
     ))
 
   public var query: String
   public var first: Int
   public var after: GraphQLNullable<String>
+  public var language: GraphQLNullable<GraphQLEnum<LanguageCode>>
 
   public init(
     query: String,
     first: Int,
-    after: GraphQLNullable<String>
+    after: GraphQLNullable<String>,
+    language: GraphQLNullable<GraphQLEnum<LanguageCode>>
   ) {
     self.query = query
     self.first = first
     self.after = after
+    self.language = language
   }
 
   public var __variables: Variables? { [
     "query": query,
     "first": first,
-    "after": after
+    "after": after,
+    "language": language
   ] }
 
   public struct Data: ShopifyAPI.SelectionSet {

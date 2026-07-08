@@ -46,11 +46,11 @@ private struct SearchEmptyStateView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 120, height: 120)
 
-            Text("No results found")
+            Text(L10n.Home.noResultsFound)
                 .font(.sectionTitle)
                 .foregroundColor(.appTextPrimary)
 
-            Text("Try different keywords or check your spelling")
+            Text(L10n.Home.noResultsHint)
                 .font(.offerSubtitle)
                 .foregroundColor(.appTextSecondary)
                 .multilineTextAlignment(.center)

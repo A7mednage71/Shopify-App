@@ -1,59 +1,60 @@
+import Common
 enum CheckoutText {
-    static let navigationTitle = "Payment"
-    static let addressTitle = "Address"
-    static let addressEmptyTitle = "No address selected"
-    static let addressEmptyMessage = "Add a delivery address before placing your order."
-    static let missingAddressToastMessage = "Add a delivery address before placing your order."
-    static let addressFailureTitle = "Address could not load"
-    static let addressFailureFallbackMessage = "Try again in a moment."
-    static let productsTitle = "Products"
-    static let shippingMethodTitle = "Shipping Method"
-    static let paymentMethodTitle = "Payment Method"
-    static let orderSummaryTitle = "Order Summary"
-    static let discountCodeTitle = "Discount Code"
-    static let noDiscountCode = "No discount code"
-    static let subtotalTitle = "Subtotal"
-    static let shippingTitle = "Shipping"
-    static let discountTitle = "Discount"
-    static let totalTitle = "Total"
-    static let checkoutButtonTitle = "Checkout Now"
-    static let openingApplePayMessage = "Opening Apple Pay..."
-    static let placingOrderMessage = "Placing your order..."
-    static let checkoutErrorTitle = "Checkout unavailable"
-    static let checkoutErrorDismissTitle = "OK"
-    static let orderConfirmationNavigationTitle = "Order Confirmed"
-    static let orderConfirmationTitle = "Order Confirmed"
-    static let orderConfirmationMessage = "Thank you for your purchase. Your order was received successfully."
-    static let orderConfirmationDetailsTitle = "Order Details"
-    static let orderConfirmationDoneTitle = "Done"
-    static let reviewButtonTitle = "Review"
-    static let reviewedButtonTitle = "Reviewed"
-    static let reviewSheetTitle = "Review product"
-    static let reviewRatingTitle = "Your rating"
-    static let reviewTitlePlaceholder = "Review title"
-    static let reviewBodyPlaceholder = "Tell us what you liked"
-    static let submitReviewButtonTitle = "Submit review"
-    static let submittingReviewButtonTitle = "Submitting..."
-    static let reviewSubmittedMessage = "Thanks for your review."
-    static let orderNameTitle = "Order"
-    static let financialStatusTitle = "Payment Status"
-    static let fulfillmentStatusTitle = "Fulfillment Status"
-    static let orderEmailTitle = "Email"
-    static let cartItemFallbackTitle = "Cart Item"
-    static let cartItemImageAccessibilityLabel = "Cart item image"
-    static let colorOptionName = "color"
-    static let colourOptionName = "colour"
-    static let defaultVariantName = "default"
+    static var navigationTitle: String { L10n.Checkout.navigationTitle }
+    static var addressTitle: String { L10n.Checkout.addressTitle }
+    static var addressEmptyTitle: String { L10n.Checkout.addressEmptyTitle }
+    static var addressEmptyMessage: String { L10n.Checkout.addressEmptyMessage }
+    static var missingAddressToastMessage: String { L10n.Checkout.missingAddressToastMessage }
+    static var addressFailureTitle: String { L10n.Checkout.addressFailureTitle }
+    static var addressFailureFallbackMessage: String { L10n.Checkout.addressFailureFallbackMessage }
+    static var productsTitle: String { L10n.Checkout.productsTitle }
+    static var shippingMethodTitle: String { L10n.Checkout.shippingMethodTitle }
+    static var paymentMethodTitle: String { L10n.Checkout.paymentMethodTitle }
+    static var orderSummaryTitle: String { L10n.Checkout.orderSummaryTitle }
+    static var discountCodeTitle: String { L10n.Checkout.discountCodeTitle }
+    static var noDiscountCode: String { L10n.Checkout.noDiscountCode }
+    static var subtotalTitle: String { L10n.Checkout.subtotalTitle }
+    static var shippingTitle: String { L10n.Checkout.shippingTitle }
+    static var discountTitle: String { L10n.Checkout.discountTitle }
+    static var totalTitle: String { L10n.Checkout.totalTitle }
+    static var checkoutButtonTitle: String { L10n.Checkout.checkoutButtonTitle }
+    static var openingApplePayMessage: String { L10n.Checkout.openingApplePayMessage }
+    static var placingOrderMessage: String { L10n.Checkout.placingOrderMessage }
+    static var checkoutErrorTitle: String { L10n.Checkout.checkoutErrorTitle }
+    static var checkoutErrorDismissTitle: String { L10n.Checkout.checkoutErrorDismissTitle }
+    static var orderConfirmationNavigationTitle: String { L10n.Checkout.orderConfirmationNavigationTitle }
+    static var orderConfirmationTitle: String { L10n.Checkout.orderConfirmationTitle }
+    static var orderConfirmationMessage: String { L10n.Checkout.orderConfirmationMessage }
+    static var orderConfirmationDetailsTitle: String { L10n.Checkout.orderConfirmationDetailsTitle }
+    static var orderConfirmationDoneTitle: String { L10n.Checkout.orderConfirmationDoneTitle }
+    static var reviewButtonTitle: String { L10n.Checkout.reviewButtonTitle }
+    static var reviewedButtonTitle: String { L10n.Checkout.reviewedButtonTitle }
+    static var reviewSheetTitle: String { L10n.Checkout.reviewSheetTitle }
+    static var reviewRatingTitle: String { L10n.Checkout.reviewRatingTitle }
+    static var reviewTitlePlaceholder: String { L10n.Checkout.reviewTitlePlaceholder }
+    static var reviewBodyPlaceholder: String { L10n.Checkout.reviewBodyPlaceholder }
+    static var submitReviewButtonTitle: String { L10n.Checkout.submitReviewButtonTitle }
+    static var submittingReviewButtonTitle: String { L10n.Checkout.submittingReviewButtonTitle }
+    static var reviewSubmittedMessage: String { L10n.Checkout.reviewSubmittedMessage }
+    static var orderNameTitle: String { L10n.Checkout.orderNameTitle }
+    static var financialStatusTitle: String { L10n.Checkout.financialStatusTitle }
+    static var fulfillmentStatusTitle: String { L10n.Checkout.fulfillmentStatusTitle }
+    static var orderEmailTitle: String { L10n.Checkout.orderEmailTitle }
+    static var cartItemFallbackTitle: String { L10n.Checkout.cartItemFallbackTitle }
+    static var cartItemImageAccessibilityLabel: String { L10n.Checkout.cartItemImageAccessibilityLabel }
+    static var colorOptionName: String { L10n.Checkout.colorOptionName }
+    static var colourOptionName: String { L10n.Checkout.colourOptionName }
+    static var defaultVariantName: String { L10n.Checkout.defaultVariantName }
 
     static func productsTitle(count: Int) -> String {
-        "Products (\(count))"
+        L10n.Checkout.productsCountTitle(count)
     }
 
     static func colorText(_ value: String) -> String {
-        "Color: \(value)"
+        L10n.Checkout.colorText(value)
     }
 
     static func quantityText(_ quantity: Int) -> String {
-        "Qty: \(quantity)"
+        L10n.Checkout.quantityText(quantity)
     }
 }

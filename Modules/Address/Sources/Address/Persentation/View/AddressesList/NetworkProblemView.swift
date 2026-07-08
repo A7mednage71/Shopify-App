@@ -16,11 +16,11 @@ struct NetworkProblemView : View {
             iconView
 
             VStack(spacing: 8) {
-                Text("No Saved Addresses")
+                Text(L10n.Address.noSaved)
                     .font(AppFonts.title3)
                     .foregroundColor(AppColors.textPrimary)
 
-                Text("You haven't saved any addresses yet.\nAdd a new address to get started.")
+                Text(L10n.Address.noSavedDesc)
                     .font(AppFonts.subheadline)
                     .foregroundColor(AppColors.textSecondary)
                     .multilineTextAlignment(.center)
@@ -54,7 +54,7 @@ struct NetworkProblemView : View {
         Button(action: {}) {
             HStack(spacing: 8) {
         
-                Text("Retry")
+                Text(L10n.Address.retry)
                     .font(.buttonPrimary)
             }
             .foregroundColor(AppColors.textWhite)

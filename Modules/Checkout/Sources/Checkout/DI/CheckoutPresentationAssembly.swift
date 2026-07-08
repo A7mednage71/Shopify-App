@@ -11,7 +11,8 @@ public struct CheckoutPresentationAssembly: Assembly {
 
         container.register(CheckoutRemoteDataSource.self) { resolver in
             ShopifyCheckoutRemoteDataSource(
-                customerAccessTokenDataSource: resolver.resolve(CustomerAccessTokenDataSource.self)!
+                customerAccessTokenDataSource: resolver.resolve(CustomerAccessTokenDataSource.self)!,
+                localizationManager: LocalizationManager.shared
             )
         }
 

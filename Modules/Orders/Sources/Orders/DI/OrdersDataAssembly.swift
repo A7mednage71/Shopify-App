@@ -6,18 +6,20 @@
 //
 
 import Swinject
+import Common
 
 public struct OrdersDataAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
         container.register(CustomerAccessTokenDataSource.self) { _ in
-            DummyCustomerAccessTokenDataSource()
+            KeychainCustomerAccessTokenDataSource()
         }
 
         container.register(OrdersRemoteDataSource.self) { resolver in
             ShopifyOrdersRemoteDataSource(
-                customerAccessTokenDataSource: resolver.resolve(CustomerAccessTokenDataSource.self)!
+                customerAccessTokenDataSource: resolver.resolve(CustomerAccessTokenDataSource.self)!,
+                localizationManager: LocalizationManager.shared
             )
         }
 

@@ -57,7 +57,7 @@ struct CategoryHeaderView: View {
                 Image(systemName: "square.grid.2x2.fill")
                     .foregroundColor(.appPrimaryOrange)
                     .font(.system(size: 14))
-                Text("Category Collection")
+                Text(L10n.Home.categoryCollectionLabel)
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.appPrimaryOrange)
                     .textCase(.uppercase)
@@ -67,7 +67,7 @@ struct CategoryHeaderView: View {
                 .font(.system(size: 28, weight: .bold))
                 .foregroundColor(.appTextPrimary)
             
-            Text("Browse all authentic products in \(categoryName)")
+            Text(L10n.Home.categoryBrowseDescription(categoryName))
                 .font(.system(size: 13))
                 .foregroundColor(.appTextSecondary)
         }
@@ -88,11 +88,11 @@ struct CategoryEmptyStateView: View {
                 .frame(width: 120, height: 120)
                 .padding(.top, 60)
             
-            Text("No products found")
+            Text(L10n.Home.noProductsFound)
                 .font(.sectionTitle)
                 .foregroundColor(.appTextPrimary)
             
-            Text("We couldn't find any products listed under \(categoryName) right now.")
+            Text(L10n.Home.categoryEmptyDescription(categoryName))
                 .font(.offerSubtitle)
                 .foregroundColor(.appTextSecondary)
                 .multilineTextAlignment(.center)

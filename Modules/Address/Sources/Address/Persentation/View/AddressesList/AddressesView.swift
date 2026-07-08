@@ -30,7 +30,7 @@ public struct AddressesView: View {
     public var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text("Saved Addresses")
+                Text(L10n.Address.savedAddresses)
                     .font(.headline)
                     .foregroundColor(AppColors.textPrimary)
                     .padding(.top)
@@ -62,7 +62,7 @@ public struct AddressesView: View {
                                 addressToDelete = address
                                 showingDeleteAlert = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label(L10n.Address.delete, systemImage: "trash")
                             }
                         }
                     }
@@ -78,12 +78,12 @@ public struct AddressesView: View {
                 .background(AppColors.backgroundSecondary)
                 
                 
-                CustomBtn(label: "Apply", action: {
+                CustomBtn(label: L10n.Address.apply, action: {
                     Task {
                         let didSaveSelection = await viewModel.saveDefaultAddressSelection()
 
                         if didSaveSelection {
-                            triggerSnackbar(message: "Default address updated successfully!")
+                            triggerSnackbar(message: L10n.Address.defaultAddressUpdated)
                             onSelectionApplied()
                         }
                     }
@@ -117,8 +117,8 @@ public struct AddressesView: View {
             }
         }
         .background(AppColors.backgroundSecondary)
-        .alert("Delete Address", isPresented: $showingDeleteAlert, presenting: addressToDelete) { address in
-            Button("Delete", role: .destructive) {
+        .alert(L10n.Address.deleteAddressAlert, isPresented: $showingDeleteAlert, presenting: addressToDelete) { address in
+            Button(L10n.Address.delete, role: .destructive) {
                 var transaction = Transaction()
                 transaction.disablesAnimations = true
                 
@@ -126,13 +126,13 @@ public struct AddressesView: View {
                     Task {
                         let targetTitle = address.address1
                         await viewModel.deleteAddress(id: address.id)
-                        triggerSnackbar(message: "Removed '\(targetTitle)' successfully.")
+                        triggerSnackbar(message: L10n.Address.removeAddressSuccess(targetTitle))
                     }
                 }
             }
-            Button("Cancel", role: .cancel) {}
+            Button(L10n.Address.cancel, role: .cancel) {}
         } message: { address in
-            Text("Are you sure you want to delete '\(address.address1)'?")
+            Text(L10n.Address.deleteAddressMessage(address.address1))
         }
     }
     

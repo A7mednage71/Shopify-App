@@ -1,4 +1,4 @@
-query GetProductReviewMetafield($productId: ID!) {
+query GetProductReviewMetafield($productId: ID!, $language: LanguageCode) @inContext(language: $language) {
   product(id: $productId) {
     id
     metafield(namespace: "reviews", key: "items") {

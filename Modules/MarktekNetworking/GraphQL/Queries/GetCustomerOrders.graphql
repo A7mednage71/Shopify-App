@@ -1,4 +1,4 @@
-query GetCustomerOrders($customerAccessToken: String!, $first: Int!) {
+query GetCustomerOrders($customerAccessToken: String!, $first: Int!, $language: LanguageCode) @inContext(language: $language) {
   customer(customerAccessToken: $customerAccessToken) {
     firstName
     lastName
@@ -19,7 +19,10 @@ query GetCustomerOrders($customerAccessToken: String!, $first: Int!) {
             address1
             address2
             city
+            province
             country
+            zip
+            phone
           }
           lineItems(first: 5) {
             edges {

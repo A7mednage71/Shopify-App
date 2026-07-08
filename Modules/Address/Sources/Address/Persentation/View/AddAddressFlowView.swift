@@ -32,14 +32,13 @@ public struct AddAddressFlowView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(L10n.Address.cancel) {
                         onCancel()
                         dismiss()
                     }
                 }
             }
-            .alert(
-                "Address unavailable",
+            .alert(L10n.Address.unavailableTitle,
                 isPresented: Binding(
                     get: { errorMessage != nil },
                     set: { isPresented in
@@ -49,7 +48,7 @@ public struct AddAddressFlowView: View {
                     }
                 )
             ) {
-                Button("OK", role: .cancel) {
+                Button(L10n.Address.ok, role: .cancel) {
                     errorMessage = nil
                 }
             } message: {
@@ -67,7 +66,7 @@ public struct AddAddressFlowView: View {
                 ProgressView()
                     .tint(AppColors.primary)
 
-                Text("Saving address...")
+                Text(L10n.Address.saving)
                     .font(AppFonts.subheadline.weight(.semibold))
                     .foregroundColor(AppColors.textPrimary)
             }
@@ -95,7 +94,7 @@ public struct AddAddressFlowView: View {
                 onAddressAdded()
                 dismiss()
             } else {
-                errorMessage = "We couldn't save this address. Try again."
+                errorMessage = L10n.Address.saveFailedMessage
             }
         }
     }

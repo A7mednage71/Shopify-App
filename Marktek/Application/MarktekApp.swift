@@ -28,15 +28,24 @@ struct MarktekApp: App {
     @StateObject private var authState = AuthState()
     private let persistenceController = PersistenceController.shared
     
+    @StateObject private var localizationManager = LocalizationManager.shared
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     var body: some Scene {
         WindowGroup {
-            AppFlowView(authState: authState)
-                .tint(AppColors.primary)
-                .preferredColorScheme(isDarkMode ? .dark : .light)
-                .task {
-                    await CurrencyService.shared.fetchLatestRates()
-                }.onOpenURL { url in
+            ZStack {
+                AppFlowView(authState: authState)
+                    .tint(AppColors.primary)
+                    .preferredColorScheme(isDarkMode ? .dark : .light)
+                    .environment(\.locale, Locale(identifier: localizationManager.appLanguage))
+                    .environment(\.layoutDirection, localizationManager.currentLanguage.layoutDirection)
+                    .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                    .id(localizationManager.updateId)
+            }
+            .animation(.easeInOut(duration: 0.5), value: localizationManager.updateId)
+            .task {
+                await CurrencyService.shared.fetchLatestRates()
+            }
+            .onOpenURL { url in
                 GIDSignIn.sharedInstance.handle(url)
             }
         }

@@ -1,12 +1,19 @@
 import Foundation
+import Common
 
 enum SortOption: String, CaseIterable {
     case featured = "Featured"
     case priceLowToHigh = "Price: Low to High"
     case priceHighToLow = "Price: High to Low"
     case newest = "Newest"
-
-    var displayName: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .featured: return L10n.HomeStrs.sortFeatured
+        case .priceLowToHigh: return L10n.HomeStrs.sortPriceLowToHigh
+        case .priceHighToLow: return L10n.HomeStrs.sortPriceHighToLow
+        case .newest: return L10n.HomeStrs.sortNewest
+        }
+    }
 }
 
 extension HomeViewModel {

@@ -75,12 +75,7 @@ struct HomeMainContentView: View {
             )
             .padding(.bottom, 8)
             
-            
-            FlatHeeelsBannerSection(
-                product: MockShopifyData.featuredProducts[2],
-                onVisitTap: { print("Visit heels collection") }
-            )
-            .padding(.vertical, 16)
+
             
             TrendingProductsSection(
                 products: viewModel.trendingProducts,

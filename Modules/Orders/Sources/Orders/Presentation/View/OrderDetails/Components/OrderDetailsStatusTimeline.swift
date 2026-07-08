@@ -8,12 +8,14 @@ import Common
 struct OrderDetailsStatusTimeline: View {
     let currentStatus: OrderStatus
 
-    private let steps: [(label: String, icon: String)] = [
-        ("Placed",      "checkmark.circle.fill"),
-        ("Processing",  "gear.circle.fill"),
-        ("Shipped",     "bicycle.circle.fill"),
-        ("Delivered",   "house.circle.fill")
-    ]
+    private var steps: [(label: String, icon: String)] {
+        [
+            (L10n.Orders.timelinePlaced, "checkmark.circle.fill"),
+            (L10n.Orders.timelineProcessing, "gear.circle.fill"),
+            (L10n.Orders.timelineShipped, "bicycle.circle.fill"),
+            (L10n.Orders.timelineDelivered, "house.circle.fill")
+        ]
+    }
 
     private var doneCount: Int {
         switch currentStatus {
@@ -25,7 +27,7 @@ struct OrderDetailsStatusTimeline: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Tracking")
+            Text(L10n.Orders.tracking)
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(AppColors.textPrimary)
 

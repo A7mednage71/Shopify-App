@@ -17,11 +17,11 @@ struct ServerErrorView: View {
             iconView
 
             VStack(spacing: 8) {
-                Text("Server Error")
+                Text(L10n.Address.serverError)
                     .font(AppFonts.title3)
                     .foregroundColor(AppColors.textPrimary)
 
-                Text("There is problem in our server please try again later.")
+                Text(L10n.Address.serverErrorDesc)
                     .font(AppFonts.subheadline)
                     .foregroundColor(AppColors.textSecondary)
                     .multilineTextAlignment(.center)
@@ -54,7 +54,7 @@ struct ServerErrorView: View {
         Button(action: {}) {
             HStack(spacing: 8) {
           
-                Text("Try again")
+                Text(L10n.Address.tryAgain)
                     .font(.buttonPrimary)
             }
             .foregroundColor(AppColors.textWhite)

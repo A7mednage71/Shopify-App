@@ -41,7 +41,7 @@ struct FilterSheet: View {
 
                         if !availableVendors.isEmpty {
                             FilterSection(
-                                title: "Brands",
+                                title: L10n.Home.filterBrands,
                                 systemImage: "tag",
                                 options: availableVendors,
                                 selectedOptions: $filterState.selectedVendors
@@ -50,7 +50,7 @@ struct FilterSheet: View {
 
                         if !availableProductTypes.isEmpty {
                             FilterSection(
-                                title: "Category Types",
+                                title: L10n.Home.filterCategoryTypes,
                                 systemImage: "square.grid.2x2",
                                 options: availableProductTypes,
                                 selectedOptions: $filterState.selectedProductTypes
@@ -59,7 +59,7 @@ struct FilterSheet: View {
 
                         if !availableTags.isEmpty {
                             FilterSection(
-                                title: "Tags",
+                                title: L10n.Home.filterTags,
                                 systemImage: "number",
                                 options: availableTags,
                                 selectedOptions: $filterState.selectedTags
@@ -85,7 +85,7 @@ struct FilterSheet: View {
                             onReset()
                         }
                     } label: {
-                        Text("Reset")
+                        Text(L10n.Home.filterReset)
                             .fontWeight(.medium)
                     }
                     .foregroundStyle(activeFilterCount > 0 ? Color.appPrimaryPink : Color.appTextTertiary)
@@ -94,11 +94,11 @@ struct FilterSheet: View {
 
                 ToolbarItem(placement: .principal) {
                     VStack(spacing: 2) {
-                        Text("Filters")
+                        Text(L10n.Home.filterTitle)
                             .font(.headline)
                             .foregroundColor(.appTextPrimary)
                         if activeFilterCount > 0 {
-                            Text("\(activeFilterCount) active")
+                            Text(L10n.Home.activeFiltersCount(activeFilterCount))
                                 .font(.caption2)
                                 .foregroundColor(.appPrimaryOrange)
                         }
@@ -135,7 +135,7 @@ struct FilterSheet: View {
     private var priceSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                sectionHeader(title: "Price Range", systemImage: "dollarsign.circle")
+                sectionHeader(title: L10n.Home.filterPriceRange, systemImage: "dollarsign.circle")
                 Spacer()
                 Text("$\(Int(currentRange.lowerBound)) - $\(Int(currentRange.upperBound))")
                     .font(.subheadline)
@@ -161,11 +161,11 @@ struct FilterSheet: View {
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("In Stock Only")
+                Text(L10n.Home.filterInStockOnly)
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .foregroundColor(.appTextPrimary)
-                Text("Hide items that are sold out")
+                Text(L10n.Home.filterHideSoldOut)
                     .font(.caption)
                     .foregroundColor(.appTextSecondary)
             }
@@ -198,7 +198,7 @@ struct FilterSheet: View {
                 dismiss()
             } label: {
                 HStack(spacing: 8) {
-                    Text("Apply Filters")
+                    Text(L10n.Home.filterApply)
                         .fontWeight(.semibold)
                         .font(.buttonPrimary)
                     if activeFilterCount > 0 {
@@ -348,7 +348,7 @@ struct FilterSection: View {
                 Spacer()
 
                 if !selectedOptions.isEmpty {
-                    Button("Clear") {
+                    Button(L10n.Home.filterClear) {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                             selectedOptions.removeAll()
                         }

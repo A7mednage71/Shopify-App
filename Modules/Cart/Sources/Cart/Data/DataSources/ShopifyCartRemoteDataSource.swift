@@ -1,6 +1,13 @@
 @preconcurrency import MarktekNetworking
+import Common
 
 struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
+    private let localizationManager: LocalizationManager
+
+    init(localizationManager: LocalizationManager) {
+        self.localizationManager = localizationManager
+    }
+
     func createCart(lines: [AddCartLineRequest], customerAccessToken: String) async throws -> CartDataModel {
         let mutation = try CreateCartMutation(
             input: CartInput(
@@ -15,20 +22,21 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
         let data = try await ShopifyGraphQLClient.shared.perform(mutation)
 
         guard let payload = data.cartCreate else {
-            throw CartError.malformedResponse("Cart create response is missing its payload.")
+            throw CartError.malformedResponse(L10n.Cart.malformedCreatePayload)
         }
 
         try payload.userErrors.throwIfNeeded()
 
         guard let cart = payload.cart else {
-            throw CartError.malformedResponse("Cart create response is missing its cart.")
+            throw CartError.malformedResponse(L10n.Cart.malformedCreateCart)
         }
 
         return CartDataModel(cart: cart)
     }
 
     func getCart(cartID: String) async throws -> CartDataModel? {
-        let data = try await ShopifyGraphQLClient.shared.fetch(GetCartQuery(cartId: cartID))
+        let language: GraphQLEnum<LanguageCode> = localizationManager.currentLanguage == .en ? .case(.en) : .case(.ar)
+        let data = try await ShopifyGraphQLClient.shared.fetch(GetCartQuery(cartId: cartID, language: .some(language)))
 
         return data.cart.map { CartDataModel(cart: $0) }
     }
@@ -41,13 +49,13 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
         let data = try await ShopifyGraphQLClient.shared.perform(mutation)
 
         guard let payload = data.cartLinesAdd else {
-            throw CartError.malformedResponse("Cart lines add response is missing its payload.")
+            throw CartError.malformedResponse(L10n.Cart.malformedAddPayload)
         }
 
         try payload.userErrors.throwIfNeeded()
 
         guard let cart = payload.cart else {
-            throw CartError.malformedResponse("Cart lines add response is missing its cart.")
+            throw CartError.malformedResponse(L10n.Cart.malformedAddCart)
         }
 
         return CartDataModel(cart: cart)
@@ -61,13 +69,13 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
         let data = try await ShopifyGraphQLClient.shared.perform(mutation)
 
         guard let payload = data.cartLinesUpdate else {
-            throw CartError.malformedResponse("Cart lines update response is missing its payload.")
+            throw CartError.malformedResponse(L10n.Cart.malformedUpdatePayload)
         }
 
         try payload.userErrors.throwIfNeeded()
 
         guard let cart = payload.cart else {
-            throw CartError.malformedResponse("Cart lines update response is missing its cart.")
+            throw CartError.malformedResponse(L10n.Cart.malformedUpdateCart)
         }
 
         return CartDataModel(cart: cart)
@@ -79,13 +87,13 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
         )
 
         guard let payload = data.cartLinesRemove else {
-            throw CartError.malformedResponse("Cart lines remove response is missing its payload.")
+            throw CartError.malformedResponse(L10n.Cart.malformedRemovePayload)
         }
 
         try payload.userErrors.throwIfNeeded()
 
         guard let cart = payload.cart else {
-            throw CartError.malformedResponse("Cart lines remove response is missing its cart.")
+            throw CartError.malformedResponse(L10n.Cart.malformedRemoveCart)
         }
 
         return CartDataModel(cart: cart)
@@ -97,13 +105,13 @@ struct ShopifyCartRemoteDataSource: CartRemoteDataSource, Sendable {
         )
 
         guard let payload = data.cartDiscountCodesUpdate else {
-            throw CartError.malformedResponse("Cart discount code response is missing its payload.")
+            throw CartError.malformedResponse(L10n.Cart.malformedDiscountPayload)
         }
 
         try payload.userErrors.throwIfNeeded()
 
         guard let cart = payload.cart else {
-            throw CartError.malformedResponse("Cart discount code response is missing its cart.")
+            throw CartError.malformedResponse(L10n.Cart.malformedDiscountCart)
         }
 
         return CartDataModel(cart: cart)

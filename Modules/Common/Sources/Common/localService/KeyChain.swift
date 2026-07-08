@@ -47,9 +47,9 @@ public enum CustomerAccessTokenError: LocalizedError, Equatable, Sendable {
     public var errorDescription: String? {
         switch self {
         case .missing:
-            return "No customer access token is saved."
+            return L10n.Common.customerTokenMissing
         case .expired:
-            return "The saved customer access token has expired."
+            return L10n.Common.customerTokenExpired
         }
     }
 }

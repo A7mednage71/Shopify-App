@@ -1,4 +1,5 @@
 import Foundation
+import Common
 
 // MARK: - Home Strings
 // Central repository for all user-visible strings in the Home feature.
@@ -8,42 +9,42 @@ public enum HomeStrings {
 
     // MARK: - Search Bar
     enum Search {
-        static let placeholder = "Search any Product..."
+        static var placeholder: String { L10n.HomeStrs.placeholder }
     }
 
     // MARK: - Category Section
     enum Category {
-        static let sectionTitle = "Categories"
-        static let brandsTitle  = "Brands"
-        static let sortButton   = "Sort"
-        static let filterButton = "Filter"
+        static var sectionTitle: String { L10n.HomeStrs.categoriesSectionTitle }
+        static var brandsTitle: String { L10n.HomeStrs.brandsTitle }
+        static var sortButton: String { L10n.HomeStrs.sortButton }
+        static var filterButton: String { L10n.HomeStrs.filterButton }
     }
 
     // MARK: - Deal of the Day
     enum Deal {
-        static let sectionTitle = "Deal of the Day"
-        static let viewAll      = "View all"
-        static let remaining    = "remaining"
+        static var sectionTitle: String { L10n.HomeStrs.dealSectionTitle }
+        static var viewAll: String { L10n.HomeStrs.viewAll }
+        static var remaining: String { L10n.HomeStrs.remaining }
     }
 
     // MARK: - Special Offers
     enum SpecialOffers {
-        static let title    = "Special Offers"
-        static let subtitle = "We make sure you get the offer you need at best prices"
+        static var title: String { L10n.HomeStrs.offersTitle }
+        static var subtitle: String { L10n.HomeStrs.offersSubtitle }
     }
 
     // MARK: - Flat & Heels Banner
     enum FlatHeels {
-        static let title    = "Flat and Heels"
-        static let subtitle = "Stand a chance to get rewarded"
-        static let cta      = "Visit now"
+        static var title: String { L10n.HomeStrs.offersTitle }
+        static var subtitle: String { L10n.HomeStrs.offersSubtitle }
+        static var cta: String { L10n.HomeStrs.cta }
     }
 
     // MARK: - Trending Products
     enum Trending {
-        static let sectionTitle = "Trending Products"
-        static let lastDate     = "Last Date 29/02/22"
-        static let viewAll      = "View all"
+        static var sectionTitle: String { L10n.HomeStrs.trendingSectionTitle }
+        static var lastDate: String { L10n.HomeStrs.lastDate }
+        static var viewAll: String { L10n.HomeStrs.viewAll }
     }
 
     // MARK: - Product Card

@@ -8,7 +8,7 @@ struct AssistantCatalogLoadingView: View {
             ProgressView()
                 .tint(AppColors.primary)
                 .scaleEffect(1.2)
-            Text("Syncing with Shopify catalog...")
+            Text(L10n.Home.assistantSyncingCatalog)
                 .font(.assistantBubble)
                 .foregroundColor(AppColors.textPrimary.opacity(0.8))
             Spacer()

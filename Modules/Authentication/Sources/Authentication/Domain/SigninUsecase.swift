@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Common
 @available(iOS 13.0.0, *)
 class SignInUseCase{
     private let Authrepo : AuthRepoInterface
@@ -16,14 +17,14 @@ class SignInUseCase{
         var emailError : String = ""
         var passwrodError : String = ""
         if email.isEmpty {
-             emailError = "Email cannot be empty"
+             emailError = L10n.Auth.validationEmailEmpty
         } else if !email.contains("@") {
-        emailError = "Please enter a valid email"
+        emailError = L10n.Auth.validationEmailInvalid
         }
         if password.isEmpty {
-            passwrodError = "Password cannot be empty"
+            passwrodError = L10n.Auth.validationPasswordEmpty
         } else if password.count < 6 {
-            passwrodError = "Password must be at least 6 characters"
+            passwrodError = L10n.Auth.validationPasswordMinLength
         }
         if(passwrodError.isEmpty && emailError.isEmpty){
             return

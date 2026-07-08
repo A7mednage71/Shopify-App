@@ -1,4 +1,5 @@
 import Address
+import Settings
 import Cart
 import Checkout
 import Common
@@ -47,20 +48,29 @@ struct MainFlowView: View {
                 cartCoordinator.handlePathChange(newPath)
             }
 
-            GlobalFloatingAssistantButton(onTap: {
-                showAssistant = true
-            })
+            if authState.canUseProtectedFeatures {
+                GlobalFloatingAssistantButton(onTap: {
+                    showAssistant = true
+                })
+            }
         }
         .sheet(isPresented: $showAssistant) {
-            HomeFlowView.makeShoppingAssistantView(onProductTap: handleProductTapFromAssistant)
+            if authState.canUseProtectedFeatures {
+                HomeFlowView.makeShoppingAssistantView(onProductTap: handleProductTapFromAssistant)
+            }
         }
-        .alert("Sign in required", isPresented: $isGuestAlertPresented) {
-            Button("Cancel", role: .cancel) {}
-            Button("Sign In") {
+        .onChange(of: authState.canUseProtectedFeatures) { canUseProtectedFeatures in
+            if !canUseProtectedFeatures {
+                showAssistant = false
+            }
+        }
+        .alert(L10n.Main.signInRequired, isPresented: $isGuestAlertPresented) {
+            Button(L10n.Main.cancel, role: .cancel) {}
+            Button(L10n.Main.signIn) {
                 authState.markNeedsLogin()
             }
         } message: {
-            Text("You're browsing as a guest. Sign in to use cart, favorites, and AI features.")
+            Text(L10n.Main.guestMessage)
         }
         .sheet(item: $checkoutAddressSheet, onDismiss: clearPendingCheckoutAddressCompletion) { sheet in
             switch sheet {
@@ -118,9 +128,9 @@ struct MainFlowView: View {
 
     private var protectedTabPlaceholder: some View {
         UnsignedUserPlaceholderView(
-            title: "Sign in required",
-            message: "You're browsing as a guest. Sign in to use cart, favorites, and AI features.",
-            buttonTitle: "Sign In",
+            title: L10n.Main.signInRequired,
+            message: L10n.Main.guestMessage,
+            buttonTitle: L10n.Main.signIn,
             onJoinUsTapped: {
                 authState.markNeedsLogin()
             }
@@ -149,7 +159,7 @@ struct MainFlowView: View {
                     Image(systemName: "sparkles")
                         .foregroundColor(.appPrimaryOrange)
                         .font(.system(size: 20))
-                    Text("Marktek")
+                    Text(L10n.Main.appName)
                         .font(.appBarTitle)
                         .foregroundColor(.appPrimaryOrange)
                 }
@@ -159,11 +169,19 @@ struct MainFlowView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             if shouldShowHomeToolbar {
                 Button(action: {}) {
-                    CachedImage(urlString: "https://i.pravatar.cc/40", failureImageName: "product_placeholder")
-                        .frame(width: 34, height: 34)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                    ZStack {
+                        CachedImage(urlString: "https://i.pravatar.cc/40", failureImageName: "product_placeholder")
+                            .frame(width: 34, height: 34)
+                            .clipped()
+                    }
+                    .frame(width: 34, height: 34)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
                 }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -252,7 +270,7 @@ struct MainFlowView: View {
     private func profileDestination(for route: ProfileFlowRoute) -> some View {
         switch route {
         case .personalInformation:
-            ProfilePersonalInformationPlaceholderView()
+            SettingsViewFactory.makePersonalInformationView(authState: authState)
         case .addresses:
             AddressViewFactory.makeView()
         case .orders:
@@ -452,17 +470,17 @@ private struct ProfilePersonalInformationPlaceholderView: View {
                 .font(.system(size: 42, weight: .semibold))
                 .foregroundColor(AppColors.primary)
 
-            Text("Personal Information")
+            Text(L10n.Main.personalInformation)
                 .font(AppFonts.title2.weight(.bold))
                 .foregroundColor(AppColors.textPrimary)
 
-            Text("Coming soon")
+            Text(L10n.Main.comingSoon)
                 .font(AppFonts.callout)
                 .foregroundColor(AppColors.textSecondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(AppColors.backgroundSecondary.ignoresSafeArea())
-        .navigationTitle("Personal Information")
+        .navigationTitle(L10n.Main.personalInformation)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

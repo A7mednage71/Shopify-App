@@ -80,7 +80,7 @@ struct CheckoutAddressSection: View {
                     .foregroundColor(AppColors.primary)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Add delivery address")
+            .accessibilityLabel(L10n.Checkout.addDeliveryAddressAccessibilityLabel)
         }
         .padding(14)
         .background(AppColors.backgroundSecondary)
@@ -114,7 +114,7 @@ struct CheckoutAddressSection: View {
             }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Change delivery address")
+        .accessibilityLabel(L10n.Checkout.changeDeliveryAddressAccessibilityLabel)
     }
 
     private func failureView(_ message: String) -> some View {

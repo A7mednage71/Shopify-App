@@ -18,11 +18,11 @@ struct FavoritesEmptyStateView: View {
                 .scaleEffect(illustrationScale)
                 .padding(.top, 40)
             
-            Text("No Favorites Yet")
+            Text(L10n.Fav.noFavs)
                 .font(.title2)
                 .fontWeight(.bold)
             
-            Text("Tap the heart icon on any product to save it here.")
+            Text(L10n.Fav.noFavsDesc)
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)

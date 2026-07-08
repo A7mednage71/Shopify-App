@@ -48,9 +48,9 @@ import Combine
                 errorMessage = msg
             }
             return Alert(
-                title: Text("Error"),
+                title: Text(L10n.Auth.error),
                 message: Text(errorMessage),
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text(L10n.Auth.ok))
             )
         }.onChange(of: viewModel.loginState) { newState in
             if newState == .success {
@@ -64,9 +64,9 @@ import Combine
     private var formContent: some View {
         VStack {
             Group {
-                Text("Welcome Back!").font(.system(size: 36, weight: .bold, design: .default))
+                Text(L10n.Auth.welcomeBack).font(.system(size: 36, weight: .bold, design: .default))
                 Spacer().frame(height: 85)
-                FormField(label: "Email", icon: "envelope.fill", isError: !viewModel.emailError.isEmpty, formFieldState: $emailStateValue)
+                FormField(label: L10n.Auth.emailFieldLabel, icon: "envelope.fill", isError: !viewModel.emailError.isEmpty, formFieldState: $emailStateValue)
                 if !viewModel.emailError.isEmpty {
                     Text(viewModel.emailError)
                         .font(.system(size: 12))
@@ -75,7 +75,7 @@ import Combine
                         .padding(.horizontal, 32)
                 }
                 Spacer().frame(height: 30)
-                FormField(label: "Password", icon: "lock.fill", isSecureField: true, isError: !viewModel.passwordError.isEmpty, formFieldState: $passwordStatValue)
+                FormField(label: L10n.Auth.passwordFieldLabel, icon: "lock.fill", isSecureField: true, isError: !viewModel.passwordError.isEmpty, formFieldState: $passwordStatValue)
                 if !viewModel.passwordError.isEmpty {
                     Text(viewModel.passwordError)
                         .font(.system(size: 12))
@@ -88,13 +88,13 @@ import Combine
                 Spacer().frame(height: 9)
                 Button {
                 } label: {
-                    Text("Forget Password ?")
+                    Text(L10n.Auth.forgetPassword)
                         .font(.system(size: 12))
                         .foregroundColor(AppColors.primary)
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing).padding(.horizontal , 30)
                 Spacer().frame(height: 52)
-                CustomBtn(label: "Login", action: {
+                CustomBtn(label: L10n.Auth.login, action: {
                     Task {
                         await viewModel.login(email: emailStateValue, password: passwordStatValue)
                     }
@@ -115,8 +115,8 @@ import Combine
                 )
                 Spacer().frame(height: 28)
                 AuthBottomPrompt(
-                    promptText: "Create An Account",
-                    actionText: "Sign Up",
+                    promptText: L10n.Auth.createAccountPrompt,
+                    actionText: L10n.Auth.signUpAction,
                     action: {
                         onNavigateToRegister()
                     }

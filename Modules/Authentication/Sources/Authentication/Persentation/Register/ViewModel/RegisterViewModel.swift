@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Common
 
 @available(iOS 13.0, *)
 @MainActor
@@ -60,22 +61,22 @@ class RegisterViewModel: ObservableObject {
     
     private func handleAuthError(_ error: Error) -> String {
         guard let authError = error as? AuthError else {
-            return "Try again later"
+            return L10n.Auth.errorTryAgainLater
         }
         
         switch authError {
         case .invalidCredentials:
-            return "Invalid email or password"
+            return L10n.Auth.errorInvalidCredentials
         case .userNotFound:
-            return "No account found with this email"
+            return L10n.Auth.errorUserNotFound
         case .emailAlreadyInUse:
-            return "Email is already registered"
+            return L10n.Auth.errorEmailAlreadyRegistered
         case .networkError:
-            return "Check your internet connection"
+            return L10n.Auth.errorNetwork
         case .unknown:
-            return "Unknown Error"
+            return L10n.Auth.errorUnknown
         case .unknowns:
-            return "Unkown Error"
+            return L10n.Auth.errorUnknown
         }
     }
 }

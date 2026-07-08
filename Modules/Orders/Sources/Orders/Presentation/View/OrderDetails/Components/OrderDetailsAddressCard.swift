@@ -10,7 +10,7 @@ struct OrderDetailsAddressCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Delivery Address")
+            Text(L10n.Orders.deliveryAddress)
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(AppColors.textPrimary)
 
@@ -24,7 +24,7 @@ struct OrderDetailsAddressCard: View {
                         .foregroundColor(AppColors.primary)
                 }
 
-                Text(shippingAddress ?? "No address provided")
+                Text(shippingAddress ?? L10n.Orders.noDeliveryAddress)
                     .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundColor(AppColors.textSecondary)
                     .lineSpacing(5)

@@ -1,10 +1,11 @@
 import Foundation
+import Common
 import Combine
 
 extension HomeViewModel {
     
     var resultCountLabel: String {
-        "\(searchResults.count) results"
+        L10n.HomeStrs.resultsCount(searchResults.count)
     }
 
     func performSearch(query: String) {

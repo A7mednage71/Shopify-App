@@ -2,12 +2,12 @@ import SwiftUI
 import Common
 
 struct ShoppingAssistantView: View {
-    @StateObject private var vm: ShoppingAssistantViewModel
+    @ObservedObject private var vm: ShoppingAssistantViewModel
     @Environment(\.presentationMode) var presentationMode
     private let onProductTap: (String) -> Void
 
     init(viewModel: ShoppingAssistantViewModel, onProductTap: @escaping (String) -> Void) {
-        _vm = StateObject(wrappedValue: viewModel)
+        self.vm = viewModel
         self.onProductTap = onProductTap
     }
 
