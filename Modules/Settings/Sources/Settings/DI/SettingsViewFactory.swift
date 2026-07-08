@@ -22,6 +22,11 @@ public struct SettingsViewFactory {
     }
 
     @MainActor
+    public func makePersonalInformationView(authState: AuthState) -> some View {
+        PersonalInformationView(viewModel: viewModelFactory.makeProfileDataViewModel())
+    }
+
+    @MainActor
     public func makeSettingsView(
         authState: AuthState,
         onPersonalInformationTap: @escaping () -> Void,

@@ -1,0 +1,17 @@
+mutation UpdateCustomerProfile($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
+  customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
+    customer {
+      id
+      firstName
+      lastName
+      email
+      phone
+      createdAt
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}

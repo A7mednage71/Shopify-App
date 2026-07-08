@@ -1,4 +1,5 @@
 import Address
+import Settings
 import Cart
 import Checkout
 import Common
@@ -252,7 +253,7 @@ struct MainFlowView: View {
     private func profileDestination(for route: ProfileFlowRoute) -> some View {
         switch route {
         case .personalInformation:
-            ProfilePersonalInformationPlaceholderView()
+            SettingsViewFactory.makePersonalInformationView(authState: authState)
         case .addresses:
             AddressViewFactory.makeView()
         case .orders:

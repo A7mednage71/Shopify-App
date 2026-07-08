@@ -11,6 +11,7 @@ import Common
 @available(iOS 14.0, *)
 public struct SettingsView: View {
     @StateObject private var viewModel: SettingsViewModel
+    @ObservedObject private var profileDataViewModel: ProfileDataViewModel
     @ObservedObject private var localizationManager = LocalizationManager.shared
     @State private var isSignOutConfirmationPresented = false
     @State private var showLanguageAlert = false
@@ -26,6 +27,7 @@ public struct SettingsView: View {
         onOrdersTap: @escaping () -> Void = {}
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.profileDataViewModel = viewModel.profileDataViewModel
         self.onPersonalInformationTap = onPersonalInformationTap
         self.onSavedAddressesTap = onSavedAddressesTap
         self.onOrdersTap = onOrdersTap
@@ -41,7 +43,15 @@ public struct SettingsView: View {
                     .padding(.top, 10)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                UserProfileCard(user: viewModel.user)
+                UserProfileCard(
+                    state: profileDataViewModel.state,
+                    onRetry: {
+                        Task {
+                            await profileDataViewModel.loadProfile()
+                        }
+                    },
+                    onEdit: onPersonalInformationTap
+                )
                 
                 SettingsSectionView(title: L10n.Settings.accountSettings) {
                     SettingsActionRow(icon: "person", title: L10n.Settings.profileInformation) {
@@ -199,6 +209,9 @@ public struct SettingsView: View {
         }
         .background(AppColors.backgroundSecondary.ignoresSafeArea())
         .navigationBarHidden(true)
+        .task {
+            await profileDataViewModel.loadProfileIfNeeded()
+        }
         .alert(L10n.Settings.signOutConfirmTitle, isPresented: $isSignOutConfirmationPresented) {
             Button(L10n.Settings.cancel, role: .cancel) {}
             Button(L10n.Settings.signOut, role: .destructive) {

@@ -121,6 +121,13 @@ extension SettingsViewFactory {
                 onOrdersTap: onOrdersTap
             )
     }
+
+    @MainActor
+    static func makePersonalInformationView(authState: AuthState) -> some View {
+        FeatureViewFactoryResolver
+            .resolve(SettingsViewFactory.self)
+            .makePersonalInformationView(authState: authState)
+    }
 }
 
 extension AddressViewFactory {

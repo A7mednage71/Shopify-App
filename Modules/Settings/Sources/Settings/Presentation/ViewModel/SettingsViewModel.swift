@@ -8,32 +8,28 @@
 import Foundation
 import SwiftUI
 import Common
-import Authentication
 
 @available(iOS 14.0, *)
 @MainActor
 public class SettingsViewModel: ObservableObject {
-    
-    @Published public var user: UserProfile
     @Published public private(set) var isSigningOut = false
     @Published public var signOutErrorMessage: String?
     
     @AppStorage("selectedCurrency") public var selectedCurrency: AppCurrency = .usd
     @AppStorage("isDarkMode") public var isDarkMode: Bool = false
 
-    private let logoutUseCase: LogoutUseCase
+    public let profileDataViewModel: ProfileDataViewModel
+    private let logoutUseCase: any LogoutUseCaseProtocol
     private let authState: AuthState
     
     public init(
-        logoutUseCase: LogoutUseCase,
-        authState: AuthState
+        logoutUseCase: any LogoutUseCaseProtocol,
+        authState: AuthState,
+        profileDataViewModel: ProfileDataViewModel
     ) {
         self.logoutUseCase = logoutUseCase
         self.authState = authState
-        self.user = UserProfile(
-            name: "Julianna Rossi",
-            email: "julianna.rossi@gmail.com"
-        )
+        self.profileDataViewModel = profileDataViewModel
     }
     
     public func signOut() async {
@@ -44,6 +40,7 @@ public class SettingsViewModel: ObservableObject {
 
         do {
             try await logoutUseCase.execute()
+            profileDataViewModel.reset()
             authState.markLoggedOut()
         } catch {
             signOutErrorMessage = error.localizedDescription
