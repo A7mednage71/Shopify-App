@@ -339,6 +339,7 @@
 "settings_email" = "Email";
 "settings_save_changes" = "Save Changes";
 "settings_personal_info" = "Personal Info";
+"settings_loading_profile" = "Loading profile...";
 
 /* Address - Additional */
 "address_done" = "Done";

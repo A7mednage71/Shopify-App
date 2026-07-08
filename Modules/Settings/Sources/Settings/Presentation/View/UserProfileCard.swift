@@ -48,7 +48,7 @@ public struct UserProfileCard: View {
             ProgressView()
                 .tint(AppColors.primary)
 
-            Text("Loading profile")
+            Text(L10n.Settings.loadingProfile)
                 .font(AppFonts.subheadline.weight(.semibold))
                 .foregroundColor(AppColors.textSecondary)
         }
@@ -106,7 +106,7 @@ public struct UserProfileCard: View {
                 .multilineTextAlignment(.center)
 
             Button(action: onRetry) {
-                Text("Retry")
+                Text(L10n.Settings.tryAgain)
                     .font(AppFonts.callout.weight(.bold))
                     .foregroundColor(AppColors.primary)
             }

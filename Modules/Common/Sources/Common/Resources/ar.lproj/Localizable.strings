@@ -339,6 +339,7 @@
 "settings_email" = "البريد الإلكتروني";
 "settings_save_changes" = "حفظ التغييرات";
 "settings_personal_info" = "المعلومات الشخصية";
+"settings_loading_profile" = "جارِ تحميل الملف الشخصي...";
 
 /* Address - Additional */
 "address_done" = "تم";
