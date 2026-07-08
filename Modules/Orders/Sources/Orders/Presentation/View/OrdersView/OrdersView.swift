@@ -32,7 +32,7 @@ public struct OrdersView: View {
                 }
             }
             .task {
-                await viewModel.loadOrdersIfNeeded()
+                await viewModel.loadOrders()
             }
     }
 
