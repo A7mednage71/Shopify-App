@@ -11,6 +11,7 @@ import Common
 @available(iOS 14.0, *)
 public struct SettingsView: View {
     @StateObject private var viewModel: SettingsViewModel
+    @ObservedObject private var profileDataViewModel: ProfileDataViewModel
     @State private var isSignOutConfirmationPresented = false
     private let onPersonalInformationTap: () -> Void
     private let onSavedAddressesTap: () -> Void
@@ -23,6 +24,7 @@ public struct SettingsView: View {
         onOrdersTap: @escaping () -> Void = {}
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.profileDataViewModel = viewModel.profileDataViewModel
         self.onPersonalInformationTap = onPersonalInformationTap
         self.onSavedAddressesTap = onSavedAddressesTap
         self.onOrdersTap = onOrdersTap
@@ -38,7 +40,15 @@ public struct SettingsView: View {
                     .padding(.top, 10)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                UserProfileCard(user: viewModel.user)
+                UserProfileCard(
+                    state: profileDataViewModel.state,
+                    onRetry: {
+                        Task {
+                            await profileDataViewModel.loadProfile()
+                        }
+                    },
+                    onEdit: onPersonalInformationTap
+                )
                 
                 SettingsSectionView(title: "Account Settings") {
                     SettingsActionRow(icon: "person", title: "Profile Information") {
@@ -137,7 +147,10 @@ public struct SettingsView: View {
             .padding(.horizontal, 20)
         }
         .background(AppColors.backgroundSecondary.ignoresSafeArea())
-        .navigationBarHidden(true)
+        .settingsNavigationBarHidden(true)
+        .task {
+            await profileDataViewModel.loadProfileIfNeeded()
+        }
         .alert("Sign out?", isPresented: $isSignOutConfirmationPresented) {
             Button("Cancel", role: .cancel) {}
             Button("Sign Out", role: .destructive) {
