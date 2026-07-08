@@ -215,13 +215,25 @@ struct ProductInfoContentView: View {
         }
     }
 
+    @Environment(\.layoutDirection) var layoutDirection
+
     private func flyDotPosition(rootFrame: CGRect) -> CGPoint {
+        let isRTL = layoutDirection == .rightToLeft
+        
+        let startX = isRTL 
+            ? rootFrame.width - (addButtonFrame.midX - rootFrame.minX)
+            : addButtonFrame.midX - rootFrame.minX
+            
+        let endX = isRTL 
+            ? rootFrame.width - (cartButtonFrame.midX - rootFrame.minX)
+            : cartButtonFrame.midX - rootFrame.minX
+            
         let start = CGPoint(
-            x: addButtonFrame.midX - rootFrame.minX,
+            x: startX,
             y: addButtonFrame.midY - rootFrame.minY
         )
         let end = CGPoint(
-            x: cartButtonFrame.midX - rootFrame.minX,
+            x: endX,
             y: cartButtonFrame.midY - rootFrame.minY
         )
         let progress = max(0, min(flyProgress, 1))
