@@ -36,7 +36,7 @@ struct OrderDetailsLineItemRow: View {
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
 
-                Text("Qty: \(lineItem.quantity)")
+                Text(L10n.Checkout.quantityText(lineItem.quantity))
                     .font(.system(size: 12, weight: .semibold, design: .rounded))
                     .foregroundColor(AppColors.textTertiary)
 
@@ -45,7 +45,7 @@ struct OrderDetailsLineItemRow: View {
                         onReviewTap?(lineItem)
                     } label: {
                         Label(
-                            isReviewed ? "Reviewed" : "Review",
+                            isReviewed ? L10n.Orders.reviewed : L10n.Orders.review,
                             systemImage: isReviewed ? "checkmark.circle.fill" : "star.fill"
                         )
                         .font(.system(size: 12, weight: .bold, design: .rounded))

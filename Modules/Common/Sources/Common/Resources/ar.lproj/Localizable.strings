@@ -80,6 +80,7 @@
 
 /* Orders */
 "orders_review" = "مراجعة";
+"orders_reviewed" = "تمت المراجعة";
 "orders_details" = "تفاصيل الطلب";
 "orders_payment_method" = "طريقة الدفع";
 "orders_delivery_address" = "عنوان التوصيل";
@@ -186,6 +187,11 @@
 "productinfo_colourOptionName" = "اللون";
 "productinfo_defaultTitleOptionName" = "العنوان";
 "productinfo_defaultVariantTitle" = "العنوان الافتراضي";
+"productinfo_malformedReviewsMetafield" = "تعذر قراءة مراجعات المنتج الحالية. يرجى المحاولة مرة أخرى.";
+"productinfo_unknownReviewError" = "حدث خطأ غير معروف أثناء إرسال مراجعتك.";
+"productinfo_invalidReviewRating" = "اختر تقييماً قبل إرسال مراجعتك.";
+"productinfo_missingReviewTitle" = "أضف عنواناً لمراجعتك.";
+"productinfo_missingReviewBody" = "أضف بضع كلمات عن تجربتك.";
 
 /* Checkout */
 "checkout_navigationTitle" = "الدفع";
@@ -251,6 +257,7 @@
 "homestrs_cta" = "تفضل بزيارتنا الآن";
 "homestrs_trending_sectionTitle" = "المنتجات الرائجة";
 "homestrs_lastDate" = "آخر موعد ٢٩/٠٢/٢٢";
+"home_active_filters_count" = "%d مفعل";
 "homestrs_results_count" = "%d نتائج";
 "homestrs_sort_featured" = "مميز";
 "homestrs_sort_price_low_high" = "السعر: من الأقل للأعلى";
@@ -275,15 +282,25 @@
 "onboarding_next" = "التالي";
 "onboarding_start_shopping" = "ابدأ التسوق";
 
-"orders_color_default" = "اللون: افتراضي";
+"orders_history" = "سجل الطلبات";
+"orders_no_orders" = "لا توجد طلبات بعد";
+"orders_no_orders_desc" = "عندما تقوم بإجراء طلب، سيظهر هنا.";
+"orders_color_default" = "افتراضي";
 "orders_order_name" = "الطلب";
 "orders_payment_status" = "حالة الدفع";
 "orders_fulfillment_status" = "حالة التوصيل";
-"orders_total" = "المجموع";
+"orders_total" = "الإجمالي";
 "orders_discount_code" = "كود الخصم";
 "orders_subtotal" = "المجموع الفرعي";
 "orders_shipping" = "الشحن";
 "orders_discount" = "الخصم";
+"orders_try_again" = "حاول مرة أخرى";
+"orders_tracking" = "تتبع الطلب";
+"orders_products" = "المنتجات";
+"orders_paid" = "مدفوع";
+"orders_pending" = "قيد الانتظار";
+"orders_items_count" = "%d عناصر";
+"orders_items_count_single" = "%d عنصر";
 
 "fav_remove_alert_title" = "إزالة من المفضلة";
 "fav_remove_alert_message" = "هل أنت متأكد أنك تريد إزالة '%@' من مفضلتك؟";

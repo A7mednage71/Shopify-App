@@ -80,6 +80,7 @@
 
 /* Orders */
 "orders_review" = "Review";
+"orders_reviewed" = "Reviewed";
 "orders_details" = "Order Details";
 "orders_payment_method" = "Payment Method";
 "orders_delivery_address" = "Delivery Address";
@@ -186,6 +187,11 @@
 "productinfo_colourOptionName" = "colour";
 "productinfo_defaultTitleOptionName" = "Title";
 "productinfo_defaultVariantTitle" = "Default Title";
+"productinfo_malformedReviewsMetafield" = "Could not read existing product reviews. Please try again.";
+"productinfo_unknownReviewError" = "An unknown error occurred while submitting your review.";
+"productinfo_invalidReviewRating" = "Choose a rating before submitting your review.";
+"productinfo_missingReviewTitle" = "Add a title for your review.";
+"productinfo_missingReviewBody" = "Add a few words about your experience.";
 
 /* Checkout */
 "checkout_navigationTitle" = "Payment";
@@ -251,6 +257,7 @@
 "homestrs_cta" = "Visit now";
 "homestrs_trending_sectionTitle" = "Trending Products";
 "homestrs_lastDate" = "Last Date 29/02/22";
+"home_active_filters_count" = "%d active";
 "homestrs_results_count" = "%d results";
 "homestrs_sort_featured" = "Featured";
 "homestrs_sort_price_low_high" = "Price: Low to High";
@@ -275,7 +282,10 @@
 "onboarding_next" = "Next";
 "onboarding_start_shopping" = "Start Shopping";
 
-"orders_color_default" = "Color: Default";
+"orders_history" = "Order History";
+"orders_no_orders" = "No Orders Yet";
+"orders_no_orders_desc" = "When you place an order, it will appear here.";
+"orders_color_default" = "Default";
 "orders_order_name" = "Order";
 "orders_payment_status" = "Payment Status";
 "orders_fulfillment_status" = "Fulfillment Status";
@@ -284,6 +294,13 @@
 "orders_subtotal" = "Subtotal";
 "orders_shipping" = "Shipping";
 "orders_discount" = "Discount";
+"orders_try_again" = "Try Again";
+"orders_tracking" = "Tracking";
+"orders_products" = "Products";
+"orders_paid" = "Paid";
+"orders_pending" = "Pending";
+"orders_items_count" = "%d items";
+"orders_items_count_single" = "%d item";
 
 "fav_remove_alert_title" = "Remove from Favorites";
 "fav_remove_alert_message" = "Are you sure you want to remove '%@' from your favorites?";

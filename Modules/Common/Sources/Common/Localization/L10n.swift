@@ -104,6 +104,9 @@ public enum L10n {
         public static var filterTags: String { LocalizationManager.shared.localizedString(for: "home_filter_tags") }
         public static var filterPriceRange: String { LocalizationManager.shared.localizedString(for: "home_filter_price_range") }
         public static var filterClear: String { LocalizationManager.shared.localizedString(for: "home_filter_clear") }
+        public static func activeFiltersCount(_ count: Int) -> String {
+            String(format: LocalizationManager.shared.localizedString(for: "home_active_filters_count"), count)
+        }
     }
     
     public enum Address {
@@ -134,6 +137,7 @@ public enum L10n {
     
     public enum Orders {
         public static var review: String { LocalizationManager.shared.localizedString(for: "orders_review") }
+        public static var reviewed: String { LocalizationManager.shared.localizedString(for: "orders_reviewed") }
         public static var details: String { LocalizationManager.shared.localizedString(for: "orders_details") }
         public static var paymentMethod: String { LocalizationManager.shared.localizedString(for: "orders_payment_method") }
         public static var deliveryAddress: String { LocalizationManager.shared.localizedString(for: "orders_delivery_address") }
@@ -153,6 +157,17 @@ public enum L10n {
         public static var shipping: String { LocalizationManager.shared.localizedString(for: "orders_shipping") }
         public static var discount: String { LocalizationManager.shared.localizedString(for: "orders_discount") }
         public static var tryAgain: String { LocalizationManager.shared.localizedString(for: "orders_try_again") }
+        public static var tracking: String { LocalizationManager.shared.localizedString(for: "orders_tracking") }
+        public static var products: String { LocalizationManager.shared.localizedString(for: "orders_products") }
+        public static var paid: String { LocalizationManager.shared.localizedString(for: "orders_paid") }
+        public static var pending: String { LocalizationManager.shared.localizedString(for: "orders_pending") }
+        public static func itemsCount(_ count: Int) -> String {
+            if count == 1 {
+                return String(format: LocalizationManager.shared.localizedString(for: "orders_items_count_single"), count)
+            } else {
+                return String(format: LocalizationManager.shared.localizedString(for: "orders_items_count"), count)
+            }
+        }
     }
     
     public enum Fav {
@@ -269,6 +284,11 @@ public enum L10n {
         public static var colourOptionName: String { LocalizationManager.shared.localizedString(for: "productinfo_colourOptionName") }
         public static var defaultTitleOptionName: String { LocalizationManager.shared.localizedString(for: "productinfo_defaultTitleOptionName") }
         public static var defaultVariantTitle: String { LocalizationManager.shared.localizedString(for: "productinfo_defaultVariantTitle") }
+        public static var malformedReviewsMetafield: String { LocalizationManager.shared.localizedString(for: "productinfo_malformedReviewsMetafield") }
+        public static var unknownReviewError: String { LocalizationManager.shared.localizedString(for: "productinfo_unknownReviewError") }
+        public static var invalidReviewRating: String { LocalizationManager.shared.localizedString(for: "productinfo_invalidReviewRating") }
+        public static var missingReviewTitle: String { LocalizationManager.shared.localizedString(for: "productinfo_missingReviewTitle") }
+        public static var missingReviewBody: String { LocalizationManager.shared.localizedString(for: "productinfo_missingReviewBody") }
     }
 
     public enum Checkout {

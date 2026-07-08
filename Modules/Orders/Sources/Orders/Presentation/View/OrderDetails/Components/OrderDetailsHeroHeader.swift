@@ -29,7 +29,7 @@ struct OrderDetailsHeroHeader: View {
             .frame(maxWidth: .infinity)
 
             VStack(spacing: 14) {
-                Text("Order \(order.name)")
+                Text("\(L10n.Orders.orderName) \(order.name)")
                     .font(.system(size: 26, weight: .heavy, design: .rounded))
                     .foregroundColor(AppColors.textPrimary)
 

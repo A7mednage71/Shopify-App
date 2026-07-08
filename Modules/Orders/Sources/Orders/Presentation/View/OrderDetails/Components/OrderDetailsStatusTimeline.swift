@@ -25,7 +25,7 @@ struct OrderDetailsStatusTimeline: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Tracking")
+            Text(L10n.Orders.tracking)
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(AppColors.textPrimary)
 

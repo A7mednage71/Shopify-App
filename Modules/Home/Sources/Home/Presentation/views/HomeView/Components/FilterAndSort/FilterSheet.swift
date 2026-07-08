@@ -98,7 +98,7 @@ struct FilterSheet: View {
                             .font(.headline)
                             .foregroundColor(.appTextPrimary)
                         if activeFilterCount > 0 {
-                            Text("\(activeFilterCount) active")
+                            Text(L10n.Home.activeFiltersCount(activeFilterCount))
                                 .font(.caption2)
                                 .foregroundColor(.appPrimaryOrange)
                         }

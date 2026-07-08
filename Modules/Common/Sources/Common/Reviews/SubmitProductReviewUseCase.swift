@@ -15,11 +15,11 @@ public enum SubmitProductReviewUseCaseError: LocalizedError, Equatable {
     public var errorDescription: String? {
         switch self {
         case .invalidRating:
-            return "Choose a rating before submitting your review."
+            return L10n.ProductInfo.invalidReviewRating
         case .missingTitle:
-            return "Add a title for your review."
+            return L10n.ProductInfo.missingReviewTitle
         case .missingBody:
-            return "Add a few words about your experience."
+            return L10n.ProductInfo.missingReviewBody
         }
     }
 }

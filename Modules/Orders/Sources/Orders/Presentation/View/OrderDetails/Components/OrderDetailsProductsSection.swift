@@ -13,14 +13,14 @@ struct OrderDetailsProductsSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Products")
+                Text(L10n.Orders.products)
                     .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundColor(AppColors.textPrimary)
 
                 Spacer()
 
-                Text("\(lineItems.count) item\(lineItems.count == 1 ? "" : "s")")
-                    .font(.system(size: 13, weight: .semibold, design: .rounded))
+                Text(L10n.Orders.itemsCount(lineItems.count))
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundColor(AppColors.textSecondary)
             }
 

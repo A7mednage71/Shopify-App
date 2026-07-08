@@ -17,14 +17,14 @@ struct OrderDetailsSummaryCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Order Summary")
+            Text(L10n.Orders.summary)
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(AppColors.textPrimary)
                 .padding(.bottom, 14)
 
             // Payment method
             summaryRow(
-                title: "Payment",
+                title: L10n.Orders.paymentMethod,
                 trailing: AnyView(
                     HStack(spacing: 6) {
                         Image(systemName: order.paymentMethod.systemImageName)
@@ -38,9 +38,9 @@ struct OrderDetailsSummaryCard: View {
 
             // Payment status badge
             summaryRow(
-                title: "Payment Status",
+                title: L10n.Orders.paymentStatus,
                 trailing: AnyView(
-                    Text(isPaid ? "Paid" : "Pending")
+                    Text(isPaid ? L10n.Orders.paid : L10n.Orders.pending)
                         .font(.system(size: 13, weight: .bold, design: .rounded))
                         .foregroundColor(isPaid ? Self.paidColor : Self.pendingColor)
                         .padding(.horizontal, 10)
@@ -50,9 +50,9 @@ struct OrderDetailsSummaryCard: View {
                 )
             )
 
-            summaryPriceRow(title: "Subtotal", price: order.totalPrice.orderPriceViewValue, isBold: false)
-            summaryPriceRow(title: "Shipping", price: 0, isBold: false)
-            summaryPriceRow(title: "Discount", price: 0, isBold: false)
+            summaryPriceRow(title: L10n.Orders.subtotal, price: order.totalPrice.orderPriceViewValue, isBold: false)
+            summaryPriceRow(title: L10n.Orders.shipping, price: 0, isBold: false)
+            summaryPriceRow(title: L10n.Orders.discount, price: 0, isBold: false)
 
             Rectangle()
                 .fill(AppColors.border)
@@ -60,7 +60,7 @@ struct OrderDetailsSummaryCard: View {
                 .padding(.vertical, 12)
 
             HStack {
-                Text("Total")
+                Text(L10n.Orders.total)
                     .font(.system(size: 17, weight: .heavy, design: .rounded))
                     .foregroundColor(AppColors.textPrimary)
                 Spacer()
