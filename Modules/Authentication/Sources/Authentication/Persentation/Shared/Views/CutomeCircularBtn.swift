@@ -20,22 +20,21 @@ struct CutomeCircularBtn: View {
                         .resizable()
                         .renderingMode(.template)
                         .scaledToFit()
-                        .frame(width: 22, height: 22)
+                        .frame(width: 30, height: 30)
                         .foregroundColor(AppColors.primary)
                 } else {
                     Image(image)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 22, height: 22)
+                        .frame(width: 30, height: 30)
                 }
-                
                 
                 if !label.isEmpty {
                     Spacer()
                         .frame(height: 8)
                     
                     Text(label)
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(AppFonts.footnote)
                         .foregroundColor(AppColors.textPrimary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.4)
@@ -43,13 +42,13 @@ struct CutomeCircularBtn: View {
                 }
             }
             .frame(width: 56, height: 56)
-            .background(Color.appOrangeShadow)
+            .background(Color.white)
             .clipShape(Circle())
+            .shadow(color: Color.black.opacity(0.08), radius: 6, x: 0, y: 3)
             .overlay(
                 Circle()
-                    .stroke(AppColors.primary, lineWidth: 1)
+                    .stroke(AppColors.authFieldBorder, lineWidth: 1)
             )
         }
     }
-  
 }

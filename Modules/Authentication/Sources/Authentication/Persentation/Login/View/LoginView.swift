@@ -1,41 +1,41 @@
-//
-//  LoginView.swift
-//
-//
-//  Created by Eyad waleed on 28/06/2026.
-//
-
 import SwiftUI
 import Common
 import Combine
-@available(iOS 14.0, *)
- struct LoginView: View {
+import UIKit
+
+@available(iOS 15.0, *)
+struct LoginView: View {
     @State var emailStateValue = ""
     @State var passwordStatValue = ""
-    @ObservedObject   var viewModel: LoginViewModel
+    @ObservedObject var viewModel: LoginViewModel
     var onNavigateToRegister: () -> Void
     var onGuestContinue: () -> Void
     var onLoginSuccess: () -> Void
 
-     init(
-            onNavigateToRegister: @escaping () -> Void = {},
-            onGuestContinue: @escaping () -> Void = {},
-            onLoginSuccess : @escaping () -> Void = {} ,
-            viewModel : LoginViewModel
-        ) {
-            self.onNavigateToRegister = onNavigateToRegister
-            self.onGuestContinue = onGuestContinue
-            self.onLoginSuccess = onLoginSuccess
-            self.viewModel = viewModel
-            
-        }
-     var body: some View {
-        ZStack {
-            formContent
-            if viewModel.loginState == .loading {
-                loadingOverlay
+    init(
+        onNavigateToRegister: @escaping () -> Void = {},
+        onGuestContinue: @escaping () -> Void = {},
+        onLoginSuccess: @escaping () -> Void = {},
+        viewModel: LoginViewModel
+    ) {
+        self.onNavigateToRegister = onNavigateToRegister
+        self.onGuestContinue = onGuestContinue
+        self.onLoginSuccess = onLoginSuccess
+        self.viewModel = viewModel
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                // 1. Hero Section
+                heroSection
+                
+                formContent
+                    .padding(.bottom, 24)
             }
         }
+        .background(Color(.systemBackground).ignoresSafeArea())
+        .ignoresSafeArea(.container, edges: .top)
         .alert(isPresented: Binding(
             get: {
                 if case .error(_) = viewModel.loginState { return true }
@@ -52,70 +52,156 @@ import Combine
                 message: Text(errorMessage),
                 dismissButton: .default(Text(L10n.Auth.ok))
             )
-        }.onChange(of: viewModel.loginState) { newState in
+        }
+        .onChange(of: viewModel.loginState) { newState in
             if newState == .success {
                 onLoginSuccess()
             }
         }
     }
-    
-    
+
+    // الـ Hero Section بارتفاع 230px وخلفية Peach وبها AppIcon
+    private var heroSection: some View {
+        ZStack {
+            LinearGradient(
+                colors: [AppColors.authHeroGradientStart, Color(.systemBackground)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: 230)
+            .clipShape(CustomRoundedCorner(radius: 40, corners: [.bottomLeft, .bottomRight]))
+            
+            // הדائرة البيضاء وبداخلها الـ AppIcon
+            Circle()
+                .fill(Color.white)
+                .frame(width: 104, height: 104)
+                .shadow(color: AppColors.primary.opacity(0.18), radius: 10, x: 0, y: 5)
+                .overlay(
+                    Image("AppIcon", bundle: .module)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 72, height: 72)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white, lineWidth: 2.5)
+                        )
+                )
+                .padding(.top, 40)
+        }
+        .frame(height: 230)
+    }
+
     @ViewBuilder
     private var formContent: some View {
-        VStack {
-            Group {
-                Text(L10n.Auth.welcomeBack).font(.system(size: 36, weight: .bold, design: .default))
-                Spacer().frame(height: 85)
-                FormField(label: L10n.Auth.emailFieldLabel, icon: "envelope.fill", isError: !viewModel.emailError.isEmpty, formFieldState: $emailStateValue)
-                if !viewModel.emailError.isEmpty {
-                    Text(viewModel.emailError)
-                        .font(.system(size: 12))
-                        .foregroundColor(AppColors.error)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 32)
+        VStack(spacing: 0) {
+            // 2. العنوان مع الجملة الوصفية الترحيبية بالأبليكيشن
+            VStack(spacing: 6) {
+                Text(L10n.Auth.welcomeBack)
+                    .font(AppFonts.authTitle)
+                    .foregroundColor(AppColors.textPrimary)
+                
+                Text("Your smart fashion destination for the best shopping deals.")
+                    .font(AppFonts.authSubtitle)
+                    .foregroundColor(AppColors.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
+                    .padding(.top, 4)
+            }
+            .padding(.top, 24)
+            .padding(.bottom, 36)
+
+            // 3. حقول الإدخال
+            VStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 6) {
+                    FormField(
+                        label: L10n.Auth.emailFieldLabel,
+                        icon: "envelope.fill",
+                        isError: !viewModel.emailError.isEmpty,
+                        formFieldState: $emailStateValue
+                    )
+                    
+                    if !viewModel.emailError.isEmpty {
+                        Text(viewModel.emailError)
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(AppColors.error)
+                            .padding(.horizontal, 40)
+                            .transition(.opacity)
+                    }
                 }
-                Spacer().frame(height: 30)
-                FormField(label: L10n.Auth.passwordFieldLabel, icon: "lock.fill", isSecureField: true, isError: !viewModel.passwordError.isEmpty, formFieldState: $passwordStatValue)
-                if !viewModel.passwordError.isEmpty {
-                    Text(viewModel.passwordError)
-                        .font(.system(size: 12))
-                        .foregroundColor(AppColors.error)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 32)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    FormField(
+                        label: L10n.Auth.passwordFieldLabel,
+                        icon: "lock.fill",
+                        isSecureField: true,
+                        isError: !viewModel.passwordError.isEmpty,
+                        formFieldState: $passwordStatValue
+                    )
+                    
+                    if !viewModel.passwordError.isEmpty {
+                        Text(viewModel.passwordError)
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(AppColors.error)
+                            .padding(.horizontal, 40)
+                            .transition(.opacity)
+                    }
                 }
             }
-            Group {
-                Spacer().frame(height: 9)
+
+            // نسيت كلمة المرور
+            HStack {
+                Spacer()
                 Button {
+                    // Forget password logic
                 } label: {
                     Text(L10n.Auth.forgetPassword)
-                        .font(.system(size: 12))
+                        .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(AppColors.primary)
                 }
-                .frame(maxWidth: .infinity, alignment: .trailing).padding(.horizontal , 30)
-                Spacer().frame(height: 52)
-                CustomBtn(label: L10n.Auth.login, action: {
+                .padding(.trailing, 32)
+            }
+            .padding(.top, 12)
+            .padding(.bottom, 32)
+
+            // 4. زر الدخول مع الـ loading المدمج فيه والـ shadow الطافي والـ Gradient
+            CustomBtn(
+                label: L10n.Auth.login,
+                isLoading: viewModel.loginState == .loading,
+                action: {
                     Task {
                         await viewModel.login(email: emailStateValue, password: passwordStatValue)
                     }
-                })
-                Spacer().frame(height: 75)
+                }
+            )
+
+            // 5. الفاصل الـ Divider الأنيق مكتوب عليه "OR WITH"
+            HStack {
+                VStack { Divider().background(AppColors.authDivider) }
+                Text("OR WITH")
+                    .font(AppFonts.authEyebrow)
+                    .tracking(1.5)
+                    .foregroundColor(AppColors.textSecondary.opacity(0.8))
+                    .padding(.horizontal, 12)
+                VStack { Divider().background(AppColors.authDivider) }
             }
-            Group {
-                SocialSignInSection(
-                    guestAction: {
-                        onGuestContinue()
-                    },
-                    appleAction: {},
-                    googleAction: {
+            .padding(.horizontal, 32)
+            .padding(.top, 40)
+            .padding(.bottom, 24)
+
+            // 6. أيقونات Guest و Google
+            VStack(spacing: 32) {
+                HStack(spacing: 24) {
+                    CutomeCircularBtn(image: "person.crop.circle.fill.badge.plus", label: "", action: onGuestContinue)
+                    CutomeCircularBtn(image: "google", action: {
                         Task {
                             await viewModel.signInWithGoogle()
                         }
-                    }
-                )
-                Spacer().frame(height: 28)
+                    })
+                }
+                
                 AuthBottomPrompt(
-                    promptText: L10n.Auth.createAccountPrompt,
+                    promptText: L10n.Auth.createAccountPrompt + "?",
                     actionText: L10n.Auth.signUpAction,
                     action: {
                         onNavigateToRegister()
@@ -124,15 +210,5 @@ import Combine
             }
         }
         .disabled(viewModel.loginState == .loading)
-    }
-    
-    private var loadingOverlay: some View {
-        ZStack {
-            AppColors.shadow.opacity(0.3)
-                .ignoresSafeArea()
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: AppColors.primary))
-                .scaleEffect(1.5)
-        }
     }
 }

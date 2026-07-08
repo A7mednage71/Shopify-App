@@ -26,6 +26,12 @@ public enum AppColors {
     public static let error = Color.appErrorRed
     public static let disabled = Color.appDisabled
     public static let primaryVeryLight = Color.appVeryLightOrange
+    
+    // Auth UI Custom Colors
+    public static let authFieldBackground = Color.appAuthFieldBackground
+    public static let authFieldBorder = Color.appAuthFieldBorder
+    public static let authHeroGradientStart = Color.appAuthHeroGradientStart
+    public static let authDivider = Color.appAuthDivider
 }
 
 public enum AppFonts {
@@ -39,6 +45,11 @@ public enum AppFonts {
     public static let subheadline = Font.system(size: 15)
     public static let footnote = Font.system(size: 13)
     public static let caption = Font.system(size: 12)
+
+    // Auth UI Custom Fonts
+    public static let authTitle = Font.system(size: 32, weight: .bold, design: .rounded)
+    public static let authSubtitle = Font.system(size: 13, weight: .medium)
+    public static let authEyebrow = Font.system(size: 11, weight: .bold)
 
     public static func customFont(name: String, size: CGFloat) -> Font {
         Font.custom(name, size: size)
@@ -80,6 +91,11 @@ public extension Color {
     static let appDisabled = AppColorAsset.color("AppDisabled")
     static let appVeryLightOrange =
     AppColorAsset.color("AppVeryLightOrange")
+    
+    static let appAuthFieldBackground = AppColorAsset.color("AppAuthFieldBackground")
+    static let appAuthFieldBorder = AppColorAsset.color("AppAuthFieldBorder")
+    static let appAuthHeroGradientStart = AppColorAsset.color("AppAuthHeroGradientStart")
+    static let appAuthDivider = AppColorAsset.color("AppAuthDivider")
 }
 
 public extension Font {
