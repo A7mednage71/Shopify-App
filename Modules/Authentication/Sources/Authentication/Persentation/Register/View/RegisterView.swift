@@ -84,7 +84,8 @@ import Common
     private var headerSection: some View {
         Text("Create an\naccount")
             .font(.system(size: 36, weight: .bold, design: .default))
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, 32)
             .padding(.top, 20)
     }
@@ -128,18 +129,16 @@ import Common
     private var agreementAndSubmitSection: some View {
         Spacer().frame(height: 15)
 
-        HStack(spacing: 0) {
-            Text("By clicking the ")
-                .foregroundColor(.gray)
-                .font(.system(size: 12))
-            Text("Register ")
-                .foregroundColor(AppColors.primary)
-                .font(.system(size: 12))
-            Text("button, you agree\nto the public offer")
-                .foregroundColor(.gray)
-                .font(.system(size: 12))
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        (Text("By clicking the ")
+            .foregroundColor(AppColors.textSecondary)
+            .font(.system(size: 12))
+        + Text("Register ")
+            .foregroundColor(AppColors.primary)
+            .font(.system(size: 12))
+        + Text("button, you agree\nto the public offer")
+            .foregroundColor(AppColors.textSecondary)
+            .font(.system(size: 12)))
+        .multilineTextAlignment(.center)
         .padding(.horizontal, 32)
 
         Spacer().frame(height: 35)
@@ -187,17 +186,17 @@ import Common
     private func errorText(_ message: String) -> some View {
         Text(message)
             .font(.system(size: 12))
-            .foregroundColor(.red)
+            .foregroundColor(AppColors.error)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 32)
     }
     
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.3)
+            AppColors.shadow.opacity(0.3)
                 .ignoresSafeArea()
             ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .progressViewStyle(CircularProgressViewStyle(tint: AppColors.primary))
                 .scaleEffect(1.5)
         }
     }

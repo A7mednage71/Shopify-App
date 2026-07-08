@@ -70,7 +70,7 @@ import Combine
                 if !viewModel.emailError.isEmpty {
                     Text(viewModel.emailError)
                         .font(.system(size: 12))
-                        .foregroundColor(.red)
+                        .foregroundColor(AppColors.error)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 32)
                 }
@@ -79,7 +79,7 @@ import Combine
                 if !viewModel.passwordError.isEmpty {
                     Text(viewModel.passwordError)
                         .font(.system(size: 12))
-                        .foregroundColor(.red)
+                        .foregroundColor(AppColors.error)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 32)
                 }
@@ -128,10 +128,10 @@ import Combine
     
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.3)
+            AppColors.shadow.opacity(0.3)
                 .ignoresSafeArea()
             ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .progressViewStyle(CircularProgressViewStyle(tint: AppColors.primary))
                 .scaleEffect(1.5)
         }
     }

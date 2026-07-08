@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Common
 @available(iOS 13.0.0, *)
 
 
@@ -20,7 +21,7 @@ struct FormField: View {
     var body: some View {
         HStack {
             Image(systemName: icon)
-                .foregroundColor(isError ? .red : .gray)
+                .foregroundColor(isError ? AppColors.error : AppColors.textSecondary)
             
             if isSecureField && isSecure {
                 SecureField(label, text: $formFieldState)
@@ -33,16 +34,16 @@ struct FormField: View {
                     isSecure.toggle()
                 } label: {
                     Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
-                        .foregroundColor(isError ? .red : .gray)
+                        .foregroundColor(isError ? AppColors.error : AppColors.textSecondary)
                 }
             }
         }
         .padding()
-        .background(Color(red: 243/255, green: 243/255, blue: 243/255))
+        .background(AppColors.backgroundSecondary)
         .cornerRadius(10)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(isError ? Color.red : Color.gray, lineWidth: 1)
+                .stroke(isError ? AppColors.error : AppColors.border, lineWidth: 1)
         )
         .padding(.horizontal, 32)
     }
