@@ -11,7 +11,7 @@ struct GlobalFloatingAssistantButton: View {
         static let tapDistanceThreshold: CGFloat = 15
     }
 
-    @AppStorage("assistantButtonX") private var savedX: Double = -1
+    @AppStorage("assistantButtonOnLeftSide") private var isOnLeftSide: Bool = false
     @AppStorage("assistantButtonY") private var savedY: Double = -1
 
     @State private var position: CGPoint = .zero
@@ -19,8 +19,11 @@ struct GlobalFloatingAssistantButton: View {
     @State private var isDragging = false
     @State private var isPulsing = false
 
+    @Environment(\.layoutDirection) private var layoutDirection
+
     private var currentPosition: CGPoint {
-        CGPoint(x: position.x + dragOffset.width, y: position.y + dragOffset.height)
+        let xOffset = layoutDirection == .rightToLeft ? -dragOffset.width : dragOffset.width
+        return CGPoint(x: position.x + xOffset, y: position.y + dragOffset.height)
     }
 
     var body: some View {
@@ -90,7 +93,8 @@ struct GlobalFloatingAssistantButton: View {
                                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
                                 onTap()
                             } else {
-                                let newX = position.x + value.translation.width
+                                let xDelta = layoutDirection == .rightToLeft ? -value.translation.width : value.translation.width
+                                let newX = position.x + xDelta
                                 let newY = position.y + value.translation.height
                                 snapToEdge(newX: newX, newY: newY, size: geometry.size)
                             }
@@ -103,14 +107,14 @@ struct GlobalFloatingAssistantButton: View {
                 )
             }
             .onAppear {
-                if savedX >= 0 && savedY >= 0 {
-                    // استرجع آخر موقع محفوظ
-                    position = CGPoint(x: savedX, y: savedY)
-                } else if position == .zero {
-                    // أول مرة - موقع افتراضي
-                    position = CGPoint(x: geometry.size.width - Layout.buttonRadius,
-                                        y: geometry.size.height - Layout.bottomSafeMargin)
-                }
+                let screenWidth = geometry.size.width
+                let yPos = savedY >= 0
+                    ? savedY
+                    : geometry.size.height - Layout.bottomSafeMargin
+
+                let xPos: CGFloat = isOnLeftSide ? Layout.buttonRadius : screenWidth - Layout.buttonRadius
+
+                position = CGPoint(x: xPos, y: yPos)
 
                 withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: false)) {
                     isPulsing = true
@@ -124,15 +128,16 @@ struct GlobalFloatingAssistantButton: View {
 
     private func snapToEdge(newX: CGFloat, newY: CGFloat, size: CGSize) {
         let halfWidth = size.width / 2
-
-        let targetX: CGFloat = newX < halfWidth ? Layout.buttonRadius : size.width - Layout.buttonRadius
         let targetY = min(max(newY, Layout.topSafeMargin), size.height - Layout.bottomSafeMargin)
+
+        let onLeft = newX < halfWidth
+        let targetX: CGFloat = onLeft ? Layout.buttonRadius : size.width - Layout.buttonRadius
 
         withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
             position = CGPoint(x: targetX, y: targetY)
         }
 
-        savedX = targetX
+        isOnLeftSide = onLeft
         savedY = targetY
     }
 }
