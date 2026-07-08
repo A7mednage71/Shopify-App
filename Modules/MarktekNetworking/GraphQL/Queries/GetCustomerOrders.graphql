@@ -19,7 +19,10 @@ query GetCustomerOrders($customerAccessToken: String!, $first: Int!, $language: 
             address1
             address2
             city
+            province
             country
+            zip
+            phone
           }
           lineItems(first: 5) {
             edges {

@@ -63,7 +63,7 @@ struct OrderRowView: View {
                         color: AppColors.textSecondary
                     )
 
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "chevron.forward")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(AppColors.border)
                 }

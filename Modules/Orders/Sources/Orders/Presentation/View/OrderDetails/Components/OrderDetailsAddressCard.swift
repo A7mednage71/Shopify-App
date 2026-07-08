@@ -24,7 +24,7 @@ struct OrderDetailsAddressCard: View {
                         .foregroundColor(AppColors.primary)
                 }
 
-                Text(shippingAddress ?? "No address provided")
+                Text(shippingAddress ?? L10n.Orders.noDeliveryAddress)
                     .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundColor(AppColors.textSecondary)
                     .lineSpacing(5)

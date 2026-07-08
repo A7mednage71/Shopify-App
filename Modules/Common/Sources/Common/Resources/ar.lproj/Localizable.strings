@@ -500,6 +500,7 @@
 "orders_products_title" = "المنتجات (%d)";
 "orders_order_accessibility_label" = "الطلب %@، %@";
 "orders_error_customer_not_found" = "تعذر العثور على حسابك لتحميل الطلبات.";
+"orders_error_order_not_found" = "تعذر العثور على هذا الطلب. حدّث سجل الطلبات وحاول مرة أخرى.";
 "orders_error_unknown" = "حدث خطأ أثناء تحميل طلباتك.";
 "orders_status_pending" = "قيد الانتظار";
 "orders_status_in_progress" = "قيد التنفيذ";
@@ -507,6 +508,10 @@
 "orders_payment_apple_pay" = "Apple Pay";
 "orders_payment_cash_on_delivery" = "الدفع عند الاستلام";
 "orders_payment_credit_card" = "بطاقة ائتمان";
+"orders_timeline_placed" = "تم الطلب";
+"orders_timeline_processing" = "قيد المعالجة";
+"orders_timeline_shipped" = "تم الشحن";
+"orders_timeline_delivered" = "تم التوصيل";
 
 /* Product Info - Additional */
 "productinfo_customer_fallback_name" = "عميل";

@@ -500,6 +500,7 @@
 "orders_products_title" = "Products (%d)";
 "orders_order_accessibility_label" = "Order %@, %@";
 "orders_error_customer_not_found" = "We couldn't find your account to load your orders.";
+"orders_error_order_not_found" = "We couldn't find this order. Refresh your order history and try again.";
 "orders_error_unknown" = "Something went wrong while loading your orders.";
 "orders_status_pending" = "Pending";
 "orders_status_in_progress" = "In Progress";
@@ -507,6 +508,10 @@
 "orders_payment_apple_pay" = "Apple Pay";
 "orders_payment_cash_on_delivery" = "Cash on Delivery";
 "orders_payment_credit_card" = "Credit Card";
+"orders_timeline_placed" = "Placed";
+"orders_timeline_processing" = "Processing";
+"orders_timeline_shipped" = "Shipped";
+"orders_timeline_delivered" = "Delivered";
 
 /* Product Info - Additional */
 "productinfo_customer_fallback_name" = "Customer";

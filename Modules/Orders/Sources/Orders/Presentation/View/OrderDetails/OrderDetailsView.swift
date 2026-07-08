@@ -20,16 +20,43 @@ public struct OrderDetailsView: View {
         ZStack {
             AppColors.backgroundSecondary.ignoresSafeArea()
 
-            if let order = viewModel.order {
+            switch viewModel.state {
+            case .loading:
+                loadingView
+            case .loaded(let order):
                 content(for: order)
-            } else {
-                ProgressView()
-                    .scaleEffect(1.2)
-                    .tint(AppColors.primary)
+            case .failure(let message):
+                failureView(message: message)
             }
         }
-        .navigationTitle("Order Details")
+        .navigationTitle(L10n.Orders.details)
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await viewModel.loadOrderIfNeeded()
+        }
+    }
+
+    private var loadingView: some View {
+        ProgressView()
+            .scaleEffect(1.2)
+            .tint(AppColors.primary)
+    }
+
+    private func failureView(message: String) -> some View {
+        VStack(spacing: 12) {
+            Text(message)
+                .font(AppFonts.callout)
+                .foregroundColor(AppColors.textSecondary)
+                .multilineTextAlignment(.center)
+
+            Button(L10n.Orders.tryAgain) {
+                Task { await viewModel.retry() }
+            }
+            .font(AppFonts.callout)
+            .foregroundColor(AppColors.primary)
+        }
+        .padding(.horizontal, 32)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     @ViewBuilder

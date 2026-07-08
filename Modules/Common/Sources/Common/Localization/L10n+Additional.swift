@@ -179,6 +179,7 @@ public extension L10n.Orders {
     static var noDeliveryAddress: String { LocalizationManager.shared.localizedString(for: "orders_no_delivery_address") }
     static var noDiscountCodeValue: String { LocalizationManager.shared.localizedString(for: "orders_no_discount_code_value") }
     static var errorCustomerNotFound: String { LocalizationManager.shared.localizedString(for: "orders_error_customer_not_found") }
+    static var errorOrderNotFound: String { LocalizationManager.shared.localizedString(for: "orders_error_order_not_found") }
     static var errorUnknown: String { LocalizationManager.shared.localizedString(for: "orders_error_unknown") }
     static var statusPending: String { LocalizationManager.shared.localizedString(for: "orders_status_pending") }
     static var statusInProgress: String { LocalizationManager.shared.localizedString(for: "orders_status_in_progress") }
@@ -186,6 +187,10 @@ public extension L10n.Orders {
     static var paymentApplePay: String { LocalizationManager.shared.localizedString(for: "orders_payment_apple_pay") }
     static var paymentCashOnDelivery: String { LocalizationManager.shared.localizedString(for: "orders_payment_cash_on_delivery") }
     static var paymentCreditCard: String { LocalizationManager.shared.localizedString(for: "orders_payment_credit_card") }
+    static var timelinePlaced: String { LocalizationManager.shared.localizedString(for: "orders_timeline_placed") }
+    static var timelineProcessing: String { LocalizationManager.shared.localizedString(for: "orders_timeline_processing") }
+    static var timelineShipped: String { LocalizationManager.shared.localizedString(for: "orders_timeline_shipped") }
+    static var timelineDelivered: String { LocalizationManager.shared.localizedString(for: "orders_timeline_delivered") }
 
     static func productsTitle(_ count: Int) -> String {
         String(format: LocalizationManager.shared.localizedString(for: "orders_products_title"), count)

@@ -24,6 +24,11 @@ public final class OrdersViewModel: ObservableObject {
         self.getOrdersUseCase = getOrdersUseCase
     }
 
+    public func loadOrdersIfNeeded() async {
+        guard case .loading = state else { return }
+        await loadOrders()
+    }
+
     public func loadOrders() async {
         state = .loading
         do {

@@ -7,7 +7,7 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
   public static let operationName: String = "GetCustomerOrders"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetCustomerOrders($customerAccessToken: String!, $first: Int!, $language: LanguageCode) @inContext(language: $language) { customer(customerAccessToken: $customerAccessToken) { __typename firstName lastName orders(first: $first, sortKey: PROCESSED_AT, reverse: true) { __typename edges { __typename node { __typename id name orderNumber processedAt financialStatus fulfillmentStatus currentTotalPrice { __typename amount currencyCode } shippingAddress { __typename address1 address2 city country } lineItems(first: 5) { __typename edges { __typename node { __typename title quantity originalTotalPrice { __typename amount currencyCode } variant { __typename id product { __typename id } image { __typename url } } } } } } } } } }"#
+      #"query GetCustomerOrders($customerAccessToken: String!, $first: Int!, $language: LanguageCode) @inContext(language: $language) { customer(customerAccessToken: $customerAccessToken) { __typename firstName lastName orders(first: $first, sortKey: PROCESSED_AT, reverse: true) { __typename edges { __typename node { __typename id name orderNumber processedAt financialStatus fulfillmentStatus currentTotalPrice { __typename amount currencyCode } shippingAddress { __typename address1 address2 city province country zip phone } lineItems(first: 5) { __typename edges { __typename node { __typename title quantity originalTotalPrice { __typename amount currencyCode } variant { __typename id product { __typename id } image { __typename url } } } } } } } } } }"#
     ))
 
   public var customerAccessToken: String
@@ -181,7 +181,10 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
                 .field("address1", String?.self),
                 .field("address2", String?.self),
                 .field("city", String?.self),
+                .field("province", String?.self),
                 .field("country", String?.self),
+                .field("zip", String?.self),
+                .field("phone", String?.self),
               ] }
 
               /// The first line of the address. Typically the street address or PO Box number.
@@ -191,8 +194,17 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
               public var address2: String? { __data["address2"] }
               /// The name of the city, district, village, or town.
               public var city: String? { __data["city"] }
+              /// The region of the address, such as the province, state, or district.
+              public var province: String? { __data["province"] }
               /// The name of the country.
               public var country: String? { __data["country"] }
+              /// The zip or postal code of the address.
+              public var zip: String? { __data["zip"] }
+              /// A unique phone number for the customer.
+              ///
+              /// Formatted using E.164 standard. For example, _+16135551111_.
+              ///
+              public var phone: String? { __data["phone"] }
             }
 
             /// Customer.Orders.Edge.Node.LineItems
