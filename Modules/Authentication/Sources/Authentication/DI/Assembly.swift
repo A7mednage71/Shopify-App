@@ -9,6 +9,7 @@ import Foundation
 import Swinject
 import Foundation
 import Swinject
+import Common
 
 
 @MainActor
@@ -51,7 +52,7 @@ public final class AuthAssembly: Assembly {
             RegisterUseCase(authRepo: resolver.resolve(AuthRepoInterface.self)!)
         }
 
-        container.register(LogoutUseCase.self) { resolver in
+        container.register(LogoutUseCaseProtocol.self) { resolver in
             LogoutUseCase(authRepo: resolver.resolve(AuthRepoInterface.self)!)
         }
         

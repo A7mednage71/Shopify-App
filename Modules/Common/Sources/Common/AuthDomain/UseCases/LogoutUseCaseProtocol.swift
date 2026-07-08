@@ -6,6 +6,6 @@
 //
 
 
-public protocol LogoutUseCaseProtocol{
-     func execute() async throws
+public protocol LogoutUseCaseProtocol {
+    func execute() async throws
 }
