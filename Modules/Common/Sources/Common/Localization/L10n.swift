@@ -61,6 +61,15 @@ public enum L10n {
         public static var saveChanges: String { LocalizationManager.shared.localizedString(for: "settings_save_changes") }
         public static var personalInfo: String { LocalizationManager.shared.localizedString(for: "settings_personal_info") }
         public static var loadingProfile: String { LocalizationManager.shared.localizedString(for: "settings_loading_profile") }
+        
+        public static var profileUpdateErrorTitle: String { LocalizationManager.shared.localizedString(for: "settings_profile_update_error_title") }
+        public static var pleaseTryAgain: String { LocalizationManager.shared.localizedString(for: "settings_please_try_again") }
+        public static var currentDetails: String { LocalizationManager.shared.localizedString(for: "settings_current_details") }
+        public static var name: String { LocalizationManager.shared.localizedString(for: "settings_name") }
+        public static var customerSince: String { LocalizationManager.shared.localizedString(for: "settings_customer_since") }
+        public static var editDetails: String { LocalizationManager.shared.localizedString(for: "settings_edit_details") }
+        public static var editInformation: String { LocalizationManager.shared.localizedString(for: "settings_edit_information") }
+        public static var saving: String { LocalizationManager.shared.localizedString(for: "settings_saving") }
     }
     
     public enum Home {

@@ -2,116 +2,144 @@ import Common
 import SwiftUI
 
 public struct PersonalInformationView: View {
-    @StateObject private var viewModel: ProfileDataViewModel
-    
-    @State private var firstName: String = ""
-    @State private var lastName: String = ""
-    @State private var phone: String = ""
-    @State private var email: String = ""
-    
+    @ObservedObject private var viewModel: ProfileDataViewModel
+    @State private var form = ProfileInformationForm()
+    @State private var isEditing = false
+
     public init(viewModel: ProfileDataViewModel) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.viewModel = viewModel
     }
-    
+
     public var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
-                
-                Image("marketek", bundle: .module)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(10)
-                
-                Text(L10n.Settings.profileInformationTitle)
-                    .font(AppFonts.title1).bold()
-                
-                Text(L10n.Settings.profileSubtitle)
-                    .multilineTextAlignment(.center)
-                     .font(AppFonts.callout)
-                     .foregroundColor(AppColors.primary)
-                
-                VStack(spacing: 0) {
-                    CustomTextFieldRow(icon: "person.fill", title: L10n.Settings.firstName, text: $firstName, placeholder: L10n.Settings.enterFirstName)
-                    
-                    Divider().padding(.leading, 48) 
-                    
-                    CustomTextFieldRow(icon: "person", title: L10n.Settings.lastName, text: $lastName, placeholder: L10n.Settings.enterLastName)
+            VStack(spacing: 20) {
+                header
+
+                switch viewModel.state {
+                case .idle, .loading:
+                    loadingView
+                case .failure(let message):
+                    failureView(message)
+                case .success(let profile):
+                    content(profile)
                 }
-                .background(Color.white)
-                .cornerRadius(12)
-                
-                VStack(spacing: 0) {
-                    CustomTextFieldRow(icon: "phone.fill", title: L10n.Settings.phone, text: $phone, placeholder: L10n.Settings.enterPhoneNumber, keyboardType: .phonePad)
-                    
-                    Divider().padding(.leading, 48)
-                    
-                    HStack(spacing: 12) {
-                        Image(systemName: "envelope.fill")
-                            .foregroundColor(.gray.opacity(0.8))
-                            .frame(width: 24) 
-                        
-                        Text(L10n.Settings.email)
-                            .foregroundColor(.gray)
-                            .frame(width: 90, alignment: .leading)
-                        
-                        Text(email)
-                            .foregroundColor(.gray.opacity(0.8))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .padding()
-                }
-                .background(Color.white)
-                .cornerRadius(12)
-                
-                Button(action: {
-                    saveChanges()
-                }) {
-                    HStack {
-                        if viewModel.isSaving {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                .padding(.trailing, 8)
-                        }
-                        Text(L10n.Settings.saveChanges)
-                            .font(.headline)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 54)
-                    .foregroundColor(.white)
-                    .background(Color.orange)
-                    .cornerRadius(27)
-                    .padding(.top, 16)
-                }
-                .disabled(viewModel.isSaving)
-                
             }
-            .padding()
+            .padding(.horizontal, 20)
+            .padding(.vertical, 18)
         }
-        .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
+        .background(AppColors.backgroundSecondary.ignoresSafeArea())
         .navigationTitle(L10n.Settings.personalInfo)
-        .navigationBarTitleDisplayMode(.inline)
+        .settingsInlineNavigationTitle()
         .task {
             await viewModel.loadProfileIfNeeded()
         }
-        .onReceive(viewModel.$state) { state in
-            if case .success(let profile) = state {
-                firstName = profile.firstName ?? ""
-                lastName = profile.lastName ?? ""
-                phone = profile.phone ?? ""
-                email = profile.email ?? ""
+        .onChange(of: viewModel.state) { state in
+            guard case .success(let profile) = state, !isEditing else { return }
+            form = ProfileInformationForm(profile: profile)
+        }
+        .alert(L10n.Settings.profileUpdateErrorTitle, isPresented: saveErrorBinding) {
+            Button(L10n.Settings.ok, role: .cancel) {
+                viewModel.saveErrorMessage = nil
+            }
+        } message: {
+            Text(viewModel.saveErrorMessage ?? L10n.Settings.pleaseTryAgain)
+        }
+    }
+
+    private var header: some View {
+        PersonalInformationHeaderView()
+    }
+
+    private var loadingView: some View {
+        PersonalInformationLoadingView()
+    }
+
+    private func failureView(_ message: String) -> some View {
+        PersonalInformationFailureView(
+            message: message,
+            onRetry: {
+                Task {
+                    await viewModel.loadProfile()
+                }
+            }
+        )
+    }
+
+    private func content(_ profile: CustomerProfile) -> some View {
+        VStack(spacing: 16) {
+            readOnlySection(profile)
+
+            if isEditing {
+                editSection
+                PersonalInformationActionButtons(
+                    isSaving: viewModel.isSaving,
+                    onSave: saveChanges,
+                    onCancel: { cancelEditing(profile) }
+                )
+            } else {
+                PersonalInformationEditButton {
+                    beginEditing(profile)
+                }
             }
         }
+    }
+
+    private func readOnlySection(_ profile: CustomerProfile) -> some View {
+        ProfileInfoSection(title: L10n.Settings.currentDetails) {
+            ProfileInfoRow(icon: "person.fill", title: L10n.Settings.name, value: profile.displayName)
+            Divider().background(AppColors.border)
+            ProfileInfoRow(icon: "envelope.fill", title: L10n.Settings.email, value: profile.displayEmail)
+            Divider().background(AppColors.border)
+            ProfileInfoRow(icon: "phone.fill", title: L10n.Settings.phone, value: profile.displayPhone)
+            Divider().background(AppColors.border)
+            ProfileInfoRow(icon: "calendar", title: L10n.Settings.customerSince, value: profile.displayCreatedAt)
+        }
+    }
+
+    private var editSection: some View {
+        ProfileInfoSection(title: L10n.Settings.editDetails) {
+            ProfileEditableRow(icon: "person.fill", title: L10n.Settings.firstName, text: $form.firstName)
+            Divider().background(AppColors.border)
+            ProfileEditableRow(icon: "person", title: L10n.Settings.lastName, text: $form.lastName)
+            Divider().background(AppColors.border)
+            ProfileEditableRow(
+                icon: "phone.fill",
+                title: L10n.Settings.phone,
+                text: $form.phone,
+                keyboardType: .phonePad,
+                textInputAutocapitalization: .never
+            )
+        }
+    }
+
+    private func beginEditing(_ profile: CustomerProfile) {
+        form = ProfileInformationForm(profile: profile)
+        isEditing = true
     }
 
     private func saveChanges() {
         Task {
-            await viewModel.updateProfile(CustomerProfileUpdateInput(
-                firstName: firstName,
-                lastName: lastName,
-                phone: phone
-            ))
+            await viewModel.updateProfile(form.updateInput)
+            if viewModel.saveErrorMessage == nil {
+                isEditing = false
+            }
         }
     }
+
+    private func cancelEditing(_ profile: CustomerProfile) {
+        form = ProfileInformationForm(profile: profile)
+        isEditing = false
+        viewModel.saveErrorMessage = nil
+    }
+
+    private var saveErrorBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.saveErrorMessage != nil },
+            set: { isPresented in
+                if !isPresented {
+                    viewModel.saveErrorMessage = nil
+                }
+            }
+        )
+    }
 }
-
-

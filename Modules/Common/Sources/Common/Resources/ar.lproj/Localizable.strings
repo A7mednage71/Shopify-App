@@ -341,6 +341,15 @@
 "settings_personal_info" = "المعلومات الشخصية";
 "settings_loading_profile" = "جارِ تحميل الملف الشخصي...";
 
+"settings_profile_update_error_title" = "تعذر تحديث الملف الشخصي";
+"settings_please_try_again" = "يرجى المحاولة مرة أخرى.";
+"settings_current_details" = "التفاصيل الحالية";
+"settings_name" = "الاسم";
+"settings_customer_since" = "عميل منذ";
+"settings_edit_details" = "تعديل التفاصيل";
+"settings_edit_information" = "تعديل المعلومات";
+"settings_saving" = "جارِ الحفظ...";
+
 /* Address - Additional */
 "address_done" = "تم";
 "address_unavailable_title" = "العنوان غير متاح";

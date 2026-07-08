@@ -341,6 +341,15 @@
 "settings_personal_info" = "Personal Info";
 "settings_loading_profile" = "Loading profile...";
 
+"settings_profile_update_error_title" = "Could not update profile";
+"settings_please_try_again" = "Please try again.";
+"settings_current_details" = "Current Details";
+"settings_name" = "Name";
+"settings_customer_since" = "Customer Since";
+"settings_edit_details" = "Edit Details";
+"settings_edit_information" = "Edit Information";
+"settings_saving" = "Saving...";
+
 /* Address - Additional */
 "address_done" = "Done";
 "address_unavailable_title" = "Address unavailable";

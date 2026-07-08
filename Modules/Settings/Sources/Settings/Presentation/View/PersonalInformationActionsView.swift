@@ -6,7 +6,7 @@ struct PersonalInformationEditButton: View {
 
     var body: some View {
         Button(action: onTap) {
-            Label("Edit Information", systemImage: "pencil")
+            Label(L10n.Settings.editInformation, systemImage: "pencil")
                 .font(AppFonts.callout.weight(.bold))
                 .foregroundColor(AppColors.textWhite)
                 .frame(maxWidth: .infinity)
@@ -32,7 +32,7 @@ struct PersonalInformationActionButtons: View {
                             .tint(AppColors.textWhite)
                     }
 
-                    Text(isSaving ? "Saving..." : "Save Changes")
+                    Text(isSaving ? L10n.Settings.saving : L10n.Settings.saveChanges)
                         .font(AppFonts.callout.weight(.bold))
                 }
                 .foregroundColor(AppColors.textWhite)
@@ -45,7 +45,7 @@ struct PersonalInformationActionButtons: View {
             .buttonStyle(.plain)
 
             Button(action: onCancel) {
-                Text("Cancel")
+                Text(L10n.Settings.cancel)
                     .font(AppFonts.callout.weight(.bold))
                     .foregroundColor(AppColors.textSecondary)
                     .frame(maxWidth: .infinity)

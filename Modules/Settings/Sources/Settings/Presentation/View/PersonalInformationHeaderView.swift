@@ -14,11 +14,11 @@ struct PersonalInformationHeaderView: View {
                     .foregroundColor(AppColors.primary)
             }
 
-            Text("Profile Information")
+            Text(L10n.Settings.profileInformationTitle)
                 .font(AppFonts.title2.weight(.bold))
                 .foregroundColor(AppColors.textPrimary)
 
-            Text("Manage the contact details linked to your Marktek account.")
+            Text(L10n.Settings.profileSubtitle)
                 .font(AppFonts.callout)
                 .foregroundColor(AppColors.textSecondary)
                 .multilineTextAlignment(.center)
