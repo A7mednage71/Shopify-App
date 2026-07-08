@@ -5,8 +5,11 @@ import Combine
 public class LocalizationManager: ObservableObject {
     public static let shared = LocalizationManager()
     
+    @Published public var updateId: UUID = UUID()
+    
     @AppStorage("app_language") public var appLanguage: String = "en" {
         didSet {
+            updateId = UUID()
             objectWillChange.send()
         }
     }

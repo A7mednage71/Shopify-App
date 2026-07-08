@@ -265,14 +265,14 @@ extension ProductVariant {
 extension ProductOption {
     var isColorOption: Bool {
         let normalizedName = name.lowercased()
-        return normalizedName.contains(ProductInfoText.colorOptionName)
-            || normalizedName.contains(ProductInfoText.colourOptionName)
+        return normalizedName.contains("color")
+            || normalizedName.contains("colour")
     }
 
     var isDefaultTitleOption: Bool {
-        name.caseInsensitiveCompare(ProductInfoText.defaultTitleOptionName) == .orderedSame
+        name.caseInsensitiveCompare("Title") == .orderedSame
             && values.count == 1
-            && values.first?.caseInsensitiveCompare(ProductInfoText.defaultVariantTitle) == .orderedSame
+            && values.first?.caseInsensitiveCompare("Default Title") == .orderedSame
     }
 }
 

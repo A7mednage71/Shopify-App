@@ -49,6 +49,11 @@ final class HomeViewModel: ObservableObject {
     @Published var availableTags: [String] = []
     @Published var priceBounds: ClosedRange<Double> = 0...2000
     @Published var favoriteProductIDs: Set<String> = []
+    
+    // MARK: - Alerts
+    @Published var productToRemove: Favorites.FavoriteProduct?
+    @Published var showingRemoveFavoriteAlert: Bool = false
+    
     // MARK: - Use Cases
 
     let getCategoriesUseCase: any GetCategoriesUseCaseProtocol

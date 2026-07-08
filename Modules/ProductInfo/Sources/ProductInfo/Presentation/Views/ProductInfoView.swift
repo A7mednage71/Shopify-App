@@ -1,4 +1,5 @@
 import SwiftUI
+import Common
 
 struct ProductInfoView: View {
     @StateObject private var viewModel: ProductInfoViewModel
@@ -6,6 +7,9 @@ struct ProductInfoView: View {
     private let onCartTap: () -> Void
     private let onProductTap: (String) -> Void
     private let performProtectedAction: (@escaping () -> Void) -> Void
+
+    @State private var productToRemove: ProductDetails?
+    @State private var showingRemoveFavoriteAlert = false
 
     init(
         productID: String,
@@ -36,8 +40,13 @@ struct ProductInfoView: View {
             isFavorite: viewModel.isFavorite,
             onFavoriteTap: { product in
                 performProtectedAction {
-                    Task {
-                        await viewModel.toggleFavorite(product: product)
+                    if viewModel.isFavorite {
+                        productToRemove = product
+                        showingRemoveFavoriteAlert = true
+                    } else {
+                        Task {
+                            await viewModel.toggleFavorite(product: product)
+                        }
                     }
                 }
             },
@@ -58,6 +67,20 @@ struct ProductInfoView: View {
             }
         )
         .productNavigationTitleStyle()
+        .alert(isPresented: $showingRemoveFavoriteAlert) {
+            Alert(
+                title: Text(L10n.Fav.removeAlertTitle),
+                message: Text(L10n.Fav.removeAlertMessage(productToRemove?.title ?? "")),
+                primaryButton: .destructive(Text(L10n.Fav.remove)) {
+                    if let product = productToRemove {
+                        Task {
+                            await viewModel.toggleFavorite(product: product)
+                        }
+                    }
+                },
+                secondaryButton: .cancel(Text(L10n.Settings.cancel))
+            )
+        }
     }
 }
 

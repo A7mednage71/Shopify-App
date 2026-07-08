@@ -159,22 +159,36 @@ public struct SettingsView: View {
                 Button(action: {
                     isSignOutConfirmationPresented = true
                 }) {
-                    HStack(spacing: 8) {
-                        if viewModel.isSigningOut {
-                            ProgressView()
-                                .tint(AppColors.error)
+                    HStack(spacing: 12) {
+                        ZStack {
+                            Circle()
+                                .fill(AppColors.error.opacity(0.12))
+                                .frame(width: 36, height: 36)
+
+                            if viewModel.isSigningOut {
+                                ProgressView()
+                                    .tint(AppColors.error)
+                            } else {
+                                Image(systemName: "rectangle.portrait.and.arrow.right")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .foregroundColor(AppColors.error)
+                            }
                         }
 
                         Text(viewModel.isSigningOut ? L10n.Settings.signingOut : L10n.Settings.signOut)
-                            .font(AppFonts.title3)
+                            .font(AppFonts.callout.weight(.semibold))
+                            .foregroundColor(AppColors.error)
+
+                        Spacer()
                     }
-                    .foregroundColor(AppColors.error)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(AppColors.error.opacity(0.3), lineWidth: 1)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 14)
+                    .background(AppColors.error.opacity(0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .stroke(AppColors.error.opacity(0.18), lineWidth: 1)
                     )
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 }
                 .disabled(viewModel.isSigningOut)
                 .padding(.top, 10)
