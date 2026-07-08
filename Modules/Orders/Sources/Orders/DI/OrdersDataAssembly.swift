@@ -13,7 +13,7 @@ public struct OrdersDataAssembly: Assembly {
 
     public func assemble(container: Container) {
         container.register(CustomerAccessTokenDataSource.self) { _ in
-            DummyCustomerAccessTokenDataSource()
+            KeychainCustomerAccessTokenDataSource()
         }
 
         container.register(OrdersRemoteDataSource.self) { resolver in

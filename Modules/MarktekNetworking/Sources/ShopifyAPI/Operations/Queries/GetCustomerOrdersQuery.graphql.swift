@@ -7,7 +7,7 @@ public class GetCustomerOrdersQuery: GraphQLQuery {
   public static let operationName: String = "GetCustomerOrders"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetCustomerOrders($customerAccessToken: String!, $first: Int!, $language: LanguageCode) @inContext(language: $language) { customer(customerAccessToken: $customerAccessToken) { __typename orders(first: $first, sortKey: PROCESSED_AT, reverse: true) { __typename edges { __typename node { __typename id name orderNumber processedAt financialStatus fulfillmentStatus currentTotalPrice { __typename amount currencyCode } shippingAddress { __typename address1 address2 city country } lineItems(first: 5) { __typename edges { __typename node { __typename title quantity originalTotalPrice { __typename amount currencyCode } variant { __typename id image { __typename url } } } } } } } } } }"#
+      #"query GetCustomerOrders($customerAccessToken: String!, $first: Int!, $language: LanguageCode) @inContext(language: $language) { customer(customerAccessToken: $customerAccessToken) { __typename firstName lastName orders(first: $first, sortKey: PROCESSED_AT, reverse: true) { __typename edges { __typename node { __typename id name orderNumber processedAt financialStatus fulfillmentStatus currentTotalPrice { __typename amount currencyCode } shippingAddress { __typename address1 address2 city country } lineItems(first: 5) { __typename edges { __typename node { __typename title quantity originalTotalPrice { __typename amount currencyCode } variant { __typename id product { __typename id } image { __typename url } } } } } } } } } }"#
     ))
 
   public var customerAccessToken: String
