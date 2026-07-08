@@ -51,12 +51,12 @@ public enum L10n {
         public static var tryAgain: String { LocalizationManager.shared.localizedString(for: "settings_try_again") }
         public static var profileInformationTitle: String { LocalizationManager.shared.localizedString(for: "settings_profile_information_title") }
         public static var profileSubtitle: String { LocalizationManager.shared.localizedString(for: "settings_profile_subtitle") }
-        public static var firstName: String { LocalizationManager.shared.localizedString(for: "settings_first_name") }
-        public static var enterFirstName: String { LocalizationManager.shared.localizedString(for: "settings_enter_first_name") }
-        public static var lastName: String { LocalizationManager.shared.localizedString(for: "settings_last_name") }
-        public static var enterLastName: String { LocalizationManager.shared.localizedString(for: "settings_enter_last_name") }
-        public static var phone: String { LocalizationManager.shared.localizedString(for: "settings_phone") }
-        public static var enterPhoneNumber: String { LocalizationManager.shared.localizedString(for: "settings_enter_phone_number") }
+//        public static var firstName: String { LocalizationManager.shared.localizedString(for: "settings_first_name") }
+//        public static var enterFirstName: String { LocalizationManager.shared.localizedString(for: "settings_enter_first_name") }
+//        public static var lastName: String { LocalizationManager.shared.localizedString(for: "settings_last_name") }
+//        public static var enterLastName: String { LocalizationManager.shared.localizedString(for: "settings_enter_last_name") }
+//        public static var phone: String { LocalizationManager.shared.localizedString(for: "settings_phone") }
+//        public static var enterPhoneNumber: String { LocalizationManager.shared.localizedString(for: "settings_enter_phone_number") }
         public static var email: String { LocalizationManager.shared.localizedString(for: "settings_email") }
         public static var saveChanges: String { LocalizationManager.shared.localizedString(for: "settings_save_changes") }
         public static var personalInfo: String { LocalizationManager.shared.localizedString(for: "settings_personal_info") }

@@ -2,14 +2,16 @@ import Common
 import SwiftUI
 
 public struct PersonalInformationView: View {
-    @State private var firstName: String = "Julianna"
-    @State private var lastName: String = "Rossi"
-    @State private var phone: String = "+1 234 567 890"
-    @State private var email: String = "julianna.rossi@gmail.com"
+    @StateObject private var viewModel: ProfileDataViewModel
     
-    @State private var isSaving: Bool = false
+    @State private var firstName: String = ""
+    @State private var lastName: String = ""
+    @State private var phone: String = ""
+    @State private var email: String = ""
     
-    public init() {}
+    public init(viewModel: ProfileDataViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     public var body: some View {
         ScrollView {
@@ -65,7 +67,7 @@ public struct PersonalInformationView: View {
                     saveChanges()
                 }) {
                     HStack {
-                        if isSaving {
+                        if viewModel.isSaving {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .padding(.trailing, 8)
@@ -80,7 +82,7 @@ public struct PersonalInformationView: View {
                     .cornerRadius(27)
                     .padding(.top, 16)
                 }
-                .disabled(isSaving)
+                .disabled(viewModel.isSaving)
                 
             }
             .padding()
@@ -88,13 +90,26 @@ public struct PersonalInformationView: View {
         .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
         .navigationTitle(L10n.Settings.personalInfo)
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await viewModel.loadProfileIfNeeded()
+        }
+        .onReceive(viewModel.$state) { state in
+            if case .success(let profile) = state {
+                firstName = profile.firstName ?? ""
+                lastName = profile.lastName ?? ""
+                phone = profile.phone ?? ""
+                email = profile.email ?? ""
+            }
+        }
     }
 
     private func saveChanges() {
-        isSaving = true
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            isSaving = false
+        Task {
+            await viewModel.updateProfile(CustomerProfileUpdateInput(
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone
+            ))
         }
     }
 }
