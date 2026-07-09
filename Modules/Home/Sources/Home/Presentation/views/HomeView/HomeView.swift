@@ -133,14 +133,14 @@ fileprivate struct HomeHeaderView: View {
             
             Spacer()
             
-            // Premium Profile Avatar
-            ZStack {
-                CachedImage(urlString: "https://i.pravatar.cc/100", failureImageName: "profile_placeholder")
-                    .frame(width: 44, height: 44)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(AppColors.primary.opacity(0.3), lineWidth: 2))
-                    .shadow(color: AppColors.primary.opacity(0.15), radius: 6, x: 0, y: 3)
-            }
+            // Premium App Logo
+            AppImages.appIcon
+                .resizable()
+                .scaledToFit()
+                .frame(width: 44, height: 44)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(AppColors.primary.opacity(0.3), lineWidth: 2))
+                .shadow(color: AppColors.primary.opacity(0.15), radius: 6, x: 0, y: 3)
         }
         .padding(.horizontal, 24)
         .padding(.top, 16)

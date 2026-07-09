@@ -29,7 +29,7 @@ class RegisterUseCase {
         
         if email.isEmpty {
             emailError = L10n.Auth.validationEmailEmpty
-        } else if !email.contains("@") {
+        } else if !email.isValidEmail {
             emailError = L10n.Auth.validationEmailInvalid
         }
         
