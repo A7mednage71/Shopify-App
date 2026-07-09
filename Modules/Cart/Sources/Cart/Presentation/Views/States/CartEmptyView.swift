@@ -13,7 +13,7 @@ struct CartEmptyView: View {
             Image(CartText.emptyImageName, bundle: .module)
                 .resizable()
                 .scaledToFit()
-                .frame(maxWidth: 300)
+                .frame(width: 200, height: 200)
                 .padding(.horizontal, 26)
                 .scaleEffect(illustrationScale)
                 .onAppear {

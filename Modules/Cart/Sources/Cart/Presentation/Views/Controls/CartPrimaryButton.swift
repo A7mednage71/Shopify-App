@@ -14,11 +14,11 @@ struct CartPrimaryButton: View {
             }
             .font(.system(size: 17, weight: .bold))
             .foregroundColor(AppColors.textWhite)
-            .frame(maxWidth: .infinity)
-            .frame(height: 58)
+            .frame(maxWidth: 240)
+            .frame(height: 50)
             .background(AppColors.primary)
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-            .shadow(color: AppColors.primary.opacity(0.28), radius: 16, x: 0, y: 10)
+            .shadow(color: AppColors.primary.opacity(0.15), radius: 8, x: 0, y: 4)
         }
         .buttonStyle(CartPrimaryButtonStyle())
         .accessibilityLabel(title)
