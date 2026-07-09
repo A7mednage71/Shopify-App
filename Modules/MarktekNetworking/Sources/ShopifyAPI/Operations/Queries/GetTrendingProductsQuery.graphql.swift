@@ -7,7 +7,7 @@ public class GetTrendingProductsQuery: GraphQLQuery {
   public static let operationName: String = "GetTrendingProducts"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetTrendingProducts($first: Int = 10, $language: LanguageCode) @inContext(language: $language) { products(first: $first, sortKey: BEST_SELLING) { __typename nodes { __typename id title handle featuredImage { __typename url } priceRange { __typename minVariantPrice { __typename amount currencyCode } } compareAtPriceRange { __typename minVariantPrice { __typename amount currencyCode } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } } }"#
+      #"query GetTrendingProducts($first: Int = 10, $language: LanguageCode) @inContext(language: $language) { products(first: $first, sortKey: CREATED_AT, reverse: true) { __typename nodes { __typename id title handle featuredImage { __typename url } priceRange { __typename minVariantPrice { __typename amount currencyCode } } compareAtPriceRange { __typename minVariantPrice { __typename amount currencyCode } } metafields(identifiers: [{namespace: "reviews", key: "items"}]) { __typename key namespace value type references(first: 100) { __typename edges { __typename node { __typename ... on Metaobject { id handle type updatedAt product: field(key: "product") { __typename key type value } customerName: field(key: "customer_name") { __typename key type value } rating: field(key: "rating") { __typename key type value } title: field(key: "title") { __typename key type value } body: field(key: "body") { __typename key type value } createdAt: field(key: "created_at") { __typename key type value } approved: field(key: "approved") { __typename key type value } } } } } } } } }"#
     ))
 
   public var first: GraphQLNullable<Int>
@@ -34,7 +34,8 @@ public class GetTrendingProductsQuery: GraphQLQuery {
     public static var __selections: [ApolloAPI.Selection] { [
       .field("products", Products.self, arguments: [
         "first": .variable("first"),
-        "sortKey": "BEST_SELLING"
+        "sortKey": "CREATED_AT",
+        "reverse": true
       ]),
     ] }
 

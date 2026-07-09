@@ -3,7 +3,6 @@
 
 import ApolloAPI
 
-
 public protocol SelectionSet: ApolloAPI.SelectionSet & ApolloAPI.RootSelectionSet
 where Schema == ShopifyAPI.SchemaMetadata {}
 
