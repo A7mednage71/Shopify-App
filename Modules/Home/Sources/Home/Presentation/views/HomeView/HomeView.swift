@@ -23,6 +23,7 @@ struct HomeView: View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
+                    HomeHeaderView()
 
                     SearchBarSection(searchText: $viewModel.searchText)
                         .padding(.top, 10)
@@ -56,6 +57,7 @@ struct HomeView: View {
             }
         }
         .background(Color.appBackgroundGray)
+        .navigationBarHidden(true)
         .task {
             await viewModel.loadCollections()
             await viewModel.loadTrendingProducts()
@@ -108,5 +110,40 @@ struct HomeView: View {
         case .priceHighToLow: return "arrow.down"
         case .newest: return "sparkles"
         }
+    }
+}
+
+fileprivate struct HomeHeaderView: View {
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 6) {
+                    Image(systemName: "sparkles")
+                        .foregroundColor(AppColors.primary)
+                        .font(.system(size: 18, weight: .semibold))
+                    Text(L10n.Main.appName)
+                        .font(.system(size: 16, weight: .black, design: .rounded))
+                        .foregroundColor(AppColors.primary)
+                }
+                
+                Text(L10n.Auth.welcomeBack)
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .foregroundColor(AppColors.textPrimary)
+            }
+            
+            Spacer()
+            
+            // Premium Profile Avatar
+            ZStack {
+                CachedImage(urlString: "https://i.pravatar.cc/100", failureImageName: "profile_placeholder")
+                    .frame(width: 44, height: 44)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(AppColors.primary.opacity(0.3), lineWidth: 2))
+                    .shadow(color: AppColors.primary.opacity(0.15), radius: 6, x: 0, y: 3)
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
+        .padding(.bottom, 8)
     }
 }

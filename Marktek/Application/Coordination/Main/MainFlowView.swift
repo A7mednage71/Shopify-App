@@ -39,10 +39,6 @@ struct MainFlowView: View {
                 .navigationDestination(for: MainFlowRoute.self) { route in
                     destination(for: route)
                 }
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    homeToolbarItems
-                }
             }
             .onChange(of: cartCoordinator.path) { newPath in
                 cartCoordinator.handlePathChange(newPath)
@@ -137,54 +133,7 @@ struct MainFlowView: View {
         )
     }
 
-    private var shouldShowHomeToolbar: Bool {
-        coordinator.selectedTab == .home && homeCoordinator.path.isEmpty
-    }
 
-    @ToolbarContentBuilder
-    private var homeToolbarItems: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            if shouldShowHomeToolbar {
-                Button(action: {}) {
-                    Image(systemName: "line.horizontal.3")
-                        .foregroundColor(.appTextPrimary)
-                        .font(.system(size: 18))
-                }
-            }
-        }
-
-        ToolbarItem(placement: .principal) {
-            if shouldShowHomeToolbar {
-                HStack(spacing: 6) {
-                    Image(systemName: "sparkles")
-                        .foregroundColor(.appPrimaryOrange)
-                        .font(.system(size: 20))
-                    Text(L10n.Main.appName)
-                        .font(.appBarTitle)
-                        .foregroundColor(.appPrimaryOrange)
-                }
-            }
-        }
-
-        ToolbarItem(placement: .navigationBarTrailing) {
-            if shouldShowHomeToolbar {
-                Button(action: {}) {
-                    ZStack {
-                        CachedImage(urlString: "https://i.pravatar.cc/40", failureImageName: "product_placeholder")
-                            .frame(width: 34, height: 34)
-                            .clipped()
-                    }
-                    .frame(width: 34, height: 34)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.appPrimaryOrange, lineWidth: 1.5))
-                    .transaction { transaction in
-                        transaction.animation = nil
-                    }
-                }
-                .buttonStyle(.plain)
-            }
-        }
-    }
 
     private var activeRouter: Binding<[MainFlowRoute]> {
         Binding(

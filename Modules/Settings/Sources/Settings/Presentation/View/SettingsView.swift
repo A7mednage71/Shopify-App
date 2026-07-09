@@ -38,10 +38,10 @@ public struct SettingsView: View {
             VStack(alignment: .leading, spacing: 28) {
                 
                 Text(L10n.Settings.profile)
-                    .font(AppFonts.title1)
+                    .font(AppFonts.title1.weight(.bold))
                     .foregroundColor(AppColors.textPrimary)
                     .padding(.top, 10)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 
                 UserProfileCard(
                     state: profileDataViewModel.state,
