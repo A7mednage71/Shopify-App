@@ -40,33 +40,37 @@ struct CartDetailsView: View {
             CartLoadingView()
 
         case .success(let cart):
-            if cart.isEmpty {
-                CartEmptyView(onStartShoppingTap: onStartShoppingTap)
-            } else {
-                CartLoadedView(
-                    cart: cart,
-                    errorMessage: viewModel.errorMessage,
-                    discountCodeText: viewModel.discountCodeText,
-                    appliedDiscountCode: viewModel.appliedDiscountCode,
-                    isApplyingDiscountCode: viewModel.isApplyingDiscountCode,
-                    discountCodeErrorMessage: viewModel.discountCodeErrorMessage,
-                    onIncrement: viewModel.increment(lineID:),
-                    onDecrement: viewModel.decrement(lineID:),
-                    onRemove: viewModel.remove(lineID:),
-                    onDiscountCodeChange: viewModel.updateDiscountCodeText(_:),
-                    onApplyDiscountCode: {
-                        Task {
-                            await viewModel.applyDiscountCode()
-                        }
-                    },
-                    onRemoveDiscountCode: {
-                        Task {
-                            await viewModel.removeDiscountCode()
-                        }
-                    },
-                    onCheckoutTap: onCheckoutTap,
-                    onProductTap: onProductTap
-                )
+            VStack(alignment: .leading, spacing: 0) {
+                CartHeaderView(count: cart.totalQuantity)
+
+                if cart.isEmpty {
+                    CartEmptyView(onStartShoppingTap: onStartShoppingTap)
+                } else {
+                    CartLoadedView(
+                        cart: cart,
+                        errorMessage: viewModel.errorMessage,
+                        discountCodeText: viewModel.discountCodeText,
+                        appliedDiscountCode: viewModel.appliedDiscountCode,
+                        isApplyingDiscountCode: viewModel.isApplyingDiscountCode,
+                        discountCodeErrorMessage: viewModel.discountCodeErrorMessage,
+                        onIncrement: viewModel.increment(lineID:),
+                        onDecrement: viewModel.decrement(lineID:),
+                        onRemove: viewModel.remove(lineID:),
+                        onDiscountCodeChange: viewModel.updateDiscountCodeText(_:),
+                        onApplyDiscountCode: {
+                            Task {
+                                await viewModel.applyDiscountCode()
+                            }
+                        },
+                        onRemoveDiscountCode: {
+                            Task {
+                                await viewModel.removeDiscountCode()
+                            }
+                        },
+                        onCheckoutTap: onCheckoutTap,
+                        onProductTap: onProductTap
+                    )
+                }
             }
 
         case .failure(let message):

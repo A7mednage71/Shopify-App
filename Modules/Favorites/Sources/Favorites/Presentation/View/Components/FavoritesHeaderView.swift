@@ -5,17 +5,7 @@ struct FavoritesHeaderView: View {
     let count: Int
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
-                Image(systemName: "heart.fill")
-                    .foregroundColor(.appPrimaryOrange)
-                    .font(.system(size: 14))
-                Text(L10n.Fav.myWishlist)
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(.appPrimaryOrange)
-                    .textCase(.uppercase)
-            }
-            
+        VStack(alignment: .leading, spacing: 6) {            
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text(L10n.Fav.favorites)
                     .font(.system(size: 28, weight: .bold))
