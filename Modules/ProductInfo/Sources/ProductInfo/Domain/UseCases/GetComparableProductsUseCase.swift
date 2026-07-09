@@ -9,7 +9,7 @@ struct GetComparableProductsUseCase: GetComparableProductsUseCaseProtocol {
         self.repository = repository
     }
 
-    func execute(currentProduct: ProductDetails, first: Int = 20) async throws -> [ProductDetails] {
+    func execute(currentProduct: ProductDetails, first: Int = 50) async throws -> [ProductDetails] {
         let productType = currentProduct.normalizedProductType
         guard productType.isComparable else { return [] }
 

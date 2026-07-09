@@ -47,7 +47,7 @@ final class ProductComparisonViewModel: ObservableObject {
         displayedRecommendationText = ""
 
         do {
-            let products = try await getComparableProductsUseCase.execute(currentProduct: currentProduct, first: 20)
+            let products = try await getComparableProductsUseCase.execute(currentProduct: currentProduct, first: 50)
             candidatesState = products.isEmpty ? .empty : .loaded(products)
         } catch {
             candidatesState = .failure(error.localizedDescription)
