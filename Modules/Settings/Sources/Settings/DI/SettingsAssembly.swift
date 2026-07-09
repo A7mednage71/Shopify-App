@@ -41,6 +41,7 @@ public final class SettingsAssembly: Assembly {
                 updateCustomerProfileUseCase: resolver.resolve(UpdateCustomerProfileUseCaseProtocol.self)!
             )
         }
+        .inObjectScope(.container)
 
         container.register(SettingsViewModelFactory.self) { resolver in
             SettingsViewModelFactory(
