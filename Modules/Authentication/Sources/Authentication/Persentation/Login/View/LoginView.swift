@@ -147,14 +147,14 @@ struct LoginView: View {
 
             HStack {
                 Spacer()
-                Button {
-                    // Forget password logic
-                } label: {
-                    Text(L10n.Auth.forgetPassword)
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(AppColors.primary)
-                }
-                .padding(.trailing, 32)
+//                Button {
+//                    // Forget password logic
+//                } label: {
+//                    Text(L10n.Auth.forgetPassword)
+//                        .font(.system(size: 13, weight: .semibold))
+//                        .foregroundColor(AppColors.primary)
+//                }
+//                .padding(.trailing, 32)
             }
             .padding(.top, 12)
             .padding(.bottom, 32)

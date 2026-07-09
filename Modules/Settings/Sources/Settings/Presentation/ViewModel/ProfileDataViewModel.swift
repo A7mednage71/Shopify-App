@@ -26,7 +26,7 @@ public final class ProfileDataViewModel: ObservableObject {
     }
 
     public func loadProfileIfNeeded() async {
-        guard case .idle = state else { return }
+        //guard case .idle = state else { return }
         await loadProfile()
     }
 

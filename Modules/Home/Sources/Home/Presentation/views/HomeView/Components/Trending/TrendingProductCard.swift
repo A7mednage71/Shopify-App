@@ -9,47 +9,48 @@ import Foundation
 import SwiftUI
 import Common
 
-// MARK: - Trending Product Card (compact square)
+// MARK: - Trending Product Card
 struct TrendingProductCard: View {
     let product: HomeProduct
     let index: Int
 
-    private let cardWidth: CGFloat = 140
-    private let cardHeight: CGFloat = 190
+    private let cardWidth: CGFloat = 150
+    private let cardHeight: CGFloat = 220
 
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
+        ZStack(alignment: .top) {
 
-            // Background image — fills entire card
+            // Image fills the entire card
             CachedImage(urlString: product.featuredImageURL, failureImageName: "product_placeholder")
+                .scaledToFill()
                 .frame(width: cardWidth, height: cardHeight)
                 .clipped()
 
-            // Gradient — stronger and taller for legibility
-            LinearGradient(
-                colors: [
-                    .black.opacity(0),
-                    .black.opacity(0),
-                    .black.opacity(0.55),
-                    .black.opacity(0.85)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(width: cardWidth, height: cardHeight)
+            // Bottom gradient scrim for text legibility
+            VStack(spacing: 0) {
+                Spacer()
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.75)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 90)
+            }
 
-            // Product info — overlaid on top of image
-            VStack(alignment: .leading, spacing: 6) {
+            // Title + price — bottom overlay
+            VStack(alignment: .leading, spacing: 4) {
+                Spacer()
+
                 Text(product.title)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 13, weight: .bold))
                     .foregroundColor(.white)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
 
-                HStack(spacing: 6) {
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
                     PriceView(
                         priceInUSD: Double(product.price) ?? 0.0,
-                        font: .system(size: 15, weight: .bold),
+                        font: .system(size: 14, weight: .bold),
                         color: .white
                     )
 
@@ -58,52 +59,52 @@ struct TrendingProductCard: View {
                         PriceView(
                             priceInUSD: compareAtPriceDouble,
                             font: .system(size: 11, weight: .medium),
-                            color: .white.opacity(0.65),
+                            color: .white.opacity(0.7),
                             isStrikethrough: true
                         )
                     }
                 }
             }
             .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
 
-            // Trending rank badge — top leading
-            HStack(spacing: 4) {
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 10, weight: .bold))
-                Text("#\(index + 1)")
-                    .font(.system(size: 12, weight: .bold))
-            }
-            .foregroundColor(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 5)
-            .background(
-                Capsule()
-                    .fill(
+            // Rank badge — top leading
+            HStack(alignment: .top) {
+                HStack(spacing: 4) {
+                    Image(systemName: "flame.fill")
+                        .font(.system(size: 10, weight: .bold))
+                    Text("#\(index + 1)")
+                        .font(.system(size: 12, weight: .bold))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 5)
+                .background(
+                    Capsule().fill(
                         LinearGradient(
                             colors: [Color.appPrimaryOrange, Color.appPrimaryOrange.opacity(0.85)],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
                     )
-            )
-            .shadow(color: Color.appPrimaryOrange.opacity(0.4), radius: 4, x: 0, y: 2)
-            .padding(8)
-            .frame(width: cardWidth, height: cardHeight, alignment: .topLeading)
+                )
+                .shadow(color: Color.appPrimaryOrange.opacity(0.4), radius: 4, x: 0, y: 2)
 
-            // Discount badge — top trailing (only if on sale)
-            if let discount = discountPercentage {
-                Text("-\(discount)%")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 5)
-                    .background(Capsule().fill(Color.red))
-                    .frame(width: cardWidth, height: cardHeight, alignment: .topTrailing)
-                    .padding(8)
+                Spacer()
+
+                // Discount badge — top trailing
+                if let discount = discountPercentage {
+                    Text("-\(discount)%")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 5)
+                        .background(Capsule().fill(Color.red))
+                }
             }
+            .padding(8)
         }
         .frame(width: cardWidth, height: cardHeight)
-        .background(Color.appBackgroundWhite)
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .overlay(
             RoundedRectangle(cornerRadius: 18)

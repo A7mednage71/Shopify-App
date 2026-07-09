@@ -20,15 +20,18 @@ struct FormField: View {
                 .frame(width: 24)
             
             if isSecureField && isSecure {
-                SecureField(label, text: $formFieldState)
+                SecureField("", text: $formFieldState,prompt: Text(label).foregroundColor(Color.appSearchIcon))
                     .focused($isFocused)
                     .font(.system(size: 16))
+                    .foregroundStyle(Color.black)
+                
             } else {
-                TextField(label, text: $formFieldState)
+                TextField("", text: $formFieldState,prompt: Text(label).foregroundColor(Color.appSearchIcon))
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                     .focused($isFocused)
-                    .font(.system(size: 16))
+                    .font(.system(size: 16,))
+                    .foregroundStyle(Color.black)
             }
             
             if isSecureField {
